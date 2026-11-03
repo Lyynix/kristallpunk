@@ -27,7 +27,13 @@
       "path": "lang/de.json"
     }
   ],
-  "documentTypes": {},
+  "documentTypes": {
+    "Actor": {
+      "protagonist": {
+        "htmlFields": ["background", "relationships", "equipment"]
+      }
+    }
+  },
   "grid": {
     "distance": 1,
     "units": "m"

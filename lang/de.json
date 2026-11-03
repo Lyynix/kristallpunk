@@ -1,3 +1,74 @@
 {
-  "KRISTALLPUNK": {}
+  "TYPES": {
+    "Actor": {
+      "protagonist": "Protagonist*in"
+    }
+  },
+  "KRISTALLPUNK": {
+    "Group": {
+      "Body": "Körper",
+      "Mind": "Geist"
+    },
+    "Attribute": {
+      "Strength": "Kraft",
+      "StrengthAbbr": "K",
+      "Dexterity": "Geschick",
+      "DexterityAbbr": "G",
+      "Senses": "Sinne",
+      "SensesAbbr": "S",
+      "Will": "Wille",
+      "WillAbbr": "W",
+      "Intelligence": "Intelligenz",
+      "IntelligenceAbbr": "I",
+      "Empathy": "Empathie",
+      "EmpathyAbbr": "E"
+    },
+    "Protagonist": {
+      "FIELDS": {
+        "age": { "label": "Alter" },
+        "origin": { "label": "Herkunft (Stand / Land)" },
+        "profession": { "label": "Metier / Profession" },
+        "background": { "label": "Hintergrund" },
+        "relationships": { "label": "Beziehungen" },
+        "equipment": { "label": "Ausrüstung" },
+        "innateTraits": { "label": "Angeborene Eigenschaften" },
+        "competences": { "label": "Kompetenzen" },
+        "resonanceMagic": { "label": "Erlernte Resonanzmagie" },
+        "resonanceCompetences": { "label": "Resonanz-Kompetenzen" },
+        "attributes": {
+          "strength": {
+            "value": { "label": "KRISTALLPUNK.Attribute.Strength" },
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+          },
+          "dexterity": {
+            "value": { "label": "KRISTALLPUNK.Attribute.Dexterity" },
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+          },
+          "senses": {
+            "value": { "label": "KRISTALLPUNK.Attribute.Senses" },
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+          },
+          "will": {
+            "value": { "label": "KRISTALLPUNK.Attribute.Will" },
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+          },
+          "intelligence": {
+            "value": { "label": "KRISTALLPUNK.Attribute.Intelligence" },
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+          },
+          "empathy": {
+            "value": { "label": "KRISTALLPUNK.Attribute.Empathy" },
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+          }
+        }
+      }
+    },
+    "Exception": {
+      "Label": "Erschaffungsausnahme",
+      "Hint": "Erlaubt bei diesem Attribut einen Wert über dem regulären Maximum, wenn die Erschaffung das vorsieht."
+    },
+    "Validation": {
+      "AttributeAboveMax": "{attribute}: Werte über {max} sind nur mit gesetzter Erschaffungsausnahme erlaubt."
+    }
+  }
 }
