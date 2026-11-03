@@ -1,0 +1,41 @@
+{
+  "id": "kristallpunk",
+  "title": "Kristallpunk",
+  "description": "Spielsystem für das Pen-&-Paper-Rollenspiel Kristallpunk (kristallpunk.de).",
+  "version": "{{version}}",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14",
+    "maximum": "14"
+  },
+  "authors": [
+    {
+      "name": "Lyynix",
+      "discord": "lyynix"
+    }
+  ],
+  "esmodules": [
+    "kristallpunk.mjs"
+  ],
+  "styles": [
+    "styles/kristallpunk.css"
+  ],
+  "languages": [
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    }
+  ],
+  "documentTypes": {},
+  "grid": {
+    "distance": 1,
+    "units": "m"
+  },
+  "url": "https://github.com/Lyynix/kristallpunk",
+  "bugs": "https://github.com/Lyynix/kristallpunk/issues",
+  "readme": "https://github.com/Lyynix/kristallpunk/blob/main/README.md",
+  "license": "LICENSE",
+  "manifest": "{{manifestURL}}",
+  "download": "{{downloadURL}}"
+}

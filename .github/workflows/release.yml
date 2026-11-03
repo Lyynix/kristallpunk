@@ -1,0 +1,87 @@
+# Builds the system package when a GitHub release is published.
+# Based on the FVTT League of Foundry Developers module template, but without
+# third-party substitution/release actions: jq, zip and gh ship with the runner.
+#
+# Tag format: plain version without "v", e.g. 0.1.0 or 14.2.1.
+
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read version from tag
+        id: version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [[ ! "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Tag '$TAG' is not a plain version like 0.1.0"
+            exit 1
+          fi
+          echo "version=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Fill in system.json placeholders
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          MANIFEST_URL: https://github.com/${{ github.repository }}/releases/latest/download/system.json
+          DOWNLOAD_URL: https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.version }}/system.zip
+        run: |
+          sed -i \
+            -e "s|{{version}}|$VERSION|g" \
+            -e "s|{{manifestURL}}|$MANIFEST_URL|g" \
+            -e "s|{{downloadURL}}|$DOWNLOAD_URL|g" \
+            system.json
+          if grep -q "{{" system.json; then
+            echo "::error::Unreplaced placeholder left in system.json"
+            exit 1
+          fi
+          jq -e . system.json > /dev/null
+          cat system.json
+
+      - name: Build system.zip
+        run: |
+          # Only runtime files go into the package; tests, workflows and
+          # local files stay out. Folders that don't exist yet are skipped.
+          files=()
+          for path in system.json kristallpunk.mjs module templates styles lang assets LICENSE README.md; do
+            [ -e "$path" ] && files+=("$path")
+          done
+          zip -r system.zip "${files[@]}"
+
+      - name: Attach files to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: gh release upload "$VERSION" system.json system.zip --clobber
+
+      # Publish the version to the Foundry package registry.
+      # Enable once the system is registered on foundryvtt.com and the
+      # release token is stored as repository secret FOUNDRY_RELEASE_TOKEN.
+      # - name: Publish to Foundry package registry
+      #   env:
+      #     FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
+      #     VERSION: ${{ steps.version.outputs.version }}
+      #     MANIFEST: https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.version }}/system.json
+      #     NOTES: ${{ github.event.release.html_url }}
+      #   run: |
+      #     jq -n \
+      #       --arg version "$VERSION" \
+      #       --arg manifest "$MANIFEST" \
+      #       --arg notes "$NOTES" \
+      #       '{id: "kristallpunk", release: {version: $version, manifest: $manifest, notes: $notes,
+      #         compatibility: {minimum: "14", verified: "14", maximum: "14"}}}' \
+      #     | curl --fail-with-body -X POST https://api.foundryvtt.com/_api/packages/release_version/ \
+      #         -H "Content-Type: application/json" \
+      #         -H "Authorization: $FOUNDRY_RELEASE_TOKEN" \
+      #         -d @-
