@@ -1,27 +1,36 @@
 /**
  * System constants, exposed as CONFIG.KRISTALLPUNK.
  * Other modules may adjust these during their own init hook.
+ *
+ * Top level: game vocabulary that applies to every figure and the whole system.
+ * Per actor type (e.g. `protagonist`): rules that only apply to that type.
  */
 export const KRISTALLPUNK = {
-  /** Attribute groups: body and mind. */
-  groups: {
-    body: { label: "KRISTALLPUNK.Group.Body" },
-    mind: { label: "KRISTALLPUNK.Group.Mind" }
+  /* -------------------------------------------- */
+  /*  Game vocabulary                             */
+  /* -------------------------------------------- */
+
+  /**
+   * The two domains, body and mind. They split attributes, skills, stamina and wounds alike.
+   */
+  domains: {
+    body: { label: "KRISTALLPUNK.Domain.Body" },
+    mind: { label: "KRISTALLPUNK.Domain.Mind" }
   },
 
-  /** The six attributes, each belonging to a group. */
+  /** The six attributes, each belonging to a domain. */
   attributes: {
-    strength: { group: "body", label: "KRISTALLPUNK.Attribute.Strength", abbreviation: "KRISTALLPUNK.Attribute.StrengthAbbr" },
-    dexterity: { group: "body", label: "KRISTALLPUNK.Attribute.Dexterity", abbreviation: "KRISTALLPUNK.Attribute.DexterityAbbr" },
-    senses: { group: "body", label: "KRISTALLPUNK.Attribute.Senses", abbreviation: "KRISTALLPUNK.Attribute.SensesAbbr" },
-    will: { group: "mind", label: "KRISTALLPUNK.Attribute.Will", abbreviation: "KRISTALLPUNK.Attribute.WillAbbr" },
-    intelligence: { group: "mind", label: "KRISTALLPUNK.Attribute.Intelligence", abbreviation: "KRISTALLPUNK.Attribute.IntelligenceAbbr" },
-    empathy: { group: "mind", label: "KRISTALLPUNK.Attribute.Empathy", abbreviation: "KRISTALLPUNK.Attribute.EmpathyAbbr" }
+    strength: { domain: "body", label: "KRISTALLPUNK.Attribute.Strength", abbreviation: "KRISTALLPUNK.Attribute.StrengthAbbr" },
+    dexterity: { domain: "body", label: "KRISTALLPUNK.Attribute.Dexterity", abbreviation: "KRISTALLPUNK.Attribute.DexterityAbbr" },
+    senses: { domain: "body", label: "KRISTALLPUNK.Attribute.Senses", abbreviation: "KRISTALLPUNK.Attribute.SensesAbbr" },
+    will: { domain: "mind", label: "KRISTALLPUNK.Attribute.Will", abbreviation: "KRISTALLPUNK.Attribute.WillAbbr" },
+    intelligence: { domain: "mind", label: "KRISTALLPUNK.Attribute.Intelligence", abbreviation: "KRISTALLPUNK.Attribute.IntelligenceAbbr" },
+    empathy: { domain: "mind", label: "KRISTALLPUNK.Attribute.Empathy", abbreviation: "KRISTALLPUNK.Attribute.EmpathyAbbr" }
   },
 
   /**
    * The sixteen skills, each linked to the attribute that is added to its value.
-   * The group (body or mind) follows from the attribute.
+   * The domain (body or mind) follows from the attribute.
    */
   skills: {
     athletics: { attribute: "strength", label: "KRISTALLPUNK.Skill.Athletics" },
@@ -42,14 +51,20 @@ export const KRISTALLPUNK = {
     science: { attribute: "intelligence", label: "KRISTALLPUNK.Skill.Science" }
   },
 
-  /**
-   * Value limits.
-   * Attributes are capped at `max`; with the creation exception set they may reach `exceptionMax`
-   * (Kurzregeln 1.0, p. 23). Which cases qualify for the exception is still open (issue #17).
-   * Skills are capped at 9 (Erschaffung 1.0, p. 12).
-   */
-  limits: {
-    attribute: { min: 0, max: 6, exceptionMax: 7 },
-    skill: { min: 0, max: 9 }
+  /* -------------------------------------------- */
+  /*  Rules per actor type                        */
+  /* -------------------------------------------- */
+
+  protagonist: {
+    /**
+     * Value limits for human figures.
+     * Attributes are capped at `max`; with the creation exception set they may reach `exceptionMax`
+     * (Kurzregeln 1.0, p. 23). Which cases qualify for the exception is still open (issue #17).
+     * Skills are capped at 9 (Erschaffung 1.0, p. 12).
+     */
+    limits: {
+      attribute: { min: 0, max: 6, exceptionMax: 7 },
+      skill: { min: 0, max: 9 }
+    }
   }
 };

@@ -10,7 +10,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
   static LOCALIZATION_PREFIXES = ["KRISTALLPUNK.Protagonist"];
 
   static defineSchema() {
-    const limits = CONFIG.KRISTALLPUNK.limits;
+    const limits = CONFIG.KRISTALLPUNK.protagonist.limits;
 
     // Stored manual adjustment that is added to a derived value (also a target for active effects)
     const bonus = () => new NumberField({ required: true, nullable: false, integer: true, initial: 0 });
@@ -80,7 +80,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
    * @override
    */
   static validateJoint(data) {
-    const { max } = CONFIG.KRISTALLPUNK.limits.attribute;
+    const { max } = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
     for ( const [key, attribute] of Object.entries(data.attributes ?? {}) ) {
       if ( (attribute.value > max) && !attribute.exception ) {
         throw new Error(game.i18n.format("KRISTALLPUNK.Validation.AttributeAboveMax", {
