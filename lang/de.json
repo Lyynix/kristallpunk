@@ -23,6 +23,24 @@
       "Empathy": "Empathie",
       "EmpathyAbbr": "E"
     },
+    "Skill": {
+      "Athletics": "Athletik",
+      "Awareness": "Aufmerksamkeit",
+      "Dodge": "Ausweichen",
+      "RangedCombat": "Fernkampf",
+      "Craft": "Handwerk",
+      "Stealth": "Heimlichkeit",
+      "MeleeCombat": "Nahkampf",
+      "Orientation": "Orientierung",
+      "Authority": "Autorität",
+      "Education": "Bildung",
+      "Inspiration": "Inspiration",
+      "Medicine": "Medizin",
+      "PrismResonance": "Resonanz",
+      "Rhetoric": "Redekunst",
+      "Acting": "Schauspiel",
+      "Science": "Wissenschaft"
+    },
     "Protagonist": {
       "FIELDS": {
         "age": { "label": "Alter" },
@@ -60,8 +78,78 @@
             "value": { "label": "KRISTALLPUNK.Attribute.Empathy" },
             "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
           }
+        },
+        "skills": {
+          "athletics": {
+            "value": { "label": "KRISTALLPUNK.Skill.Athletics" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "awareness": {
+            "value": { "label": "KRISTALLPUNK.Skill.Awareness" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "dodge": {
+            "value": { "label": "KRISTALLPUNK.Skill.Dodge" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "rangedCombat": {
+            "value": { "label": "KRISTALLPUNK.Skill.RangedCombat" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "craft": {
+            "value": { "label": "KRISTALLPUNK.Skill.Craft" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "stealth": {
+            "value": { "label": "KRISTALLPUNK.Skill.Stealth" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "meleeCombat": {
+            "value": { "label": "KRISTALLPUNK.Skill.MeleeCombat" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "orientation": {
+            "value": { "label": "KRISTALLPUNK.Skill.Orientation" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "authority": {
+            "value": { "label": "KRISTALLPUNK.Skill.Authority" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "education": {
+            "value": { "label": "KRISTALLPUNK.Skill.Education" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "inspiration": {
+            "value": { "label": "KRISTALLPUNK.Skill.Inspiration" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "medicine": {
+            "value": { "label": "KRISTALLPUNK.Skill.Medicine" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "prismResonance": {
+            "value": { "label": "KRISTALLPUNK.Skill.PrismResonance" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "rhetoric": {
+            "value": { "label": "KRISTALLPUNK.Skill.Rhetoric" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "acting": {
+            "value": { "label": "KRISTALLPUNK.Skill.Acting" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          },
+          "science": {
+            "value": { "label": "KRISTALLPUNK.Skill.Science" },
+            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+          }
         }
       }
+    },
+    "Bonus": {
+      "Label": "Bonus",
+      "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0."
     },
     "Exception": {
       "Label": "Erschaffungsausnahme",

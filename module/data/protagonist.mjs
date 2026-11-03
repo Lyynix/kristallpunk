@@ -1,3 +1,5 @@
+import { skillTotal } from "../rules/derived.mjs";
+
 const { ArrayField, BooleanField, HTMLField, NumberField, SchemaField, StringField } = foundry.data.fields;
 
 /**
@@ -8,16 +10,30 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
   static LOCALIZATION_PREFIXES = ["KRISTALLPUNK.Protagonist"];
 
   static defineSchema() {
-    const { attribute: limits } = CONFIG.KRISTALLPUNK.limits;
+    const limits = CONFIG.KRISTALLPUNK.limits;
+
+    // Stored manual adjustment that is added to a derived value (also a target for active effects)
+    const bonus = () => new NumberField({ required: true, nullable: false, integer: true, initial: 0 });
 
     const attributes = {};
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.attributes) ) {
       attributes[key] = new SchemaField({
         value: new NumberField({
           required: true, nullable: false, integer: true,
-          min: limits.min, max: limits.exceptionMax, initial: 1
+          min: limits.attribute.min, max: limits.attribute.exceptionMax, initial: 1
         }),
         exception: new BooleanField()
+      });
+    }
+
+    const skills = {};
+    for ( const key of Object.keys(CONFIG.KRISTALLPUNK.skills) ) {
+      skills[key] = new SchemaField({
+        value: new NumberField({
+          required: true, nullable: false, integer: true,
+          min: limits.skill.min, max: limits.skill.max, initial: 0
+        }),
+        bonus: bonus()
       });
     }
 
@@ -39,8 +55,24 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       resonanceMagic: text(),
       resonanceCompetences: text(),
 
-      attributes: new SchemaField(attributes)
+      attributes: new SchemaField(attributes),
+      skills: new SchemaField(skills)
     };
+  }
+
+  /**
+   * Compute derived values (total skill values) from the stored input values. 
+   * @override 
+   */
+  prepareDerivedData() {
+    for ( const [key, skill] of Object.entries(this.skills) ) {
+      const { attribute } = CONFIG.KRISTALLPUNK.skills[key];
+      skill.total = skillTotal({
+        value: skill.value,
+        attribute: this.attributes[attribute].value,
+        bonus: skill.bonus
+      });
+    }
   }
 
   /**

@@ -1,0 +1,5 @@
+/**
+ * Index of all rule files, exposed as game.kristallpunk.rules.
+ * Each file keeps its own functions; add one line per new file.
+ */
+export * as derived from "./derived.mjs";

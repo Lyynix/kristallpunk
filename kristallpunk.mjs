@@ -5,9 +5,12 @@
 
 import { KRISTALLPUNK } from "./module/config.mjs";
 import ProtagonistData from "./module/data/protagonist.mjs";
+import * as rules from "./module/rules/_module.mjs";
 
 Hooks.once("init", () => {
   console.log("Kristallpunk | Initializing system");
+
+  game.kristallpunk = { rules };
 
   CONFIG.KRISTALLPUNK = KRISTALLPUNK;
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
