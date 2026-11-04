@@ -51,6 +51,15 @@ export const KRISTALLPUNK = {
     science: { attribute: "intelligence", label: "KRISTALLPUNK.Skill.Science" }
   },
 
+  /** Derived values; checks on them cost no stamina (Kurzregeln 1.0, p. 6–7). */
+  derived: {
+    courage: { label: "KRISTALLPUNK.Derived.Courage" },
+    crystalEcho: { label: "KRISTALLPUNK.Derived.CrystalEcho" },
+    insight: { label: "KRISTALLPUNK.Derived.Insight" },
+    toughness: { label: "KRISTALLPUNK.Derived.Toughness" },
+    resilience: { label: "KRISTALLPUNK.Derived.Resilience" }
+  },
+
   /* -------------------------------------------- */
   /*  Rules per actor type                        */
   /* -------------------------------------------- */

@@ -1,4 +1,4 @@
-import { skillTotal, staminaMax } from "../rules/derived.mjs";
+import * as rules from "../rules/derived.mjs";
 
 const { ArrayField, BooleanField, HTMLField, NumberField, SchemaField, StringField } = foundry.data.fields;
 
@@ -12,8 +12,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const limits = CONFIG.KRISTALLPUNK.protagonist.limits;
 
-    // Stored manual adjustment that is added to a derived value (also a target for active effects)
-    const bonus = () => new NumberField({ required: true, nullable: false, integer: true, initial: 0 });
+    // Stored modifier that is added to a derived value (manual adjustment, also a target for active effects)
+    const mod = () => new NumberField({ required: true, nullable: false, integer: true, initial: 0 });
 
     const attributes = {};
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.attributes) ) {
@@ -33,7 +33,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
           required: true, nullable: false, integer: true,
           min: limits.skill.min, max: limits.skill.max, initial: 0
         }),
-        bonus: bonus()
+        mod: mod()
       });
     }
 
@@ -44,13 +44,18 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.domains) ) {
       stamina[key] = new SchemaField({
         value: new NumberField({ required: true, nullable: false, integer: true, min: 0, initial: 0 }),
-        maxBonus: bonus()
+        maxMod: mod()
       });
       // Leibwunden (body) and Nervenschocks (mind)
       wounds[key] = new NumberField({
         required: true, nullable: false, integer: true,
         min: limits.wounds.min, max: limits.wounds.max, initial: 0
       });
+    }
+
+    const derived = {};
+    for ( const key of Object.keys(CONFIG.KRISTALLPUNK.derived) ) {
+      derived[key] = new SchemaField({ mod: mod() });
     }
 
     // Plain text fields default to "" instead of being absent
@@ -79,27 +84,38 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       conviction: new NumberField({
         required: true, nullable: false, integer: true,
         min: limits.conviction.min, max: limits.conviction.max, initial: 0
-      })
+      }),
+      derived: new SchemaField(derived)
     };
   }
 
   /**
-   * Compute derived values (total skill values, maximum stamina) from the stored input values.
+   * Compute derived values (total skill values, maximum stamina, Mut … Seelenhalt)
+   * from the stored input values.
    * @override
    */
   prepareDerivedData() {
     for ( const [key, skill] of Object.entries(this.skills) ) {
       const { attribute } = CONFIG.KRISTALLPUNK.skills[key];
-      skill.total = skillTotal({
+      skill.total = rules.skillTotal({
         value: skill.value,
         attribute: this.attributes[attribute].value,
-        bonus: skill.bonus
+        mod: skill.mod
       });
     }
 
     for ( const [domain, stamina] of Object.entries(this.stamina) ) {
       stamina.max = this.#staminaMax(domain);
     }
+
+    // Needs the stamina maxima from above
+    const a = Object.fromEntries(Object.entries(this.attributes).map(([key, { value }]) => [key, value]));
+    const d = this.derived;
+    d.courage.value = rules.courage({ strength: a.strength, will: a.will, mod: d.courage.mod });
+    d.crystalEcho.value = rules.crystalEcho({ senses: a.senses, empathy: a.empathy, mod: d.crystalEcho.mod });
+    d.insight.value = rules.insight({ dexterity: a.dexterity, intelligence: a.intelligence, mod: d.insight.mod });
+    d.toughness.value = rules.toughness({ staminaMax: this.stamina.body.max, mod: d.toughness.mod });
+    d.resilience.value = rules.resilience({ staminaMax: this.stamina.mind.max, mod: d.resilience.mod });
   }
 
   /**
@@ -118,7 +134,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Maximum stamina of a domain, based on the current attributes and bonus.
+   * Maximum stamina of a domain, based on the current attributes and modifier.
    * @param {string} domain
    * @returns {number}
    */
@@ -126,7 +142,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     const attributes = Object.entries(this.attributes)
       .filter(([key]) => CONFIG.KRISTALLPUNK.attributes[key].domain === domain)
       .map(([, attribute]) => attribute.value);
-    return staminaMax({ attributes, bonus: this.stamina[domain].maxBonus });
+    return rules.staminaMax({ attributes, mod: this.stamina[domain].maxMod });
   }
 
   /**

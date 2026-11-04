@@ -49,6 +49,13 @@
       "Body": "Leibwunden",
       "Mind": "Nervenschocks"
     },
+    "Derived": {
+      "Courage": "Mut",
+      "CrystalEcho": "Kristall-Echo",
+      "Insight": "Erkennen",
+      "Toughness": "Härte",
+      "Resilience": "Seelenhalt"
+    },
     "Conviction": {
       "Label": "Innenleben",
       "Hint": "Von −3 (Zweifel) bis +3 (Zuversicht)."
@@ -94,90 +101,97 @@
         "skills": {
           "athletics": {
             "value": { "label": "KRISTALLPUNK.Skill.Athletics" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "awareness": {
             "value": { "label": "KRISTALLPUNK.Skill.Awareness" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "dodge": {
             "value": { "label": "KRISTALLPUNK.Skill.Dodge" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "rangedCombat": {
             "value": { "label": "KRISTALLPUNK.Skill.RangedCombat" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "craft": {
             "value": { "label": "KRISTALLPUNK.Skill.Craft" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "stealth": {
             "value": { "label": "KRISTALLPUNK.Skill.Stealth" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "meleeCombat": {
             "value": { "label": "KRISTALLPUNK.Skill.MeleeCombat" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "orientation": {
             "value": { "label": "KRISTALLPUNK.Skill.Orientation" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "authority": {
             "value": { "label": "KRISTALLPUNK.Skill.Authority" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "education": {
             "value": { "label": "KRISTALLPUNK.Skill.Education" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "inspiration": {
             "value": { "label": "KRISTALLPUNK.Skill.Inspiration" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "medicine": {
             "value": { "label": "KRISTALLPUNK.Skill.Medicine" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "prismResonance": {
             "value": { "label": "KRISTALLPUNK.Skill.PrismResonance" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "rhetoric": {
             "value": { "label": "KRISTALLPUNK.Skill.Rhetoric" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "acting": {
             "value": { "label": "KRISTALLPUNK.Skill.Acting" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "science": {
             "value": { "label": "KRISTALLPUNK.Skill.Science" },
-            "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           }
         },
         "stamina": {
           "body": {
             "value": { "label": "KRISTALLPUNK.Stamina.Body" },
-            "maxBonus": { "label": "KRISTALLPUNK.Bonus.MaxLabel", "hint": "KRISTALLPUNK.Bonus.MaxHint" }
+            "maxMod": { "label": "KRISTALLPUNK.Mod.MaxLabel", "hint": "KRISTALLPUNK.Mod.MaxHint" }
           },
           "mind": {
             "value": { "label": "KRISTALLPUNK.Stamina.Mind" },
-            "maxBonus": { "label": "KRISTALLPUNK.Bonus.MaxLabel", "hint": "KRISTALLPUNK.Bonus.MaxHint" }
+            "maxMod": { "label": "KRISTALLPUNK.Mod.MaxLabel", "hint": "KRISTALLPUNK.Mod.MaxHint" }
           }
         },
         "wounds": {
           "body": { "label": "KRISTALLPUNK.Wounds.Body" },
           "mind": { "label": "KRISTALLPUNK.Wounds.Mind" }
         },
-        "conviction": { "label": "KRISTALLPUNK.Conviction.Label", "hint": "KRISTALLPUNK.Conviction.Hint" }
+        "conviction": { "label": "KRISTALLPUNK.Conviction.Label", "hint": "KRISTALLPUNK.Conviction.Hint" },
+        "derived": {
+          "courage": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
+          "crystalEcho": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
+          "insight": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
+          "toughness": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
+          "resilience": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } }
+        }
       }
     },
-    "Bonus": {
-      "Label": "Bonus",
+    "Mod": {
+      "Label": "Modifikator",
       "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0.",
-      "MaxLabel": "Bonus auf Maximum",
+      "MaxLabel": "Modifikator auf Maximum",
       "MaxHint": "Manuelle Anpassung, die auf das berechnete Maximum addiert wird. Normalerweise 0."
     },
     "Exception": {
