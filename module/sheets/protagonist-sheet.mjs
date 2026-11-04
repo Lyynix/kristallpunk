@@ -223,7 +223,36 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   _onRender(context, options) {
     super._onRender(context, options);
     this.#applyEditMode();
+    this.#fitHeader();
     activateStatusTracker(this.element, this.actor);
+  }
+
+  /**
+   * Size the header to its content:
+   * - Portrait and name are exactly as tall as attributes plus status tracker. CSS alone cannot
+   *   do this, because the width of the portrait column would then depend on the image size.
+   * - The window cannot be made narrower than attributes and status tracker need. Foundry clamps
+   *   resizing to the element's CSS min-width. Since the number of stamina cells follows the
+   *   stamina maximum, this is measured after every render.
+   */
+  #fitHeader() {
+    const header = this.element.querySelector(".sheet-header");
+    const overview = header?.querySelector(".overview");
+    const profile = header?.querySelector(".profile");
+    const name = profile?.querySelector(".name");
+    if ( !overview || !name || !this.element.offsetWidth ) return;
+
+    const gap = parseFloat(getComputedStyle(profile).rowGap) || 0;
+    const portraitSize = Math.max(0, overview.offsetHeight - name.offsetHeight - gap);
+    header.style.setProperty("--kp-portrait-size", `${portraitSize}px`);
+
+    // Everything beside the overview, plus the narrowest the overview can get
+    overview.style.width = "min-content";
+    const overviewMin = overview.offsetWidth;
+    overview.style.width = "";
+    const minWidth = Math.ceil(this.element.offsetWidth - overview.offsetWidth + overviewMin);
+    this.element.style.minWidth = `${minWidth}px`;
+    if ( this.element.offsetWidth < minWidth ) this.setPosition({ width: minWidth });
   }
 
   /**

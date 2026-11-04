@@ -4,9 +4,30 @@
 /*  Protagonist sheet                           */
 /* -------------------------------------------- */
 
+/* Layout of the window: header and tab bar keep their height, the active tab takes the rest
+   and scrolls when the window is too small for it */
+.kristallpunk.protagonist .window-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.kristallpunk.protagonist .sheet-header,
+.kristallpunk.protagonist nav.sheet-tabs {
+  flex: none;
+}
+
+.kristallpunk.protagonist .tab[data-tab].active {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Header: the portrait column is as wide as the portrait, whose size the sheet sets so that
+   portrait and name are as tall as attributes and status tracker (see _onRender) */
 .kristallpunk.protagonist .sheet-header {
   display: grid;
-  grid-template-columns: 25% 1fr;
+  grid-template-columns: var(--kp-portrait-size, 9rem) 1fr;
   gap: 0.5rem 1rem;
   align-items: start;
 }
@@ -18,8 +39,8 @@
 }
 
 .kristallpunk.protagonist .sheet-header .portrait {
-  width: 100%;
-  aspect-ratio: 1;
+  width: var(--kp-portrait-size, 9rem);
+  height: var(--kp-portrait-size, 9rem);
   object-fit: cover;
   border: none;
   cursor: pointer;
@@ -338,10 +359,18 @@
   margin: 0 0 0.75rem;
 }
 
+.kristallpunk.protagonist .tab.competences.active {
+  display: flex;
+  flex-direction: column;
+}
+
 .kristallpunk.protagonist .competence-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  flex: 1;
+  /* Below this the tab scrolls instead of squeezing the text fields */
+  min-height: 14rem;
 }
 
 .kristallpunk.protagonist .magic {
