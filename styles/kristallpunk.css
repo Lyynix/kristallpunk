@@ -207,12 +207,6 @@
   font-weight: bold;
 }
 
-/* Stamina fills from 0 up to the chosen cell */
-.kristallpunk .status-tracker .stamina .cell:has(input:checked),
-.kristallpunk .status-tracker .stamina .cell:has(~ .cell input:checked) {
-  --kp-tint: 0.5;
-}
-
 /* Wounds are listed 3-2-1 and fill from 1 outwards */
 .kristallpunk .status-tracker .wounds .cell:has(input:checked),
 .kristallpunk .status-tracker .wounds .cell:has(input:checked) ~ .cell {
@@ -223,6 +217,75 @@
 .kristallpunk .status-tracker .cell.over-max {
   border-style: dashed;
   font-style: italic;
+}
+
+/* Stamina as one bar: a single framed box, segments without their own borders,
+   short ticks from the bottom between points and longer ones after every fifth point */
+.kristallpunk .status-tracker .track.stamina {
+  --kp-rgb: var(--kp-body-rgb);
+  position: relative;
+  gap: 0;
+  border: 1px solid rgb(var(--kp-rgb) / 0.6);
+  overflow: hidden;
+  background: rgb(var(--kp-rgb) / 0.08);
+}
+
+.kristallpunk .status-tracker .track.stamina.mind {
+  --kp-rgb: var(--kp-mind-rgb);
+}
+
+.kristallpunk .status-tracker .track.stamina .cell {
+  --kp-tint: 0;
+  min-width: 0.4rem;
+  border: none;
+}
+
+/* The fill sits below the segments; it includes segment 0, except at 0, where the bar is empty */
+.kristallpunk .status-tracker .track.stamina .fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgb(var(--kp-rgb) / 0.5);
+  pointer-events: none;
+}
+
+.kristallpunk .status-tracker .track.stamina .cell:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 25%;
+  background: rgb(var(--kp-rgb) / 0.7);
+  pointer-events: none;
+}
+
+.kristallpunk .status-tracker .track.stamina .cell.major::after {
+  height: 50%;
+}
+
+.kristallpunk .status-tracker .track.stamina .cell:hover {
+  background: rgb(var(--kp-rgb) / calc(var(--kp-tint) + 0.15));
+}
+
+/* Numbers sit at the right end of their segment and may reach over the segments to the left */
+.kristallpunk .status-tracker .track.stamina .number {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0.2rem;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Points above the derived maximum are hatched */
+.kristallpunk .status-tracker .track.stamina .cell.over-max {
+  font-style: normal;
+  background-image: repeating-linear-gradient(-45deg, rgb(var(--kp-rgb) / 0.35) 0 2px, transparent 2px 5px);
 }
 
 /* Conviction column: rows aligned with the body row, the label rows and the mind row */

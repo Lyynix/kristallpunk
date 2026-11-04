@@ -11,12 +11,16 @@
     {{/each}}
   </div>
 
+  {{!-- Stamina as one bar; each point is a segment, labeled only at the current value and the maximum --}}
   <div class="track stamina {{domain.key}}" role="radiogroup" aria-label="{{domain.stamina.label}}">
+    {{!-- One fill over all segments, so it can slide when the value changes --}}
+    <span class="fill" style="left: {{domain.stamina.fill.left}}%; width: {{domain.stamina.fill.width}}%"
+          data-domain="{{domain.key}}" data-left="{{domain.stamina.fill.left}}" data-width="{{domain.stamina.fill.width}}"></span>
     {{#each domain.stamina.cells as |cell|}}
-    <label class="cell{{#if cell.overMax}} over-max{{/if}}"
-           {{#if cell.overMax}}data-tooltip="{{localize "KRISTALLPUNK.StatusTracker.OverMax"}}"{{/if}}>
-      <input type="radio" name="{{domain.stamina.name}}" value="{{cell.value}}" {{checked cell.checked}}>
-      <span>{{cell.value}}</span>
+    <label class="cell{{#if cell.overMax}} over-max{{/if}}{{#if cell.major}} major{{/if}}"
+           data-tooltip="{{cell.value}}{{#if cell.overMax}} · {{localize "KRISTALLPUNK.StatusTracker.OverMax"}}{{/if}}">
+      <input type="radio" name="{{domain.stamina.name}}" value="{{cell.value}}" aria-label="{{cell.value}}" {{checked cell.checked}}>
+      {{#if cell.number includeZero=true}}<span class="number">{{cell.number}}</span>{{/if}}
     </label>
     {{/each}}
   </div>
