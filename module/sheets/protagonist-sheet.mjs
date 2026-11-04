@@ -62,6 +62,10 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       locked: !this.isEditMode,
       attributeGroups: this.#prepareAttributeGroups(),
       skillGroups: this.#prepareSkillGroups(),
+      // Field labels for templates, localized via LOCALIZATION_PREFIXES
+      systemFields: this.actor.system.schema.fields,
+      // Always three fields, as on the official sheet
+      innateTraits: Array.from({ length: 3 }, (_, i) => this.actor.system.innateTraits[i] ?? ""),
       valueGroups: this.#prepareValueGroups(),
       // Usable in play mode too, since status changes during play
       statusTracker: prepareStatusTracker(this.actor)
