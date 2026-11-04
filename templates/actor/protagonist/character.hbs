@@ -1,2 +1,27 @@
 <section class="tab character {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  <div class="skills">
+    {{#each skillGroups as |group|}}
+    <div class="skill-group {{group.key}}">
+      <div class="skill-row header">
+        <span class="name">{{localize "KRISTALLPUNK.Sheet.Skills"}} · {{localize group.label}}</span>
+        <span>{{localize "KRISTALLPUNK.Sheet.Column.Value"}}</span>
+        <span class="edit-only">{{localize "KRISTALLPUNK.Sheet.Column.Mod"}}</span>
+        <span>{{localize "KRISTALLPUNK.Sheet.Column.Total"}}</span>
+      </div>
+      {{#each group.skills as |skill|}}
+      <div class="skill-row" data-skill="{{skill.key}}">
+        <label class="name" for="{{@root.rootId}}-skill-{{skill.key}}">
+          {{localize skill.label}} ({{localize skill.attribute}})
+        </label>
+        <input id="{{@root.rootId}}-skill-{{skill.key}}" type="number" name="system.skills.{{skill.key}}.value"
+               value="{{skill.value}}" min="{{skill.min}}" max="{{skill.max}}" step="1" {{disabled @root.locked}}>
+        <input class="edit-only" type="number" name="system.skills.{{skill.key}}.mod" value="{{skill.mod}}" step="1"
+               aria-label="{{localize "KRISTALLPUNK.Mod.Label"}}" data-tooltip="{{localize "KRISTALLPUNK.Mod.Hint"}}"
+               {{disabled @root.locked}}>
+        <span class="total">{{skill.total}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/each}}
+  </div>
 </section>

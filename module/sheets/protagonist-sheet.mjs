@@ -61,6 +61,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       editMode: this.isEditMode,
       locked: !this.isEditMode,
       attributeGroups: this.#prepareAttributeGroups(),
+      skillGroups: this.#prepareSkillGroups(),
       // Usable in play mode too, since status changes during play
       statusTracker: prepareStatusTracker(this.actor)
     });
@@ -87,6 +88,34 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
             value: data.value,
             min: limits.min,
             max: data.exception ? limits.exceptionMax : limits.max
+          };
+        })
+    }));
+  }
+
+  /**
+   * Skills grouped by domain (the domain of their linked attribute), as on the official sheet.
+   * @returns {object[]}
+   */
+  #prepareSkillGroups() {
+    const { domains, attributes, skills } = CONFIG.KRISTALLPUNK;
+    const limits = CONFIG.KRISTALLPUNK.protagonist.limits.skill;
+    return Object.entries(domains).map(([domain, { label }]) => ({
+      key: domain,
+      label,
+      skills: Object.entries(skills)
+        .filter(([, config]) => attributes[config.attribute].domain === domain)
+        .map(([key, config]) => {
+          const data = this.actor.system.skills[key];
+          return {
+            key,
+            label: config.label,
+            attribute: attributes[config.attribute].abbreviation,
+            value: data.value,
+            mod: data.mod,
+            total: data.total,
+            min: limits.min,
+            max: limits.max
           };
         })
     }));
