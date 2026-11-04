@@ -60,6 +60,15 @@ export const KRISTALLPUNK = {
     resilience: { label: "KRISTALLPUNK.Derived.Resilience" }
   },
 
+  /** Labels of the conviction stages; the value ranges are part of the rules (rules/conviction.mjs). */
+  convictionStages: {
+    steadfast: { label: "KRISTALLPUNK.ConvictionStage.Steadfast" },
+    confident: { label: "KRISTALLPUNK.ConvictionStage.Confident" },
+    neutral: { label: "KRISTALLPUNK.ConvictionStage.Neutral" },
+    doubtful: { label: "KRISTALLPUNK.ConvictionStage.Doubtful" },
+    desperate: { label: "KRISTALLPUNK.ConvictionStage.Desperate" }
+  },
+
   /** Labels of the age groups; the age ranges themselves are part of the rules (rules/age.mjs). */
   ageGroups: {
     youth: { label: "KRISTALLPUNK.AgeGroup.Youth" },

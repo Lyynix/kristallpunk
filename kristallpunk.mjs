@@ -7,6 +7,7 @@ import { KRISTALLPUNK } from "./module/config.mjs";
 import ProtagonistData from "./module/data/protagonist.mjs";
 import * as rules from "./module/rules/_module.mjs";
 import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
+import * as statusTracker from "./module/apps/status-tracker.mjs";
 
 Hooks.once("init", () => {
   console.log("Kristallpunk | Initializing system");
@@ -30,4 +31,7 @@ Hooks.once("init", () => {
     makeDefault: true,
     label: "KRISTALLPUNK.Sheet.Protagonist"
   });
+
+  // Partials shared between applications
+  foundry.applications.handlebars.loadTemplates({ [statusTracker.PARTIAL]: statusTracker.TEMPLATE });
 });

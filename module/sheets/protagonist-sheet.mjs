@@ -1,3 +1,5 @@
+import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
+
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -58,7 +60,9 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       system: this.actor.system,
       editMode: this.isEditMode,
       locked: !this.isEditMode,
-      attributeGroups: this.#prepareAttributeGroups()
+      attributeGroups: this.#prepareAttributeGroups(),
+      // Usable in play mode too, since status changes during play
+      statusTracker: prepareStatusTracker(this.actor)
     });
   }
 
@@ -114,6 +118,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       toggle.classList.toggle("fa-lock-open", this.isEditMode);
       toggle.setAttribute("aria-pressed", String(this.isEditMode));
     }
+    activateStatusTracker(this.element, this.actor);
   }
 
   /** @override */

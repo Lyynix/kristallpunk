@@ -5,6 +5,11 @@
     }
   },
   "KRISTALLPUNK": {
+    "StatusTracker": {
+      "Title": "Status-Anzeiger",
+      "Injuries": "Verletzungen",
+      "OverMax": "Über dem Maximum"
+    },
     "Sheet": {
       "Protagonist": "Protagonist*innen-Akte",
       "Name": "Name",
@@ -69,7 +74,16 @@
     },
     "Conviction": {
       "Label": "Innenleben",
-      "Hint": "Von -3 (Zweifel) bis +3 (Zuversicht)."
+      "Hint": "Von -3 (Zweifel) bis +3 (Zuversicht).",
+      "Confidence": "Zuversicht",
+      "Doubt": "Zweifel"
+    },
+    "ConvictionStage": {
+      "Steadfast": "Standfest",
+      "Confident": "Zuversichtlich",
+      "Neutral": "Neutral",
+      "Doubtful": "Zweifelnd",
+      "Desperate": "Verzweifelt"
     },
     "AgeGroup": {
       "Youth": "15-20 Jahre",

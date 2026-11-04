@@ -68,6 +68,163 @@
   text-align: center;
 }
 
+.kristallpunk.protagonist .overview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* -------------------------------------------- */
+/*  Status tracker                              */
+/*  Layout follows the original gadget: a body  */
+/*  row on top, a mind row at the bottom, three */
+/*  label rows in between and the conviction    */
+/*  column on the right, aligned to those rows. */
+/*  Colors are tinted to work in both themes.   */
+/* -------------------------------------------- */
+
+.kristallpunk {
+  /* RGB triplets of the colors on the original status tracker */
+  --kp-body-rgb: 214 92 92;
+  --kp-mind-rgb: 92 128 214;
+  --kp-injury-rgb: 170 110 220;
+  --kp-confidence-rgb: 120 180 100;
+  --kp-conviction-rgb: 230 170 70;
+  --kp-doubt-rgb: 200 190 70;
+}
+
+.kristallpunk .status-tracker {
+  --kp-row: 1.75rem;
+  --kp-label: 1.25rem;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content 2rem;
+  grid-template-rows: var(--kp-row) var(--kp-label) var(--kp-label) var(--kp-label) var(--kp-row);
+  column-gap: 0.25rem;
+  font-size: var(--font-size-11);
+}
+
+/* Placement in the grid */
+.kristallpunk .status-tracker .body { grid-row: 1; }
+.kristallpunk .status-tracker .track-label.body { grid-row: 2; }
+.kristallpunk .status-tracker .center { grid-row: 3; }
+.kristallpunk .status-tracker .track-label.mind { grid-row: 4; }
+.kristallpunk .status-tracker .mind { grid-row: 5; }
+.kristallpunk .status-tracker .wounds { grid-column: 1; }
+.kristallpunk .status-tracker .stamina { grid-column: 2; }
+.kristallpunk .status-tracker .conviction-label { grid-column: 3; }
+/* Like the original, the stamina rows also reach over the confidence/doubt labels */
+.kristallpunk .status-tracker .track.stamina { grid-column: 2 / 4; }
+.kristallpunk .status-tracker .confidence { grid-row: 2; }
+.kristallpunk .status-tracker .doubt { grid-row: 4; }
+
+.kristallpunk .status-tracker .track {
+  display: flex;
+  gap: 1px;
+}
+
+.kristallpunk .status-tracker .track-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.25rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.kristallpunk .status-tracker .track-label.stamina,
+.kristallpunk .status-tracker .title {
+  font-weight: bold;
+}
+
+.kristallpunk .status-tracker .title {
+  text-transform: uppercase;
+}
+
+/* Colored label boxes as on the original */
+.kristallpunk .status-tracker .track-label.wounds.body { background: rgb(var(--kp-body-rgb) / 0.3); }
+.kristallpunk .status-tracker .track-label.wounds.mind { background: rgb(var(--kp-mind-rgb) / 0.3); }
+.kristallpunk .status-tracker .injuries { background: rgb(var(--kp-injury-rgb) / 0.3); font-weight: bold; }
+.kristallpunk .status-tracker .confidence { background: rgb(var(--kp-confidence-rgb) / 0.3); }
+.kristallpunk .status-tracker .conviction-title { background: rgb(var(--kp-conviction-rgb) / 0.35); font-weight: bold; }
+.kristallpunk .status-tracker .doubt { background: rgb(var(--kp-doubt-rgb) / 0.3); }
+
+/* Cells */
+.kristallpunk .status-tracker .cell {
+  --kp-rgb: var(--kp-body-rgb);
+  --kp-tint: 0.1;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(var(--kp-rgb) / 0.5);
+  background: rgb(var(--kp-rgb) / var(--kp-tint));
+  cursor: pointer;
+}
+
+.kristallpunk .status-tracker .mind .cell { --kp-rgb: var(--kp-mind-rgb); }
+.kristallpunk .status-tracker .wounds .cell { --kp-tint: 0.25; }
+
+/* The radio stays focusable for keyboard use but is invisible */
+.kristallpunk .status-tracker .cell input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.kristallpunk .status-tracker .cell:has(input:focus-visible) {
+  outline: 2px solid rgb(var(--kp-rgb));
+  outline-offset: -2px;
+}
+
+.kristallpunk .status-tracker .cell:has(input:checked) {
+  font-weight: bold;
+}
+
+/* Stamina fills from 0 up to the chosen cell */
+.kristallpunk .status-tracker .stamina .cell:has(input:checked),
+.kristallpunk .status-tracker .stamina .cell:has(~ .cell input:checked) {
+  --kp-tint: 0.5;
+}
+
+/* Wounds are listed 3-2-1 and fill from 1 outwards */
+.kristallpunk .status-tracker .wounds .cell:has(input:checked),
+.kristallpunk .status-tracker .wounds .cell:has(input:checked) ~ .cell {
+  --kp-tint: 0.65;
+}
+
+/* Current stamina above the derived maximum */
+.kristallpunk .status-tracker .cell.over-max {
+  border-style: dashed;
+  font-style: italic;
+}
+
+/* Conviction column: rows aligned with the body row, the label rows and the mind row */
+.kristallpunk .status-tracker .track.conviction {
+  grid-column: 4;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-rows:
+    calc(var(--kp-row) / 2) calc(var(--kp-row) / 2)
+    var(--kp-label) var(--kp-label) var(--kp-label)
+    calc(var(--kp-row) / 2) calc(var(--kp-row) / 2);
+  gap: 0;
+}
+
+.kristallpunk .status-tracker .conviction .cell { --kp-rgb: var(--kp-confidence-rgb); }
+.kristallpunk .status-tracker .conviction .cell.sign-0 { --kp-rgb: var(--kp-conviction-rgb); }
+.kristallpunk .status-tracker .conviction .cell.sign--1 { --kp-rgb: var(--kp-doubt-rgb); }
+
+/* Conviction is a single marker, not a fill */
+.kristallpunk .status-tracker .conviction .cell:has(input:checked) {
+  --kp-tint: 0.6;
+}
+
 /* -------------------------------------------- */
 /*  Play mode                                   */
 /*  Nothing moves when switching modes: hidden  */
