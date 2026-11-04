@@ -229,6 +229,64 @@
 /*  Tab: character                              */
 /* -------------------------------------------- */
 
+/* Value tiles: body and mind side by side, shared derived values below */
+.kristallpunk.protagonist .value-groups {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.kristallpunk.protagonist .value-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0 0.25rem 0.25rem;
+}
+
+.kristallpunk.protagonist .value-group.shared {
+  grid-column: 1 / -1;
+}
+
+.kristallpunk.protagonist .value-group legend {
+  font-size: var(--font-size-12);
+  padding: 0 0.25rem;
+}
+
+.kristallpunk.protagonist .value-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.kristallpunk.protagonist .value-tile .label {
+  font-size: var(--font-size-11);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.kristallpunk.protagonist .value-tile .value,
+.kristallpunk.protagonist .value-tile input:not(.mod) {
+  height: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: bold;
+}
+
+.kristallpunk.protagonist .value-tile input {
+  width: 2.5rem;
+  text-align: center;
+}
+
+.kristallpunk.protagonist .value-tile .mod {
+  /* Narrower than the value inputs, leaving room for the label in narrow tiles */
+  width: 2rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  font-size: var(--font-size-11);
+}
+
 /* Body and mind skills side by side, as on the official sheet */
 .kristallpunk.protagonist .skills {
   display: grid;
@@ -238,9 +296,11 @@
 
 .kristallpunk.protagonist .skill-row {
   display: grid;
-  grid-template-columns: 1fr 2.5rem 2.5rem 2.5rem;
-  gap: 0.25rem;
+  /* The third column holds the modifier and opens in edit mode */
+  grid-template-columns: 1fr 3rem 0rem 3rem;
+  column-gap: 0;
   align-items: center;
+  justify-items: center;
   padding: 0.125rem 0;
   border-bottom: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.2));
 }
@@ -251,11 +311,13 @@
   text-align: center;
 }
 
-.kristallpunk.protagonist .skill-row.header .name {
+.kristallpunk.protagonist .skill-row .name {
+  justify-self: start;
   text-align: left;
 }
 
-.kristallpunk.protagonist .skill-row input[type="number"] {
+.kristallpunk.protagonist .skill-row input {
+  width: 2.5rem;
   height: 1.5rem;
   text-align: center;
 }
@@ -266,14 +328,84 @@
 }
 
 /* -------------------------------------------- */
-/*  Play mode                                   */
-/*  Nothing moves when switching modes: hidden  */
-/*  elements keep their space, locked fields    */
-/*  keep their size.                            */
+/*  Play and edit mode                          */
+/*  Modifier fields take no room in play mode   */
+/*  and open with a short animation in edit     */
+/*  mode. Locked fields keep their size.        */
 /* -------------------------------------------- */
 
-.kristallpunk.protagonist:not(.edit-mode) .edit-only {
-  visibility: hidden;
+/* Vertical: value tiles. Animating grid rows from 0fr to 1fr opens the slot to its content height */
+.kristallpunk.protagonist .mod-slot {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+  /* Full tile width, so the label left of the centered input is not clipped */
+  align-self: stretch;
+}
+
+.kristallpunk.protagonist .mod-slot > div {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Calculation rule, shown in edit mode above the modifier */
+.kristallpunk.protagonist .mod-slot .formula {
+  font-size: var(--font-size-10, 0.625rem);
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.kristallpunk.protagonist .mod-field {
+  position: relative;
+  display: inline-flex;
+}
+
+.kristallpunk.protagonist .mod-label {
+  position: absolute;
+  right: 100%;
+  /* Same height as the input, text centered on it */
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  margin-right: 0.25rem;
+  font-size: var(--font-size-11);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.kristallpunk.protagonist.edit-mode .mod-slot {
+  grid-template-rows: 1fr;
+}
+
+/* Horizontal: the modifier column of the skill rows */
+.kristallpunk.protagonist .skill-row {
+  transition: grid-template-columns 0.2s ease;
+}
+
+/* Stretch to the column width so a closed (0 wide) column really clips its content */
+.kristallpunk.protagonist .skill-row .mod-cell {
+  justify-self: stretch;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.kristallpunk.protagonist.edit-mode .skill-row {
+  grid-template-columns: 1fr 3rem 3rem 3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kristallpunk.protagonist .mod-slot,
+  .kristallpunk.protagonist .skill-row {
+    transition: none;
+  }
 }
 
 .kristallpunk.protagonist:not(.edit-mode) input:disabled {

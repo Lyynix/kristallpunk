@@ -62,6 +62,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       locked: !this.isEditMode,
       attributeGroups: this.#prepareAttributeGroups(),
       skillGroups: this.#prepareSkillGroups(),
+      valueGroups: this.#prepareValueGroups(),
       // Usable in play mode too, since status changes during play
       statusTracker: prepareStatusTracker(this.actor)
     });
@@ -94,6 +95,79 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /**
+   * Values of the character tab as tiles: per domain the stamina maximum, its defense value
+   * and its protection, then the derived values that belong to no single domain.
+   * Each tile shows a computed value with its modifier, or an input for entered values.
+   * @returns {object[]}
+   */
+  #prepareValueGroups() {
+    const system = this.actor.system;
+    const fields = system.schema.fields;
+    const { domains, attributes, derived } = CONFIG.KRISTALLPUNK;
+    const attributeName = key => game.i18n.localize(attributes[key].label);
+    const attributeTerm = key => term(attributeName(key), system.attributes[key].value);
+    // Formulas use the abbreviations (as on the official sheet) so they fit on one line
+    const attributeAbbr = key => game.i18n.localize(attributes[key].abbreviation);
+    const staminaMaxLabel = domain => game.i18n.format("KRISTALLPUNK.Sheet.MaxOf", {
+      label: fields.stamina.fields[domain].fields.value.label
+    });
+
+    // Formula (shown in edit mode) and breakdown with the actual numbers (tooltip)
+    const derivedTile = key => {
+      const config = derived[key];
+      const { value, mod } = system.derived[key];
+      let formula;
+      let terms;
+      if ( config.halfStaminaMax ) {
+        const label = staminaMaxLabel(config.domain);
+        formula = game.i18n.localize("KRISTALLPUNK.Sheet.Formula.Half");
+        terms = [game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Half", { label, value: system.stamina[config.domain].max })];
+      } else {
+        formula = config.attributes.map(attributeAbbr).join(" + ");
+        terms = config.attributes.map(attributeTerm);
+      }
+      return {
+        key,
+        label: game.i18n.localize(config.label),
+        value,
+        formula,
+        breakdown: breakdown(terms, value - mod, mod),
+        mod: { name: `system.derived.${key}.mod`, value: mod, display: signed(mod) }
+      };
+    };
+
+    const groups = Object.entries(domains).map(([domain, { label, protection }]) => {
+      const domainAttributes = Object.keys(attributes).filter(key => attributes[key].domain === domain);
+      const { max, maxMod } = system.stamina[domain];
+      const tiles = [{
+        key: `stamina-${domain}`,
+        label: staminaMaxLabel(domain),
+        value: max,
+        formula: domainAttributes.map(attributeAbbr).join(" + "),
+        breakdown: breakdown(domainAttributes.map(attributeTerm), max - maxMod, maxMod),
+        mod: { name: `system.stamina.${domain}.maxMod`, value: maxMod, display: signed(maxMod) }
+      }];
+      for ( const [key, config] of Object.entries(derived) ) {
+        if ( config.domain === domain ) tiles.push(derivedTile(key));
+      }
+      if ( protection ) tiles.push({
+        key: protection,
+        label: fields[protection].label,
+        hint: fields[protection].hint,
+        input: { name: `system.${protection}`, value: system[protection], min: fields[protection].min, max: fields[protection].max }
+      });
+      return { key: domain, label, tiles };
+    });
+
+    groups.push({
+      key: "shared",
+      label: "KRISTALLPUNK.Sheet.Derived",
+      tiles: Object.entries(derived).filter(([, config]) => !config.domain).map(([key]) => derivedTile(key))
+    });
+    return groups;
+  }
+
+  /**
    * Skills grouped by domain (the domain of their linked attribute), as on the official sheet.
    * @returns {object[]}
    */
@@ -107,13 +181,19 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         .filter(([, config]) => attributes[config.attribute].domain === domain)
         .map(([key, config]) => {
           const data = this.actor.system.skills[key];
+          const terms = [
+            term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), data.value),
+            term(game.i18n.localize(attributes[config.attribute].label), this.actor.system.attributes[config.attribute].value)
+          ];
           return {
             key,
             label: config.label,
             attribute: attributes[config.attribute].abbreviation,
             value: data.value,
             mod: data.mod,
+            modDisplay: signed(data.mod),
             total: data.total,
+            breakdown: breakdown(terms, data.total - data.mod, data.mod),
             min: limits.min,
             max: limits.max
           };
@@ -138,16 +218,34 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
+    this.#applyEditMode();
+    activateStatusTracker(this.element, this.actor);
+  }
+
+  /**
+   * Apply play or edit mode to the rendered sheet without rendering it again,
+   * so that the modifier fields can open and close with an animation.
+   * Fields marked with `data-lockable` are disabled in play mode.
+   */
+  #applyEditMode() {
+    const editMode = this.isEditMode;
     // Styles for play and edit mode hang off this class
-    this.element.classList.toggle("edit-mode", this.isEditMode);
+    this.element.classList.toggle("edit-mode", editMode);
+    for ( const field of this.element.querySelectorAll("[data-lockable]") ) field.disabled = !editMode;
+
+    const portrait = this.element.querySelector(".portrait");
+    if ( portrait ) {
+      if ( editMode ) Object.assign(portrait.dataset, { action: "editImage", edit: "img" });
+      else { delete portrait.dataset.action; delete portrait.dataset.edit; }
+    }
+
     // The frame is rendered once, so the toggle icon is updated here
     const toggle = this.window.header?.querySelector(".edit-toggle");
     if ( toggle ) {
-      toggle.classList.toggle("fa-lock", !this.isEditMode);
-      toggle.classList.toggle("fa-lock-open", this.isEditMode);
-      toggle.setAttribute("aria-pressed", String(this.isEditMode));
+      toggle.classList.toggle("fa-lock", !editMode);
+      toggle.classList.toggle("fa-lock-open", editMode);
+      toggle.setAttribute("aria-pressed", String(editMode));
     }
-    activateStatusTracker(this.element, this.actor);
   }
 
   /** @override */
@@ -164,6 +262,43 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
    */
   static #onToggleEditMode() {
     this.#editMode = !this.#editMode;
-    this.render();
+    this.#applyEditMode();
   }
+}
+
+/* -------------------------------------------- */
+/*  Display helpers                             */
+/* -------------------------------------------- */
+
+/**
+ * Modifiers with their sign: +2, 0, -1. A plain hyphen keeps the value parseable as a number.
+ * @param {number} value
+ * @returns {string}
+ */
+function signed(value) {
+  return value > 0 ? `+${value}` : String(value);
+}
+
+/**
+ * One term of a breakdown, e.g. "Kraft 3".
+ * @param {string} label
+ * @param {number} value
+ * @returns {string}
+ */
+function term(label, value) {
+  return game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Term", { label, value });
+}
+
+/**
+ * Breakdown of a computed value with the actual numbers, e.g. "Kraft 3 + Wille 5 = 8",
+ * extended by the modifier if one is set.
+ * @param {string[]} terms  The terms that add up to the rule result.
+ * @param {number} base     The rule result without modifier.
+ * @param {number} mod      The modifier.
+ * @returns {string}
+ */
+function breakdown(terms, base, mod) {
+  const result = game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Result", { terms: terms.join(" + "), result: base });
+  if ( !mod ) return result;
+  return game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.WithMod", { base: result, mod: signed(mod), total: base + mod });
 }

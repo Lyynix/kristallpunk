@@ -15,6 +15,17 @@
       "Name": "Name",
       "EditMode": "Bearbeitungsmodus umschalten",
       "Skills": "Fertigkeiten",
+      "Derived": "Abgeleitete Werte",
+      "MaxOf": "{label} max.",
+      "Formula": {
+        "Half": "Max. ÷ 2"
+      },
+      "Breakdown": {
+        "Term": "{label} {value}",
+        "Half": "{label} {value} ÷ 2",
+        "Result": "{terms} = {result}",
+        "WithMod": "{base}, Mod {mod} → {total}"
+      },
       "Column": {
         "Value": "Wert",
         "Mod": "Mod",
