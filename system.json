@@ -27,7 +27,15 @@
       "path": "lang/de.json"
     }
   ],
-  "documentTypes": {},
+  "documentTypes": {
+    "Actor": {
+      "protagonist": {
+        "htmlFields": ["background", "relationships", "equipment"]
+      }
+    }
+  },
+  "primaryTokenAttribute": "stamina.body",
+  "secondaryTokenAttribute": "stamina.mind",
   "grid": {
     "distance": 1,
     "units": "m"
