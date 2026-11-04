@@ -1,4 +1,4 @@
-import { skillTotal } from "../rules/derived.mjs";
+import { skillTotal, staminaMax } from "../rules/derived.mjs";
 
 const { ArrayField, BooleanField, HTMLField, NumberField, SchemaField, StringField } = foundry.data.fields;
 
@@ -37,6 +37,16 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       });
     }
 
+    // Current stamina per domain; the maximum is derived. No upper bound in the schema:
+    // if an attribute drops, the current value is kept instead of being cut silently.
+    const stamina = {};
+    for ( const key of Object.keys(CONFIG.KRISTALLPUNK.domains) ) {
+      stamina[key] = new SchemaField({
+        value: new NumberField({ required: true, nullable: false, integer: true, min: 0, initial: 0 }),
+        maxBonus: bonus()
+      });
+    }
+
     // Plain text fields default to "" instead of being absent
     const text = () => new StringField({ required: true, blank: true });
 
@@ -56,13 +66,14 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       resonanceCompetences: text(),
 
       attributes: new SchemaField(attributes),
-      skills: new SchemaField(skills)
+      skills: new SchemaField(skills),
+      stamina: new SchemaField(stamina)
     };
   }
 
   /**
-   * Compute derived values (total skill values) from the stored input values. 
-   * @override 
+   * Compute derived values (total skill values, maximum stamina) from the stored input values.
+   * @override
    */
   prepareDerivedData() {
     for ( const [key, skill] of Object.entries(this.skills) ) {
@@ -73,6 +84,37 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
         bonus: skill.bonus
       });
     }
+
+    for ( const [domain, stamina] of Object.entries(this.stamina) ) {
+      stamina.max = this.#staminaMax(domain);
+    }
+  }
+
+  /**
+   * New protagonists start with full stamina, unless a value was given explicitly.
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    if ( (await super._preCreate(data, options, user)) === false ) return false;
+    const changes = {};
+    for ( const domain of Object.keys(this.stamina) ) {
+      if ( data.system?.stamina?.[domain]?.value === undefined ) {
+        changes[`system.stamina.${domain}.value`] = Math.max(0, this.#staminaMax(domain));
+      }
+    }
+    this.parent.updateSource(changes);
+  }
+
+  /**
+   * Maximum stamina of a domain, based on the current attributes and bonus.
+   * @param {string} domain
+   * @returns {number}
+   */
+  #staminaMax(domain) {
+    const attributes = Object.entries(this.attributes)
+      .filter(([key]) => CONFIG.KRISTALLPUNK.attributes[key].domain === domain)
+      .map(([, attribute]) => attribute.value);
+    return staminaMax({ attributes, bonus: this.stamina[domain].maxBonus });
   }
 
   /**

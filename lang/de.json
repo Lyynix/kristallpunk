@@ -41,6 +41,10 @@
       "Acting": "Schauspiel",
       "Science": "Wissenschaft"
     },
+    "Stamina": {
+      "Body": "Körperausdauer",
+      "Mind": "Geistausdauer"
+    },
     "Protagonist": {
       "FIELDS": {
         "age": { "label": "Alter" },
@@ -144,12 +148,24 @@
             "value": { "label": "KRISTALLPUNK.Skill.Science" },
             "bonus": { "label": "KRISTALLPUNK.Bonus.Label", "hint": "KRISTALLPUNK.Bonus.Hint" }
           }
+        },
+        "stamina": {
+          "body": {
+            "value": { "label": "KRISTALLPUNK.Stamina.Body" },
+            "maxBonus": { "label": "KRISTALLPUNK.Bonus.MaxLabel", "hint": "KRISTALLPUNK.Bonus.MaxHint" }
+          },
+          "mind": {
+            "value": { "label": "KRISTALLPUNK.Stamina.Mind" },
+            "maxBonus": { "label": "KRISTALLPUNK.Bonus.MaxLabel", "hint": "KRISTALLPUNK.Bonus.MaxHint" }
+          }
         }
       }
     },
     "Bonus": {
       "Label": "Bonus",
-      "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0."
+      "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0.",
+      "MaxLabel": "Bonus auf Maximum",
+      "MaxHint": "Manuelle Anpassung, die auf das berechnete Maximum addiert wird. Normalerweise 0."
     },
     "Exception": {
       "Label": "Erschaffungsausnahme",
