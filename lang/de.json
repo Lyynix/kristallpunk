@@ -45,6 +45,14 @@
       "Body": "Körperausdauer",
       "Mind": "Geistausdauer"
     },
+    "Wounds": {
+      "Body": "Leibwunden",
+      "Mind": "Nervenschocks"
+    },
+    "Conviction": {
+      "Label": "Innenleben",
+      "Hint": "Von −3 (Zweifel) bis +3 (Zuversicht)."
+    },
     "Protagonist": {
       "FIELDS": {
         "age": { "label": "Alter" },
@@ -158,7 +166,12 @@
             "value": { "label": "KRISTALLPUNK.Stamina.Mind" },
             "maxBonus": { "label": "KRISTALLPUNK.Bonus.MaxLabel", "hint": "KRISTALLPUNK.Bonus.MaxHint" }
           }
-        }
+        },
+        "wounds": {
+          "body": { "label": "KRISTALLPUNK.Wounds.Body" },
+          "mind": { "label": "KRISTALLPUNK.Wounds.Mind" }
+        },
+        "conviction": { "label": "KRISTALLPUNK.Conviction.Label", "hint": "KRISTALLPUNK.Conviction.Hint" }
       }
     },
     "Bonus": {

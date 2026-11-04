@@ -61,10 +61,13 @@ export const KRISTALLPUNK = {
      * Attributes are capped at `max`; with the creation exception set they may reach `exceptionMax`
      * (Kurzregeln 1.0, p. 23). Which cases qualify for the exception is still open (issue #17).
      * Skills are capped at 9 (Erschaffung 1.0, p. 12).
+     * Up to three wounds per domain (Kurzregeln 1.0, p. 20); conviction ranges from -3 to +3 (p. 9).
      */
     limits: {
       attribute: { min: 0, max: 6, exceptionMax: 7 },
-      skill: { min: 0, max: 9 }
+      skill: { min: 0, max: 9 },
+      wounds: { min: 0, max: 3 },
+      conviction: { min: -3, max: 3 }
     }
   }
 };

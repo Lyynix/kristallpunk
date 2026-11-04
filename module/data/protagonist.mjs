@@ -40,10 +40,16 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     // Current stamina per domain; the maximum is derived. No upper bound in the schema:
     // if an attribute drops, the current value is kept instead of being cut silently.
     const stamina = {};
+    const wounds = {};
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.domains) ) {
       stamina[key] = new SchemaField({
         value: new NumberField({ required: true, nullable: false, integer: true, min: 0, initial: 0 }),
         maxBonus: bonus()
+      });
+      // Leibwunden (body) and Nervenschocks (mind)
+      wounds[key] = new NumberField({
+        required: true, nullable: false, integer: true,
+        min: limits.wounds.min, max: limits.wounds.max, initial: 0
       });
     }
 
@@ -67,7 +73,13 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
 
       attributes: new SchemaField(attributes),
       skills: new SchemaField(skills),
-      stamina: new SchemaField(stamina)
+      stamina: new SchemaField(stamina),
+      wounds: new SchemaField(wounds),
+      // Innenleben: negative values are doubt, positive values confidence
+      conviction: new NumberField({
+        required: true, nullable: false, integer: true,
+        min: limits.conviction.min, max: limits.conviction.max, initial: 0
+      })
     };
   }
 
