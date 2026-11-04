@@ -465,6 +465,58 @@
 }
 
 /* -------------------------------------------- */
+/*  Tabs: inventory and profile                 */
+/* -------------------------------------------- */
+
+.kristallpunk.protagonist .tab.inventory.active,
+.kristallpunk.protagonist .tab.profile.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Text editors fill the remaining height; below their minimum the tab scrolls */
+.kristallpunk.protagonist .tab.inventory > .text-field {
+  flex: 1;
+}
+
+.kristallpunk.protagonist .text-field prose-mirror {
+  flex: 1;
+  min-height: 8rem;
+}
+
+.kristallpunk.protagonist .profile-fields {
+  display: grid;
+  grid-template-columns: 8rem 1fr 1fr;
+  gap: 1rem;
+}
+
+.kristallpunk.protagonist .age {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kristallpunk.protagonist .age input {
+  width: 3rem;
+  text-align: center;
+}
+
+.kristallpunk.protagonist .age-group {
+  font-size: var(--font-size-11);
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.kristallpunk.protagonist .profile-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  flex: 1;
+  min-height: 14rem;
+}
+
+/* -------------------------------------------- */
 /*  Play and edit mode                          */
 /*  Modifier fields take no room in play mode   */
 /*  and open with a short animation in edit     */
@@ -554,4 +606,9 @@
   opacity: 1;
   color: inherit;
   cursor: default;
+}
+
+/* Locked text editors: show the text, but no button to open the editor */
+.kristallpunk.protagonist prose-mirror[data-locked] .toggle {
+  display: none;
 }

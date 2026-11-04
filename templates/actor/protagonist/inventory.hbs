@@ -1,2 +1,7 @@
 <section class="tab inventory {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  {{!-- Free text until equipment items exist; editable in play mode, since it changes during play --}}
+  <div class="text-field">
+    <label>{{systemFields.equipment.label}}</label>
+    <prose-mirror name="system.equipment" value="{{system.equipment}}" toggled>{{{enriched.equipment}}}</prose-mirror>
+  </div>
 </section>

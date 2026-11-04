@@ -68,8 +68,24 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       innateTraits: Array.from({ length: 3 }, (_, i) => this.actor.system.innateTraits[i] ?? ""),
       valueGroups: this.#prepareValueGroups(),
       // Usable in play mode too, since status changes during play
-      statusTracker: prepareStatusTracker(this.actor)
+      statusTracker: prepareStatusTracker(this.actor),
+      ageGroupLabel: CONFIG.KRISTALLPUNK.ageGroups[this.actor.system.ageGroup]?.label ?? "",
+      enriched: await this.#enrichTexts(["equipment", "background", "relationships"])
     });
+  }
+
+  /**
+   * Formatted text fields as displayed HTML, with links and other enrichers resolved.
+   * @param {string[]} keys  Keys of HTML fields in the system data.
+   * @returns {Promise<Record<string, string>>}
+   */
+  async #enrichTexts(keys) {
+    const { TextEditor } = foundry.applications.ux;
+    const options = { relativeTo: this.actor, secrets: this.actor.isOwner };
+    const entries = await Promise.all(keys.map(async key => (
+      [key, await TextEditor.implementation.enrichHTML(this.actor.system[key], options)]
+    )));
+    return Object.fromEntries(entries);
   }
 
   /**
@@ -258,13 +274,20 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   /**
    * Apply play or edit mode to the rendered sheet without rendering it again,
    * so that the modifier fields can open and close with an animation.
-   * Fields marked with `data-lockable` are disabled in play mode.
+   * Fields marked with `data-lockable` are disabled in play mode. Text editors marked with
+   * `data-lockable-editor` get `data-locked` instead, which hides their edit button: switching
+   * `disabled` on a closed toggled <prose-mirror> throws inside Foundry.
    */
   #applyEditMode() {
     const editMode = this.isEditMode;
     // Styles for play and edit mode hang off this class
     this.element.classList.toggle("edit-mode", editMode);
     for ( const field of this.element.querySelectorAll("[data-lockable]") ) field.disabled = !editMode;
+    for ( const editor of this.element.querySelectorAll("prose-mirror[data-lockable-editor]") ) {
+      // Close (and thereby save) an editor that is open while locking
+      if ( !editMode && editor.open ) editor.open = false;
+      editor.toggleAttribute("data-locked", !editMode);
+    }
 
     const portrait = this.element.querySelector(".portrait");
     if ( portrait ) {

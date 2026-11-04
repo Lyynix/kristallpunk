@@ -1,2 +1,34 @@
 <section class="tab profile {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  <div class="profile-fields">
+    <div class="text-field">
+      <label for="{{rootId}}-age">{{systemFields.age.label}}</label>
+      <span class="age">
+        <input id="{{rootId}}-age" type="number" name="system.age" value="{{system.age}}" min="0" step="1"
+               data-lockable {{disabled locked}}>
+        <span class="age-group">{{localize ageGroupLabel}}</span>
+      </span>
+    </div>
+    <div class="text-field">
+      <label for="{{rootId}}-origin">{{systemFields.origin.label}}</label>
+      <input id="{{rootId}}-origin" type="text" name="system.origin" value="{{system.origin}}" data-lockable {{disabled locked}}>
+    </div>
+    <div class="text-field">
+      <label for="{{rootId}}-profession">{{systemFields.profession.label}}</label>
+      <input id="{{rootId}}-profession" type="text" name="system.profession" value="{{system.profession}}"
+             data-lockable {{disabled locked}}>
+    </div>
+  </div>
+
+  <div class="profile-columns">
+    <div class="text-field">
+      <label>{{systemFields.background.label}}</label>
+      <prose-mirror name="system.background" value="{{system.background}}" toggled
+                    data-lockable-editor {{#if locked}}data-locked{{/if}}>{{{enriched.background}}}</prose-mirror>
+    </div>
+    <div class="text-field">
+      <label>{{systemFields.relationships.label}}</label>
+      <prose-mirror name="system.relationships" value="{{system.relationships}}" toggled
+                    data-lockable-editor {{#if locked}}data-locked{{/if}}>{{{enriched.relationships}}}</prose-mirror>
+    </div>
+  </div>
 </section>
