@@ -1,4 +1,5 @@
 import * as rules from "../rules/derived.mjs";
+import { ageGroup } from "../rules/age.mjs";
 
 const { ArrayField, BooleanField, HTMLField, NumberField, SchemaField, StringField } = foundry.data.fields;
 
@@ -126,6 +127,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     d.insight.value = rules.insight({ dexterity: a.dexterity, intelligence: a.intelligence, mod: d.insight.mod });
     d.toughness.value = rules.toughness({ staminaMax: this.stamina.body.max, mod: d.toughness.mod });
     d.resilience.value = rules.resilience({ staminaMax: this.stamina.mind.max, mod: d.resilience.mod });
+
+    this.ageGroup = ageGroup(this.age);
   }
 
   /**

@@ -58,7 +58,13 @@
     },
     "Conviction": {
       "Label": "Innenleben",
-      "Hint": "Von −3 (Zweifel) bis +3 (Zuversicht)."
+      "Hint": "Von -3 (Zweifel) bis +3 (Zuversicht)."
+    },
+    "AgeGroup": {
+      "Youth": "15-20 Jahre",
+      "Adult": "21-45 Jahre",
+      "Mature": "46-65 Jahre",
+      "Elder": "66 Jahre und älter"
     },
     "Armor": {
       "Label": "Rüstung",

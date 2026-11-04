@@ -60,6 +60,14 @@ export const KRISTALLPUNK = {
     resilience: { label: "KRISTALLPUNK.Derived.Resilience" }
   },
 
+  /** Labels of the age groups; the age ranges themselves are part of the rules (rules/age.mjs). */
+  ageGroups: {
+    youth: { label: "KRISTALLPUNK.AgeGroup.Youth" },
+    adult: { label: "KRISTALLPUNK.AgeGroup.Adult" },
+    mature: { label: "KRISTALLPUNK.AgeGroup.Mature" },
+    elder: { label: "KRISTALLPUNK.AgeGroup.Elder" }
+  },
+
   /* -------------------------------------------- */
   /*  Rules per actor type                        */
   /* -------------------------------------------- */
