@@ -5,6 +5,17 @@
     }
   },
   "KRISTALLPUNK": {
+    "Sheet": {
+      "Protagonist": "Protagonist*innen-Akte",
+      "Name": "Name",
+      "EditMode": "Bearbeitungsmodus umschalten",
+      "Tab": {
+        "character": "Charakter",
+        "competences": "Kompetenzen & Magie",
+        "inventory": "Inventar",
+        "profile": "Steckbrief"
+      }
+    },
     "Domain": {
       "Body": "Körper",
       "Mind": "Geist"

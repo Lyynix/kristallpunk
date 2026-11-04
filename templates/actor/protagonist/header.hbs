@@ -1,0 +1,18 @@
+<header class="sheet-header">
+  <div class="profile">
+    <img class="portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
+    <input class="name" type="text" name="name" value="{{actor.name}}" placeholder="{{localize "KRISTALLPUNK.Sheet.Name"}}">
+  </div>
+
+  <div class="overview">
+    {{!-- Attributes and status follow in the next steps --}}
+  </div>
+
+  {{#if editable}}
+  <button type="button" class="edit-toggle" data-action="toggleEditMode"
+          data-tooltip="{{localize "KRISTALLPUNK.Sheet.EditMode"}}" aria-label="{{localize "KRISTALLPUNK.Sheet.EditMode"}}"
+          aria-pressed="{{editMode}}">
+    <i class="fa-solid {{#if editMode}}fa-lock-open{{else}}fa-lock{{/if}}" inert></i>
+  </button>
+  {{/if}}
+</header>

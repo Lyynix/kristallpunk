@@ -1,1 +1,44 @@
-/* Kristallpunk system styles. */
+/* Kristallpunk system styles. Layout only; colors come from Foundry's theme variables. */
+
+/* -------------------------------------------- */
+/*  Protagonist sheet                           */
+/* -------------------------------------------- */
+
+.kristallpunk.protagonist .window-content {
+  /* Keeps the sheet usable while the tabs are still mostly empty */
+  min-width: 40rem;
+}
+
+.kristallpunk.protagonist .sheet-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+  gap: 0.5rem 1rem;
+  align-items: start;
+}
+
+.kristallpunk.protagonist .sheet-header .profile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kristallpunk.protagonist .sheet-header .portrait {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: none;
+  cursor: pointer;
+}
+
+.kristallpunk.protagonist .sheet-header .name {
+  text-align: center;
+}
+
+.kristallpunk.protagonist .sheet-header .edit-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  line-height: 1;
+}
