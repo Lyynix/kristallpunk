@@ -4,15 +4,9 @@
 /*  Protagonist sheet                           */
 /* -------------------------------------------- */
 
-.kristallpunk.protagonist .window-content {
-  /* Keeps the sheet usable while the tabs are still mostly empty */
-  min-width: 40rem;
-}
-
 .kristallpunk.protagonist .sheet-header {
-  position: relative;
   display: grid;
-  grid-template-columns: 20% 1fr;
+  grid-template-columns: 25% 1fr;
   gap: 0.5rem 1rem;
   align-items: start;
 }
@@ -35,10 +29,62 @@
   text-align: center;
 }
 
-.kristallpunk.protagonist .sheet-header .edit-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: auto;
-  line-height: 1;
+/* Attributes: body and mind side by side, three attributes each, kept compact
+   so the status fits below them next to the portrait */
+.kristallpunk.protagonist .attributes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.kristallpunk.protagonist .attribute-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0 0.25rem 0.25rem;
+}
+
+.kristallpunk.protagonist .attribute-group legend {
+  font-size: var(--font-size-12);
+  padding: 0 0.25rem;
+}
+
+.kristallpunk.protagonist .attribute {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kristallpunk.protagonist .attribute label {
+  font-size: var(--font-size-12);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.kristallpunk.protagonist .attribute input[type="number"] {
+  width: 2.5rem;
+  height: 1.5rem;
+  text-align: center;
+}
+
+/* -------------------------------------------- */
+/*  Play mode                                   */
+/*  Nothing moves when switching modes: hidden  */
+/*  elements keep their space, locked fields    */
+/*  keep their size.                            */
+/* -------------------------------------------- */
+
+.kristallpunk.protagonist:not(.edit-mode) .edit-only {
+  visibility: hidden;
+}
+
+.kristallpunk.protagonist:not(.edit-mode) input:disabled {
+  /* Read like plain text instead of greyed-out fields */
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  color: inherit;
+  cursor: default;
 }

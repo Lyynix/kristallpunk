@@ -1,18 +1,25 @@
 <header class="sheet-header">
   <div class="profile">
-    <img class="portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
-    <input class="name" type="text" name="name" value="{{actor.name}}" placeholder="{{localize "KRISTALLPUNK.Sheet.Name"}}">
+    <img class="portrait" src="{{actor.img}}" alt="{{actor.name}}" {{#if editMode}}data-action="editImage" data-edit="img"{{/if}}>
+    <input class="name" type="text" name="name" value="{{actor.name}}" placeholder="{{localize "KRISTALLPUNK.Sheet.Name"}}" {{disabled locked}}>
   </div>
 
   <div class="overview">
-    {{!-- Attributes and status follow in the next steps --}}
+    <div class="attributes">
+      {{#each attributeGroups as |group|}}
+      <fieldset class="attribute-group {{group.key}}">
+        <legend>{{localize group.label}}</legend>
+        {{#each group.attributes as |attribute|}}
+        <div class="attribute">
+          <label for="{{@root.rootId}}-attribute-{{attribute.key}}">{{localize attribute.label}}</label>
+          <input id="{{@root.rootId}}-attribute-{{attribute.key}}" type="number"
+                 name="system.attributes.{{attribute.key}}.value" value="{{attribute.value}}"
+                 min="{{attribute.min}}" max="{{attribute.max}}" step="1" {{disabled @root.locked}}>
+        </div>
+        {{/each}}
+      </fieldset>
+      {{/each}}
+    </div>
+    {{!-- Status follows in the next step --}}
   </div>
-
-  {{#if editable}}
-  <button type="button" class="edit-toggle" data-action="toggleEditMode"
-          data-tooltip="{{localize "KRISTALLPUNK.Sheet.EditMode"}}" aria-label="{{localize "KRISTALLPUNK.Sheet.EditMode"}}"
-          aria-pressed="{{editMode}}">
-    <i class="fa-solid {{#if editMode}}fa-lock-open{{else}}fa-lock{{/if}}" inert></i>
-  </button>
-  {{/if}}
 </header>

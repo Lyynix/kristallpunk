@@ -10,7 +10,7 @@ const TEMPLATES = "systems/kristallpunk/templates/actor/protagonist";
 export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["kristallpunk", "protagonist"],
-    position: { width: "auto", height: "auto" },
+    position: { width: 600, height: "auto" },
     window: { resizable: true },
     form: { submitOnChange: true },
     actions: {
@@ -56,8 +56,64 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     return Object.assign(context, {
       actor: this.actor,
       system: this.actor.system,
-      editMode: this.isEditMode
+      editMode: this.isEditMode,
+      locked: !this.isEditMode,
+      attributeGroups: this.#prepareAttributeGroups()
     });
+  }
+
+  /**
+   * Attributes grouped by domain, with the input maximum depending on the creation exception.
+   * The exception itself is not editable here; it is set during character creation.
+   * @returns {object[]}
+   */
+  #prepareAttributeGroups() {
+    const { domains, attributes } = CONFIG.KRISTALLPUNK;
+    const limits = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
+    return Object.entries(domains).map(([domain, { label }]) => ({
+      key: domain,
+      label,
+      attributes: Object.entries(attributes)
+        .filter(([, config]) => config.domain === domain)
+        .map(([key, config]) => {
+          const data = this.actor.system.attributes[key];
+          return {
+            key,
+            label: config.label,
+            value: data.value,
+            min: limits.min,
+            max: data.exception ? limits.exceptionMax : limits.max
+          };
+        })
+    }));
+  }
+
+  /**
+   * The edit toggle sits in the window title bar, so it takes no room in the sheet itself.
+   * @override
+   */
+  _getFrameButtons(options) {
+    const buttons = super._getFrameButtons(options);
+    if ( this.isEditable ) buttons.unshift({
+      icon: "fa-solid fa-lock edit-toggle",
+      label: "KRISTALLPUNK.Sheet.EditMode",
+      action: "toggleEditMode"
+    });
+    return buttons;
+  }
+
+  /** @override */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    // Styles for play and edit mode hang off this class
+    this.element.classList.toggle("edit-mode", this.isEditMode);
+    // The frame is rendered once, so the toggle icon is updated here
+    const toggle = this.window.header?.querySelector(".edit-toggle");
+    if ( toggle ) {
+      toggle.classList.toggle("fa-lock", !this.isEditMode);
+      toggle.classList.toggle("fa-lock-open", this.isEditMode);
+      toggle.setAttribute("aria-pressed", String(this.isEditMode));
+    }
   }
 
   /** @override */
