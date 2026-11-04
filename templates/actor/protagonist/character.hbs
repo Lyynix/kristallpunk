@@ -1,0 +1,68 @@
+<section class="tab character {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  <div class="value-groups">
+    {{#each valueGroups as |group|}}
+    <fieldset class="value-group {{group.key}}">
+      <legend>{{localize group.label}}</legend>
+      {{#each group.tiles as |tile|}}
+      <div class="value-tile" data-value="{{tile.key}}" {{#if tile.hint}}data-tooltip="{{tile.hint}}"{{/if}}>
+        <span class="label">{{tile.label}}</span>
+        {{#if tile.input}}
+        <input type="number" name="{{tile.input.name}}" value="{{tile.input.value}}"
+               min="{{tile.input.min}}" max="{{tile.input.max}}" step="1" aria-label="{{tile.label}}"
+               data-lockable {{disabled @root.locked}}>
+        {{else}}
+        <span class="value" data-tooltip="{{tile.breakdown}}">{{tile.value}}</span>
+        {{/if}}
+        {{#if tile.mod}}
+        {{!-- Opens in edit mode --}}
+        <div class="mod-slot">
+          <div>
+            <span class="formula">{{tile.formula}}</span>
+            {{!-- The label hangs to the left, so the input stays centered under the value --}}
+            <span class="mod-field">
+              <span class="mod-label" aria-hidden="true">{{localize "KRISTALLPUNK.Sheet.Column.Mod"}}</span>
+              {{!-- Text input so the modifier can show its sign (+2); data-dtype stores it as a number --}}
+              <input class="mod" type="text" inputmode="numeric" data-dtype="Number"
+                     name="{{tile.mod.name}}" value="{{tile.mod.display}}"
+                     aria-label="{{localize "KRISTALLPUNK.Mod.Label"}}" data-tooltip="{{localize "KRISTALLPUNK.Mod.Hint"}}"
+                     data-lockable {{disabled @root.locked}}>
+            </span>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      {{/each}}
+    </fieldset>
+    {{/each}}
+  </div>
+
+  <div class="skills">
+    {{#each skillGroups as |group|}}
+    <div class="skill-group {{group.key}}">
+      <div class="skill-row header">
+        <span class="name">{{localize "KRISTALLPUNK.Sheet.Skills"}} · {{localize group.label}}</span>
+        <span>{{localize "KRISTALLPUNK.Sheet.Column.Value"}}</span>
+        <span class="mod-cell">{{localize "KRISTALLPUNK.Sheet.Column.Mod"}}</span>
+        <span>{{localize "KRISTALLPUNK.Sheet.Column.Total"}}</span>
+      </div>
+      {{#each group.skills as |skill|}}
+      <div class="skill-row" data-skill="{{skill.key}}">
+        <label class="name" for="{{@root.rootId}}-skill-{{skill.key}}">
+          {{localize skill.label}} ({{localize skill.attribute}})
+        </label>
+        <input id="{{@root.rootId}}-skill-{{skill.key}}" type="number" name="system.skills.{{skill.key}}.value"
+               value="{{skill.value}}" min="{{skill.min}}" max="{{skill.max}}" step="1" data-lockable {{disabled @root.locked}}>
+        {{!-- Opens in edit mode --}}
+        <span class="mod-cell">
+          <input type="text" inputmode="numeric" data-dtype="Number"
+                 name="system.skills.{{skill.key}}.mod" value="{{skill.modDisplay}}"
+                 aria-label="{{localize "KRISTALLPUNK.Mod.Label"}}" data-tooltip="{{localize "KRISTALLPUNK.Mod.Hint"}}"
+                 data-lockable {{disabled @root.locked}}>
+        </span>
+        <span class="total" data-tooltip="{{skill.breakdown}}">{{skill.total}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/each}}
+  </div>
+</section>

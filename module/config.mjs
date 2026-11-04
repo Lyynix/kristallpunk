@@ -12,10 +12,11 @@ export const KRISTALLPUNK = {
 
   /**
    * The two domains, body and mind. They split attributes, skills, stamina and wounds alike.
+   * `protection` is the value that reduces damage of this domain (Kurzregeln 1.0, p. 7).
    */
   domains: {
-    body: { label: "KRISTALLPUNK.Domain.Body" },
-    mind: { label: "KRISTALLPUNK.Domain.Mind" }
+    body: { label: "KRISTALLPUNK.Domain.Body", protection: "armor" },
+    mind: { label: "KRISTALLPUNK.Domain.Mind", protection: "ward" }
   },
 
   /** The six attributes, each belonging to a domain. */
@@ -51,13 +52,28 @@ export const KRISTALLPUNK = {
     science: { attribute: "intelligence", label: "KRISTALLPUNK.Skill.Science" }
   },
 
-  /** Derived values; checks on them cost no stamina (Kurzregeln 1.0, p. 6–7). */
+  /**
+   * Derived values; checks on them cost no stamina (Kurzregeln 1.0, p. 6–7).
+   * Values that defend a single domain carry that `domain`.
+   * For display only (formula and breakdown on the sheet), each value names what it is built from:
+   * the sum of `attributes`, or half the stamina maximum of its domain (`halfStaminaMax`).
+   * The calculation itself lives in rules/derived.mjs.
+   */
   derived: {
-    courage: { label: "KRISTALLPUNK.Derived.Courage" },
-    crystalEcho: { label: "KRISTALLPUNK.Derived.CrystalEcho" },
-    insight: { label: "KRISTALLPUNK.Derived.Insight" },
-    toughness: { label: "KRISTALLPUNK.Derived.Toughness" },
-    resilience: { label: "KRISTALLPUNK.Derived.Resilience" }
+    courage: { label: "KRISTALLPUNK.Derived.Courage", attributes: ["strength", "will"] },
+    crystalEcho: { label: "KRISTALLPUNK.Derived.CrystalEcho", attributes: ["senses", "empathy"] },
+    insight: { label: "KRISTALLPUNK.Derived.Insight", attributes: ["dexterity", "intelligence"] },
+    toughness: { label: "KRISTALLPUNK.Derived.Toughness", domain: "body", halfStaminaMax: true },
+    resilience: { label: "KRISTALLPUNK.Derived.Resilience", domain: "mind", halfStaminaMax: true }
+  },
+
+  /** Labels of the conviction stages; the value ranges are part of the rules (rules/conviction.mjs). */
+  convictionStages: {
+    steadfast: { label: "KRISTALLPUNK.ConvictionStage.Steadfast" },
+    confident: { label: "KRISTALLPUNK.ConvictionStage.Confident" },
+    neutral: { label: "KRISTALLPUNK.ConvictionStage.Neutral" },
+    doubtful: { label: "KRISTALLPUNK.ConvictionStage.Doubtful" },
+    desperate: { label: "KRISTALLPUNK.ConvictionStage.Desperate" }
   },
 
   /** Labels of the age groups; the age ranges themselves are part of the rules (rules/age.mjs). */

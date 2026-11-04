@@ -1,0 +1,32 @@
+<section class="tab competences {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  {{!-- Free text until innate traits, competences and resonance kinds become items --}}
+  <fieldset class="innate-traits">
+    <legend>{{systemFields.innateTraits.label}}</legend>
+    {{!-- Same name for all three: the form collects them into the array field --}}
+    {{#each innateTraits as |trait|}}
+    <input type="text" name="system.innateTraits" value="{{trait}}"
+           aria-label="{{@root.systemFields.innateTraits.label}}" data-lockable {{disabled @root.locked}}>
+    {{/each}}
+  </fieldset>
+
+  <div class="competence-columns">
+    <div class="text-field">
+      <label for="{{rootId}}-competences">{{systemFields.competences.label}}</label>
+      <textarea id="{{rootId}}-competences" name="system.competences" rows="10"
+                data-lockable {{disabled locked}}>{{system.competences}}</textarea>
+    </div>
+
+    <div class="magic">
+      <div class="text-field">
+        <label for="{{rootId}}-resonance-magic">{{systemFields.resonanceMagic.label}}</label>
+        <input id="{{rootId}}-resonance-magic" type="text" name="system.resonanceMagic" value="{{system.resonanceMagic}}"
+               data-lockable {{disabled locked}}>
+      </div>
+      <div class="text-field">
+        <label for="{{rootId}}-resonance-competences">{{systemFields.resonanceCompetences.label}}</label>
+        <textarea id="{{rootId}}-resonance-competences" name="system.resonanceCompetences" rows="7"
+                  data-lockable {{disabled locked}}>{{system.resonanceCompetences}}</textarea>
+      </div>
+    </div>
+  </div>
+</section>

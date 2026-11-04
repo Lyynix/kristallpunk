@@ -5,6 +5,39 @@
     }
   },
   "KRISTALLPUNK": {
+    "StatusTracker": {
+      "Title": "Status-Anzeiger",
+      "Injuries": "Verletzungen",
+      "OverMax": "Über dem Maximum"
+    },
+    "Sheet": {
+      "Protagonist": "Protagonist*innen-Akte",
+      "Name": "Name",
+      "EditMode": "Bearbeitungsmodus umschalten",
+      "Skills": "Fertigkeiten",
+      "Derived": "Abgeleitete Werte",
+      "MaxOf": "{label} max.",
+      "Formula": {
+        "Half": "Max. ÷ 2"
+      },
+      "Breakdown": {
+        "Term": "{label} {value}",
+        "Half": "{label} {value} ÷ 2",
+        "Result": "{terms} = {result}",
+        "WithMod": "{base}, Mod {mod} → {total}"
+      },
+      "Column": {
+        "Value": "Wert",
+        "Mod": "Mod",
+        "Total": "Gesamt"
+      },
+      "Tab": {
+        "character": "Charakter",
+        "competences": "Kompetenzen & Magie",
+        "inventory": "Inventar",
+        "profile": "Steckbrief"
+      }
+    },
     "Domain": {
       "Body": "Körper",
       "Mind": "Geist"
@@ -58,7 +91,16 @@
     },
     "Conviction": {
       "Label": "Innenleben",
-      "Hint": "Von -3 (Zweifel) bis +3 (Zuversicht)."
+      "Hint": "Von -3 (Zweifel) bis +3 (Zuversicht).",
+      "Confidence": "Zuversicht",
+      "Doubt": "Zweifel"
+    },
+    "ConvictionStage": {
+      "Steadfast": "Standfest",
+      "Confident": "Zuversichtlich",
+      "Neutral": "Neutral",
+      "Doubtful": "Zweifelnd",
+      "Desperate": "Verzweifelt"
     },
     "AgeGroup": {
       "Youth": "15-20 Jahre",

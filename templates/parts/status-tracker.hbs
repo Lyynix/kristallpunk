@@ -1,0 +1,48 @@
+{{!-- Status tracker; context from module/apps/status-tracker.mjs prepareStatusTracker().
+      All elements sit in one grid; their position follows from the CSS classes. --}}
+<div class="status-tracker">
+  {{#each domains as |domain|}}
+  <div class="track wounds {{domain.key}}" role="radiogroup" aria-label="{{domain.wounds.label}}">
+    {{#each domain.wounds.cells as |cell|}}
+    <label class="cell">
+      <input type="radio" name="{{domain.wounds.name}}" value="{{cell.value}}" {{checked cell.checked}}>
+      <span>{{cell.value}}</span>
+    </label>
+    {{/each}}
+  </div>
+
+  {{!-- Stamina as one bar; each point is a segment, labeled only at the current value and the maximum --}}
+  <div class="track stamina {{domain.key}}" role="radiogroup" aria-label="{{domain.stamina.label}}">
+    {{!-- One fill over all segments, so it can slide when the value changes --}}
+    <span class="fill" style="left: {{domain.stamina.fill.left}}%; width: {{domain.stamina.fill.width}}%"
+          data-domain="{{domain.key}}" data-left="{{domain.stamina.fill.left}}" data-width="{{domain.stamina.fill.width}}"></span>
+    {{#each domain.stamina.cells as |cell|}}
+    <label class="cell{{#if cell.overMax}} over-max{{/if}}{{#if cell.major}} major{{/if}}"
+           data-tooltip="{{cell.value}}{{#if cell.overMax}} · {{localize "KRISTALLPUNK.StatusTracker.OverMax"}}{{/if}}">
+      <input type="radio" name="{{domain.stamina.name}}" value="{{cell.value}}" aria-label="{{cell.value}}" {{checked cell.checked}}>
+      {{#if cell.number includeZero=true}}<span class="number">{{cell.number}}</span>{{/if}}
+    </label>
+    {{/each}}
+  </div>
+
+  <div class="track-label wounds {{domain.key}}">{{domain.wounds.label}}</div>
+  <div class="track-label stamina {{domain.key}}">{{domain.stamina.label}}</div>
+  {{/each}}
+
+  <div class="track-label wounds center injuries">{{localize "KRISTALLPUNK.StatusTracker.Injuries"}}</div>
+  <div class="track-label stamina center title">{{localize "KRISTALLPUNK.StatusTracker.Title"}}</div>
+
+  <div class="track-label conviction-label confidence">{{localize "KRISTALLPUNK.Conviction.Confidence"}}</div>
+  <div class="track-label conviction-label center conviction-title">{{conviction.label}}</div>
+  <div class="track-label conviction-label doubt">{{localize "KRISTALLPUNK.Conviction.Doubt"}}</div>
+
+  <div class="track conviction" role="radiogroup" aria-label="{{conviction.label}}">
+    {{#each conviction.cells as |cell|}}
+    <label class="cell sign-{{cell.sign}}" data-tooltip="{{cell.stage}}">
+      {{!-- "../" because inside #each the context is the cell, not the tracker --}}
+      <input type="radio" name="{{../conviction.name}}" value="{{cell.value}}" {{checked cell.checked}}>
+      <span>{{cell.display}}</span>
+    </label>
+    {{/each}}
+  </div>
+</div>
