@@ -85,7 +85,17 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
         required: true, nullable: false, integer: true,
         min: limits.conviction.min, max: limits.conviction.max, initial: 0
       }),
-      derived: new SchemaField(derived)
+      derived: new SchemaField(derived),
+
+      // Entered manually until armor and amulet items provide them
+      armor: new NumberField({
+        required: true, nullable: false, integer: true,
+        min: limits.armor.min, max: limits.armor.max, initial: 0
+      }),
+      ward: new NumberField({
+        required: true, nullable: false, integer: true,
+        min: limits.ward.min, max: limits.ward.max, initial: 0
+      })
     };
   }
 

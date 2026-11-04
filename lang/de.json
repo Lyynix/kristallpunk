@@ -60,6 +60,14 @@
       "Label": "Innenleben",
       "Hint": "Von −3 (Zweifel) bis +3 (Zuversicht)."
     },
+    "Armor": {
+      "Label": "Rüstung",
+      "Hint": "Körperschutz von 1 bis 3, verhindert Körper-Schaden."
+    },
+    "Ward": {
+      "Label": "Schutz",
+      "Hint": "Geist-Schutz von 1 bis 3, verhindert Geist-Schaden."
+    },
     "Protagonist": {
       "FIELDS": {
         "age": { "label": "Alter" },
@@ -185,7 +193,9 @@
           "insight": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
           "toughness": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
           "resilience": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } }
-        }
+        },
+        "armor": { "label": "KRISTALLPUNK.Armor.Label", "hint": "KRISTALLPUNK.Armor.Hint" },
+        "ward": { "label": "KRISTALLPUNK.Ward.Label", "hint": "KRISTALLPUNK.Ward.Hint" }
       }
     },
     "Mod": {
