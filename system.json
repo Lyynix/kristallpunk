@@ -34,6 +34,8 @@
       }
     }
   },
+  "primaryTokenAttribute": "stamina.body",
+  "secondaryTokenAttribute": "stamina.mind",
   "grid": {
     "distance": 1,
     "units": "m"

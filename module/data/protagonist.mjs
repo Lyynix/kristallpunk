@@ -132,7 +132,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * New protagonists start with full stamina, unless a value was given explicitly.
+   * New protagonists start with full stamina and a player-character token,
+   * unless values were given explicitly.
    * @override
    */
   async _preCreate(data, options, user) {
@@ -143,6 +144,17 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
         changes[`system.stamina.${domain}.value`] = Math.max(0, this.#staminaMax(domain));
       }
     }
+
+    // Linked to the actor, friendly, bars visible to the owners
+    const tokenDefaults = {
+      actorLink: true,
+      disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY,
+      displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER
+    };
+    for ( const [key, value] of Object.entries(tokenDefaults) ) {
+      if ( data.prototypeToken?.[key] === undefined ) changes[`prototypeToken.${key}`] = value;
+    }
+
     this.parent.updateSource(changes);
   }
 

@@ -14,4 +14,13 @@ Hooks.once("init", () => {
 
   CONFIG.KRISTALLPUNK = KRISTALLPUNK;
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
+
+  // Token resources. Listed explicitly because the stamina maximum is derived, not stored,
+  // so Foundry cannot detect the bars from the schema on its own.
+  CONFIG.Actor.trackableAttributes = {
+    protagonist: {
+      bar: ["stamina.body", "stamina.mind"],
+      value: ["wounds.body", "wounds.mind", "conviction", "armor", "ward"]
+    }
+  };
 });
