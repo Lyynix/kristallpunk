@@ -1,0 +1,34 @@
+# Runs the rule tests on every pull request and on every push to main.
+# No dependencies to install: the tests use Node's built-in test runner.
+
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check JSON files
+        run: |
+          for file in system.json lang/*.json; do
+            node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$file" \
+              || { echo "::error file=$file::Invalid JSON"; exit 1; }
+          done
+
+      - name: Run tests
+        run: npm test
