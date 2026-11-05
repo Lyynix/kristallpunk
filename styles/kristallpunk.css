@@ -656,3 +656,75 @@
 .kristallpunk.protagonist prose-mirror[data-locked] .toggle {
   display: none;
 }
+
+/* -------------------------------------------- */
+/*  Check dialog                                */
+/* -------------------------------------------- */
+
+.kristallpunk.check-dialog .window-content {
+  gap: 0.75rem;
+}
+
+.kristallpunk.check-dialog .check-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kristallpunk.check-dialog .grades {
+  display: flex;
+  justify-content: space-around;
+}
+
+.kristallpunk.check-dialog .grade {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.kristallpunk.check-dialog .modifiers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kristallpunk.check-dialog .modifier-row {
+  display: grid;
+  grid-template-columns: 6rem 3.5rem 1fr 2rem;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.kristallpunk.check-dialog .modifier-row input[type="number"] {
+  text-align: center;
+}
+
+.kristallpunk.check-dialog .modifier-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.kristallpunk.check-dialog .check-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.3));
+  border-radius: 4px;
+}
+
+.kristallpunk.check-dialog .check-preview .dice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-20, 1.25rem);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.kristallpunk.check-dialog .check-preview .details {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-12);
+}

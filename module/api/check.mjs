@@ -6,6 +6,7 @@
 
 import * as checkRules from "../rules/check.mjs";
 import * as costRules from "../rules/cost.mjs";
+import CheckDialog from "../apps/check-dialog.mjs";
 
 /**
  * @typedef {object} CheckModifier
@@ -24,22 +25,22 @@ import * as costRules from "../rules/cost.mjs";
  * @param {CheckModifier[]} [options.modifiers]   Individual bonuses and penalties.
  * @param {number} [options.helpers=0]            Number of helpers, 0 to 3; each adds +1.
  * @param {string} [options.messageMode]          Chat visibility; defaults to the core setting.
+ * @param {boolean} [options.dialog=true]         Show the check dialog, prefilled with these options.
+ *                                                Pass false to roll directly, e.g. from a macro.
  * @returns {Promise<{roll: Roll, pool: object, result: object, cost: object, message: ChatMessage}|null>}
- *   null if the check could not be rolled.
+ *   null if the check could not be rolled or the dialog was closed.
  */
-export async function rollCheck(actor, key, { grade = "daring", modifiers = [], helpers = 0, messageMode } = {}) {
+export async function rollCheck(actor, key, options = {}) {
+  let {
+    grade = "daring", modifiers = [], helpers = 0,
+    messageMode = game.settings.get("core", "messageMode"), dialog = true
+  } = options;
   if ( !actor?.isOwner ) {
     ui.notifications.warn("KRISTALLPUNK.Check.Warning.NotOwner", { localize: true });
     return null;
   }
   const target = resolveTarget(actor, key);
   if ( !target ) throw new Error(`Unknown check ${key}`);
-
-  // Everything that changes the dice, one by one; helpers are +1 each
-  const allModifiers = [...modifiers];
-  for ( let i = 0; i < helpers; i++ ) {
-    allModifiers.push({ value: 1, label: game.i18n.localize("KRISTALLPUNK.Check.Helper") });
-  }
 
   const system = actor.system;
   const cost = costRules.stamina({
@@ -51,6 +52,20 @@ export async function rollCheck(actor, key, { grade = "daring", modifiers = [], 
   if ( !cost.possible ) {
     ui.notifications.warn("KRISTALLPUNK.Check.Warning.Unconscious", { localize: true });
     return null;
+  }
+
+  if ( dialog ) {
+    const choice = await CheckDialog.wait({
+      label: target.label, base: target.base, grade, modifiers, helpers, messageMode
+    });
+    if ( !choice ) return null;
+    ({ grade, modifiers, helpers, messageMode } = choice);
+  }
+
+  // Everything that changes the dice, one by one; helpers are +1 each
+  const allModifiers = [...modifiers];
+  for ( let i = 0; i < helpers; i++ ) {
+    allModifiers.push({ value: 1, label: game.i18n.localize("KRISTALLPUNK.Check.Helper") });
   }
 
   const pool = checkRules.pool({ base: target.base, modifiers: allModifiers.map(modifier => modifier.value) });

@@ -5,6 +5,28 @@
     }
   },
   "KRISTALLPUNK": {
+    "CheckDialog": {
+      "Title": "Probe: {label}",
+      "Grade": "Grad",
+      "Modifiers": "Boni und Mali",
+      "NoModifiers": "Keine",
+      "Type": "Art",
+      "Bonus": "Bonus",
+      "Penalty": "Malus",
+      "Amount": "Würfel",
+      "Reason": "Grund (optional)",
+      "Remove": "Entfernen",
+      "Helpers": "Helfer",
+      "Visibility": "Sichtbarkeit",
+      "Roll": "Würfeln",
+      "Preview": {
+        "Dice": "{count} Würfel",
+        "Base": "Grundwert {value}",
+        "Modifier": "Modifikator {value}",
+        "Capped": "Regel der 3: {raw} wird zu {value}",
+        "Minimum": "Regel der 1: mindestens ein Würfel"
+      }
+    },
     "Check": {
       "Grade": {
         "Carefree": "sorglos",
