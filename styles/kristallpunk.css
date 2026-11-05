@@ -411,6 +411,50 @@
   font-weight: bold;
 }
 
+/* Rollable values: the number sits on a faded d6, which gets stronger on hover and focus.
+   Neutral for now; domain colors may follow once the authors define colors for the attributes. */
+.kristallpunk.protagonist button.rollable {
+  position: relative;
+  width: 2rem;
+  height: 1.5rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  font-weight: bold;
+  line-height: 1.5rem;
+  cursor: pointer;
+}
+
+.kristallpunk.protagonist button.rollable .die {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  opacity: 0.2;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.kristallpunk.protagonist button.rollable .number {
+  position: relative;
+}
+
+.kristallpunk.protagonist button.rollable:hover .die,
+.kristallpunk.protagonist button.rollable:focus-visible .die {
+  opacity: 0.45;
+}
+
+.kristallpunk.protagonist button.rollable:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
 /* -------------------------------------------- */
 /*  Tab: competences & magic                    */
 /* -------------------------------------------- */

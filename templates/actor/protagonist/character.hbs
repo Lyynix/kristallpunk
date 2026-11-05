@@ -10,6 +10,12 @@
         <input type="number" name="{{tile.input.name}}" value="{{tile.input.value}}"
                min="{{tile.input.min}}" max="{{tile.input.max}}" step="1" aria-label="{{tile.label}}"
                data-lockable {{disabled @root.locked}}>
+        {{else if tile.check}}
+        {{!-- A button so the check can be rolled by click and by keyboard --}}
+        <button type="button" class="value rollable" data-action="rollCheck" data-check="{{tile.check}}"
+                data-tooltip="{{tile.breakdown}}">
+          <i class="fa-solid fa-dice-d6 die" inert></i><span class="number">{{tile.value}}</span>
+        </button>
         {{else}}
         <span class="value" data-tooltip="{{tile.breakdown}}">{{tile.value}}</span>
         {{/if}}
@@ -59,7 +65,10 @@
                  aria-label="{{localize "KRISTALLPUNK.Mod.Label"}}" data-tooltip="{{localize "KRISTALLPUNK.Mod.Hint"}}"
                  data-lockable {{disabled @root.locked}}>
         </span>
-        <span class="total" data-tooltip="{{skill.breakdown}}">{{skill.total}}</span>
+        <button type="button" class="total rollable" data-action="rollCheck" data-check="{{skill.key}}"
+                data-tooltip="{{skill.breakdown}}">
+          <i class="fa-solid fa-dice-d6 die" inert></i><span class="number">{{skill.total}}</span>
+        </button>
       </div>
       {{/each}}
     </div>
