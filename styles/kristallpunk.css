@@ -743,3 +743,72 @@
 .kristallpunk.check-dialog .cost .warning {
   font-weight: bold;
 }
+
+/* -------------------------------------------- */
+/*  Check chat card                             */
+/* -------------------------------------------- */
+
+.kristallpunk.check-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kristallpunk.check-card .check-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.kristallpunk.check-card .check-label {
+  font-weight: bold;
+}
+
+.kristallpunk.check-card .check-grade {
+  font-style: italic;
+}
+
+.kristallpunk.check-card .check-dice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.6rem;
+}
+
+.kristallpunk.check-card .die.success {
+  color: var(--color-level-success);
+}
+
+.kristallpunk.check-card .die.failure {
+  color: var(--color-level-error);
+}
+
+.kristallpunk.check-card .check-outcome {
+  margin: 0;
+}
+
+.kristallpunk.check-card .critical {
+  display: block;
+  font-weight: bold;
+}
+
+.kristallpunk.check-card .critical.success {
+  color: var(--color-level-success);
+}
+
+.kristallpunk.check-card .critical.failure {
+  color: var(--color-level-error);
+}
+
+.kristallpunk.check-card .check-pool summary {
+  cursor: pointer;
+}
+
+.kristallpunk.check-card .check-pool ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}

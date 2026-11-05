@@ -4,9 +4,9 @@
  * Available as game.kristallpunk.api.rollCheck.
  */
 
-import * as checkRules from "../rules/check.mjs";
 import * as costRules from "../rules/cost.mjs";
 import CheckDialog from "../apps/check-dialog.mjs";
+import CheckMessageData from "../data/check-message.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
 
 /**
@@ -71,23 +71,25 @@ export async function rollCheck(actor, key, options = {}) {
     payments = choice.cost;
   }
 
-  // Everything that changes the dice, one by one; helpers are +1 each
-  const allModifiers = [...modifiers];
-  for ( let i = 0; i < helpers; i++ ) {
-    allModifiers.push({ value: 1, label: game.i18n.localize("KRISTALLPUNK.Check.Helper") });
-  }
-
-  const pool = checkRules.pool({ base: target.base, modifiers: allModifiers.map(modifier => modifier.value) });
+  // The message data keeps bonuses, penalties and helpers apart; it nets them via rules.check.pool
+  const messageData = {
+    actor: actor.uuid, check: key, grade, base: target.base,
+    modifiers: modifiers.map(({ value, label = "" }) => ({ value, label })), helpers
+  };
+  const data = new CheckMessageData(messageData);
+  const pool = data.pool;
   const roll = await new Roll(`${pool.dice}d6`).evaluate();
-  const faces = roll.dice[0].results.filter(result => result.active).map(result => result.result);
-  const result = checkRules.evaluate({ faces, grade });
 
-  const message = await roll.toMessage({
+  const message = await ChatMessage.implementation.create({
+    type: "check",
     speaker: ChatMessage.implementation.getSpeaker({ actor }),
-    flavor: summary(target.label, grade, result)
+    rolls: [roll],
+    sound: CONFIG.sounds.dice,
+    system: messageData
   }, { messageMode });
+  if ( !message ) return null;
 
-  return { roll, pool, result, cost: { ...cost, payments, auto: autoCost }, message };
+  return { roll, pool, result: message.system.result, cost: { ...cost, payments, auto: autoCost }, message };
 }
 
 /**
@@ -137,24 +139,4 @@ function resolveTarget(actor, key) {
     return { base: actor.system.derived[key].value, domain: null, label: game.i18n.localize(derived[key].label) };
   }
   return null;
-}
-
-/**
- * One line for the chat until the check card exists (#14),
- * e.g. "Athletik · gewagt · 2 Erfolge · gelungen".
- * @param {string} label
- * @param {string} grade
- * @param {object} result  From rules.check.evaluate.
- * @returns {string}
- */
-function summary(label, grade, result) {
-  const parts = [
-    label,
-    game.i18n.localize(CONFIG.KRISTALLPUNK.checkGrades[grade].label),
-    game.i18n.format("KRISTALLPUNK.Check.Successes", { count: result.successes }),
-    game.i18n.localize(result.success ? "KRISTALLPUNK.Check.Success" : "KRISTALLPUNK.Check.Failure")
-  ];
-  if ( result.criticalSuccess ) parts.push(game.i18n.localize("KRISTALLPUNK.Check.CriticalSuccess"));
-  if ( result.criticalFailure ) parts.push(game.i18n.localize("KRISTALLPUNK.Check.CriticalFailure"));
-  return parts.join(" · ");
 }

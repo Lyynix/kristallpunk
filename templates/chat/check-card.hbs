@@ -1,0 +1,23 @@
+<div class="kristallpunk check-card">
+  <header class="check-title">
+    <span class="check-label">{{label}}</span>
+    <span class="check-grade">{{localize grade}}</span>
+  </header>
+  <ol class="check-dice">
+    {{#each dice as |die|}}
+    <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}">
+      <i class="{{die.icon}}" inert></i>
+    </li>
+    {{/each}}
+  </ol>
+  <p class="check-outcome {{outcome}}">
+    {{localize "KRISTALLPUNK.Check.Successes" count=result.successes}} ·
+    <strong>{{#if result.success}}{{localize "KRISTALLPUNK.Check.Success"}}{{else}}{{localize "KRISTALLPUNK.Check.Failure"}}{{/if}}</strong>
+    {{#if result.criticalSuccess}}<span class="critical success">{{localize "KRISTALLPUNK.Check.CriticalSuccess"}}</span>{{/if}}
+    {{#if result.criticalFailure}}<span class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</span>{{/if}}
+  </p>
+  <details class="check-pool">
+    <summary>{{localize "KRISTALLPUNK.CheckDialog.Preview.Dice" count=pool.dice}}</summary>
+    <ul>{{#each pool.lines as |line|}}<li>{{line}}</li>{{/each}}</ul>
+  </details>
+</div>
