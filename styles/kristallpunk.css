@@ -728,3 +728,18 @@
   list-style: none;
   font-size: var(--font-size-12);
 }
+
+.kristallpunk.check-dialog .cost .form-group input {
+  max-width: 4rem;
+  text-align: center;
+}
+
+.kristallpunk.check-dialog .cost .hint,
+.kristallpunk.check-dialog .cost .warning {
+  margin: 0;
+  font-size: var(--font-size-12);
+}
+
+.kristallpunk.check-dialog .cost .warning {
+  font-weight: bold;
+}

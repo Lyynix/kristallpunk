@@ -7,6 +7,7 @@ import { KRISTALLPUNK } from "./module/config.mjs";
 import ProtagonistData from "./module/data/protagonist.mjs";
 import * as rules from "./module/rules/_module.mjs";
 import * as api from "./module/api/_module.mjs";
+import { registerSettings } from "./module/settings.mjs";
 import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 
@@ -16,6 +17,7 @@ Hooks.once("init", () => {
   game.kristallpunk = { rules, api };
 
   CONFIG.KRISTALLPUNK = KRISTALLPUNK;
+  registerSettings();
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
 
   // Token resources. Listed explicitly because the stamina maximum is derived, not stored,

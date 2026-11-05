@@ -42,6 +42,25 @@
     <select id="{{rootId}}-helpers" name="helpers">{{selectOptions helperOptions selected=helpers}}</select>
   </div>
 
+  {{!-- Stamina cost, prefilled and editable; applied with the chat card (#14) --}}
+  {{#if cost}}
+  <fieldset class="cost">
+    <legend>{{localize "KRISTALLPUNK.CheckDialog.Cost.Label"}}</legend>
+    {{#each cost.fields as |field|}}
+    <div class="form-group">
+      <label for="{{@root.rootId}}-cost-{{field.domain}}">{{field.label}}</label>
+      <input id="{{@root.rootId}}-cost-{{field.domain}}" type="number" name="cost.{{field.domain}}"
+             value="{{field.amount}}" min="0" step="1">
+    </div>
+    {{/each}}
+    {{#if cost.breakdown}}<p class="hint">{{cost.breakdown}}</p>{{/if}}
+    {{#if cost.strained}}<p class="hint">{{localize "KRISTALLPUNK.CheckDialog.Cost.Strained"}}</p>{{/if}}
+    {{#if cost.unconsciousAfter}}
+    <p class="warning"><i class="fa-solid fa-triangle-exclamation" inert></i> {{localize "KRISTALLPUNK.CheckDialog.Cost.UnconsciousAfter"}}</p>
+    {{/if}}
+  </fieldset>
+  {{/if}}
+
   <div class="form-group">
     <label for="{{rootId}}-message-mode">{{localize "KRISTALLPUNK.CheckDialog.Visibility"}}</label>
     <select id="{{rootId}}-message-mode" name="messageMode">

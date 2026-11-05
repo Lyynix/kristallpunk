@@ -25,13 +25,19 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
    * @param {{value: number, label?: string}[]} config.modifiers  Preselected bonuses and penalties.
    * @param {number} config.helpers     Preselected number of helpers.
    * @param {string} config.messageMode Preselected chat visibility.
+   * @param {object} config.cost        Stamina cost: `fields` (one per paying stamina, prefilled),
+   *                                    `parts` for the breakdown, `strained` and `unconsciousAfter`.
    * @param {Function} config.resolve   Receives the result.
    */
-  constructor({ label, base, grade, modifiers, helpers, messageMode, resolve, ...options }) {
+  constructor({ label, base, grade, modifiers, helpers, messageMode, cost, resolve, ...options }) {
     super(options);
     this.#label = label;
     this.#base = base;
-    this.#state = { grade, modifiers: modifiers.map(modifier => ({ ...modifier })), helpers, messageMode };
+    this.#cost = cost;
+    this.#state = {
+      grade, modifiers: modifiers.map(modifier => ({ ...modifier })), helpers, messageMode,
+      cost: cost.fields.map(({ domain, amount }) => ({ domain, amount }))
+    };
     this.#resolve = resolve;
   }
 
@@ -57,7 +63,7 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
    * Open the dialog and wait for the choices.
    * @param {object} config  See the constructor, without `resolve`.
    * @returns {Promise<{grade: string, modifiers: {value: number, label: string}[], helpers: number,
-   *   messageMode: string}|null>}
+   *   messageMode: string, cost: {domain: string, amount: number}[]}|null>}
    */
   static wait(config) {
     return new Promise(resolve => new CheckDialog({ ...config, resolve }).render({ force: true }));
@@ -65,6 +71,7 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
 
   #label;
   #base;
+  #cost;
   #state;
   #resolve;
 
@@ -92,8 +99,28 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
       helperOptions: Object.fromEntries(Array.from({ length: MAX_HELPERS + 1 }, (_, n) => [n, String(n)])),
       messageMode,
       messageModes: Object.fromEntries(MESSAGE_MODES.map(mode => [mode, CONFIG.ChatMessage.modes[mode].label])),
+      cost: this.#prepareCost(),
       preview: this.#preview(),
       buttons: [{ type: "submit", icon: "fa-solid fa-dice-d6", label: "KRISTALLPUNK.CheckDialog.Roll" }]
+    };
+  }
+
+  /**
+   * Cost fields with their current amounts, the breakdown and warnings.
+   * @returns {{fields: object[], breakdown: string, strained: boolean, unconsciousAfter: boolean}|null}
+   */
+  #prepareCost() {
+    if ( !this.#cost.fields.length ) return null;
+    const breakdown = this.#cost.parts.map(({ key, value }) => game.i18n.format(`KRISTALLPUNK.CheckDialog.Cost.Part.${key}`, {
+      value: key === "base" || key === "strain" ? value : `+${value}`
+    })).join(" · ");
+    return {
+      fields: this.#cost.fields.map(({ domain, label }) => ({
+        domain, label, amount: this.#state.cost.find(entry => entry.domain === domain)?.amount ?? 0
+      })),
+      breakdown,
+      strained: this.#cost.strained,
+      unconsciousAfter: this.#cost.unconsciousAfter
     };
   }
 
@@ -140,7 +167,10 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
         return { value: row.type === "penalty" ? -amount : amount, label: row.label?.trim() ?? "" };
       }),
       helpers: Number(data.helpers ?? this.#state.helpers),
-      messageMode: data.messageMode ?? this.#state.messageMode
+      messageMode: data.messageMode ?? this.#state.messageMode,
+      cost: this.#state.cost.map(({ domain }) => ({
+        domain, amount: Math.max(0, Math.trunc(Number(data.cost?.[domain]) || 0))
+      }))
     };
   }
 
@@ -203,8 +233,11 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
    */
   static async #onSubmit() {
     this.#readForm();
-    const { grade, modifiers, helpers, messageMode } = this.#state;
-    this.#resolve?.({ grade, modifiers: modifiers.filter(modifier => modifier.value !== 0), helpers, messageMode });
+    const { grade, modifiers, helpers, messageMode, cost } = this.#state;
+    this.#resolve?.({
+      grade, modifiers: modifiers.filter(modifier => modifier.value !== 0), helpers, messageMode,
+      cost: cost.filter(payment => payment.amount > 0)
+    });
     this.#resolve = null;
   }
 }

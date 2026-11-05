@@ -7,6 +7,7 @@
 import * as checkRules from "../rules/check.mjs";
 import * as costRules from "../rules/cost.mjs";
 import CheckDialog from "../apps/check-dialog.mjs";
+import { SYSTEM_ID } from "../settings.mjs";
 
 /**
  * @typedef {object} CheckModifier
@@ -17,7 +18,8 @@ import CheckDialog from "../apps/check-dialog.mjs";
 /**
  * Roll a check for a skill or a derived value.
  * Bonuses and penalties are passed on one by one; only rules.check.pool nets them and applies the rule of 3.
- * The stamina cost is computed but not yet applied (see #14).
+ * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden,
+ * but is not yet applied (see #14).
  * @param {Actor} actor
  * @param {string} key                            A skill key (e.g. "athletics") or derived value key (e.g. "courage").
  * @param {object} [options]
@@ -25,6 +27,7 @@ import CheckDialog from "../apps/check-dialog.mjs";
  * @param {CheckModifier[]} [options.modifiers]   Individual bonuses and penalties.
  * @param {number} [options.helpers=0]            Number of helpers, 0 to 3; each adds +1.
  * @param {string} [options.messageMode]          Chat visibility; defaults to the core setting.
+ * @param {{domain: string, amount: number}[]} [options.cost]  Stamina payments overriding the computed cost.
  * @param {boolean} [options.dialog=true]         Show the check dialog, prefilled with these options.
  *                                                Pass false to roll directly, e.g. from a macro.
  * @returns {Promise<{roll: Roll, pool: object, result: object, cost: object, message: ChatMessage}|null>}
@@ -54,12 +57,18 @@ export async function rollCheck(actor, key, options = {}) {
     return null;
   }
 
+  // Payments to make: given, computed, or none if the cost is not calculated automatically
+  const autoCost = game.settings.get(SYSTEM_ID, "autoCost");
+  let payments = options.cost ?? (autoCost ? cost.payments : []);
+
   if ( dialog ) {
     const choice = await CheckDialog.wait({
-      label: target.label, base: target.base, grade, modifiers, helpers, messageMode
+      label: target.label, base: target.base, grade, modifiers, helpers, messageMode,
+      cost: costForDialog(actor, target, cost, payments, autoCost)
     });
     if ( !choice ) return null;
     ({ grade, modifiers, helpers, messageMode } = choice);
+    payments = choice.cost;
   }
 
   // Everything that changes the dice, one by one; helpers are +1 each
@@ -78,7 +87,35 @@ export async function rollCheck(actor, key, options = {}) {
     flavor: summary(target.label, grade, result)
   }, { messageMode });
 
-  return { roll, pool, result, cost, message };
+  return { roll, pool, result, cost: { ...cost, payments, auto: autoCost }, message };
+}
+
+/**
+ * Cost section of the check dialog: one field per paying stamina, with the breakdown and warnings.
+ * Without automatic calculation, both stamina get an empty field to fill in.
+ * Derived values cost nothing and get no fields.
+ * @param {Actor} actor
+ * @param {{domain: string|null}} target
+ * @param {object} cost             From rules.cost.stamina.
+ * @param {{domain: string, amount: number}[]} payments  Prefilled payments.
+ * @param {boolean} autoCost
+ * @returns {{fields: {domain: string, label: string, amount: number}[], parts: object[],
+ *   strained: boolean, unconsciousAfter: boolean}}
+ */
+function costForDialog(actor, target, cost, payments, autoCost) {
+  if ( target.domain === null ) return { fields: [], parts: [], strained: false, unconsciousAfter: false };
+  const label = domain => actor.system.schema.fields.stamina.fields[domain].fields.value.label;
+  const domains = autoCost ? payments.map(payment => payment.domain) : Object.keys(CONFIG.KRISTALLPUNK.domains);
+  return {
+    fields: domains.map(domain => ({
+      domain,
+      label: label(domain),
+      amount: payments.find(payment => payment.domain === domain)?.amount ?? 0
+    })),
+    parts: autoCost ? cost.parts : [],
+    strained: autoCost && cost.strained,
+    unconsciousAfter: autoCost && cost.unconsciousAfter
+  };
 }
 
 /**
