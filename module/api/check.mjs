@@ -19,7 +19,8 @@ import { SYSTEM_ID } from "../settings.mjs";
  * Roll a check for a skill or a derived value.
  * Bonuses and penalties are passed on one by one; only rules.check.pool nets them and applies the rule of 3.
  * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden.
- * It is paid right away if the "autoApplyCost" setting is on; otherwise the card records it as open (#14).
+ * It is paid right away if the "autoApplyCost" setting is on; otherwise the card keeps it open
+ * and offers a button to pay it (#14).
  * @param {Actor} actor
  * @param {string} key                            A skill key (e.g. "athletics") or derived value key (e.g. "courage").
  * @param {object} [options]

@@ -27,6 +27,11 @@
        aria-label="{{localize "KRISTALLPUNK.Check.Cost.Open"}}"></i>
     {{/if}}
   </p>
+  {{#if cost.canApply}}
+  <button type="button" class="apply-cost" data-action="applyCost">
+    <i class="fa-solid fa-check" inert></i> {{localize "KRISTALLPUNK.Check.Cost.Apply"}}
+  </button>
+  {{/if}}
   {{/if}}
   <details class="check-pool">
     <summary>{{localize "KRISTALLPUNK.CheckDialog.Preview.Dice" count=pool.dice}}</summary>

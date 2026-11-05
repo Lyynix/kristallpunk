@@ -5,6 +5,7 @@
  */
 
 import * as checkRules from "../rules/check.mjs";
+import { payStamina } from "../api/check.mjs";
 
 const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
 
@@ -66,6 +67,38 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     return checkRules.evaluate({ faces: this.faces, grade: this.grade });
   }
 
+  /**
+   * Whether the current user may pay the open cost: only the one who rolled and the GM.
+   * @type {boolean}
+   */
+  get canApplyCost() {
+    return !this.applied && (this.cost.length > 0) && (game.user.isGM || this.parent.isAuthor);
+  }
+
+  /**
+   * Pay the open stamina cost once. The card is marked as applied before paying, so a second click,
+   * here or on another client, finds it applied and does nothing.
+   * @returns {Promise<boolean>}  Whether the cost was paid by this call.
+   */
+  async applyCost() {
+    if ( !this.canApplyCost ) return false;
+    const actor = await fromUuid(this.actor);
+    if ( !actor?.isOwner ) {
+      ui.notifications.warn("KRISTALLPUNK.Check.Warning.CannotApply", { localize: true });
+      return false;
+    }
+    const message = this.parent;
+    await message.update({ "system.applied": true });
+    try {
+      const paid = await payStamina(actor, this.cost);
+      await message.update({ "system.cost": paid });
+    } catch (err) {
+      await message.update({ "system.applied": false });
+      throw err;
+    }
+    return true;
+  }
+
   /** Label of what was checked, e.g. "Athletik". */
   get label() {
     const { skills, derived } = CONFIG.KRISTALLPUNK;
@@ -92,7 +125,8 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         payments: this.cost.map(({ domain, amount }) => game.i18n.format("KRISTALLPUNK.Check.Cost.Payment", {
           stamina: game.i18n.localize(`KRISTALLPUNK.Stamina.${domain.capitalize()}`), amount
         })).join(", "),
-        applied: this.applied
+        applied: this.applied,
+        canApply: this.canApplyCost
       } : null,
       pool: {
         dice: pool.dice,
@@ -120,7 +154,12 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   static onRenderChatMessageHTML(message, html) {
     if ( (message.type !== "check") || !message.isContentVisible ) return;
     const content = html.querySelector(".message-content");
-    if ( content ) content.innerHTML = message.system.renderCard();
+    if ( !content ) return;
+    content.innerHTML = message.system.renderCard();
+    content.querySelector("[data-action=applyCost]")?.addEventListener("click", event => {
+      event.currentTarget.disabled = true;
+      message.system.applyCost();
+    });
   }
 }
 

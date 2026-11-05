@@ -65,11 +65,13 @@
         "Label": "Ausdauerkosten",
         "Payment": "{stamina} {amount}",
         "Applied": "abgezogen",
-        "Open": "noch nicht abgezogen"
+        "Open": "noch nicht abgezogen",
+        "Apply": "Ausdauer abziehen"
       },
       "Warning": {
         "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
-        "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen."
+        "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen.",
+        "CannotApply": "Du darfst die Ausdauer dieser Figur nicht ändern."
       }
     },
     "StatusTracker": {
