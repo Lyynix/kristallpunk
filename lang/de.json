@@ -5,6 +5,23 @@
     }
   },
   "KRISTALLPUNK": {
+    "Check": {
+      "Grade": {
+        "Carefree": "sorglos",
+        "Daring": "gewagt",
+        "Fateful": "verhängnisvoll"
+      },
+      "Helper": "Helfer",
+      "Successes": "{count} Erfolge",
+      "Success": "gelungen",
+      "Failure": "misslungen",
+      "CriticalSuccess": "kritischer Erfolg",
+      "CriticalFailure": "kritischer Misserfolg",
+      "Warning": {
+        "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
+        "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen."
+      }
+    },
     "StatusTracker": {
       "Title": "Status-Anzeiger",
       "Injuries": "Verletzungen",

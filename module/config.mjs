@@ -67,6 +67,13 @@ export const KRISTALLPUNK = {
     resilience: { label: "KRISTALLPUNK.Derived.Resilience", domain: "mind", halfStaminaMax: true }
   },
 
+  /** Labels of the check grades; how many sixes they need is part of the rules (rules/check.mjs). */
+  checkGrades: {
+    carefree: { label: "KRISTALLPUNK.Check.Grade.Carefree" },
+    daring: { label: "KRISTALLPUNK.Check.Grade.Daring" },
+    fateful: { label: "KRISTALLPUNK.Check.Grade.Fateful" }
+  },
+
   /** Labels of the conviction stages; the value ranges are part of the rules (rules/conviction.mjs). */
   convictionStages: {
     steadfast: { label: "KRISTALLPUNK.ConvictionStage.Steadfast" },
