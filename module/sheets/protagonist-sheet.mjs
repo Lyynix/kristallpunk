@@ -16,7 +16,8 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     window: { resizable: true },
     form: { submitOnChange: true },
     actions: {
-      toggleEditMode: ProtagonistSheet.#onToggleEditMode
+      toggleEditMode: ProtagonistSheet.#onToggleEditMode,
+      rollCheck: ProtagonistSheet.#onRollCheck
     }
   };
 
@@ -148,6 +149,8 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       }
       return {
         key,
+        // Derived values can be rolled as checks
+        check: key,
         label: game.i18n.localize(config.label),
         value,
         formula,
@@ -319,6 +322,16 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   static #onToggleEditMode() {
     this.#editMode = !this.#editMode;
     this.#applyEditMode();
+  }
+
+  /**
+   * Roll a check for the clicked skill or derived value.
+   * @this {ProtagonistSheet}
+   * @param {PointerEvent} event
+   * @param {HTMLElement} target  Element carrying `data-check` with the skill or derived value key.
+   */
+  static #onRollCheck(event, target) {
+    game.kristallpunk.api.rollCheck(this.actor, target.dataset.check);
   }
 }
 

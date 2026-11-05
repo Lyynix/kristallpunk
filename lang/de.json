@@ -5,6 +5,63 @@
     }
   },
   "KRISTALLPUNK": {
+    "CheckDialog": {
+      "Title": "Probe: {label}",
+      "Grade": "Grad",
+      "Modifiers": "Boni und Mali",
+      "NoModifiers": "Keine",
+      "Type": "Art",
+      "Bonus": "Bonus",
+      "Penalty": "Malus",
+      "Amount": "Würfel",
+      "Reason": "Grund (optional)",
+      "Remove": "Entfernen",
+      "Helpers": "Helfer",
+      "Visibility": "Sichtbarkeit",
+      "Roll": "Würfeln",
+      "Cost": {
+        "Label": "Ausdauerkosten",
+        "Strained": "Anstrengen: Die passende Ausdauer ist leer oder reicht nicht, die andere zahlt.",
+        "UnconsciousAfter": "Nach dieser Probe ist die Figur bewusstlos.",
+        "Part": {
+          "base": "Grundkosten {value}",
+          "age": "Alter {value}",
+          "strain": "Anstrengen {value}",
+          "wounds": "Wunden {value}",
+          "fear": "Angst {value}"
+        }
+      },
+      "Preview": {
+        "Dice": "{count} Würfel",
+        "Base": "Grundwert {value}",
+        "Modifier": "Modifikator {value}",
+        "Capped": "Regel der 3: {raw} wird zu {value}",
+        "Minimum": "Regel der 1: mindestens ein Würfel"
+      }
+    },
+    "Settings": {
+      "AutoCost": {
+        "Name": "Ausdauerkosten automatisch berechnen",
+        "Hint": "Der Probe-Dialog füllt die Ausdauerkosten aus Wunden, Alter und Anstrengen vor. Ausgeschaltet bleiben die Felder leer und werden von Hand ausgefüllt."
+      }
+    },
+    "Check": {
+      "Grade": {
+        "Carefree": "sorglos",
+        "Daring": "gewagt",
+        "Fateful": "verhängnisvoll"
+      },
+      "Helper": "Helfer",
+      "Successes": "{count} Erfolge",
+      "Success": "gelungen",
+      "Failure": "misslungen",
+      "CriticalSuccess": "kritischer Erfolg",
+      "CriticalFailure": "kritischer Misserfolg",
+      "Warning": {
+        "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
+        "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen."
+      }
+    },
     "StatusTracker": {
       "Title": "Status-Anzeiger",
       "Injuries": "Verletzungen",
