@@ -16,6 +16,18 @@
     {{#if result.criticalSuccess}}<span class="critical success">{{localize "KRISTALLPUNK.Check.CriticalSuccess"}}</span>{{/if}}
     {{#if result.criticalFailure}}<span class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</span>{{/if}}
   </p>
+  {{#if cost}}
+  <p class="check-cost {{#if cost.applied}}applied{{else}}open{{/if}}">
+    {{localize "KRISTALLPUNK.Check.Cost.Label"}}: {{cost.payments}}
+    {{#if cost.applied}}
+    <i class="cost-state fa-solid fa-check" role="img" data-tooltip="{{localize "KRISTALLPUNK.Check.Cost.Applied"}}"
+       aria-label="{{localize "KRISTALLPUNK.Check.Cost.Applied"}}"></i>
+    {{else}}
+    <i class="cost-state fa-solid fa-hourglass-half" role="img" data-tooltip="{{localize "KRISTALLPUNK.Check.Cost.Open"}}"
+       aria-label="{{localize "KRISTALLPUNK.Check.Cost.Open"}}"></i>
+    {{/if}}
+  </p>
+  {{/if}}
   <details class="check-pool">
     <summary>{{localize "KRISTALLPUNK.CheckDialog.Preview.Dice" count=pool.dice}}</summary>
     <ul>{{#each pool.lines as |line|}}<li>{{line}}</li>{{/each}}</ul>

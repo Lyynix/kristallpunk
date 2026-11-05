@@ -6,7 +6,7 @@
 
 import * as checkRules from "../rules/check.mjs";
 
-const { DocumentUUIDField, StringField, NumberField, ArrayField, SchemaField } = foundry.data.fields;
+const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
 
 /** Handlebars template of the card; preloaded during init so the card can be rendered synchronously. */
 export const TEMPLATE = "systems/kristallpunk/templates/chat/check-card.hbs";
@@ -23,7 +23,13 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         value: new NumberField({ required: true, integer: true, nullable: false, initial: 0 }),
         label: new StringField({ required: true, blank: true })
       })),
-      helpers: new NumberField({ required: true, integer: true, min: 0, initial: 0 })
+      helpers: new NumberField({ required: true, integer: true, min: 0, initial: 0 }),
+      // Stamina payments of this check; once applied, the amounts actually paid
+      cost: new ArrayField(new SchemaField({
+        domain: new StringField({ required: true, choices: () => CONFIG.KRISTALLPUNK.domains }),
+        amount: new NumberField({ required: true, integer: true, min: 0, initial: 0 })
+      })),
+      applied: new BooleanField()
     };
   }
 
@@ -82,6 +88,12 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       dice: orderDice(this.faces, result.criticalFailure),
       result,
       outcome: result.success ? "success" : "failure",
+      cost: this.cost.length ? {
+        payments: this.cost.map(({ domain, amount }) => game.i18n.format("KRISTALLPUNK.Check.Cost.Payment", {
+          stamina: game.i18n.localize(`KRISTALLPUNK.Stamina.${domain.capitalize()}`), amount
+        })).join(", "),
+        applied: this.applied
+      } : null,
       pool: {
         dice: pool.dice,
         lines: [

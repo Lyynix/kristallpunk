@@ -18,8 +18,8 @@ import { SYSTEM_ID } from "../settings.mjs";
 /**
  * Roll a check for a skill or a derived value.
  * Bonuses and penalties are passed on one by one; only rules.check.pool nets them and applies the rule of 3.
- * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden,
- * but is not yet applied (see #14).
+ * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden.
+ * It is paid right away if the "autoApplyCost" setting is on; otherwise the card records it as open (#14).
  * @param {Actor} actor
  * @param {string} key                            A skill key (e.g. "athletics") or derived value key (e.g. "courage").
  * @param {object} [options]
@@ -80,6 +80,13 @@ export async function rollCheck(actor, key, options = {}) {
   const pool = data.pool;
   const roll = await new Roll(`${pool.dice}d6`).evaluate();
 
+  // Stamina: the rolling client pays at once, or the card keeps the cost open
+  payments = payments.filter(payment => payment.amount > 0);
+  const autoApply = game.settings.get(SYSTEM_ID, "autoApplyCost");
+  if ( autoApply && payments.length ) payments = await payStamina(actor, payments);
+  messageData.cost = payments;
+  messageData.applied = autoApply && (payments.length > 0);
+
   const message = await ChatMessage.implementation.create({
     type: "check",
     speaker: ChatMessage.implementation.getSpeaker({ actor }),
@@ -90,6 +97,24 @@ export async function rollCheck(actor, key, options = {}) {
   if ( !message ) return null;
 
   return { roll, pool, result: message.system.result, cost: { ...cost, payments, auto: autoCost }, message };
+}
+
+/**
+ * Pay stamina: lower each stamina by its amount, but not below 0.
+ * @param {Actor} actor
+ * @param {{domain: string, amount: number}[]} payments
+ * @returns {Promise<{domain: string, amount: number}[]>}  What was actually paid.
+ */
+export async function payStamina(actor, payments) {
+  const update = {};
+  const paid = payments.map(({ domain, amount }) => {
+    const current = actor.system.stamina[domain].value;
+    const actual = Math.min(amount, current);
+    update[`system.stamina.${domain}.value`] = current - actual;
+    return { domain, amount: actual };
+  });
+  await actor.update(update);
+  return paid;
 }
 
 /**

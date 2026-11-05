@@ -812,3 +812,11 @@
   margin: 0.25rem 0 0;
   padding-left: 1.25rem;
 }
+
+.kristallpunk.check-card .check-cost {
+  margin: 0;
+}
+
+.kristallpunk.check-card .check-cost.applied .cost-state {
+  color: var(--color-level-success);
+}
