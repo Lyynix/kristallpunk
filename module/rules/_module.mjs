@@ -3,5 +3,6 @@
  * Each file keeps its own functions; add one line per new file.
  */
 export * as age from "./age.mjs";
+export * as check from "./check.mjs";
 export * as conviction from "./conviction.mjs";
 export * as derived from "./derived.mjs";
