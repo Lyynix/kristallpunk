@@ -44,9 +44,9 @@
         "Name": "Ausdauerkosten automatisch berechnen",
         "Hint": "Der Probe-Dialog füllt die Ausdauerkosten aus Wunden, Alter und Anstrengen vor. Ausgeschaltet bleiben die Felder leer und werden von Hand ausgefüllt."
       },
-      "AutoApplyCost": {
-        "Name": "Ausdauerkosten automatisch abziehen",
-        "Hint": "Nach dem Würfeln wird die Ausdauer sofort abgezogen. Ausgeschaltet zeigt die Chatkarte die Kosten nur an, abgezogen wird dann von Hand."
+      "AutoApply": {
+        "Name": "Konsequenzen automatisch anwenden",
+        "Hint": "Nach dem Würfeln werden Ausdauerkosten und Verschiebungen des Innenlebens sofort angewendet. Ausgeschaltet zeigt die Chatkarte sie nur an, angewendet wird dann per Knopf."
       }
     },
     "Check": {
@@ -67,6 +67,28 @@
         "Applied": "abgezogen",
         "Open": "noch nicht abgezogen",
         "Apply": "Ausdauer abziehen"
+      },
+      "Conviction": {
+        "Label": "Innenleben",
+        "Change": "{from} → {to}",
+        "Limit": "Grenze erreicht",
+        "Applied": "angewendet",
+        "Open": "noch nicht angewendet",
+        "Apply": "Innenleben anwenden",
+        "Part": {
+          "reroll": "Neuwurf {value}",
+          "shift": "Verschiebung {value}"
+        },
+        "Cancelled": "Verschiebung des ersten Wurfs aufgehoben"
+      },
+      "Reroll": {
+        "Button": "Innenleben einsetzen",
+        "Mode": {
+          "keepSixes": "Die 6er bleiben, die übrigen Würfel werden neu gewürfelt. Kostet 1 Innenleben.",
+          "all": "Alle Würfel werden neu gewürfelt, auch die 6er. Kostet 1 Innenleben."
+        },
+        "Kept": "aus dem ersten Wurf behalten",
+        "First": "Erster Wurf"
       },
       "Context": {
         "UndoConsequences": "Konsequenzen rückgängig machen"

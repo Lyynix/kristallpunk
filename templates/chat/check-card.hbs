@@ -5,8 +5,9 @@
   </header>
   <ol class="check-dice">
     {{#each dice as |die|}}
-    <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}">
-      <i class="{{die.icon}}" inert></i>
+    <li class="die {{die.highlight}} {{#if die.kept}}kept{{/if}}" data-face="{{die.face}}" aria-label="{{die.face}}"
+        {{#if die.kept}}data-tooltip="{{localize "KRISTALLPUNK.Check.Reroll.Kept"}}"{{/if}}>
+      <i class="{{die.icon}}" inert></i>{{#if die.kept}}<i class="kept-mark fa-solid fa-lock" inert></i>{{/if}}
     </li>
     {{/each}}
   </ol>
@@ -16,6 +17,11 @@
     {{#if result.criticalSuccess}}<span class="critical success">{{localize "KRISTALLPUNK.Check.CriticalSuccess"}}</span>{{/if}}
     {{#if result.criticalFailure}}<span class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</span>{{/if}}
   </p>
+  {{#if reroll.option}}
+  <button type="button" class="reroll" data-action="rerollWithConviction" data-tooltip="{{localize reroll.option.hint}}">
+    <i class="fa-solid fa-dice" inert></i> {{localize "KRISTALLPUNK.Check.Reroll.Button"}}
+  </button>
+  {{/if}}
   {{#if cost}}
   <p class="check-cost {{#if cost.applied}}applied{{else}}open{{/if}}">
     {{localize "KRISTALLPUNK.Check.Cost.Label"}}: {{cost.payments}}
@@ -32,6 +38,35 @@
     <i class="fa-solid fa-check" inert></i> {{localize "KRISTALLPUNK.Check.Cost.Apply"}}
   </button>
   {{/if}}
+  {{/if}}
+  {{#if conviction}}
+  <p class="check-conviction {{#if conviction.applied}}applied{{else}}open{{/if}}">
+    {{localize "KRISTALLPUNK.Check.Conviction.Label"}}: {{conviction.change}}
+    {{#if conviction.limit}}<span class="limit">({{localize "KRISTALLPUNK.Check.Conviction.Limit"}})</span>{{/if}}
+    {{#if conviction.applied}}
+    <i class="state fa-solid fa-check" role="img" data-tooltip="{{localize "KRISTALLPUNK.Check.Conviction.Applied"}}"
+       aria-label="{{localize "KRISTALLPUNK.Check.Conviction.Applied"}}"></i>
+    {{else}}
+    <i class="state fa-solid fa-hourglass-half" role="img" data-tooltip="{{localize "KRISTALLPUNK.Check.Conviction.Open"}}"
+       aria-label="{{localize "KRISTALLPUNK.Check.Conviction.Open"}}"></i>
+    {{/if}}
+    {{#if conviction.parts}}<span class="parts">{{conviction.parts}}</span>{{/if}}
+  </p>
+  {{#if conviction.canApply}}
+  <button type="button" class="apply-conviction" data-action="applyConviction">
+    <i class="fa-solid fa-check" inert></i> {{localize "KRISTALLPUNK.Check.Conviction.Apply"}}
+  </button>
+  {{/if}}
+  {{/if}}
+  {{#if reroll.first}}
+  <details class="check-first">
+    <summary>{{localize "KRISTALLPUNK.Check.Reroll.First"}}</summary>
+    <ol class="check-dice">
+      {{#each reroll.first.dice as |die|}}
+      <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}"><i class="{{die.icon}}" inert></i></li>
+      {{/each}}
+    </ol>
+  </details>
   {{/if}}
   <details class="check-pool">
     <summary>{{localize "KRISTALLPUNK.CheckDialog.Preview.Dice" count=pool.dice}}</summary>

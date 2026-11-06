@@ -5,6 +5,8 @@
  */
 
 import * as costRules from "../rules/cost.mjs";
+import * as checkRules from "../rules/check.mjs";
+import * as convictionRules from "../rules/conviction.mjs";
 import CheckDialog from "../apps/check-dialog.mjs";
 import CheckMessageData from "../data/check-message.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
@@ -19,8 +21,9 @@ import { SYSTEM_ID } from "../settings.mjs";
  * Roll a check for a skill or a derived value.
  * Bonuses and penalties are passed on one by one; only rules.check.pool nets them and applies the rule of 3.
  * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden.
- * It is paid right away if the "autoApplyCost" setting is on; otherwise the card keeps it open
- * and offers a button to pay it (#14).
+ * Critical results shift conviction (#15).
+ * Both are applied right away if the "autoApply" setting is on; otherwise the card keeps them open
+ * and offers buttons to apply them (#14, #15).
  * @param {Actor} actor
  * @param {string} key                            A skill key (e.g. "athletics") or derived value key (e.g. "courage").
  * @param {object} [options]
@@ -81,12 +84,18 @@ export async function rollCheck(actor, key, options = {}) {
   const pool = data.pool;
   const roll = await new Roll(`${pool.dice}d6`).evaluate();
 
-  // Stamina: the rolling client pays at once, or the card keeps the cost open
+  // Consequences: the rolling client applies them at once, or the card keeps them open
+  const autoApply = game.settings.get(SYSTEM_ID, "autoApply");
   payments = payments.filter(payment => payment.amount > 0);
-  const autoApply = game.settings.get(SYSTEM_ID, "autoApplyCost");
   if ( autoApply && payments.length ) payments = await payStamina(actor, payments);
   messageData.cost = payments;
   messageData.applied = autoApply && (payments.length > 0);
+
+  const before = actor.system.conviction;
+  const faces = roll.dice[0].results.filter(result => result.active).map(result => result.result);
+  const { critical } = checkRules.evaluate({ faces, grade });
+  const { delta } = convictionRules.consequences({ before, critical });
+  messageData.conviction = { before, change: (autoApply && delta) ? await shiftConviction(actor, delta) : 0 };
 
   const message = await ChatMessage.implementation.create({
     type: "check",
@@ -116,6 +125,20 @@ export async function payStamina(actor, payments) {
   });
   await actor.update(update);
   return paid;
+}
+
+/**
+ * Shift conviction by an amount, but not beyond -3 and +3.
+ * @param {Actor} actor
+ * @param {number} amount
+ * @returns {Promise<number>}  The actual change.
+ */
+export async function shiftConviction(actor, amount) {
+  const { min, max } = convictionRules.LIMITS;
+  const current = actor.system.conviction;
+  const value = Math.min(max, Math.max(min, current + amount));
+  if ( value !== current ) await actor.update({ "system.conviction": value });
+  return value - current;
 }
 
 /**
