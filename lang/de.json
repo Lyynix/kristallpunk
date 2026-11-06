@@ -74,7 +74,21 @@
         "Limit": "Grenze erreicht",
         "Applied": "angewendet",
         "Open": "noch nicht angewendet",
-        "Apply": "Innenleben anwenden"
+        "Apply": "Innenleben anwenden",
+        "Part": {
+          "reroll": "Neuwurf {value}",
+          "shift": "Verschiebung {value}"
+        },
+        "Cancelled": "Verschiebung des ersten Wurfs aufgehoben"
+      },
+      "Reroll": {
+        "Button": "Innenleben einsetzen",
+        "Mode": {
+          "keepSixes": "Die 6er bleiben, die übrigen Würfel werden neu gewürfelt. Kostet 1 Innenleben.",
+          "all": "Alle Würfel werden neu gewürfelt, auch die 6er. Kostet 1 Innenleben."
+        },
+        "Kept": "aus dem ersten Wurf behalten",
+        "First": "Erster Wurf"
       },
       "Context": {
         "UndoConsequences": "Konsequenzen rückgängig machen"
