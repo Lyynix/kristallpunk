@@ -5,7 +5,8 @@
  */
 
 import * as checkRules from "../rules/check.mjs";
-import { payStamina, refundStamina } from "../api/check.mjs";
+import * as convictionRules from "../rules/conviction.mjs";
+import { payStamina, refundStamina, shiftConviction } from "../api/check.mjs";
 
 const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
 
@@ -30,7 +31,12 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         domain: new StringField({ required: true, choices: () => CONFIG.KRISTALLPUNK.domains }),
         amount: new NumberField({ required: true, integer: true, min: 0, initial: 0 })
       })),
-      applied: new BooleanField()
+      applied: new BooleanField(),
+      // Conviction before this check changed it, and what the card has changed on the actor so far
+      conviction: new SchemaField({
+        before: new NumberField({ required: true, integer: true, nullable: true, initial: null }),
+        change: new NumberField({ required: true, integer: true, nullable: false, initial: 0 })
+      })
     };
   }
 
@@ -100,20 +106,84 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Undo the consequences of this check: give back the stamina it paid and mark the cost as open again,
-   * so it can be applied anew. GM only, without time limit (#14).
+   * Undo the consequences of this check: give back the stamina it paid, take back its conviction change
+   * and mark both as open again, so they can be applied anew. GM only, without time limit (#14, #15).
    * @returns {Promise<boolean>}  Whether anything was undone.
    */
   async undoConsequences() {
-    if ( !game.user.isGM || !this.applied ) return false;
+    if ( !game.user.isGM || !this.hasConsequences ) return false;
     const actor = await fromUuid(this.actor);
     if ( !actor ) {
       ui.notifications.warn("KRISTALLPUNK.Check.Warning.ActorMissing", { localize: true });
       return false;
     }
-    await this.parent.update({ "system.applied": false });
-    await refundStamina(actor, this.cost);
+    const { applied, cost } = this;
+    const { change } = this.conviction;
+    await this.parent.update({ "system.applied": false, "system.conviction.change": 0 });
+    if ( applied ) await refundStamina(actor, cost);
+    if ( change ) await shiftConviction(actor, -change);
     return true;
+  }
+
+  /**
+   * How this check should change conviction, from rules.conviction.consequences.
+   * null for messages without a recorded conviction.
+   * @type {{value: number, delta: number, clamped: boolean, parts: object[]}|null}
+   */
+  get convictionTarget() {
+    const { before } = this.conviction;
+    if ( before === null ) return null;
+    return convictionRules.consequences({ before, critical: this.result.critical });
+  }
+
+  /**
+   * Conviction change still to apply: what the rules ask for minus what the card has already changed.
+   * @type {number}
+   */
+  get convictionOpen() {
+    return (this.convictionTarget?.delta ?? 0) - this.conviction.change;
+  }
+
+  /**
+   * Whether the current user may apply the open conviction change: only the one who rolled and the GM.
+   * @type {boolean}
+   */
+  get canApplyConviction() {
+    return (this.convictionOpen !== 0) && (game.user.isGM || this.parent.isAuthor);
+  }
+
+  /**
+   * Apply the open conviction change once. As with the cost, the card records the change before
+   * the actor is updated, so a second click finds nothing open.
+   * @returns {Promise<boolean>}  Whether conviction was changed by this call.
+   */
+  async applyConviction() {
+    if ( !this.canApplyConviction ) return false;
+    const actor = await fromUuid(this.actor);
+    if ( !actor?.isOwner ) {
+      ui.notifications.warn("KRISTALLPUNK.Check.Warning.CannotApply", { localize: true });
+      return false;
+    }
+    const message = this.parent;
+    const { change } = this.conviction;
+    const open = this.convictionOpen;
+    await message.update({ "system.conviction.change": change + open });
+    try {
+      const actual = await shiftConviction(actor, open);
+      if ( actual !== open ) await message.update({ "system.conviction.change": change + actual });
+    } catch (err) {
+      await message.update({ "system.conviction.change": change });
+      throw err;
+    }
+    return true;
+  }
+
+  /**
+   * Whether this card has changed anything on the actor that could be undone.
+   * @type {boolean}
+   */
+  get hasConsequences() {
+    return this.applied || (this.conviction.change !== 0);
   }
 
   /** Label of what was checked, e.g. "Athletik". */
@@ -145,6 +215,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         applied: this.applied,
         canApply: this.canApplyCost
       } : null,
+      conviction: this.#prepareConviction(),
       pool: {
         dice: pool.dice,
         lines: [
@@ -162,6 +233,25 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
+   * Conviction line of the card: from and to, whether a limit was reached, and the apply state.
+   * Hidden if the check does not touch conviction.
+   * @returns {object|null}
+   */
+  #prepareConviction() {
+    const target = this.convictionTarget;
+    if ( !target || (!target.parts.length && !this.conviction.change) ) return null;
+    const format = value => (value === 0 ? "0" : signed(value));
+    return {
+      change: game.i18n.format("KRISTALLPUNK.Check.Conviction.Change", {
+        from: format(this.conviction.before), to: format(target.value)
+      }),
+      limit: target.clamped,
+      applied: this.convictionOpen === 0,
+      canApply: this.canApplyConviction
+    };
+  }
+
+  /**
    * Entries for the context menu of chat messages. Registered for the getChatMessageContextOptions hook.
    * @param {ChatLog} application
    * @param {object[]} options
@@ -171,7 +261,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     options.push({
       label: "KRISTALLPUNK.Check.Context.UndoConsequences",
       icon: "fa-solid fa-rotate-left",
-      visible: li => game.user.isGM && (message(li)?.type === "check") && message(li).system.applied,
+      visible: li => game.user.isGM && (message(li)?.type === "check") && message(li).system.hasConsequences,
       onClick: (event, li) => message(li)?.system.undoConsequences()
     });
   }
@@ -191,6 +281,10 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     content.querySelector("[data-action=applyCost]")?.addEventListener("click", event => {
       event.currentTarget.disabled = true;
       message.system.applyCost();
+    });
+    content.querySelector("[data-action=applyConviction]")?.addEventListener("click", event => {
+      event.currentTarget.disabled = true;
+      message.system.applyConviction();
     });
   }
 }

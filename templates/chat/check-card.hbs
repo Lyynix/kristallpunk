@@ -33,6 +33,24 @@
   </button>
   {{/if}}
   {{/if}}
+  {{#if conviction}}
+  <p class="check-conviction {{#if conviction.applied}}applied{{else}}open{{/if}}">
+    {{localize "KRISTALLPUNK.Check.Conviction.Label"}}: {{conviction.change}}
+    {{#if conviction.limit}}<span class="limit">({{localize "KRISTALLPUNK.Check.Conviction.Limit"}})</span>{{/if}}
+    {{#if conviction.applied}}
+    <i class="state fa-solid fa-check" role="img" data-tooltip="{{localize "KRISTALLPUNK.Check.Conviction.Applied"}}"
+       aria-label="{{localize "KRISTALLPUNK.Check.Conviction.Applied"}}"></i>
+    {{else}}
+    <i class="state fa-solid fa-hourglass-half" role="img" data-tooltip="{{localize "KRISTALLPUNK.Check.Conviction.Open"}}"
+       aria-label="{{localize "KRISTALLPUNK.Check.Conviction.Open"}}"></i>
+    {{/if}}
+  </p>
+  {{#if conviction.canApply}}
+  <button type="button" class="apply-conviction" data-action="applyConviction">
+    <i class="fa-solid fa-check" inert></i> {{localize "KRISTALLPUNK.Check.Conviction.Apply"}}
+  </button>
+  {{/if}}
+  {{/if}}
   <details class="check-pool">
     <summary>{{localize "KRISTALLPUNK.CheckDialog.Preview.Dice" count=pool.dice}}</summary>
     <ul>{{#each pool.lines as |line|}}<li>{{line}}</li>{{/each}}</ul>

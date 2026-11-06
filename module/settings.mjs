@@ -19,9 +19,10 @@ export function registerSettings() {
     default: true
   });
 
-  game.settings.register(SYSTEM_ID, "autoApplyCost", {
-    name: "KRISTALLPUNK.Settings.AutoApplyCost.Name",
-    hint: "KRISTALLPUNK.Settings.AutoApplyCost.Hint",
+  // Consequences of a check: stamina cost and conviction shift (#14, #15)
+  game.settings.register(SYSTEM_ID, "autoApply", {
+    name: "KRISTALLPUNK.Settings.AutoApply.Name",
+    hint: "KRISTALLPUNK.Settings.AutoApply.Hint",
     scope: "world",
     config: true,
     type: Boolean,

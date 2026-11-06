@@ -820,3 +820,15 @@
 .kristallpunk.check-card .check-cost.applied .cost-state {
   color: var(--color-level-success);
 }
+
+.kristallpunk.check-card .check-conviction {
+  margin: 0;
+}
+
+.kristallpunk.check-card .check-conviction .limit {
+  font-style: italic;
+}
+
+.kristallpunk.check-card .check-conviction.applied .state {
+  color: var(--color-level-success);
+}
