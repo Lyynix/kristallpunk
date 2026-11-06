@@ -833,29 +833,29 @@
   color: var(--color-level-success);
 }
 
-.kristallpunk.check-card .die {
-  position: relative;
-}
-
-.kristallpunk.check-card .die .kept-mark {
-  position: absolute;
-  right: -0.15rem;
-  bottom: -0.1rem;
-  font-size: 0.55rem;
-  color: var(--color-text-primary);
-}
-
 .kristallpunk.check-card .check-conviction .parts {
   display: block;
   font-size: var(--font-size-12);
   color: var(--color-text-secondary);
 }
 
-.kristallpunk.check-card .check-first summary {
+.kristallpunk.check-card .check-history summary {
   cursor: pointer;
 }
 
-.kristallpunk.check-card .check-first .check-dice {
-  font-size: 1.1rem;
+.kristallpunk.check-card .history-step {
   margin-top: 0.25rem;
+}
+
+.kristallpunk.check-card .history-step .step-label {
+  font-size: var(--font-size-12);
+  color: var(--color-text-secondary);
+}
+
+.kristallpunk.check-card .history-step .check-dice {
+  font-size: 1.1rem;
+}
+
+.kristallpunk.check-card .history-step .die.kept {
+  opacity: 0.4;
 }

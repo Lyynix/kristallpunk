@@ -38,10 +38,8 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         before: new NumberField({ required: true, integer: true, nullable: true, initial: null }),
         change: new NumberField({ required: true, integer: true, nullable: false, initial: 0 })
       }),
-      // Reroll by spending conviction (#15): how it was rerolled; the new dice are the second roll
-      reroll: new SchemaField({
-        mode: new StringField({ required: true, nullable: true, initial: null, choices: checkRules.CONVICTION_REROLLS })
-      })
+      // Rerolls in order (#15, #16), see rules.check.REROLL_MODES; reroll n brings the dice of roll n + 1
+      rerolls: new ArrayField(new StringField({ required: true, blank: false, choices: checkRules.REROLL_MODES }))
     };
   }
 
@@ -65,92 +63,107 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Faces of the first roll in the order they were rolled.
-   * @type {number[]}
+   * The rolls of the check step by step: the first roll, then one step per reroll whose dice are attached.
+   * Each reroll keeps part of the faces before it (rules.check.reroll) and adds the new dice after them.
+   * @type {{mode: string|null, faces: number[], kept: number, result: object}[]}
+   *   `mode` is null for the first roll; `kept` is how many leading faces were kept from the step before.
    */
-  get firstFaces() {
-    return facesOf(this.parent.rolls[0]);
+  get steps() {
+    let faces = facesOf(this.parent.rolls[0]);
+    const steps = [{ mode: null, faces, kept: 0 }];
+    this.rerolls.forEach((mode, index) => {
+      const roll = this.parent.rolls[index + 1];
+      if ( !roll ) return;
+      const { keep } = checkRules.reroll({ faces, mode });
+      faces = [...keep, ...facesOf(roll)];
+      steps.push({ mode, faces, kept: keep.length });
+    });
+    for ( const step of steps ) step.result = checkRules.evaluate({ faces: step.faces, grade: this.grade });
+    return steps;
   }
 
   /**
-   * Whether the check was rerolled by spending conviction and the new dice are attached.
-   * @type {boolean}
-   */
-  get rerolled() {
-    return (this.reroll.mode !== null) && (this.parent.rolls.length > 1);
-  }
-
-  /**
-   * Dice kept from the first roll on a reroll (the sixes from +3 to +1), from rules.check.reroll.
-   * @type {number[]}
-   */
-  get kept() {
-    if ( this.reroll.mode === null ) return [];
-    return checkRules.reroll({ faces: this.firstFaces, mode: this.reroll.mode }).keep;
-  }
-
-  /**
-   * Faces that count: the first roll, or after a reroll the kept dice followed by the new ones.
+   * Faces that count: those of the last step.
    * @type {number[]}
    */
   get faces() {
-    if ( !this.rerolled ) return this.firstFaces;
-    return [...this.kept, ...facesOf(this.parent.rolls[1])];
+    return this.steps.at(-1).faces;
   }
 
   /** The result, from rules.check.evaluate. */
   get result() {
-    return checkRules.evaluate({ faces: this.faces, grade: this.grade });
+    return this.steps.at(-1).result;
   }
 
-  /** The result of the first roll, which a reroll replaces. */
-  get firstResult() {
-    return checkRules.evaluate({ faces: this.firstFaces, grade: this.grade });
+  /**
+   * Whether conviction was spent on a reroll of this check.
+   * @type {boolean}
+   */
+  get convictionRerolled() {
+    return this.rerolls.some(mode => checkRules.CONVICTION_REROLLS.includes(mode));
+  }
+
+  /**
+   * Whether a reroll has been recorded but its dice are not attached yet.
+   * @type {boolean}
+   */
+  get rerolling() {
+    return this.rerolls.length >= this.parent.rolls.length;
   }
 
   /**
    * How the current user could reroll by spending conviction, or null if not possible:
-   * once per check, depending on conviction before this check (provisional, see issue #17),
+   * as rules.check.canReroll allows, depending on conviction before this check (provisional, see issue #17),
    * only with dice left to reroll, and only for the one who rolled and the GM.
    * @type {"keepSixes"|"all"|null}
    */
   get rerollOption() {
     const { before } = this.conviction;
-    if ( (this.reroll.mode !== null) || (before === null) ) return null;
+    if ( (before === null) || this.rerolling ) return null;
     if ( !(game.user.isGM || this.parent.isAuthor) ) return null;
     const mode = convictionRules.rerollMode(before);
-    if ( !mode ) return null;
-    return checkRules.reroll({ faces: this.firstFaces, mode }).count ? mode : null;
+    if ( !mode || !checkRules.canReroll({ rerolls: this.rerolls, mode }) ) return null;
+    return checkRules.reroll({ faces: this.faces, mode }).count ? mode : null;
   }
 
   /**
-   * Reroll by spending conviction. The card records the reroll before rolling, so a second click,
-   * here or on another client, finds it rerolled and does nothing. The new dice are attached
-   * as a second roll; with automatic consequences, conviction is updated right away.
+   * Reroll by spending conviction; with automatic consequences, conviction is updated right away.
    * @returns {Promise<boolean>}  Whether this call rerolled.
    */
   async rerollWithConviction() {
     const mode = this.rerollOption;
     if ( !mode ) return false;
+    if ( !await this.#reroll(mode) ) return false;
+    if ( game.settings.get(SYSTEM_ID, "autoApply") ) await this.parent.system.applyConviction();
+    return true;
+  }
+
+  /**
+   * Reroll the current faces in a mode. The card records the reroll before rolling, so a second click,
+   * here or on another client, finds it recorded and does nothing. The new dice are attached as a further roll.
+   * @param {string} mode
+   * @returns {Promise<boolean>}  Whether this call rerolled.
+   */
+  async #reroll(mode) {
     const actor = await fromUuid(this.actor);
     if ( !actor?.isOwner ) {
       ui.notifications.warn("KRISTALLPUNK.Check.Warning.CannotApply", { localize: true });
       return false;
     }
     const message = this.parent;
-    const { count } = checkRules.reroll({ faces: this.firstFaces, mode });
-    await message.update({ "system.reroll.mode": mode });
+    const rerolls = [...this.rerolls];
+    const { count } = checkRules.reroll({ faces: this.faces, mode });
+    await message.update({ "system.rerolls": [...rerolls, mode] });
     let roll;
     try {
       roll = await new Roll(`${count}d6`).evaluate();
     } catch (err) {
-      await message.update({ "system.reroll.mode": null });
+      await message.update({ "system.rerolls": rerolls });
       throw err;
     }
     await game.dice3d?.showForRoll(roll, game.user, true, message.whisper.length ? message.whisper : null,
       message.blind, message.id, message.speaker);
-    await message.update({ rolls: [message.rolls[0], roll] });
-    if ( game.settings.get(SYSTEM_ID, "autoApply") ) await message.system.applyConviction();
+    await message.update({ rolls: [...message.rolls, roll] });
     return true;
   }
 
@@ -214,7 +227,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   get convictionTarget() {
     const { before } = this.conviction;
     if ( before === null ) return null;
-    return convictionRules.consequences({ before, rerolled: this.reroll.mode !== null, critical: this.result.critical });
+    return convictionRules.consequences({ before, rerolled: this.convictionRerolled, critical: this.result.critical });
   }
 
   /**
@@ -286,7 +299,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     return Handlebars.partials[TEMPLATE]({
       label: this.label,
       grade: CONFIG.KRISTALLPUNK.checkGrades[this.grade].label,
-      dice: orderDice(this.faces, result.criticalFailure, this.rerolled ? this.kept.length : 0),
+      dice: orderDice(this.faces, result.criticalFailure),
       result,
       reroll: this.#prepareReroll(),
       outcome: result.success ? "success" : "failure",
@@ -326,7 +339,12 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     const parts = target.parts.map(({ key, value }) => game.i18n.format(`KRISTALLPUNK.Check.Conviction.Part.${key}`, {
       value: format(value)
     }));
-    if ( this.rerolled && this.firstResult.critical ) parts.push(game.i18n.localize("KRISTALLPUNK.Check.Conviction.Cancelled"));
+    // The shift of the result before the conviction reroll does not apply
+    const steps = this.steps;
+    const convictionStep = steps.findIndex(step => checkRules.CONVICTION_REROLLS.includes(step.mode));
+    if ( (convictionStep > 0) && steps[convictionStep - 1].result.critical ) {
+      parts.push(game.i18n.localize("KRISTALLPUNK.Check.Conviction.Cancelled"));
+    }
     return {
       change: game.i18n.format("KRISTALLPUNK.Check.Conviction.Change", {
         from: format(this.conviction.before), to: format(target.value)
@@ -339,15 +357,25 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Reroll section of the card: the button while a reroll is possible, the first roll once rerolled.
-   * @returns {{option: object|null, first: object|null}}
+   * Reroll section of the card: the button while a conviction reroll is possible,
+   * and the history of all rolls once the check was rerolled. In the history, the dice of each step
+   * keep their order; dice kept from the step before are marked.
+   * @returns {{option: object|null, history: object[]|null}}
    */
   #prepareReroll() {
     const mode = this.rerollOption;
-    const first = this.rerolled ? this.firstResult : null;
+    const steps = this.steps;
+    const history = steps.length > 1 ? steps.map(step => ({
+      label: game.i18n.format(`KRISTALLPUNK.Check.Reroll.Step.${step.mode ?? "first"}`, {
+        count: step.faces.length - step.kept
+      }),
+      dice: step.faces.map((face, index) => ({
+        face, kept: index < step.kept, icon: `fa-regular fa-dice-${FACE_ICONS[face - 1]}`
+      }))
+    })) : null;
     return {
       option: mode ? { hint: `KRISTALLPUNK.Check.Reroll.Mode.${mode}` } : null,
-      first: first ? { dice: orderDice(this.firstFaces, first.criticalFailure) } : null
+      history
     };
   }
 
@@ -402,20 +430,18 @@ const FACE_ICONS = ["one", "two", "three", "four", "five", "six"];
  * Display order of the dice (#14): on a critical failure the ones first (highlighted as failure),
  * then the sixes (highlighted as success), then the rest in rolled order.
  * Without a critical failure, ones are not highlighted and stay in rolled order.
- * Highlighted dice are drawn solid, all others as outlines. After a reroll, the sixes kept from the
- * first roll come first among the sixes and are marked as kept.
+ * Highlighted dice are drawn solid, all others as outlines.
  * @param {number[]} faces
  * @param {boolean} criticalFailure
- * @param {number} [kept=0]  How many sixes were kept from the first roll.
- * @returns {{face: number, icon: string, highlight: "success"|"failure"|null, kept: boolean}[]}
+ * @returns {{face: number, icon: string, highlight: "success"|"failure"|null}[]}
  */
-function orderDice(faces, criticalFailure, kept = 0) {
-  const die = (face, highlight = null, isKept = false) => ({
-    face, highlight, kept: isKept,
+function orderDice(faces, criticalFailure) {
+  const die = (face, highlight = null) => ({
+    face, highlight,
     icon: `${highlight ? "fa-solid" : "fa-regular"} fa-dice-${FACE_ICONS[face - 1]}`
   });
   const ones = criticalFailure ? faces.filter(face => face === 1).map(face => die(face, "failure")) : [];
-  const sixes = faces.filter(face => face === 6).map((face, index) => die(face, "success", index < kept));
+  const sixes = faces.filter(face => face === 6).map(face => die(face, "success"));
   const rest = faces.filter(face => (face !== 6) && !(criticalFailure && (face === 1))).map(face => die(face));
   return [...ones, ...sixes, ...rest];
 }
