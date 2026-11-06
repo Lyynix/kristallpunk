@@ -1,0 +1,20 @@
+<div class="preset-form">
+  <ol class="check-dice" aria-hidden="true">
+    {{#each dice as |die|}}
+    <li class="die {{die.highlight}}"><i class="{{die.icon}}" inert></i></li>
+    {{/each}}
+  </ol>
+  <div class="counters">
+    {{#each counters as |counter|}}
+    <div class="counter" role="group" aria-label="{{localize counter.label}}">
+      <button type="button" class="icon fa-solid fa-minus" data-action="change" data-key="{{counter.key}}" data-delta="-1"
+              {{#unless counter.canDecrease}}disabled{{/unless}} aria-label="{{localize "KRISTALLPUNK.PresetDialog.Decrease"}}"></button>
+      <span class="die {{counter.highlight}}" data-tooltip="{{localize counter.label}}">
+        <i class="{{counter.icon}}" inert></i> <output>{{counter.count}}</output>
+      </span>
+      <button type="button" class="icon fa-solid fa-plus" data-action="change" data-key="{{counter.key}}" data-delta="1"
+              {{#unless counter.canIncrease}}disabled{{/unless}} aria-label="{{localize "KRISTALLPUNK.PresetDialog.Increase"}}"></button>
+    </div>
+    {{/each}}
+  </div>
+</div>

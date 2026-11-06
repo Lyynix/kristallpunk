@@ -19,6 +19,7 @@
       "Helpers": "Helfer",
       "Visibility": "Sichtbarkeit",
       "Roll": "Würfeln",
+      "Preset": "Würfel vorgeben …",
       "Cost": {
         "Label": "Ausdauerkosten",
         "Strained": "Anstrengen: Die passende Ausdauer ist leer oder reicht nicht, die andere zahlt.",
@@ -38,6 +39,13 @@
         "Capped": "Regel der 3: {raw} wird zu {value}",
         "Minimum": "Regel der 1: mindestens ein Würfel"
       }
+    },
+    "PresetDialog": {
+      "Title": "Würfel vorgeben: {label}",
+      "Sixes": "Sechser",
+      "Ones": "Einser",
+      "Increase": "Einen mehr",
+      "Decrease": "Einen weniger"
     },
     "Settings": {
       "AutoCost": {

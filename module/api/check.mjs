@@ -8,6 +8,7 @@ import * as costRules from "../rules/cost.mjs";
 import * as checkRules from "../rules/check.mjs";
 import * as convictionRules from "../rules/conviction.mjs";
 import CheckDialog from "../apps/check-dialog.mjs";
+import PresetDialog from "../apps/preset-dialog.mjs";
 import CheckMessageData from "../data/check-message.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
 
@@ -36,6 +37,7 @@ import { SYSTEM_ID } from "../settings.mjs";
  *                                                Pass false to roll directly, e.g. from a macro.
  * @param {{sixes?: number, ones?: number}} [options.preset]  GM only: exactly this many sixes and ones (#25).
  *                                                The other dice show 2 to 5. Ignored with a warning for players.
+ *                                                In the check dialog, the GM can also open a window to preset them.
  * @returns {Promise<{roll: Roll, pool: object, result: object, cost: object, message: ChatMessage}|null>}
  *   null if the check could not be rolled or the dialog was closed.
  */
@@ -72,6 +74,7 @@ export async function rollCheck(actor, key, options = {}) {
   const autoCost = game.settings.get(SYSTEM_ID, "autoCost");
   let payments = options.cost ?? (autoCost ? cost.payments : []);
 
+  let askPreset = false;
   if ( dialog ) {
     const choice = await CheckDialog.wait({
       label: target.label, base: target.base, grade, modifiers, helpers, messageMode,
@@ -80,6 +83,7 @@ export async function rollCheck(actor, key, options = {}) {
     if ( !choice ) return null;
     ({ grade, modifiers, helpers, messageMode } = choice);
     payments = choice.cost;
+    askPreset = choice.preset;
   }
 
   // The message data keeps bonuses, penalties and helpers apart; it nets them via rules.check.pool
@@ -89,6 +93,11 @@ export async function rollCheck(actor, key, options = {}) {
   };
   const data = new CheckMessageData(messageData);
   const pool = data.pool;
+  // The GM chose to preset the dice; the pool size is only known now
+  if ( askPreset ) {
+    preset = await PresetDialog.wait({ label: target.label, dice: pool.dice });
+    if ( !preset ) return null;
+  }
   const roll = preset ? await presetRoll(pool.dice, preset) : await new Roll(`${pool.dice}d6`).evaluate();
 
   // Consequences: the rolling client applies them at once, or the card keeps them open
