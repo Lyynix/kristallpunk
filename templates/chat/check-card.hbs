@@ -3,11 +3,10 @@
     <span class="check-label">{{label}}</span>
     <span class="check-grade">{{localize grade}}</span>
   </header>
-  <ol class="check-dice">
+  <ol class="check-dice current">
     {{#each dice as |die|}}
-    <li class="die {{die.highlight}} {{#if die.kept}}kept{{/if}}" data-face="{{die.face}}" aria-label="{{die.face}}"
-        {{#if die.kept}}data-tooltip="{{localize "KRISTALLPUNK.Check.Reroll.Kept"}}"{{/if}}>
-      <i class="{{die.icon}}" inert></i>{{#if die.kept}}<i class="kept-mark fa-solid fa-lock" inert></i>{{/if}}
+    <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}">
+      <i class="{{die.icon}}" inert></i>
     </li>
     {{/each}}
   </ol>
@@ -18,8 +17,13 @@
     {{#if result.criticalFailure}}<span class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</span>{{/if}}
   </p>
   {{#if reroll.option}}
-  <button type="button" class="reroll" data-action="rerollWithConviction" data-tooltip="{{localize reroll.option.hint}}">
+  <button type="button" class="reroll" data-action="rerollWithConviction" data-mode="{{reroll.option.mode}}" data-tooltip="{{localize reroll.option.hint}}">
     <i class="fa-solid fa-dice" inert></i> {{localize "KRISTALLPUNK.Check.Reroll.Button"}}
+  </button>
+  {{/if}}
+  {{#if reroll.competence}}
+  <button type="button" class="reroll" data-action="rerollWithCompetence" data-tooltip-text="{{reroll.competence.hint}}">
+    <i class="fa-solid fa-dice-one" inert></i> {{localize "KRISTALLPUNK.Check.Reroll.Competence.Button"}}
   </button>
   {{/if}}
   {{#if cost}}
@@ -58,14 +62,20 @@
   </button>
   {{/if}}
   {{/if}}
-  {{#if reroll.first}}
-  <details class="check-first">
-    <summary>{{localize "KRISTALLPUNK.Check.Reroll.First"}}</summary>
-    <ol class="check-dice">
-      {{#each reroll.first.dice as |die|}}
-      <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}"><i class="{{die.icon}}" inert></i></li>
-      {{/each}}
-    </ol>
+  {{#if reroll.history}}
+  <details class="check-history">
+    <summary>{{localize "KRISTALLPUNK.Check.Reroll.History"}}</summary>
+    {{#each reroll.history as |step|}}
+    <div class="history-step">
+      <span class="step-label">{{step.label}}</span>
+      <ol class="check-dice">
+        {{#each step.dice as |die|}}
+        <li class="die {{#if die.kept}}kept{{/if}}" data-face="{{die.face}}" aria-label="{{die.face}}"
+            {{#if die.kept}}data-tooltip="{{localize "KRISTALLPUNK.Check.Reroll.Kept"}}"{{/if}}><i class="{{die.icon}}" inert></i></li>
+        {{/each}}
+      </ol>
+    </div>
+    {{/each}}
   </details>
   {{/if}}
   <details class="check-pool">

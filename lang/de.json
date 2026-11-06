@@ -87,8 +87,20 @@
           "keepSixes": "Die 6er bleiben, die übrigen Würfel werden neu gewürfelt. Kostet 1 Innenleben.",
           "all": "Alle Würfel werden neu gewürfelt, auch die 6er. Kostet 1 Innenleben."
         },
-        "Kept": "aus dem ersten Wurf behalten",
-        "First": "Erster Wurf"
+        "Competence": {
+          "Button": "Kompetenz einsetzen",
+          "Hint": "Alle Einser werden neu gewürfelt, wenn eine Kompetenz die Handlung abdeckt.",
+          "List": "Kompetenzen: {competences}",
+          "None": "Keine Kompetenzen eingetragen."
+        },
+        "Kept": "aus dem vorigen Wurf behalten",
+        "History": "Verlauf",
+        "Step": {
+          "first": "Erster Wurf",
+          "keepSixes": "Innenleben: 6er behalten, {count} neu",
+          "all": "Innenleben: alle {count} neu",
+          "ones": "Kompetenz: {count} Einser neu"
+        }
       },
       "Context": {
         "UndoConsequences": "Konsequenzen rückgängig machen"

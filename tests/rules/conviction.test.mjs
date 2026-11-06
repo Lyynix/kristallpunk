@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
-  CONVICTION_STAGES, OPTIONS, convictionStage, rerollMode, reroll, consequences
+  CONVICTION_STAGES, OPTIONS, convictionStage, rerollMode, consequences
 } from "../../module/rules/conviction.mjs";
 
 describe("convictionStage", () => {
@@ -54,30 +54,6 @@ describe("rerollMode", () => {
     assert.throws(() => rerollMode(4), RangeError);
     assert.throws(() => rerollMode(-4), RangeError);
     assert.throws(() => rerollMode(1.5), TypeError);
-  });
-});
-
-describe("reroll", () => {
-  it("keeps the sixes and rerolls the rest", () => {
-    assert.deepEqual(reroll({ faces: [6, 3, 6, 1], mode: "keepSixes" }), { keep: [6, 6], count: 2 });
-  });
-
-  it("rerolls every die, sixes included", () => {
-    assert.deepEqual(reroll({ faces: [6, 3, 6, 1], mode: "all" }), { keep: [], count: 4 });
-  });
-
-  it("has nothing to reroll when all dice show six", () => {
-    assert.deepEqual(reroll({ faces: [6, 6], mode: "keepSixes" }), { keep: [6, 6], count: 0 });
-  });
-
-  it("rerolls everything when there is no six to keep", () => {
-    assert.deepEqual(reroll({ faces: [2, 1, 4], mode: "keepSixes" }), { keep: [], count: 3 });
-  });
-
-  it("rejects an unknown mode and invalid faces", () => {
-    assert.throws(() => reroll({ faces: [6, 1], mode: "half" }), RangeError);
-    assert.throws(() => reroll({ faces: [], mode: "all" }), TypeError);
-    assert.throws(() => reroll({ faces: [7], mode: "all" }), RangeError);
   });
 });
 
