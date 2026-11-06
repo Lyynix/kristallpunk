@@ -63,7 +63,8 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
    * Open the dialog and wait for the choices.
    * @param {object} config  See the constructor, without `resolve`.
    * @returns {Promise<{grade: string, modifiers: {value: number, label: string}[], helpers: number,
-   *   messageMode: string, cost: {domain: string, amount: number}[]}|null>}
+   *   messageMode: string, cost: {domain: string, amount: number}[], preset: boolean}|null>}
+   *   `preset` is true if the GM chose to preset the dice instead of rolling.
    */
   static wait(config) {
     return new Promise(resolve => new CheckDialog({ ...config, resolve }).render({ force: true }));
@@ -101,7 +102,13 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
       messageModes: Object.fromEntries(MESSAGE_MODES.map(mode => [mode, CONFIG.ChatMessage.modes[mode].label])),
       cost: this.#prepareCost(),
       preview: this.#preview(),
-      buttons: [{ type: "submit", icon: "fa-solid fa-dice-d6", label: "KRISTALLPUNK.CheckDialog.Roll" }]
+      buttons: [
+        { type: "submit", icon: "fa-solid fa-dice-d6", label: "KRISTALLPUNK.CheckDialog.Roll" },
+        // GM only: preset sixes and ones in a second window (#25)
+        ...(game.user.isGM ? [{
+          type: "submit", name: "preset", icon: "fa-solid fa-dice", label: "KRISTALLPUNK.CheckDialog.Preset"
+        }] : [])
+      ]
     };
   }
 
@@ -230,13 +237,15 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
 
   /**
    * @this {CheckDialog}
+   * @param {SubmitEvent} event
    */
-  static async #onSubmit() {
+  static async #onSubmit(event) {
     this.#readForm();
     const { grade, modifiers, helpers, messageMode, cost } = this.#state;
     this.#resolve?.({
       grade, modifiers: modifiers.filter(modifier => modifier.value !== 0), helpers, messageMode,
-      cost: cost.filter(payment => payment.amount > 0)
+      cost: cost.filter(payment => payment.amount > 0),
+      preset: game.user.isGM && (event.submitter?.name === "preset")
     });
     this.#resolve = null;
   }

@@ -665,6 +665,16 @@
   gap: 0.75rem;
 }
 
+.kristallpunk:is(.check-dialog, .preset-dialog) .form-footer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.kristallpunk:is(.check-dialog, .preset-dialog) .form-footer button {
+  flex: 1;
+}
+
 .kristallpunk.check-dialog .check-form {
   display: flex;
   flex-direction: column;
@@ -745,6 +755,47 @@
 }
 
 /* -------------------------------------------- */
+/*  Preset dialog (#25)                         */
+/* -------------------------------------------- */
+
+.kristallpunk.preset-dialog .window-content {
+  gap: 0.75rem;
+}
+
+.kristallpunk.preset-dialog .preset-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.kristallpunk.preset-dialog .check-dice {
+  justify-content: center;
+}
+
+.kristallpunk.preset-dialog .counters {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.kristallpunk.preset-dialog .counter {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.kristallpunk.preset-dialog .counter .die {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 3rem;
+  justify-content: center;
+  font-size: var(--font-size-20, 1.25rem);
+  font-weight: bold;
+}
+
+/* -------------------------------------------- */
 /*  Check chat card                             */
 /* -------------------------------------------- */
 
@@ -769,7 +820,7 @@
   font-style: italic;
 }
 
-.kristallpunk.check-card .check-dice {
+.kristallpunk:is(.check-card, .preset-dialog) .check-dice {
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem;
@@ -779,11 +830,11 @@
   font-size: 1.6rem;
 }
 
-.kristallpunk.check-card .die.success {
+.kristallpunk:is(.check-card, .preset-dialog) .die.success {
   color: var(--color-level-success);
 }
 
-.kristallpunk.check-card .die.failure {
+.kristallpunk:is(.check-card, .preset-dialog) .die.failure {
   color: var(--color-level-error);
 }
 

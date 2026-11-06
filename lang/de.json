@@ -19,6 +19,7 @@
       "Helpers": "Helfer",
       "Visibility": "Sichtbarkeit",
       "Roll": "Würfeln",
+      "Preset": "Würfel vorgeben …",
       "Cost": {
         "Label": "Ausdauerkosten",
         "Strained": "Anstrengen: Die passende Ausdauer ist leer oder reicht nicht, die andere zahlt.",
@@ -38,6 +39,13 @@
         "Capped": "Regel der 3: {raw} wird zu {value}",
         "Minimum": "Regel der 1: mindestens ein Würfel"
       }
+    },
+    "PresetDialog": {
+      "Title": "Würfel vorgeben: {label}",
+      "Sixes": "Sechser",
+      "Ones": "Einser",
+      "Increase": "Einen mehr",
+      "Decrease": "Einen weniger"
     },
     "Settings": {
       "AutoCost": {
@@ -109,7 +117,8 @@
         "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
         "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen.",
         "CannotApply": "Du darfst die Ausdauer dieser Figur nicht ändern.",
-        "ActorMissing": "Die Figur dieser Probe gibt es nicht mehr."
+        "ActorMissing": "Die Figur dieser Probe gibt es nicht mehr.",
+        "PresetGMOnly": "Nur die SL darf Würfel vorgeben. Es wird normal gewürfelt."
       }
     },
     "StatusTracker": {
