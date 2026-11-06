@@ -187,9 +187,8 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       await message.update({ "system.rerolls": rerolls });
       throw err;
     }
-    await game.dice3d?.showForRoll(roll, game.user, true, message.whisper.length ? message.whisper : null,
-      message.blind, message.id, message.speaker);
-    await message.update({ rolls: [...message.rolls, roll] });
+    // Dice So Nice animates rolls added to a message by itself; an edit may have switched that off (#24)
+    await message.update({ rolls: [...message.rolls, roll], "flags.dice-so-nice.skip": false });
     return true;
   }
 
@@ -226,7 +225,10 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     const openBefore = this.convictionOpen;
     const appliedBefore = this.conviction.change !== 0;
     const roll = await rollWithFaces(faces);
-    await message.update({ "system.rerolls": [...this.rerolls, "edit"], rolls: [...message.rolls, roll] });
+    // Dice So Nice would animate the added roll; the skip flag stops it, the next reroll switches it off again
+    await message.update({
+      "system.rerolls": [...this.rerolls, "edit"], rolls: [...message.rolls, roll], "flags.dice-so-nice.skip": true
+    });
 
     // An open change stays open; an applied one follows the edit; without any change so far,
     // the setting decides as for a new check
