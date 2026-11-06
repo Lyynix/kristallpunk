@@ -139,6 +139,32 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
+   * Whether the current user could reroll the ones with a competence (Kurzregeln 1.0, p. 6):
+   * only on skill checks, as rules.check.canReroll allows, only with ones to reroll,
+   * and only for the one who rolled and the GM. Competences are free text until 0.4.0,
+   * so whether one fits is up to the players.
+   * @type {boolean}
+   */
+  get canRerollWithCompetence() {
+    if ( !(this.check in CONFIG.KRISTALLPUNK.skills) || this.rerolling ) return false;
+    if ( !(game.user.isGM || this.parent.isAuthor) ) return false;
+    if ( !checkRules.canReroll({ rerolls: this.rerolls, mode: "ones" }) ) return false;
+    return checkRules.reroll({ faces: this.faces, mode: "ones" }).count > 0;
+  }
+
+  /**
+   * Reroll all ones with a competence. The result may change a critical result, so with automatic
+   * consequences, conviction is updated right away.
+   * @returns {Promise<boolean>}  Whether this call rerolled.
+   */
+  async rerollWithCompetence() {
+    if ( !this.canRerollWithCompetence ) return false;
+    if ( !await this.#reroll("ones") ) return false;
+    if ( game.settings.get(SYSTEM_ID, "autoApply") ) await this.parent.system.applyConviction();
+    return true;
+  }
+
+  /**
    * Reroll the current faces in a mode. The card records the reroll before rolling, so a second click,
    * here or on another client, finds it recorded and does nothing. The new dice are attached as a further roll.
    * @param {string} mode
@@ -375,8 +401,21 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     })) : null;
     return {
       option: mode ? { hint: `KRISTALLPUNK.Check.Reroll.Mode.${mode}` } : null,
+      competence: this.canRerollWithCompetence ? { hint: this.#competenceHint() } : null,
       history
     };
+  }
+
+  /**
+   * Tooltip of the competence button: what it does, and the competences of the figure as a reminder.
+   * Plain text, since competences are entered by players.
+   * @returns {string}
+   */
+  #competenceHint() {
+    const hint = game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.Hint");
+    const competences = fromUuidSync(this.actor)?.system.competences?.trim();
+    if ( !competences ) return `${hint} ${game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.None")}`;
+    return `${hint} ${game.i18n.format("KRISTALLPUNK.Check.Reroll.Competence.List", { competences })}`;
   }
 
   /**
@@ -417,6 +456,10 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     content.querySelector("[data-action=rerollWithConviction]")?.addEventListener("click", event => {
       event.currentTarget.disabled = true;
       message.system.rerollWithConviction();
+    });
+    content.querySelector("[data-action=rerollWithCompetence]")?.addEventListener("click", event => {
+      event.currentTarget.disabled = true;
+      message.system.rerollWithCompetence();
     });
   }
 }

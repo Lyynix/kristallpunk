@@ -21,6 +21,11 @@
     <i class="fa-solid fa-dice" inert></i> {{localize "KRISTALLPUNK.Check.Reroll.Button"}}
   </button>
   {{/if}}
+  {{#if reroll.competence}}
+  <button type="button" class="reroll" data-action="rerollWithCompetence" data-tooltip-text="{{reroll.competence.hint}}">
+    <i class="fa-solid fa-dice-one" inert></i> {{localize "KRISTALLPUNK.Check.Reroll.Competence.Button"}}
+  </button>
+  {{/if}}
   {{#if cost}}
   <p class="check-cost {{#if cost.applied}}applied{{else}}open{{/if}}">
     {{localize "KRISTALLPUNK.Check.Cost.Label"}}: {{cost.payments}}
