@@ -68,10 +68,14 @@
         "Open": "noch nicht abgezogen",
         "Apply": "Ausdauer abziehen"
       },
+      "Context": {
+        "UndoConsequences": "Konsequenzen rückgängig machen"
+      },
       "Warning": {
         "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
         "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen.",
-        "CannotApply": "Du darfst die Ausdauer dieser Figur nicht ändern."
+        "CannotApply": "Du darfst die Ausdauer dieser Figur nicht ändern.",
+        "ActorMissing": "Die Figur dieser Probe gibt es nicht mehr."
       }
     },
     "StatusTracker": {

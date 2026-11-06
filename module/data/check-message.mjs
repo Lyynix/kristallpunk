@@ -5,7 +5,7 @@
  */
 
 import * as checkRules from "../rules/check.mjs";
-import { payStamina } from "../api/check.mjs";
+import { payStamina, refundStamina } from "../api/check.mjs";
 
 const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
 
@@ -99,6 +99,23 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     return true;
   }
 
+  /**
+   * Undo the consequences of this check: give back the stamina it paid and mark the cost as open again,
+   * so it can be applied anew. GM only, without time limit (#14).
+   * @returns {Promise<boolean>}  Whether anything was undone.
+   */
+  async undoConsequences() {
+    if ( !game.user.isGM || !this.applied ) return false;
+    const actor = await fromUuid(this.actor);
+    if ( !actor ) {
+      ui.notifications.warn("KRISTALLPUNK.Check.Warning.ActorMissing", { localize: true });
+      return false;
+    }
+    await this.parent.update({ "system.applied": false });
+    await refundStamina(actor, this.cost);
+    return true;
+  }
+
   /** Label of what was checked, e.g. "Athletik". */
   get label() {
     const { skills, derived } = CONFIG.KRISTALLPUNK;
@@ -142,6 +159,21 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         ]
       }
     }, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+  }
+
+  /**
+   * Entries for the context menu of chat messages. Registered for the getChatMessageContextOptions hook.
+   * @param {ChatLog} application
+   * @param {object[]} options
+   */
+  static onGetChatMessageContextOptions(application, options) {
+    const message = li => game.messages.get(li.dataset.messageId);
+    options.push({
+      label: "KRISTALLPUNK.Check.Context.UndoConsequences",
+      icon: "fa-solid fa-rotate-left",
+      visible: li => game.user.isGM && (message(li)?.type === "check") && message(li).system.applied,
+      onClick: (event, li) => message(li)?.system.undoConsequences()
+    });
   }
 
   /**

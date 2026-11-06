@@ -166,3 +166,18 @@ function resolveTarget(actor, key) {
   }
   return null;
 }
+
+/**
+ * Give stamina back that a check has paid, but not above the maximum.
+ * @param {Actor} actor
+ * @param {{domain: string, amount: number}[]} payments
+ * @returns {Promise<void>}
+ */
+export async function refundStamina(actor, payments) {
+  const update = {};
+  for ( const { domain, amount } of payments ) {
+    const { value, max } = actor.system.stamina[domain];
+    update[`system.stamina.${domain}.value`] = Math.min(value + amount, Math.max(max, value));
+  }
+  await actor.update(update);
+}

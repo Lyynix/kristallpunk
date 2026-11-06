@@ -42,3 +42,4 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("renderChatMessageHTML", CheckMessageData.onRenderChatMessageHTML);
+Hooks.on("getChatMessageContextOptions", CheckMessageData.onGetChatMessageContextOptions);
