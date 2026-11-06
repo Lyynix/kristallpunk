@@ -34,6 +34,8 @@ import { SYSTEM_ID } from "../settings.mjs";
  * @param {{domain: string, amount: number}[]} [options.cost]  Stamina payments overriding the computed cost.
  * @param {boolean} [options.dialog=true]         Show the check dialog, prefilled with these options.
  *                                                Pass false to roll directly, e.g. from a macro.
+ * @param {{sixes?: number, ones?: number}} [options.preset]  GM only: exactly this many sixes and ones (#25).
+ *                                                The other dice show 2 to 5. Ignored with a warning for players.
  * @returns {Promise<{roll: Roll, pool: object, result: object, cost: object, message: ChatMessage}|null>}
  *   null if the check could not be rolled or the dialog was closed.
  */
@@ -45,6 +47,11 @@ export async function rollCheck(actor, key, options = {}) {
   if ( !actor?.isOwner ) {
     ui.notifications.warn("KRISTALLPUNK.Check.Warning.NotOwner", { localize: true });
     return null;
+  }
+  let preset = options.preset ?? null;
+  if ( preset && !game.user.isGM ) {
+    ui.notifications.warn("KRISTALLPUNK.Check.Warning.PresetGMOnly", { localize: true });
+    preset = null;
   }
   const target = resolveTarget(actor, key);
   if ( !target ) throw new Error(`Unknown check ${key}`);
@@ -82,7 +89,7 @@ export async function rollCheck(actor, key, options = {}) {
   };
   const data = new CheckMessageData(messageData);
   const pool = data.pool;
-  const roll = await new Roll(`${pool.dice}d6`).evaluate();
+  const roll = preset ? await presetRoll(pool.dice, preset) : await new Roll(`${pool.dice}d6`).evaluate();
 
   // Consequences: the rolling client applies them at once, or the card keeps them open
   const autoApply = game.settings.get(SYSTEM_ID, "autoApply");
@@ -107,6 +114,37 @@ export async function rollCheck(actor, key, options = {}) {
   if ( !message ) return null;
 
   return { roll, pool, result: message.system.result, cost: { ...cost, payments, auto: autoCost }, message };
+}
+
+/**
+ * A roll of dice d6 with exactly the given number of sixes and ones (#25). All other dice show 2 to 5,
+ * drawn with Foundry's random generator; for a d6 known to be neither 1 nor 6 this is the fair distribution.
+ * The faces are shuffled, and the result is a plain evaluated Nd6 roll, so the card and Dice So Nice
+ * cannot tell it from a normal one.
+ * @param {number} dice
+ * @param {{sixes?: number, ones?: number}} preset
+ * @returns {Promise<Roll>}
+ */
+async function presetRoll(dice, { sixes = 0, ones = 0 }) {
+  for ( const count of [sixes, ones] ) {
+    if ( !Number.isInteger(count) || (count < 0) ) throw new Error(`Invalid preset count ${count}`);
+  }
+  if ( sixes + ones > dice ) throw new Error(`Preset of ${sixes + ones} dice exceeds the pool of ${dice}`);
+  const random = () => CONFIG.Dice.randomUniform();
+  const faces = [
+    ...Array(sixes).fill(6),
+    ...Array(ones).fill(1),
+    ...Array.from({ length: dice - sixes - ones }, () => 2 + Math.floor(random() * 4))
+  ];
+  for ( let i = faces.length - 1; i > 0; i-- ) {
+    const j = Math.floor(random() * (i + 1));
+    [faces[i], faces[j]] = [faces[j], faces[i]];
+  }
+  // Evaluate without the manual dice prompt, then put the faces in place
+  const roll = await new Roll(`${dice}d6`).evaluate({ allowInteractive: false });
+  roll.dice[0].results.forEach((result, index) => result.result = faces[index]);
+  roll._total = roll._evaluateTotal();
+  return roll;
 }
 
 /**
