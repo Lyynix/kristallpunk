@@ -7,6 +7,11 @@
     {{#each dice as |die|}}
     <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}">
       <i class="{{die.icon}}" inert></i>
+      {{#if @root.edit}}
+      {{!-- Shown instead of the icon while the GM edits the faces (#24) --}}
+      <input type="text" inputmode="numeric" maxlength="1" value="{{die.face}}" data-index="{{@index}}"
+             aria-label="{{localize "KRISTALLPUNK.Check.Edit.Die"}}">
+      {{/if}}
     </li>
     {{/each}}
   </ol>
@@ -82,4 +87,19 @@
     <summary>{{localize "KRISTALLPUNK.CheckDialog.Preview.Dice" count=pool.dice}}</summary>
     <ul>{{#each pool.lines as |line|}}<li>{{line}}</li>{{/each}}</ul>
   </details>
+  {{#if edit}}
+  {{!-- Collapsed until the GM edits the faces (#24) --}}
+  <div class="check-edit">
+    <div class="check-edit-inner">
+      <div class="check-edit-buttons">
+        <button type="button" data-action="acceptEdit">
+          <i class="fa-solid fa-check" inert></i> {{localize "KRISTALLPUNK.Check.Edit.Accept"}}
+        </button>
+        <button type="button" data-action="cancelEdit">
+          <i class="fa-solid fa-xmark" inert></i> {{localize "KRISTALLPUNK.Check.Edit.Cancel"}}
+        </button>
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </div>

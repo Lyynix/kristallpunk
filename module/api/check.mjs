@@ -149,8 +149,17 @@ async function presetRoll(dice, { sixes = 0, ones = 0 }) {
     const j = Math.floor(random() * (i + 1));
     [faces[i], faces[j]] = [faces[j], faces[i]];
   }
+  return rollWithFaces(faces);
+}
+
+/**
+ * A plain evaluated Nd6 roll showing the given faces in this order, for presets (#25) and edits by the GM (#24).
+ * @param {number[]} faces  1 to 6 each.
+ * @returns {Promise<Roll>}
+ */
+export async function rollWithFaces(faces) {
   // Evaluate without the manual dice prompt, then put the faces in place
-  const roll = await new Roll(`${dice}d6`).evaluate({ allowInteractive: false });
+  const roll = await new Roll(`${faces.length}d6`).evaluate({ allowInteractive: false });
   roll.dice[0].results.forEach((result, index) => result.result = faces[index]);
   roll._total = roll._evaluateTotal();
   return roll;

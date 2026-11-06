@@ -1,12 +1,12 @@
 /**
  * Data of a check chat message (type "check").
- * Stores only what was chosen when rolling; pool and result are computed from it and the attached roll,
- * so a later correction (#24) only has to change the inputs.
+ * Stores only what was chosen when rolling; pool and result are computed from it and the attached rolls.
+ * Rerolls and corrections by the GM (#24) are further steps with their own roll, so nothing gets lost.
  */
 
 import * as checkRules from "../rules/check.mjs";
 import * as convictionRules from "../rules/conviction.mjs";
-import { payStamina, refundStamina, shiftConviction } from "../api/check.mjs";
+import { payStamina, refundStamina, rollWithFaces, shiftConviction } from "../api/check.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
 
 const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
@@ -187,9 +187,68 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       await message.update({ "system.rerolls": rerolls });
       throw err;
     }
-    await game.dice3d?.showForRoll(roll, game.user, true, message.whisper.length ? message.whisper : null,
-      message.blind, message.id, message.speaker);
-    await message.update({ rolls: [...message.rolls, roll] });
+    // Dice So Nice animates rolls added to a message by itself; an edit may have switched that off (#24)
+    await message.update({ rolls: [...message.rolls, roll], "flags.dice-so-nice.skip": false });
+    return true;
+  }
+
+  /**
+   * Whether the current user may edit the faces of this check: the GM, unless a reroll is under way.
+   * @type {boolean}
+   */
+  get canEdit() {
+    return game.user.isGM && !this.rerolling;
+  }
+
+  /**
+   * Replace the current faces with corrected ones (#24). The edit is stored as a further step with its own
+   * roll, which is not animated. The conviction change the edit causes is applied right away if the card's
+   * change was applied before, or if there was none yet and consequences are applied automatically.
+   * A change that was still open stays open with its new value.
+   * @param {number[]} faces  One face (1 to 6) per current die, in any order.
+   * @returns {Promise<boolean>}  Whether the faces were changed by this call.
+   */
+  async editFaces(faces) {
+    if ( !this.canEdit ) return false;
+    const current = this.faces;
+    if ( !Array.isArray(faces) || (faces.length !== current.length) ) {
+      throw new Error(`Expected ${current.length} faces, got ${faces?.length}`);
+    }
+    for ( const face of faces ) {
+      if ( !Number.isInteger(face) || (face < 1) || (face > 6) ) throw new RangeError(`Invalid face ${face}`);
+    }
+    // The order of the dice does not matter for a check
+    const sorted = list => [...list].sort((a, b) => a - b).join();
+    if ( sorted(faces) === sorted(current) ) return false;
+
+    const message = this.parent;
+    const openBefore = this.convictionOpen;
+    const appliedBefore = this.conviction.change !== 0;
+    const roll = await rollWithFaces(faces);
+    // Dice So Nice would animate the added roll; the skip flag stops it, the next reroll switches it off again
+    await message.update({
+      "system.rerolls": [...this.rerolls, "edit"], rolls: [...message.rolls, roll], "flags.dice-so-nice.skip": true
+    });
+
+    // An open change stays open; an applied one follows the edit; without any change so far,
+    // the setting decides as for a new check
+    const difference = message.system.convictionOpen;
+    if ( (openBefore !== 0) || !difference ) return true;
+    if ( !appliedBefore && !game.settings.get(SYSTEM_ID, "autoApply") ) return true;
+    const actor = await fromUuid(this.actor);
+    if ( !actor ) {
+      ui.notifications.warn("KRISTALLPUNK.Check.Warning.ActorMissing", { localize: true });
+      return true;
+    }
+    const { change } = message.system.conviction;
+    await message.update({ "system.conviction.change": change + difference });
+    try {
+      const actual = await shiftConviction(actor, difference);
+      if ( actual !== difference ) await message.update({ "system.conviction.change": change + actual });
+    } catch (err) {
+      await message.update({ "system.conviction.change": change });
+      throw err;
+    }
     return true;
   }
 
@@ -328,6 +387,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       dice: orderDice(this.faces, result.criticalFailure),
       result,
       reroll: this.#prepareReroll(),
+      edit: this.canEdit,
       outcome: result.success ? "success" : "failure",
       cost: this.cost.length ? {
         payments: this.cost.map(({ domain, amount }) => game.i18n.format("KRISTALLPUNK.Check.Cost.Payment", {
@@ -426,6 +486,15 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   static onGetChatMessageContextOptions(application, options) {
     const message = li => game.messages.get(li.dataset.messageId);
     options.push({
+      label: "KRISTALLPUNK.Check.Context.Edit",
+      icon: "fa-solid fa-pen",
+      visible: li => {
+        const entry = message(li);
+        return (entry?.type === "check") && entry.isContentVisible && entry.system.canEdit && !editing.has(entry.id);
+      },
+      onClick: (event, li) => startEdit(message(li))
+    });
+    options.push({
       label: "KRISTALLPUNK.Check.Context.UndoConsequences",
       icon: "fa-solid fa-rotate-left",
       visible: li => game.user.isGM && (message(li)?.type === "check") && message(li).system.hasConsequences,
@@ -461,7 +530,147 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       event.currentTarget.disabled = true;
       message.system.rerollWithCompetence();
     });
+    const card = content.querySelector(".check-card");
+    if ( card?.querySelector(".check-edit") ) bindEdit(card, message);
   }
+}
+
+/* -------------------------------------------- */
+/*  Editing the faces (#24)                     */
+/* -------------------------------------------- */
+
+/**
+ * Checks being edited on this client, by message id. Kept outside the card, so the edit survives
+ * a re-render of the message. `faces` are the edited faces in display order, `original` the faces the edit
+ * started from; `saving` is set once the GM accepted.
+ * @type {Map<string, {faces: number[], original: string, saving: boolean}>}
+ */
+const editing = new Map();
+
+/**
+ * The current faces of a check in display order, as a comparable string.
+ * @param {ChatMessage} message
+ * @returns {string}
+ */
+function displayedFaces(message) {
+  const { faces, result } = message.system;
+  return orderDice(faces, result.criticalFailure).map(die => die.face).join();
+}
+
+/**
+ * All rendered cards of a message (chat log, popouts, notifications).
+ * @param {ChatMessage} message
+ * @returns {HTMLElement[]}
+ */
+function cardsOf(message) {
+  return [...document.querySelectorAll(`[data-message-id="${message.id}"] .kristallpunk.check-card`)];
+}
+
+/**
+ * Start editing the faces of a check: the dice turn into inputs, accept and cancel slide in.
+ * @param {ChatMessage} message
+ */
+function startEdit(message) {
+  if ( !message?.system.canEdit || editing.has(message.id) ) return;
+  const original = displayedFaces(message);
+  editing.set(message.id, { faces: original.split(",").map(Number), original, saving: false });
+  const cards = cardsOf(message);
+  for ( const card of cards ) showEdit(card, message);
+  const input = cards.find(card => card.offsetParent)?.querySelector(".check-dice.current input");
+  input?.focus();
+}
+
+/**
+ * Put a card into edit mode as stored for its message. Adding the classes to a card already on screen
+ * animates; a card rendered with them shows the edit at once.
+ * @param {HTMLElement} card
+ * @param {ChatMessage} message
+ */
+function showEdit(card, message) {
+  const state = editing.get(message.id);
+  if ( !state ) return;
+  card.querySelectorAll(".check-dice.current input").forEach((input, index) => input.value = state.faces[index]);
+  card.querySelectorAll("[data-action=acceptEdit], [data-action=cancelEdit]").forEach(button => {
+    button.disabled = state.saving;
+  });
+  card.classList.add("edit-open");
+  card.classList.toggle("editing", !state.saving);
+}
+
+/**
+ * Leave edit mode: the dice show again and the buttons slide out.
+ * @param {ChatMessage} message
+ */
+function closeEdit(message) {
+  editing.delete(message.id);
+  for ( const card of cardsOf(message) ) card.classList.remove("editing", "edit-open");
+}
+
+/**
+ * Accept the edited faces: save them, then close. While saving, the buttons stay open,
+ * so the card does not jump when it is rendered anew.
+ * @param {ChatMessage} message
+ */
+async function acceptEdit(message) {
+  const state = editing.get(message.id);
+  if ( !state || state.saving ) return;
+  state.saving = true;
+  for ( const card of cardsOf(message) ) showEdit(card, message);
+  try {
+    await message.system.editFaces(state.faces);
+  } finally {
+    // Close once the new card is on screen, so it slides shut instead of jumping
+    requestAnimationFrame(() => requestAnimationFrame(() => closeEdit(message)));
+  }
+}
+
+/**
+ * Wire up the edit controls of a freshly rendered card and restore an edit in progress.
+ * @param {HTMLElement} card
+ * @param {ChatMessage} message
+ */
+function bindEdit(card, message) {
+  const inputs = [...card.querySelectorAll(".check-dice.current input")];
+  const state = () => editing.get(message.id);
+  const valid = value => /^[1-6]$/.test(value);
+
+  inputs.forEach((input, index) => {
+    const select = () => input.select();
+    input.addEventListener("focus", select);
+    input.addEventListener("click", select);
+    input.addEventListener("input", () => {
+      if ( !state() || !valid(input.value) ) return;
+      state().faces[index] = Number(input.value);
+      const next = inputs[index + 1];
+      if ( next ) next.focus();
+    });
+    // Invalid input falls back to the last valid face once the GM leaves the field
+    input.addEventListener("change", () => {
+      if ( state() && !valid(input.value) ) input.value = state().faces[index];
+    });
+    input.addEventListener("blur", () => {
+      if ( state() && !valid(input.value) ) input.value = state().faces[index];
+    });
+    input.addEventListener("keydown", event => {
+      if ( event.key === "Enter" ) {
+        event.preventDefault();
+        input.dispatchEvent(new Event("change"));
+        acceptEdit(message);
+      } else if ( event.key === "Escape" ) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeEdit(message);
+      }
+    });
+  });
+  card.querySelector("[data-action=acceptEdit]").addEventListener("click", () => acceptEdit(message));
+  card.querySelector("[data-action=cancelEdit]").addEventListener("click", () => closeEdit(message));
+
+  // An edit in progress survives re-rendering, unless the dice changed meanwhile, e.g. by a reroll
+  const current = state();
+  if ( !current ) return;
+  if ( !current.saving && (current.original !== displayedFaces(message)) ) editing.delete(message.id);
+  else showEdit(card, message);
 }
 
 /* -------------------------------------------- */

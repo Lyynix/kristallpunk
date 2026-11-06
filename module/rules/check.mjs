@@ -97,9 +97,10 @@ export function evaluate({ faces, grade }) {
 /**
  * Ways to reroll dice of a check:
  * - by spending conviction (Kurzregeln 1.0, p. 9–10): `keepSixes` keeps the sixes, `all` rerolls every die;
- * - by a competence (Kurzregeln 1.0, p. 6): `ones` rerolls all ones.
+ * - by a competence (Kurzregeln 1.0, p. 6): `ones` rerolls all ones;
+ * - by the GM correcting the roll afterwards (#24): `edit` replaces every die with chosen faces.
  */
-export const REROLL_MODES = ["keepSixes", "all", "ones"];
+export const REROLL_MODES = ["keepSixes", "all", "ones", "edit"];
 
 /** The reroll modes that spend conviction. */
 export const CONVICTION_REROLLS = ["keepSixes", "all"];
@@ -117,7 +118,8 @@ export const OPTIONS = {
  * Which dice stay and how many are rolled anew.
  * @param {object} data
  * @param {number[]} data.faces  The current faces, 1 to 6.
- * @param {string} data.mode     keepSixes, all or ones, see REROLL_MODES.
+ * @param {string} data.mode     keepSixes, all or ones, see REROLL_MODES; or edit, where the GM replaces
+ *                               every die with chosen faces (#24).
  * @returns {{keep: number[], count: number}}  `keep` in their current order.
  */
 export function reroll({ faces, mode }) {
@@ -138,6 +140,7 @@ export function reroll({ faces, mode }) {
  * - Conviction: once per check (Kurzregeln 1.0, p. 9–10).
  * - Competence: once per check, and once more after a conviction reroll (Kurzregeln 1.0, p. 6 and 9–10;
  *   provisional, see issue #7 and OPTIONS).
+ * - Edit by the GM (#24): always possible, and not counted as a reroll.
  * Whether there are dice to reroll, whether the check is on a skill and how conviction stands
  * is up to the caller.
  * @param {object} data
@@ -153,6 +156,7 @@ export function canReroll({ rerolls, mode, options = {} }) {
   if ( !OPTIONS.competenceAgain.includes(competenceAgain) ) {
     throw new RangeError(`unknown competenceAgain ${competenceAgain}`);
   }
+  if ( mode === "edit" ) return true;
 
   const conviction = rerolls.findIndex(done => CONVICTION_REROLLS.includes(done));
   if ( CONVICTION_REROLLS.includes(mode) ) return conviction === -1;

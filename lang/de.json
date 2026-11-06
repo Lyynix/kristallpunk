@@ -107,11 +107,18 @@
           "first": "Erster Wurf",
           "keepSixes": "Innenleben: 6er behalten, {count} neu",
           "all": "Innenleben: alle {count} neu",
-          "ones": "Kompetenz: {count} Einser neu"
+          "ones": "Kompetenz: {count} Einser neu",
+          "edit": "Von der SL bearbeitet"
         }
       },
       "Context": {
+        "Edit": "Wurf bearbeiten",
         "UndoConsequences": "Konsequenzen rückgängig machen"
+      },
+      "Edit": {
+        "Die": "Augenzahl",
+        "Accept": "Akzeptieren",
+        "Cancel": "Abbrechen"
       },
       "Warning": {
         "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
