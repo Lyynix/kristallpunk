@@ -36,14 +36,12 @@ export const OPTIONS = {
   tripleShift: ["once", "each"]
 };
 
-/** How dice are rerolled when conviction is spent (Kurzregeln 1.0, p. 9–10). */
-export const REROLL_MODES = ["keepSixes", "all"];
-
 /**
  * How a check may be rerolled by spending conviction (Kurzregeln 1.0, p. 9–10):
  * from +3 to +1 the sixes stay, from 0 to -2 all dice are rerolled, at -3 there is no reroll.
  * The value is the one before this check shifted conviction (provisional, see issue #17).
  * @param {number} value  Conviction from -3 to +3.
+ * The dice themselves are rerolled with rules.check.reroll.
  * @returns {"keepSixes"|"all"|null}
  */
 export function rerollMode(value) {
@@ -51,23 +49,6 @@ export function rerollMode(value) {
   if ( value >= 1 ) return "keepSixes";
   if ( value > LIMITS.min ) return "all";
   return null;
-}
-
-/**
- * Which dice stay and how many are rolled anew.
- * @param {object} data
- * @param {number[]} data.faces  Faces of the first roll, 1 to 6.
- * @param {string} data.mode     keepSixes or all.
- * @returns {{keep: number[], count: number}}
- */
-export function reroll({ faces, mode }) {
-  if ( !Array.isArray(faces) || !faces.length ) throw new TypeError("faces must contain at least one die");
-  for ( const face of faces ) {
-    if ( !Number.isInteger(face) || (face < 1) || (face > 6) ) throw new RangeError(`invalid face ${face}`);
-  }
-  if ( !REROLL_MODES.includes(mode) ) throw new RangeError(`unknown reroll mode ${mode}`);
-  const keep = mode === "keepSixes" ? faces.filter(face => face === 6) : [];
-  return { keep, count: faces.length - keep.length };
 }
 
 /**

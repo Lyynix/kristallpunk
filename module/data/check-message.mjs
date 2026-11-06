@@ -40,7 +40,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       }),
       // Reroll by spending conviction (#15): how it was rerolled; the new dice are the second roll
       reroll: new SchemaField({
-        mode: new StringField({ required: true, nullable: true, initial: null, choices: convictionRules.REROLL_MODES })
+        mode: new StringField({ required: true, nullable: true, initial: null, choices: checkRules.CONVICTION_REROLLS })
       })
     };
   }
@@ -81,12 +81,12 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Dice kept from the first roll on a reroll (the sixes from +3 to +1), from rules.conviction.reroll.
+   * Dice kept from the first roll on a reroll (the sixes from +3 to +1), from rules.check.reroll.
    * @type {number[]}
    */
   get kept() {
     if ( this.reroll.mode === null ) return [];
-    return convictionRules.reroll({ faces: this.firstFaces, mode: this.reroll.mode }).keep;
+    return checkRules.reroll({ faces: this.firstFaces, mode: this.reroll.mode }).keep;
   }
 
   /**
@@ -120,7 +120,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     if ( !(game.user.isGM || this.parent.isAuthor) ) return null;
     const mode = convictionRules.rerollMode(before);
     if ( !mode ) return null;
-    return convictionRules.reroll({ faces: this.firstFaces, mode }).count ? mode : null;
+    return checkRules.reroll({ faces: this.firstFaces, mode }).count ? mode : null;
   }
 
   /**
@@ -138,7 +138,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       return false;
     }
     const message = this.parent;
-    const { count } = convictionRules.reroll({ faces: this.firstFaces, mode });
+    const { count } = checkRules.reroll({ faces: this.firstFaces, mode });
     await message.update({ "system.reroll.mode": mode });
     let roll;
     try {

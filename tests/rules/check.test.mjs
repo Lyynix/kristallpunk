@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { evaluate, pool } from "../../module/rules/check.mjs";
+import { OPTIONS, evaluate, pool, reroll, canReroll } from "../../module/rules/check.mjs";
 
 /* -------------------------------------------- */
 /*  Pool (Kurzregeln 1.0, p. 4–5, 11–12)        */
@@ -196,5 +196,88 @@ describe("evaluate: invalid input", () => {
 
   it("rejects an unknown grade", () => {
     assert.throws(() => evaluate({ faces: [6], grade: "reckless" }));
+  });
+});
+
+/* -------------------------------------------- */
+
+describe("reroll", () => {
+  it("keeps the sixes and rerolls the rest", () => {
+    assert.deepEqual(reroll({ faces: [6, 3, 6, 1], mode: "keepSixes" }), { keep: [6, 6], count: 2 });
+  });
+
+  it("rerolls every die, sixes included", () => {
+    assert.deepEqual(reroll({ faces: [6, 3, 6, 1], mode: "all" }), { keep: [], count: 4 });
+  });
+
+  it("has nothing to reroll when all dice show six", () => {
+    assert.deepEqual(reroll({ faces: [6, 6], mode: "keepSixes" }), { keep: [6, 6], count: 0 });
+  });
+
+  it("rerolls everything when there is no six to keep", () => {
+    assert.deepEqual(reroll({ faces: [2, 1, 4], mode: "keepSixes" }), { keep: [], count: 3 });
+  });
+
+  it("rerolls the ones and keeps the rest", () => {
+    assert.deepEqual(reroll({ faces: [1, 4, 1, 6], mode: "ones" }), { keep: [4, 6], count: 2 });
+  });
+
+  it("has nothing to reroll without ones", () => {
+    assert.deepEqual(reroll({ faces: [2, 6], mode: "ones" }), { keep: [2, 6], count: 0 });
+  });
+
+  it("rerolls all dice when all show one", () => {
+    assert.deepEqual(reroll({ faces: [1, 1], mode: "ones" }), { keep: [], count: 2 });
+  });
+
+  it("rejects an unknown mode and invalid faces", () => {
+    assert.throws(() => reroll({ faces: [6, 1], mode: "half" }), RangeError);
+    assert.throws(() => reroll({ faces: [], mode: "all" }), TypeError);
+    assert.throws(() => reroll({ faces: [7], mode: "ones" }), RangeError);
+  });
+});
+
+describe("canReroll: conviction", () => {
+  it("allows one conviction reroll per check", () => {
+    for ( const mode of ["keepSixes", "all"] ) {
+      assert.equal(canReroll({ rerolls: [], mode }), true, mode);
+      assert.equal(canReroll({ rerolls: ["ones"], mode }), true, mode);
+      assert.equal(canReroll({ rerolls: ["keepSixes"], mode }), false, mode);
+      assert.equal(canReroll({ rerolls: ["all", "ones"], mode }), false, mode);
+    }
+  });
+});
+
+describe("canReroll: competence", () => {
+  it("allows the competence once, and once more after a conviction reroll", () => {
+    const cases = [
+      [[], true],
+      [["ones"], false],
+      [["keepSixes"], true],
+      [["ones", "all"], true],
+      [["all", "ones"], false],
+      [["ones", "keepSixes", "ones"], false]
+    ];
+    for ( const [rerolls, expected] of cases ) {
+      assert.equal(canReroll({ rerolls, mode: "ones" }), expected, rerolls.join(", ") || "none");
+    }
+  });
+
+  it("has 'afterConviction' as default option", () => {
+    assert.equal(OPTIONS.competenceAgain[0], "afterConviction");
+  });
+
+  it("allows the competence only once per check with the option 'onlyIfUnused'", () => {
+    const options = { competenceAgain: "onlyIfUnused" };
+    assert.equal(canReroll({ rerolls: ["ones", "keepSixes"], mode: "ones", options }), false);
+    assert.equal(canReroll({ rerolls: ["keepSixes"], mode: "ones", options }), true);
+  });
+});
+
+describe("canReroll: invalid input", () => {
+  it("rejects unknown modes and options", () => {
+    assert.throws(() => canReroll({ rerolls: [], mode: "half" }), RangeError);
+    assert.throws(() => canReroll({ rerolls: ["half"], mode: "ones" }), RangeError);
+    assert.throws(() => canReroll({ rerolls: [], mode: "ones", options: { competenceAgain: "never" } }), RangeError);
   });
 });
