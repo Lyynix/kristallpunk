@@ -920,6 +920,76 @@
   transition: color 0.15s, transform 0.15s;
 }
 
+/* Editing the faces (#24): every die has a fixed box, so the inputs take its place without moving anything */
+.kristallpunk.check-card .check-dice.current .die {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+}
+
+.kristallpunk.check-card .check-dice.current .die input {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 4px;
+  font-size: 0.6em;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  color: inherit;
+}
+
+.kristallpunk.check-card.editing .check-dice.current .die input {
+  display: block;
+}
+
+.kristallpunk.check-card.editing .check-dice.current .die i {
+  visibility: hidden;
+}
+
+/* Accept and cancel slide in below the card; the negative margin cancels the card's gap while closed */
+.kristallpunk.check-card .check-edit {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: -0.25rem;
+  transition: grid-template-rows 0.2s ease, margin-top 0.2s ease;
+}
+
+.kristallpunk.check-card.edit-open .check-edit {
+  grid-template-rows: 1fr;
+  margin-top: 0;
+}
+
+.kristallpunk.check-card .check-edit-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.kristallpunk.check-card .check-edit-buttons {
+  display: flex;
+  gap: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.kristallpunk.check-card .check-edit-buttons button {
+  flex: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kristallpunk.check-card .check-edit {
+    transition: none;
+  }
+}
+
 .kristallpunk.check-card:has([data-action=rerollWithCompetence]:is(:hover, :focus-visible)) .check-dice.current .die[data-face="1"],
 .kristallpunk.check-card:has([data-action=rerollWithConviction][data-mode=keepSixes]:is(:hover, :focus-visible)) .check-dice.current .die:not([data-face="6"]),
 .kristallpunk.check-card:has([data-action=rerollWithConviction][data-mode=all]:is(:hover, :focus-visible)) .check-dice.current .die {
