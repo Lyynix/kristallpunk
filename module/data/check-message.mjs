@@ -400,7 +400,7 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       }))
     })) : null;
     return {
-      option: mode ? { hint: `KRISTALLPUNK.Check.Reroll.Mode.${mode}` } : null,
+      option: mode ? { mode, hint: `KRISTALLPUNK.Check.Reroll.Mode.${mode}` } : null,
       competence: this.canRerollWithCompetence ? { hint: this.#competenceHint() } : null,
       history
     };

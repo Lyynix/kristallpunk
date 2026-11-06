@@ -3,7 +3,7 @@
     <span class="check-label">{{label}}</span>
     <span class="check-grade">{{localize grade}}</span>
   </header>
-  <ol class="check-dice">
+  <ol class="check-dice current">
     {{#each dice as |die|}}
     <li class="die {{die.highlight}}" data-face="{{die.face}}" aria-label="{{die.face}}">
       <i class="{{die.icon}}" inert></i>
@@ -17,7 +17,7 @@
     {{#if result.criticalFailure}}<span class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</span>{{/if}}
   </p>
   {{#if reroll.option}}
-  <button type="button" class="reroll" data-action="rerollWithConviction" data-tooltip="{{localize reroll.option.hint}}">
+  <button type="button" class="reroll" data-action="rerollWithConviction" data-mode="{{reroll.option.mode}}" data-tooltip="{{localize reroll.option.hint}}">
     <i class="fa-solid fa-dice" inert></i> {{localize "KRISTALLPUNK.Check.Reroll.Button"}}
   </button>
   {{/if}}

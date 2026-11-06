@@ -859,3 +859,19 @@
 .kristallpunk.check-card .history-step .die.kept {
   opacity: 0.4;
 }
+
+/* Hovering a reroll button marks the dice it would reroll */
+.kristallpunk.check-card {
+  --kp-reroll-color: #d9a400;
+}
+
+.kristallpunk.check-card .check-dice.current .die {
+  transition: color 0.15s, transform 0.15s;
+}
+
+.kristallpunk.check-card:has([data-action=rerollWithCompetence]:is(:hover, :focus-visible)) .check-dice.current .die[data-face="1"],
+.kristallpunk.check-card:has([data-action=rerollWithConviction][data-mode=keepSixes]:is(:hover, :focus-visible)) .check-dice.current .die:not([data-face="6"]),
+.kristallpunk.check-card:has([data-action=rerollWithConviction][data-mode=all]:is(:hover, :focus-visible)) .check-dice.current .die {
+  color: var(--kp-reroll-color);
+  transform: translateY(-0.15rem);
+}
