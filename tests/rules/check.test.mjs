@@ -230,6 +230,10 @@ describe("reroll", () => {
     assert.deepEqual(reroll({ faces: [1, 1], mode: "ones" }), { keep: [], count: 2 });
   });
 
+  it("replaces every die when the GM edits the faces (#24)", () => {
+    assert.deepEqual(reroll({ faces: [6, 3, 6, 1], mode: "edit" }), { keep: [], count: 4 });
+  });
+
   it("rejects an unknown mode and invalid faces", () => {
     assert.throws(() => reroll({ faces: [6, 1], mode: "half" }), RangeError);
     assert.throws(() => reroll({ faces: [], mode: "all" }), TypeError);
@@ -271,6 +275,24 @@ describe("canReroll: competence", () => {
     const options = { competenceAgain: "onlyIfUnused" };
     assert.equal(canReroll({ rerolls: ["ones", "keepSixes"], mode: "ones", options }), false);
     assert.equal(canReroll({ rerolls: ["keepSixes"], mode: "ones", options }), true);
+  });
+});
+
+describe("canReroll: edits by the GM (#24)", () => {
+  it("does not count edits as rerolls", () => {
+    assert.equal(canReroll({ rerolls: ["edit"], mode: "keepSixes" }), true);
+    assert.equal(canReroll({ rerolls: ["edit", "edit"], mode: "all" }), true);
+    assert.equal(canReroll({ rerolls: ["edit"], mode: "ones" }), true);
+    assert.equal(canReroll({ rerolls: ["ones", "edit"], mode: "ones" }), false);
+    assert.equal(canReroll({ rerolls: ["all", "edit"], mode: "keepSixes" }), false);
+    assert.equal(canReroll({ rerolls: ["ones", "all", "edit"], mode: "ones" }), true);
+    assert.equal(canReroll({ rerolls: ["ones", "edit", "all"], mode: "ones" }), true);
+  });
+
+  it("always allows another edit", () => {
+    for ( const rerolls of [[], ["edit"], ["keepSixes", "ones", "edit"]] ) {
+      assert.equal(canReroll({ rerolls, mode: "edit" }), true, rerolls.join(", ") || "none");
+    }
   });
 });
 
