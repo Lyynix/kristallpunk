@@ -32,6 +32,9 @@
       "protagonist": {
         "htmlFields": ["background", "relationships", "equipment"]
       }
+    },
+    "ChatMessage": {
+      "check": {}
     }
   },
   "primaryTokenAttribute": "stamina.body",

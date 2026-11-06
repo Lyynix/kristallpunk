@@ -18,4 +18,13 @@ export function registerSettings() {
     type: Boolean,
     default: true
   });
+
+  game.settings.register(SYSTEM_ID, "autoApplyCost", {
+    name: "KRISTALLPUNK.Settings.AutoApplyCost.Name",
+    hint: "KRISTALLPUNK.Settings.AutoApplyCost.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
 }

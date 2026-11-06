@@ -43,6 +43,10 @@
       "AutoCost": {
         "Name": "Ausdauerkosten automatisch berechnen",
         "Hint": "Der Probe-Dialog füllt die Ausdauerkosten aus Wunden, Alter und Anstrengen vor. Ausgeschaltet bleiben die Felder leer und werden von Hand ausgefüllt."
+      },
+      "AutoApplyCost": {
+        "Name": "Ausdauerkosten automatisch abziehen",
+        "Hint": "Nach dem Würfeln wird die Ausdauer sofort abgezogen. Ausgeschaltet zeigt die Chatkarte die Kosten nur an, abgezogen wird dann von Hand."
       }
     },
     "Check": {
@@ -57,9 +61,21 @@
       "Failure": "misslungen",
       "CriticalSuccess": "kritischer Erfolg",
       "CriticalFailure": "kritischer Misserfolg",
+      "Cost": {
+        "Label": "Ausdauerkosten",
+        "Payment": "{stamina} {amount}",
+        "Applied": "abgezogen",
+        "Open": "noch nicht abgezogen",
+        "Apply": "Ausdauer abziehen"
+      },
+      "Context": {
+        "UndoConsequences": "Konsequenzen rückgängig machen"
+      },
       "Warning": {
         "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
-        "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen."
+        "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen.",
+        "CannotApply": "Du darfst die Ausdauer dieser Figur nicht ändern.",
+        "ActorMissing": "Die Figur dieser Probe gibt es nicht mehr."
       }
     },
     "StatusTracker": {

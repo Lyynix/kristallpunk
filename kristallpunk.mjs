@@ -5,6 +5,7 @@
 
 import { KRISTALLPUNK } from "./module/config.mjs";
 import ProtagonistData from "./module/data/protagonist.mjs";
+import CheckMessageData, { TEMPLATE as CHECK_CARD } from "./module/data/check-message.mjs";
 import * as rules from "./module/rules/_module.mjs";
 import * as api from "./module/api/_module.mjs";
 import { registerSettings } from "./module/settings.mjs";
@@ -19,6 +20,7 @@ Hooks.once("init", () => {
   CONFIG.KRISTALLPUNK = KRISTALLPUNK;
   registerSettings();
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
+  CONFIG.ChatMessage.dataModels.check = CheckMessageData;
 
   // Token resources. Listed explicitly because the stamina maximum is derived, not stored,
   // so Foundry cannot detect the bars from the schema on its own.
@@ -35,6 +37,9 @@ Hooks.once("init", () => {
     label: "KRISTALLPUNK.Sheet.Protagonist"
   });
 
-  // Partials shared between applications
-  foundry.applications.handlebars.loadTemplates({ [statusTracker.PARTIAL]: statusTracker.TEMPLATE });
+  // Partials shared between applications; the check card is preloaded so it renders synchronously
+  foundry.applications.handlebars.loadTemplates({ [statusTracker.PARTIAL]: statusTracker.TEMPLATE, [CHECK_CARD]: CHECK_CARD });
 });
+
+Hooks.on("renderChatMessageHTML", CheckMessageData.onRenderChatMessageHTML);
+Hooks.on("getChatMessageContextOptions", CheckMessageData.onGetChatMessageContextOptions);

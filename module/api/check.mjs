@@ -4,9 +4,9 @@
  * Available as game.kristallpunk.api.rollCheck.
  */
 
-import * as checkRules from "../rules/check.mjs";
 import * as costRules from "../rules/cost.mjs";
 import CheckDialog from "../apps/check-dialog.mjs";
+import CheckMessageData from "../data/check-message.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
 
 /**
@@ -18,8 +18,9 @@ import { SYSTEM_ID } from "../settings.mjs";
 /**
  * Roll a check for a skill or a derived value.
  * Bonuses and penalties are passed on one by one; only rules.check.pool nets them and applies the rule of 3.
- * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden,
- * but is not yet applied (see #14).
+ * The stamina cost is computed (unless the "autoCost" setting is off) and can be overridden.
+ * It is paid right away if the "autoApplyCost" setting is on; otherwise the card keeps it open
+ * and offers a button to pay it (#14).
  * @param {Actor} actor
  * @param {string} key                            A skill key (e.g. "athletics") or derived value key (e.g. "courage").
  * @param {object} [options]
@@ -71,23 +72,50 @@ export async function rollCheck(actor, key, options = {}) {
     payments = choice.cost;
   }
 
-  // Everything that changes the dice, one by one; helpers are +1 each
-  const allModifiers = [...modifiers];
-  for ( let i = 0; i < helpers; i++ ) {
-    allModifiers.push({ value: 1, label: game.i18n.localize("KRISTALLPUNK.Check.Helper") });
-  }
-
-  const pool = checkRules.pool({ base: target.base, modifiers: allModifiers.map(modifier => modifier.value) });
+  // The message data keeps bonuses, penalties and helpers apart; it nets them via rules.check.pool
+  const messageData = {
+    actor: actor.uuid, check: key, grade, base: target.base,
+    modifiers: modifiers.map(({ value, label = "" }) => ({ value, label })), helpers
+  };
+  const data = new CheckMessageData(messageData);
+  const pool = data.pool;
   const roll = await new Roll(`${pool.dice}d6`).evaluate();
-  const faces = roll.dice[0].results.filter(result => result.active).map(result => result.result);
-  const result = checkRules.evaluate({ faces, grade });
 
-  const message = await roll.toMessage({
+  // Stamina: the rolling client pays at once, or the card keeps the cost open
+  payments = payments.filter(payment => payment.amount > 0);
+  const autoApply = game.settings.get(SYSTEM_ID, "autoApplyCost");
+  if ( autoApply && payments.length ) payments = await payStamina(actor, payments);
+  messageData.cost = payments;
+  messageData.applied = autoApply && (payments.length > 0);
+
+  const message = await ChatMessage.implementation.create({
+    type: "check",
     speaker: ChatMessage.implementation.getSpeaker({ actor }),
-    flavor: summary(target.label, grade, result)
+    rolls: [roll],
+    sound: CONFIG.sounds.dice,
+    system: messageData
   }, { messageMode });
+  if ( !message ) return null;
 
-  return { roll, pool, result, cost: { ...cost, payments, auto: autoCost }, message };
+  return { roll, pool, result: message.system.result, cost: { ...cost, payments, auto: autoCost }, message };
+}
+
+/**
+ * Pay stamina: lower each stamina by its amount, but not below 0.
+ * @param {Actor} actor
+ * @param {{domain: string, amount: number}[]} payments
+ * @returns {Promise<{domain: string, amount: number}[]>}  What was actually paid.
+ */
+export async function payStamina(actor, payments) {
+  const update = {};
+  const paid = payments.map(({ domain, amount }) => {
+    const current = actor.system.stamina[domain].value;
+    const actual = Math.min(amount, current);
+    update[`system.stamina.${domain}.value`] = current - actual;
+    return { domain, amount: actual };
+  });
+  await actor.update(update);
+  return paid;
 }
 
 /**
@@ -140,21 +168,16 @@ function resolveTarget(actor, key) {
 }
 
 /**
- * One line for the chat until the check card exists (#14),
- * e.g. "Athletik · gewagt · 2 Erfolge · gelungen".
- * @param {string} label
- * @param {string} grade
- * @param {object} result  From rules.check.evaluate.
- * @returns {string}
+ * Give stamina back that a check has paid, but not above the maximum.
+ * @param {Actor} actor
+ * @param {{domain: string, amount: number}[]} payments
+ * @returns {Promise<void>}
  */
-function summary(label, grade, result) {
-  const parts = [
-    label,
-    game.i18n.localize(CONFIG.KRISTALLPUNK.checkGrades[grade].label),
-    game.i18n.format("KRISTALLPUNK.Check.Successes", { count: result.successes }),
-    game.i18n.localize(result.success ? "KRISTALLPUNK.Check.Success" : "KRISTALLPUNK.Check.Failure")
-  ];
-  if ( result.criticalSuccess ) parts.push(game.i18n.localize("KRISTALLPUNK.Check.CriticalSuccess"));
-  if ( result.criticalFailure ) parts.push(game.i18n.localize("KRISTALLPUNK.Check.CriticalFailure"));
-  return parts.join(" · ");
+export async function refundStamina(actor, payments) {
+  const update = {};
+  for ( const { domain, amount } of payments ) {
+    const { value, max } = actor.system.stamina[domain];
+    update[`system.stamina.${domain}.value`] = Math.min(value + amount, Math.max(max, value));
+  }
+  await actor.update(update);
 }
