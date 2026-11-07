@@ -1012,22 +1012,21 @@
   display: none;
 }
 
-/* Token view (#32): as wide as the macro view for now; the width adapts with the responsive layout */
+/* Token view (#32): fills the bar between the controls; only the stamina bars of the status tracker stretch */
 #hotbar.kristallpunk .hotbar-view.token {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 8px;
-  width: calc((var(--hotbar-size) * 10) + (8px * 9) + 56px);
+  flex: 1;
+  min-width: 0;
+  padding: 6px;
   height: 100%;
   border-radius: 10px;
   background: var(--slot-color, var(--color-cool-5-90));
+  /* Text color of Foundry's hotbar, set per theme */
+  color: var(--key-text-color, var(--color-light-1));
   pointer-events: all;
-}
-
-/* Foundry puts the macros in two rows on small screens */
-#hotbar.kristallpunk:is(.compact, .md.offset, .sm) .hotbar-view.token {
-  width: calc((var(--hotbar-size) * 5) + 32px + 56px);
+  /* Until the collapsed layout exists, content that does not fit is cut off instead of covering other elements */
+  overflow: hidden;
 }
 
 #hotbar.kristallpunk .hotbar-view.token .placeholder {
@@ -1042,10 +1041,19 @@
   justify-content: center;
 }
 
-/* The token view is as high as Foundry's macro bar in two rows; the controls stay at the bottom */
+/* In the token view the bar has a fixed width per size class, which Foundry sets on the bar by the
+   window width (Hotbar#_onResize). A fixed width keeps Foundry's offset for the chat input correct.
+   It is as high as Foundry's macro bar in two rows; the controls stay at the bottom */
 #hotbar.kristallpunk[data-view="token"] {
+  --kp-hotbar-width: 800px;
+  width: var(--kp-hotbar-width);
   height: calc((var(--hotbar-size) * 2) + 8px);
 }
+
+#hotbar.kristallpunk[data-view="token"].lg { --kp-hotbar-width: 1000px; }
+#hotbar.kristallpunk[data-view="token"].md { --kp-hotbar-width: 700px; }
+#hotbar.kristallpunk[data-view="token"].md.sm { --kp-hotbar-width: 640px; }
+#hotbar.kristallpunk[data-view="token"].md.sm.min { --kp-hotbar-width: 580px; }
 
 #hotbar.kristallpunk[data-view="token"] .hotbar-controls {
   align-self: flex-end;
@@ -1054,6 +1062,8 @@
 #hotbar.kristallpunk .token-hotbar {
   display: flex;
   align-items: stretch;
+  flex: 1;
+  min-width: 0;
   gap: 12px;
   height: 100%;
 }
@@ -1095,5 +1105,16 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: bold;
-  color: var(--color-light-1);
+}
+
+/* Status tracker in the token hotbar (#32): the same building block and size as on the sheet;
+   it takes the rest of the width, which only its stamina bars use */
+#hotbar.kristallpunk .token-hotbar .figure-status {
+  flex: 1;
+  min-width: 0;
+}
+
+#hotbar.kristallpunk .token-hotbar .figure-status.readonly .cell,
+#hotbar.kristallpunk .token-hotbar .figure-status.readonly .cell input {
+  cursor: default;
 }

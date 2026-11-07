@@ -4,6 +4,8 @@
  * and re-renders on the hooks listed in registerTokenHotbarHooks().
  */
 
+import { prepareStatusTracker } from "./status-tracker.mjs";
+
 /** Template path; the bar loads it as a partial under this name before its first render. */
 export const TEMPLATE = "systems/kristallpunk/templates/ui/token-hotbar.hbs";
 
@@ -32,14 +34,17 @@ export function currentFigure() {
  * Render context of the token hotbar partial.
  * Image: the token's image, otherwise the actor's portrait. Name: the token's name, so unlinked tokens
  * of the same actor can be told apart, otherwise the actor's name.
- * @returns {{actor: Actor, name: string, img: string, tokenId: string|null, hint: string}|null}
- *   null if there is no figure to show.
+ * The status tracker is the same building block as on the sheet; only owners may change it.
+ * @returns {{actor: Actor, editable: boolean, name: string, img: string, tokenId: string|null, hint: string,
+ *   statusTracker: object}|null}  null if there is no figure to show.
  */
 export function prepareTokenHotbar() {
   const { actor, token } = currentFigure();
   if ( !actor ) return null;
   return {
     actor,
+    editable: actor.isOwner,
+    statusTracker: prepareStatusTracker(actor),
     name: token?.document.name || actor.name,
     img: token?.document.texture.src || actor.img,
     tokenId: token?.id ?? null,
@@ -58,7 +63,8 @@ export function registerTokenHotbarHooks() {
   }, 50);
   const shows = document => {
     const { actor, token } = currentFigure();
-    return (document === actor) || (document.uuid === actor?.uuid) || (document.id === token?.id);
+    if ( !actor || !document ) return false;
+    return (document.uuid === actor.uuid) || (!!token && (document.id === token.id));
   };
 
   Hooks.on("controlToken", refresh);
@@ -71,7 +77,7 @@ export function registerTokenHotbarHooks() {
   });
   // Unlinked tokens change their actor through the token; name and image live on the token too
   Hooks.on("updateToken", token => {
-    if ( shows(token) || shows(token.actor ?? {}) ) refresh();
+    if ( shows(token) || shows(token.actor) ) refresh();
   });
   Hooks.on("createToken", refresh);
   Hooks.on("deleteToken", refresh);

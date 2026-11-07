@@ -1,5 +1,6 @@
 import { SYSTEM_ID } from "../settings.mjs";
 import { panToToken, prepareTokenHotbar, TEMPLATE as TOKEN_HOTBAR } from "./token-hotbar.mjs";
+import { activateStatusTracker, TEMPLATE as STATUS_TRACKER } from "./status-tracker.mjs";
 
 /** Views of the bar: Foundry's macros, or the token hotbar (character mode #32, GM mode #33). */
 export const VIEWS = ["macros", "token"];
@@ -30,7 +31,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
       root: true,
       template: "systems/kristallpunk/templates/ui/hotbar.hbs",
       // Partials, loaded before the first render
-      templates: [TOKEN_HOTBAR]
+      templates: [TOKEN_HOTBAR, STATUS_TRACKER]
     }
   };
 
@@ -93,17 +94,32 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   }
 
   /**
-   * Portrait of the figure: a click pans to its token, a double click opens its sheet (#32).
-   * The first click of a double click pans as well, which does no harm.
+   * Wire up the character mode (#32):
+   * - Portrait: a click pans to the figure's token, a double click opens its sheet.
+   *   The first click of a double click pans as well, which does no harm.
+   * - Status tracker: the bar is no form, so each choice is saved to the actor right away;
+   *   the update re-renders the bar. Without ownership the tracker can only be looked at.
    * @param {object|null} figure  From prepareTokenHotbar().
    */
   #activateFigure(figure) {
+    if ( !figure ) return;
     const portrait = this.element.querySelector(".token-hotbar .figure-portrait");
-    if ( !portrait || !figure ) return;
-    portrait.addEventListener("click", event => {
+    portrait?.addEventListener("click", event => {
       if ( (event.detail <= 1) && figure.tokenId ) panToToken(figure.tokenId);
     });
-    portrait.addEventListener("dblclick", () => figure.actor.sheet.render({ force: true }));
+    portrait?.addEventListener("dblclick", () => figure.actor.sheet.render({ force: true }));
+
+    const tracker = this.element.querySelector(".token-hotbar .status-tracker");
+    if ( !tracker ) return;
+    if ( !figure.editable ) {
+      for ( const input of tracker.querySelectorAll("input") ) input.disabled = true;
+    } else {
+      tracker.addEventListener("change", event => {
+        const input = event.target;
+        if ( (input.type === "radio") && input.name ) figure.actor.update({ [input.name]: Number(input.value) });
+      });
+    }
+    activateStatusTracker(this.element, figure.actor);
   }
 
   /**
