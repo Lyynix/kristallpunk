@@ -52,6 +52,10 @@
         "Name": "Ausdauerkosten automatisch berechnen",
         "Hint": "Der Probe-Dialog füllt die Ausdauerkosten aus Wunden, Alter und Anstrengen vor. Ausgeschaltet bleiben die Felder leer und werden von Hand ausgefüllt."
       },
+      "CoreHotbar": {
+        "Name": "Foundrys Makroleiste verwenden",
+        "Hint": "Zeigt statt der Leiste des Systems Foundrys eigene Makroleiste, z. B. falls ein Modul mit der Leiste des Systems nicht zurechtkommt. Die Token-Hotbar steht dann nicht zur Verfügung."
+      },
       "AutoApply": {
         "Name": "Konsequenzen automatisch anwenden",
         "Hint": "Nach dem Würfeln werden Ausdauerkosten und Verschiebungen des Innenlebens sofort angewendet. Ausgeschaltet zeigt die Chatkarte sie nur an, angewendet wird dann per Knopf."

@@ -19,6 +19,17 @@ export function registerSettings() {
     default: true
   });
 
+  // Way out if a module does not get along with the system's bar (#31); read once during init
+  game.settings.register(SYSTEM_ID, "coreHotbar", {
+    name: "KRISTALLPUNK.Settings.CoreHotbar.Name",
+    hint: "KRISTALLPUNK.Settings.CoreHotbar.Hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    requiresReload: true
+  });
+
   // Consequences of a check: stamina cost and conviction shift (#14, #15)
   game.settings.register(SYSTEM_ID, "autoApply", {
     name: "KRISTALLPUNK.Settings.AutoApply.Name",
