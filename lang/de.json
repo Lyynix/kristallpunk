@@ -47,10 +47,25 @@
       "Increase": "Einen mehr",
       "Decrease": "Einen weniger"
     },
+    "Hotbar": {
+      "Placeholder": "Hier erscheint bald die Token-Hotbar.",
+      "SwitchTo": {
+        "macros": "Zur Makroleiste",
+        "token": "Zur Token-Hotbar"
+      },
+      "Keybinding": {
+        "Name": "Leiste umschalten",
+        "Hint": "Wechselt in der Leiste am unteren Rand zwischen Makroleiste und Token-Hotbar."
+      }
+    },
     "Settings": {
       "AutoCost": {
         "Name": "Ausdauerkosten automatisch berechnen",
         "Hint": "Der Probe-Dialog füllt die Ausdauerkosten aus Wunden, Alter und Anstrengen vor. Ausgeschaltet bleiben die Felder leer und werden von Hand ausgefüllt."
+      },
+      "CoreHotbar": {
+        "Name": "Foundrys Makroleiste verwenden",
+        "Hint": "Zeigt statt der Leiste des Systems Foundrys eigene Makroleiste, z. B. falls ein Modul mit der Leiste des Systems nicht zurechtkommt. Die Token-Hotbar steht dann nicht zur Verfügung."
       },
       "AutoApply": {
         "Name": "Konsequenzen automatisch anwenden",
