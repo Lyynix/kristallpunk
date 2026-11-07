@@ -24,7 +24,10 @@ Hooks.once("init", () => {
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
 
   // The system's bar replaces Foundry's macro bar, unless the client asks for Foundry's (#31)
-  if ( !game.settings.get(SYSTEM_ID, "coreHotbar") ) CONFIG.ui.hotbar = KristallpunkHotbar;
+  if ( !game.settings.get(SYSTEM_ID, "coreHotbar") ) {
+    CONFIG.ui.hotbar = KristallpunkHotbar;
+    KristallpunkHotbar.registerKeybindings();
+  }
 
   // Token resources. Listed explicitly because the stamina maximum is derived, not stored,
   // so Foundry cannot detect the bars from the schema on its own.

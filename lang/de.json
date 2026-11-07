@@ -47,6 +47,17 @@
       "Increase": "Einen mehr",
       "Decrease": "Einen weniger"
     },
+    "Hotbar": {
+      "Placeholder": "Hier erscheint bald die Token-Hotbar.",
+      "SwitchTo": {
+        "macros": "Zur Makroleiste",
+        "token": "Zur Token-Hotbar"
+      },
+      "Keybinding": {
+        "Name": "Leiste umschalten",
+        "Hint": "Wechselt in der Leiste am unteren Rand zwischen Makroleiste und Token-Hotbar."
+      }
+    },
     "Settings": {
       "AutoCost": {
         "Name": "Ausdauerkosten automatisch berechnen",

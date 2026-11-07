@@ -30,6 +30,15 @@ export function registerSettings() {
     requiresReload: true
   });
 
+  // View of the system's bar last chosen on this client (#31); switched by the button in the bar
+  game.settings.register(SYSTEM_ID, "hotbarView", {
+    scope: "client",
+    config: false,
+    type: String,
+    choices: { macros: "macros", token: "token" },
+    default: "token"
+  });
+
   // Consequences of a check: stamina cost and conviction shift (#14, #15)
   game.settings.register(SYSTEM_ID, "autoApply", {
     name: "KRISTALLPUNK.Settings.AutoApply.Name",

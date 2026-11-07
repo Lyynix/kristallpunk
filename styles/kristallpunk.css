@@ -996,3 +996,45 @@
   color: var(--kp-reroll-color);
   transform: translateY(-0.15rem);
 }
+
+/* -------------------------------------------- */
+/*  Hotbar (#31)                                */
+/* -------------------------------------------- */
+
+/* Both views are rendered; data-view decides which one is shown */
+#hotbar.kristallpunk .hotbar-view.macros {
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+#hotbar.kristallpunk[data-view="token"] .hotbar-view.macros,
+#hotbar.kristallpunk[data-view="macros"] .hotbar-view.token {
+  display: none;
+}
+
+/* Placeholder until the character mode (#32) fills it; as wide as the macro view, so switching does not jump */
+#hotbar.kristallpunk .hotbar-view.token {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc((var(--hotbar-size) * 10) + (8px * 9) + 56px);
+  height: 100%;
+  border-radius: 10px;
+  background: var(--slot-color, var(--color-cool-5-90));
+  pointer-events: all;
+}
+
+/* Foundry puts the macros in two rows on small screens */
+#hotbar.kristallpunk:is(.compact, .md.offset, .sm) .hotbar-view.token {
+  width: calc((var(--hotbar-size) * 5) + 32px + 56px);
+}
+
+#hotbar.kristallpunk .hotbar-view.token .placeholder {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+#hotbar.kristallpunk .hotbar-switch {
+  justify-content: center;
+}
