@@ -49,6 +49,8 @@
     },
     "Hotbar": {
       "NoFigure": "Keine Figur ausgewählt.",
+      "Checks": "Proben",
+      "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
       "Portrait": {
         "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
         "Sheet": "Doppelklick: Bogen öffnen"

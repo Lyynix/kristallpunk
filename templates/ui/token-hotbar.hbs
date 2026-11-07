@@ -1,4 +1,6 @@
-{{!-- Token hotbar, character mode (#32); context from module/apps/token-hotbar.mjs prepareTokenHotbar() --}}
+{{!-- Token hotbar, character mode (#32); context from module/apps/token-hotbar.mjs prepareTokenHotbar().
+      On a narrow bar the checks are folded in; hovering or focusing them folds them out and shows
+      the short form of the status tracker instead (class "checks-open", set by the bar). --}}
 <div class="token-hotbar">
   <div class="figure">
     <button type="button" class="figure-portrait" data-tooltip="{{localize hint}}"
@@ -7,8 +9,45 @@
     </button>
     <span class="figure-name">{{name}}</span>
   </div>
+
   {{!-- Same building block as on the sheet; changes are saved by the bar (module/apps/hotbar.mjs) --}}
   <div class="figure-status{{#unless editable}} readonly{{/unless}}">
     {{> "systems/kristallpunk/templates/parts/status-tracker.hbs" statusTracker}}
+    <div class="status-summary">
+      {{#each statusSummary.domains as |domain|}}
+      <div class="summary-domain {{domain.key}}">
+        <span class="summary-label">{{domain.label}}</span>
+        <span class="summary-wounds" aria-label="{{domain.woundsLabel}}">
+          {{#each domain.wounds as |wound|}}<span class="pip{{#if wound.on}} on{{/if}}"></span>{{/each}}
+        </span>
+        <span class="summary-stamina">{{domain.stamina}}</span>
+      </div>
+      {{/each}}
+      <div class="summary-conviction">
+        <span class="summary-label">{{statusSummary.convictionLabel}}</span>
+        <span class="summary-value">{{statusSummary.conviction}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="figure-checks">
+    <div class="checks-folded" aria-hidden="true">
+      <i class="fa-solid fa-chevron-left" inert></i>
+      <i class="fa-solid fa-dice" inert></i>
+      <span>{{localize "KRISTALLPUNK.Hotbar.Checks"}}</span>
+    </div>
+    <div class="checks-list" role="group" aria-label="{{localize "KRISTALLPUNK.Hotbar.Checks"}}">
+      {{#each checks as |group|}}
+      <div class="check-group {{group.key}}">
+        {{#each group.entries as |entry|}}
+        <button type="button" class="check" data-check="{{entry.key}}" data-tooltip-text="{{entry.tooltip}}"
+                {{#unless ../../editable}}disabled{{/unless}}>{{!-- "../../": the figure, not the group or entry --}}
+          <span class="check-name">{{entry.label}}</span>
+          <span class="check-value">{{entry.value}}</span>
+        </button>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
   </div>
 </div>

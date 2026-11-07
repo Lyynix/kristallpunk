@@ -1025,8 +1025,9 @@
   /* Text color of Foundry's hotbar, set per theme */
   color: var(--key-text-color, var(--color-light-1));
   pointer-events: all;
-  /* Until the collapsed layout exists, content that does not fit is cut off instead of covering other elements */
   overflow: hidden;
+  /* Decides between the wide and the narrow layout of the character mode */
+  container: token-view / inline-size;
 }
 
 #hotbar.kristallpunk .hotbar-view.token .placeholder {
@@ -1117,4 +1118,191 @@
 #hotbar.kristallpunk .token-hotbar .figure-status.readonly .cell,
 #hotbar.kristallpunk .token-hotbar .figure-status.readonly .cell input {
   cursor: default;
+}
+
+/* Checks (#32): skills of body and mind and the derived values in three columns of buttons */
+#hotbar.kristallpunk .token-hotbar .figure-checks {
+  --kp-checks-width: 330px;
+  position: relative;
+  flex: 0 0 var(--kp-checks-width);
+  overflow: hidden;
+}
+
+#hotbar.kristallpunk .token-hotbar .checks-list {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 0.9fr;
+  gap: 4px;
+  width: var(--kp-checks-width);
+  height: 100%;
+}
+
+#hotbar.kristallpunk .token-hotbar .check-group {
+  --kp-rgb: 160 160 160;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+#hotbar.kristallpunk .token-hotbar .check-group.body { --kp-rgb: var(--kp-body-rgb); }
+#hotbar.kristallpunk .token-hotbar .check-group.mind { --kp-rgb: var(--kp-mind-rgb); }
+
+#hotbar.kristallpunk .token-hotbar .check {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  height: auto;
+  padding: 0 4px;
+  border: none;
+  border-radius: 3px;
+  background: rgb(var(--kp-rgb) / 0.12);
+  color: inherit;
+  font-size: var(--font-size-11);
+  line-height: 1;
+}
+
+#hotbar.kristallpunk .token-hotbar .check + .check {
+  margin-top: 1px;
+}
+
+#hotbar.kristallpunk .token-hotbar .check:not(:disabled):is(:hover, :focus-visible) {
+  background: rgb(var(--kp-rgb) / 0.4);
+}
+
+#hotbar.kristallpunk .token-hotbar .check:disabled {
+  cursor: default;
+}
+
+#hotbar.kristallpunk .token-hotbar .check-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hotbar.kristallpunk .token-hotbar .check-value {
+  font-weight: bold;
+}
+
+/* Hint on the folded checks and short form of the status tracker; only used on a narrow bar */
+#hotbar.kristallpunk .token-hotbar .checks-folded,
+#hotbar.kristallpunk .token-hotbar .status-summary {
+  display: none;
+}
+
+#hotbar.kristallpunk .token-hotbar .checks-folded {
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 6px;
+  background: rgb(160 160 160 / 0.12);
+  font-size: var(--font-size-11);
+}
+
+#hotbar.kristallpunk .token-hotbar .checks-folded span {
+  writing-mode: vertical-rl;
+}
+
+#hotbar.kristallpunk .token-hotbar .status-summary {
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  height: 100%;
+  font-size: var(--font-size-11);
+}
+
+#hotbar.kristallpunk .token-hotbar .summary-domain,
+#hotbar.kristallpunk .token-hotbar .summary-conviction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#hotbar.kristallpunk .token-hotbar .summary-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hotbar.kristallpunk .token-hotbar .summary-wounds {
+  display: flex;
+  gap: 2px;
+}
+
+#hotbar.kristallpunk .token-hotbar .summary-wounds .pip {
+  --kp-rgb: var(--kp-body-rgb);
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgb(var(--kp-rgb) / 0.7);
+  border-radius: 50%;
+}
+
+#hotbar.kristallpunk .token-hotbar .summary-domain.mind .pip { --kp-rgb: var(--kp-mind-rgb); }
+#hotbar.kristallpunk .token-hotbar .summary-wounds .pip.on { background: rgb(var(--kp-rgb)); }
+
+#hotbar.kristallpunk .token-hotbar :is(.summary-stamina, .summary-value) {
+  font-weight: bold;
+}
+
+/* Narrow bar: the status tracker takes the width, the checks are folded in to a strip.
+   Folded out ("checks-open", set by the bar), the checks take their width and the tracker shows its short form */
+@container token-view (width < 900px) {
+  #hotbar.kristallpunk .token-hotbar .figure-status,
+  #hotbar.kristallpunk .token-hotbar .figure-checks {
+    transition: flex-grow 0.25s ease, flex-basis 0.25s ease;
+  }
+
+  #hotbar.kristallpunk .token-hotbar .figure-status {
+    overflow: hidden;
+  }
+
+  #hotbar.kristallpunk .token-hotbar .figure-checks {
+    flex-basis: 32px;
+  }
+
+  #hotbar.kristallpunk .token-hotbar .checks-folded {
+    display: flex;
+  }
+
+  /* Transparent, not hidden: the checks stay reachable by keyboard, and focusing them folds them out */
+  #hotbar.kristallpunk .token-hotbar .checks-list {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .figure-checks {
+    flex-basis: var(--kp-checks-width);
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .checks-folded {
+    display: none;
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .checks-list {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .figure-status {
+    flex: 0 0 110px;
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .status-tracker {
+    display: none;
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .status-summary {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk .token-hotbar :is(.figure-status, .figure-checks) {
+    transition: none;
+  }
 }
