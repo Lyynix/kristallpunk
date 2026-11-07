@@ -1012,11 +1012,12 @@
   display: none;
 }
 
-/* Placeholder until the character mode (#32) fills it; as wide as the macro view, so switching does not jump */
+/* Token view (#32): as wide as the macro view for now; the width adapts with the responsive layout */
 #hotbar.kristallpunk .hotbar-view.token {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 8px;
   width: calc((var(--hotbar-size) * 10) + (8px * 9) + 56px);
   height: 100%;
   border-radius: 10px;
@@ -1030,11 +1031,69 @@
 }
 
 #hotbar.kristallpunk .hotbar-view.token .placeholder {
+  flex: 1;
   margin: 0;
+  text-align: center;
   color: var(--color-text-secondary);
   font-style: italic;
 }
 
 #hotbar.kristallpunk .hotbar-switch {
   justify-content: center;
+}
+
+/* The token view is as high as Foundry's macro bar in two rows; the controls stay at the bottom */
+#hotbar.kristallpunk[data-view="token"] {
+  height: calc((var(--hotbar-size) * 2) + 8px);
+}
+
+#hotbar.kristallpunk[data-view="token"] .hotbar-controls {
+  align-self: flex-end;
+}
+
+#hotbar.kristallpunk .token-hotbar {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  height: 100%;
+}
+
+#hotbar.kristallpunk .token-hotbar .figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 88px;
+}
+
+#hotbar.kristallpunk .token-hotbar .figure-portrait {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: none;
+  overflow: hidden;
+}
+
+#hotbar.kristallpunk .token-hotbar .figure-portrait:hover,
+#hotbar.kristallpunk .token-hotbar .figure-portrait:focus-visible {
+  border-color: var(--color-warm-1);
+}
+
+#hotbar.kristallpunk .token-hotbar .figure-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+
+#hotbar.kristallpunk .token-hotbar .figure-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
+  color: var(--color-light-1);
 }

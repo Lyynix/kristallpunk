@@ -39,9 +39,13 @@
     </div>
   </div>
 
-  {{!-- Filled by the character mode (#32) and the GM mode (#33) --}}
+  {{!-- Character mode (#32); the GM mode (#33) will take the place of the hint --}}
   <div class="hotbar-view token">
-    <p class="placeholder">{{localize "KRISTALLPUNK.Hotbar.Placeholder"}}</p>
+    {{#if figure}}
+    {{> "systems/kristallpunk/templates/ui/token-hotbar.hbs" figure}}
+    {{else}}
+    <p class="placeholder">{{localize "KRISTALLPUNK.Hotbar.NoFigure"}}</p>
+    {{/if}}
   </div>
 
   <div class="hotbar-controls hotbar-switch flexcol" data-tooltip-direction="RIGHT">
