@@ -1,9 +1,9 @@
-{{!-- The system's bar (#31). Keeps the structure, ids and actions of Foundry's macro bar,
-      so Foundry's styles and the logic inherited from its Hotbar class keep working.
-      Both views are always rendered; `data-view` on the bar decides which one is shown.
+{{!-- The system's bar (#31). One frame: with a figure the character mode (#32), whose macros fold out
+      beside the status tracker (#35); without one a hint and the macros. Keeps the ids and actions of
+      Foundry's macro bar (see hotbar-macros.hbs), so the logic inherited from its Hotbar class keeps working.
       Tooltips of the whole bar point up; the bar sets the direction on its element. --}}
 <aside id="hotbar">
-  {{!-- Mute and main menu concern the whole game and stay in both views --}}
+  {{!-- Mute and main menu concern the whole game --}}
   <div id="hotbar-controls-left" class="hotbar-controls flexcol">
     <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip
             aria-label="{{localize "HOTBAR.ACTIONS.Mute"}}"></button>
@@ -11,46 +11,20 @@
             aria-label="{{localize "HOTBAR.ACTIONS.Menu"}}"></button>
   </div>
 
-  <div class="hotbar-view macros flexrow">
-    <menu id="action-bar" class="flexrow">
-      {{#each slots as |slot|}}
-      <li class="slot {{slot.cssClass}}" role="button" data-action="execute" data-slot="{{slot.slot}}"
-          style="{{slot.style}}" aria-label="{{slot.ariaLabel}}"
-          {{#if slot.tooltip}}data-tooltip-text="{{slot.tooltip}}"{{/if}}>
-        {{#if slot.img}}<img class="slot-icon" src="{{slot.img}}" alt="{{slot.ariaLabel}}">{{/if}}
-        <span class="key">{{slot.key}}</span>
-      </li>
-      {{/each}}
-    </menu>
-
-    <div id="hotbar-controls-right" class="hotbar-controls flexrow">
-      <nav id="hotbar-page-controls" class="flexcol">
-        <button type="button" class="plain hotbar-page-control page-next fa-solid fa-triangle icon"
-                data-action="page" data-direction="1" data-tooltip aria-label="{{localize "HOTBAR.ACTIONS.PageNext"}}"></button>
-        <span class="hotbar-page-number">{{page}}</span>
-        <button type="button" class="plain hotbar-page-control page-prev fa-solid fa-triangle icon"
-                data-action="page" data-direction="-1" data-tooltip aria-label="{{localize "HOTBAR.ACTIONS.PagePrev"}}"></button>
-      </nav>
-      <div class="flexcol">
-        <button type="button" class="ui-control fa-solid fa-lock-open icon" data-action="lock" data-tooltip
-                aria-label="{{localize "HOTBAR.ACTIONS.Lock"}}"></button>
-        <button type="button" class="ui-control fa-solid fa-trash icon" data-action="clear" data-tooltip
-                aria-label="{{localize "HOTBAR.ACTIONS.Clear"}}"></button>
-      </div>
-    </div>
-  </div>
-
-  {{!-- Character mode (#32); the GM mode (#33) will take the place of the hint --}}
-  <div class="hotbar-view token">
+  <div class="hotbar-main">
     {{#if figure}}
     {{> "systems/kristallpunk/templates/ui/token-hotbar.hbs" figure}}
     {{else}}
-    <p class="placeholder">{{localize "KRISTALLPUNK.Hotbar.NoFigure"}}</p>
+    {{!-- Without a figure the macros are always shown; the GM mode (#33) will take the place of the hint --}}
+    <div class="no-figure">
+      <p class="placeholder">{{localize "KRISTALLPUNK.Hotbar.NoFigure"}}</p>
+      {{> "systems/kristallpunk/templates/ui/hotbar-macros.hbs"}}
+    </div>
     {{/if}}
   </div>
 
-  <div class="hotbar-controls hotbar-switch flexcol">
-    <button type="button" class="ui-control fa-solid fa-arrow-right-arrow-left icon" data-action="switchView"
+  <div class="hotbar-controls hotbar-toggle flexcol">
+    <button type="button" class="ui-control fa-solid fa-table-cells icon" data-action="toggleMacros"
             data-tooltip></button>
   </div>
 </aside>

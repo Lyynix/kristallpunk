@@ -1001,8 +1001,9 @@
 /*  Hotbar (#31)                                */
 /* -------------------------------------------- */
 
-/* Opaque base color the check cards are mixed from, per interface theme like Foundry's own hotbar colors:
-   light gives pastel cards for the dark text of the light theme, dark gives muted cards for its light text */
+/* Opaque base color the check cards and macro slots are mixed from, per interface theme like Foundry's own
+   hotbar colors: light gives pastel for the dark text of the light theme, dark gives muted colors for its
+   light text */
 #hotbar.kristallpunk {
   --kp-card-base: var(--color-cool-5);
 }
@@ -1012,19 +1013,30 @@ body.theme-light #hotbar.kristallpunk,
   --kp-card-base: white;
 }
 
-/* Both views are rendered; data-view decides which one is shown */
-#hotbar.kristallpunk .hotbar-view.macros {
-  gap: 8px;
-  flex-wrap: nowrap;
+/* One frame for the whole bar (#35): a fixed width per size class, which Foundry sets on the bar by the
+   window width (Hotbar#_onResize), and the height of Foundry's macro bar in two rows. A fixed width keeps
+   Foundry's offset for the chat input correct. The controls on both sides stay at the bottom */
+#hotbar.kristallpunk {
+  --kp-hotbar-width: 800px;
+  width: var(--kp-hotbar-width);
+  height: calc((var(--hotbar-size) * 2) + 8px);
 }
 
-#hotbar.kristallpunk[data-view="token"] .hotbar-view.macros,
-#hotbar.kristallpunk[data-view="macros"] .hotbar-view.token {
-  display: none;
+#hotbar.kristallpunk.lg { --kp-hotbar-width: 1000px; }
+#hotbar.kristallpunk.md { --kp-hotbar-width: 700px; }
+#hotbar.kristallpunk.md.sm { --kp-hotbar-width: 640px; }
+#hotbar.kristallpunk.md.sm.min { --kp-hotbar-width: 580px; }
+
+#hotbar.kristallpunk > .hotbar-controls {
+  align-self: flex-end;
 }
 
-/* Token view (#32): fills the bar between the controls; only the stamina bars of the status tracker stretch */
-#hotbar.kristallpunk .hotbar-view.token {
+#hotbar.kristallpunk .hotbar-toggle {
+  justify-content: center;
+}
+
+/* Main area between the controls: the character mode (#32) or, without a figure, a hint and the macros */
+#hotbar.kristallpunk .hotbar-main {
   display: flex;
   align-items: center;
   flex: 1;
@@ -1042,34 +1054,74 @@ body.theme-light #hotbar.kristallpunk,
   container: token-view / inline-size;
 }
 
-#hotbar.kristallpunk .hotbar-view.token .placeholder {
+/* Without a figure: a hint where the figure would be, the macros beside it */
+#hotbar.kristallpunk .no-figure {
+  display: flex;
+  gap: 12px;
   flex: 1;
-  margin: 0;
-  text-align: center;
-  color: var(--color-text-secondary);
-  font-style: italic;
+  min-width: 0;
+  height: 100%;
 }
 
-#hotbar.kristallpunk .hotbar-switch {
+#hotbar.kristallpunk .no-figure .placeholder {
+  flex: 0 0 210px;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px dashed;
+  border-radius: 8px;
+  opacity: 0.7;
+  font-size: var(--font-size-12);
+  font-style: italic;
+  text-align: center;
 }
 
-/* In the token view the bar has a fixed width per size class, which Foundry sets on the bar by the
-   window width (Hotbar#_onResize). A fixed width keeps Foundry's offset for the chat input correct.
-   It is as high as Foundry's macro bar in two rows; the controls stay at the bottom */
-#hotbar.kristallpunk[data-view="token"] {
-  --kp-hotbar-width: 800px;
-  width: var(--kp-hotbar-width);
-  height: calc((var(--hotbar-size) * 2) + 8px);
+#hotbar.kristallpunk .no-figure .hotbar-macros {
+  flex: 1;
 }
 
-#hotbar.kristallpunk[data-view="token"].lg { --kp-hotbar-width: 1000px; }
-#hotbar.kristallpunk[data-view="token"].md { --kp-hotbar-width: 700px; }
-#hotbar.kristallpunk[data-view="token"].md.sm { --kp-hotbar-width: 640px; }
-#hotbar.kristallpunk[data-view="token"].md.sm.min { --kp-hotbar-width: 580px; }
+/* Macros (#35): Foundry's slots in two rows of five that fill their area, the page and lock controls beside */
+#hotbar.kristallpunk .hotbar-macros {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: 100%;
+}
 
-#hotbar.kristallpunk[data-view="token"] .hotbar-controls {
-  align-self: flex-end;
+#hotbar.kristallpunk .hotbar-macros #action-bar {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#hotbar.kristallpunk .hotbar-macros #action-bar .slot {
+  width: auto;
+  height: auto;
+  min-width: 0;
+}
+
+#hotbar.kristallpunk .hotbar-macros #action-bar .slot .slot-icon {
+  object-fit: cover;
+}
+
+/* Foundry draws the page number always light; use the text color of the bar, set per theme */
+#hotbar.kristallpunk #hotbar-page-controls .hotbar-page-number {
+  color: var(--key-text-color, var(--color-light-2));
+}
+
+/* Slots in the colors of the check cards */
+#hotbar.kristallpunk .hotbar-macros #action-bar .slot:not(.drop-target) {
+  background: color-mix(in oklab, rgb(160 160 160) 20%, var(--kp-card-base));
 }
 
 #hotbar.kristallpunk .token-hotbar {
@@ -1388,6 +1440,55 @@ body.theme-light #hotbar.kristallpunk,
 @media (prefers-reduced-motion: reduce) {
   #hotbar.kristallpunk .token-hotbar :is(.figure-status, .figure-checks, .check-card),
   #hotbar.kristallpunk .token-hotbar .check-card::after {
+    transition: none;
+  }
+}
+
+/* Macros in the character mode (#35): folded in at first; the button of the bar folds them out beside the
+   status tracker (class "macros-open" on the bar), which then shows its short form. The negative margin
+   takes back the gap of the bar while folded in */
+#hotbar.kristallpunk .token-hotbar .figure-status {
+  transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out;
+}
+
+#hotbar.kristallpunk .token-hotbar .figure-macros {
+  flex: 0 0 0;
+  min-width: 0;
+  margin-left: -12px;
+  overflow-x: clip;
+  visibility: hidden;
+  transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out, margin-left 0.25s ease-out, visibility 0.25s;
+}
+
+#hotbar.kristallpunk.macros-open .token-hotbar .figure-macros {
+  flex: 1 1 0;
+  margin-left: 0;
+  visibility: visible;
+}
+
+#hotbar.kristallpunk.macros-open .token-hotbar .figure-status {
+  flex: 0 0 110px;
+}
+
+#hotbar.kristallpunk.macros-open .token-hotbar .status-tracker {
+  display: none;
+}
+
+#hotbar.kristallpunk.macros-open .token-hotbar .status-summary {
+  display: flex;
+}
+
+/* On a narrow bar, folded-out checks take the place of the macros for the time being */
+@container token-view (width < 900px) {
+  #hotbar.kristallpunk.macros-open .token-hotbar.checks-open .figure-macros {
+    flex: 0 0 0;
+    margin-left: -12px;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk .token-hotbar :is(.figure-status, .figure-macros) {
     transition: none;
   }
 }

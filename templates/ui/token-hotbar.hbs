@@ -30,6 +30,11 @@
     </div>
   </div>
 
+  {{!-- Macros fold out here by the button of the bar; "@root": the bar's context with slots and page --}}
+  <div class="figure-macros">
+    {{> "systems/kristallpunk/templates/ui/hotbar-macros.hbs" @root}}
+  </div>
+
   <div class="figure-checks">
     <div class="checks-folded" aria-hidden="true">
       <i class="fa-solid fa-chevron-left" inert></i>

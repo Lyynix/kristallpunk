@@ -48,7 +48,7 @@
       "Decrease": "Einen weniger"
     },
     "Hotbar": {
-      "NoFigure": "Keine Figur ausgewählt.",
+      "NoFigure": "Hier erscheint eine Figur, sobald du ein Token auswählst oder dir eine Figur zugewiesen ist.",
       "Checks": "Proben",
       "Derived": "Abgeleitet",
       "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
@@ -56,13 +56,13 @@
         "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
         "Sheet": "Doppelklick: Bogen öffnen"
       },
-      "SwitchTo": {
-        "macros": "Zur Makroleiste",
-        "token": "Zur Token-Hotbar"
+      "Macros": {
+        "Open": "Makros ausklappen",
+        "Close": "Makros einklappen"
       },
       "Keybinding": {
-        "Name": "Leiste umschalten",
-        "Hint": "Wechselt in der Leiste am unteren Rand zwischen Makroleiste und Token-Hotbar."
+        "Name": "Makros ein- und ausklappen",
+        "Hint": "Klappt in der Leiste am unteren Rand die Makros neben dem Status-Anzeiger aus und wieder ein."
       }
     },
     "Settings": {

@@ -3,22 +3,23 @@ import { panToToken, prepareTokenHotbar, TEMPLATE as TOKEN_HOTBAR } from "./toke
 import { activateStatusTracker, TEMPLATE as STATUS_TRACKER } from "./status-tracker.mjs";
 import { rollCheck } from "../api/check.mjs";
 
-/** Views of the bar: Foundry's macros, or the token hotbar (character mode #32, GM mode #33). */
-export const VIEWS = ["macros", "token"];
-
 /** How long the pointer rests on the folded checks before they fold out, in ms. */
 const FOLD_OUT_DELAY = 150;
 
 
+/** Template of the macro slots, used by the bar and by the character mode. */
+const MACROS = "systems/kristallpunk/templates/ui/hotbar-macros.hbs";
+
 /**
- * The system's own bar at the bottom of the screen (#31). It replaces Foundry's macro bar and holds
- * the token hotbar next to the macros; a button switches between both views.
+ * The system's own bar at the bottom of the screen (#31). It replaces Foundry's macro bar and shows the
+ * character mode (#32) of the selected figure; its macros fold out beside the status tracker by a button (#35).
+ * Without a figure it shows a hint and the macros.
  *
- * Subclasses Foundry's Hotbar, so executing macros (also by the keys 1 to 0, in both views), drag and drop,
+ * Subclasses Foundry's Hotbar, so executing macros (also by the keys 1 to 0, folded in or not), drag and drop,
  * paging, locking, clearing and the context menu keep working; only the template is our own.
  * The template must keep Foundry's hooks: `.slot` elements with `data-slot`, the actions execute, page,
  * lock, clear, mute and menu, and the mute and lock buttons must always be present (Hotbar#_updateToggles).
- * Both views are always rendered; switching only changes `data-view` on the element, without re-rendering.
+ * The macros are always rendered; folding them only changes the class "macros-open" on the element.
  * Registered as CONFIG.ui.hotbar during init, unless the "coreHotbar" setting asks for Foundry's bar.
  */
 export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
@@ -26,7 +27,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   static DEFAULT_OPTIONS = {
     classes: ["kristallpunk"],
     actions: {
-      switchView: KristallpunkHotbar.#onSwitchView
+      toggleMacros: KristallpunkHotbar.#onToggleMacros
     }
   };
 
@@ -36,52 +37,51 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
       root: true,
       template: "systems/kristallpunk/templates/ui/hotbar.hbs",
       // Partials, loaded before the first render
-      templates: [TOKEN_HOTBAR, STATUS_TRACKER]
+      templates: [TOKEN_HOTBAR, STATUS_TRACKER, MACROS]
     }
   };
 
   /**
-   * Register the keybinding that switches the view. It has no default key; players can assign one.
-   * Called during init.
+   * Register the keybinding that folds the macros out and in, like the button. It has no default key;
+   * players can assign one. Called during init.
    */
   static registerKeybindings() {
-    game.keybindings.register(SYSTEM_ID, "switchHotbarView", {
+    game.keybindings.register(SYSTEM_ID, "toggleHotbarMacros", {
       name: "KRISTALLPUNK.Hotbar.Keybinding.Name",
       hint: "KRISTALLPUNK.Hotbar.Keybinding.Hint",
       editable: [],
       onDown: () => {
-        ui.hotbar?.switchView?.();
+        ui.hotbar?.toggleMacros?.();
         return true;
       }
     });
   }
 
   /**
-   * The view currently shown, remembered per client.
-   * @type {"macros"|"token"}
+   * Whether the macros are folded out beside the status tracker, remembered per client.
+   * Without a figure the macros are always shown, whatever this says.
+   * @type {boolean}
    */
-  get view() {
-    const view = game.settings.get(SYSTEM_ID, "hotbarView");
-    return VIEWS.includes(view) ? view : VIEWS[0];
+  get macrosOpen() {
+    return game.settings.get(SYSTEM_ID, "hotbarMacros");
   }
 
   /**
-   * Show a view and remember it for this client.
-   * @param {"macros"|"token"} view
+   * Fold the macros out or in and remember it for this client.
+   * @param {boolean} open
    * @returns {Promise<void>}
    */
-  async setView(view) {
-    if ( !VIEWS.includes(view) ) throw new Error(`Unknown hotbar view ${view}`);
-    await game.settings.set(SYSTEM_ID, "hotbarView", view);
-    this.#applyView();
+  async setMacrosOpen(open) {
+    await game.settings.set(SYSTEM_ID, "hotbarMacros", !!open);
+    this.#applyMacros();
   }
 
   /**
-   * Switch to the other view.
+   * Fold the macros the other way.
    * @returns {Promise<void>}
    */
-  async switchView() {
-    return this.setView(this.view === "macros" ? "token" : "macros");
+  async toggleMacros() {
+    return this.setMacrosOpen(!this.macrosOpen);
   }
 
   /** @inheritDoc */
@@ -94,7 +94,10 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   /** @inheritDoc */
   async _onRender(context, options) {
     await super._onRender(context, options);
-    this.#applyView();
+    // Tooltips of the whole bar point up, where there is room for them; set on the element, because a root
+    // template part only provides the children of the element, not its attributes
+    this.element.dataset.tooltipDirection = "UP";
+    this.#applyMacros();
     this.#activateFigure(context.figure);
   }
 
@@ -147,7 +150,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
    * Checks: a click opens the check dialog, a shift-click rolls right away.
    * On a narrow bar (see the container query in the styles) the checks are folded in. Resting on them, or
    * focusing them, folds them out (class "checks-open") with all cards grown at once; the status tracker
-   * then shows its short form.
+   * then shows its short form, and folded-out macros give way for the time being.
    * Resting on the status tracker or leaving the bar folds them in again. The state survives re-renders,
    * e.g. after a roll changed the actor.
    * @param {HTMLElement} view
@@ -184,25 +187,25 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   #checksOpen = false;
 
   /**
-   * Show the remembered view and label the switch button with the view it leads to.
-   * Tooltips of the whole bar point up, where there is room for them; set on the element, because a root
-   * template part only provides the children of the element, not its attributes.
+   * Show the macros folded out or in, and label the button accordingly. Without a figure the macros are
+   * always shown, so the button has nothing to do there.
    */
-  #applyView() {
+  #applyMacros() {
     if ( !this.element ) return;
-    const view = this.view;
-    this.element.dataset.view = view;
-    this.element.dataset.tooltipDirection = "UP";
-    const button = this.element.querySelector("[data-action=switchView]");
-    const label = game.i18n.localize(`KRISTALLPUNK.Hotbar.SwitchTo.${view === "macros" ? "token" : "macros"}`);
+    const open = this.macrosOpen;
+    this.element.classList.toggle("macros-open", open);
+    const button = this.element.querySelector("[data-action=toggleMacros]");
+    const label = game.i18n.localize(`KRISTALLPUNK.Hotbar.Macros.${open ? "Close" : "Open"}`);
     button.dataset.tooltip = label;
     button.setAttribute("aria-label", label);
+    button.setAttribute("aria-pressed", String(open));
+    button.disabled = !this.element.querySelector(".token-hotbar");
   }
 
   /**
    * @this {KristallpunkHotbar}
    */
-  static async #onSwitchView() {
-    await this.switchView();
+  static async #onToggleMacros() {
+    await this.toggleMacros();
   }
 }
