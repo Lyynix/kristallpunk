@@ -148,7 +148,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
 
   /**
    * Checks: a click opens the check dialog, a shift-click rolls right away.
-   * On a narrow bar (see the container query in the styles) the checks are folded in. Resting on them, or
+   * The checks are folded in to a strip, on every width of the bar. Resting on them, or
    * focusing them, folds them out (class "checks-open") with all cards grown at once; the status tracker
    * then shows its short form, and folded-out macros give way for the time being.
    * Resting on the status tracker or leaving the bar folds them in again. The state survives re-renders,
@@ -183,7 +183,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
     });
   }
 
-  /** Whether the checks are folded out on a narrow bar. */
+  /** Whether the checks are folded out. */
   #checksOpen = false;
 
   /**

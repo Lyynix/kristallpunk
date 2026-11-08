@@ -1050,8 +1050,6 @@ body.theme-light #hotbar.kristallpunk,
   pointer-events: all;
   /* Clipped sideways only: the check cards grow upwards over the bar */
   overflow-x: clip;
-  /* Decides between the wide and the narrow layout of the character mode */
-  container: token-view / inline-size;
 }
 
 /* Without a figure: a hint where the figure would be, the macros beside it */
@@ -1114,7 +1112,12 @@ body.theme-light #hotbar.kristallpunk,
   object-fit: cover;
 }
 
-/* Foundry draws the page number always light; use the text color of the bar, set per theme */
+/* Foundry draws the page number always light and the page arrows light in the light theme too;
+   use the text color of the bar, set per theme */
+#hotbar.kristallpunk #hotbar-page-controls {
+  --page-control-color: var(--key-text-color, var(--color-light-2));
+}
+
 #hotbar.kristallpunk #hotbar-page-controls .hotbar-page-number {
   color: var(--key-text-color, var(--color-light-2));
 }
@@ -1230,17 +1233,6 @@ body.theme-light #hotbar.kristallpunk,
   transition: height 0.2s ease-out;
 }
 
-/* Wide bar: a card grows while hovered or focused. On a narrow bar only folding out the checks grows them */
-@container token-view (width >= 900px) {
-  #hotbar.kristallpunk .token-hotbar .check-card:is(:hover, :focus-within) {
-    height: calc(var(--kp-check-head) + (var(--kp-rows) * var(--kp-check-row)));
-    z-index: 1;
-  }
-
-  #hotbar.kristallpunk .token-hotbar .check-card.more:is(:hover, :focus-within)::after {
-    opacity: 0;
-  }
-}
 
 /* Shadow at the bottom of a card with more rows than shown, so it reads as cut off */
 #hotbar.kristallpunk .token-hotbar .check-card.more::after {
@@ -1308,7 +1300,7 @@ body.theme-light #hotbar.kristallpunk,
   font-weight: bold;
 }
 
-/* Hint on the folded checks and short form of the status tracker; only used on a narrow bar */
+/* Hint on the folded checks and short form of the status tracker; shown depending on what is folded out */
 #hotbar.kristallpunk .token-hotbar .checks-folded,
 #hotbar.kristallpunk .token-hotbar .status-summary {
   display: none;
@@ -1372,69 +1364,68 @@ body.theme-light #hotbar.kristallpunk,
   font-weight: bold;
 }
 
-/* Narrow bar: the status tracker takes the width, the checks are folded in to a strip.
-   Folded out ("checks-open", set by the bar), the checks take their width and the tracker shows its short form */
-@container token-view (width < 900px) {
-  #hotbar.kristallpunk .token-hotbar .figure-status,
-  #hotbar.kristallpunk .token-hotbar .figure-checks {
-    transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out;
-  }
+/* Folding the checks, on every width of the bar: at first the status tracker takes the width and the checks
+   are folded in to a strip. Folded out ("checks-open", set by the bar), the checks take their width and the
+   tracker shows its short form */
+#hotbar.kristallpunk .token-hotbar .figure-status,
+#hotbar.kristallpunk .token-hotbar .figure-checks {
+  transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out;
+}
 
-  /* Folded out, all cards grow and stay grown until the checks fold in again. The checks slide in from the
-     right, so the left card is in view first: each column grows a little later (--kp-column, set per group).
-     Folding in, all cards shrink together */
-  #hotbar.kristallpunk .token-hotbar.checks-open .check-card {
-    height: calc(var(--kp-check-head) + (var(--kp-rows) * var(--kp-check-row)));
-    transition-delay: calc(var(--kp-column, 0) * 80ms);
-  }
+/* Folded out, all cards grow and stay grown until the checks fold in again. The checks slide in from the
+   right, so the left card is in view first: each column grows a little later (--kp-column, set per group).
+   Folding in, all cards shrink together */
+#hotbar.kristallpunk .token-hotbar.checks-open .check-card {
+  height: calc(var(--kp-check-head) + (var(--kp-rows) * var(--kp-check-row)));
+  transition-delay: calc(var(--kp-column, 0) * 80ms);
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .check-card.more::after {
-    opacity: 0;
-    transition-delay: calc(var(--kp-column, 0) * 80ms);
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .check-card.more::after {
+  opacity: 0;
+  transition-delay: calc(var(--kp-column, 0) * 80ms);
+}
 
-  #hotbar.kristallpunk .token-hotbar .figure-status {
-    overflow: hidden;
-  }
+#hotbar.kristallpunk .token-hotbar .figure-status {
+  overflow: hidden;
+}
 
-  #hotbar.kristallpunk .token-hotbar .figure-checks {
-    flex-basis: 32px;
-  }
+#hotbar.kristallpunk .token-hotbar .figure-checks {
+  flex-basis: 32px;
+}
 
-  #hotbar.kristallpunk .token-hotbar .checks-folded {
-    display: flex;
-  }
+#hotbar.kristallpunk .token-hotbar .checks-folded {
+  display: flex;
+}
 
-  /* Transparent, not hidden: the checks stay reachable by keyboard, and focusing them folds them out */
-  #hotbar.kristallpunk .token-hotbar .checks-list {
-    opacity: 0;
-    pointer-events: none;
-  }
+/* Transparent, not hidden: the checks stay reachable by keyboard, and focusing them folds them out */
+#hotbar.kristallpunk .token-hotbar .checks-list {
+  opacity: 0;
+  pointer-events: none;
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .figure-checks {
-    flex-basis: var(--kp-checks-width);
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .figure-checks {
+  flex-basis: var(--kp-checks-width);
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .checks-folded {
-    display: none;
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .checks-folded {
+  display: none;
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .checks-list {
-    opacity: 1;
-    pointer-events: auto;
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .checks-list {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .figure-status {
-    flex: 0 0 110px;
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .figure-status {
+  flex: 0 0 110px;
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .status-tracker {
-    display: none;
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .status-tracker {
+  display: none;
+}
 
-  #hotbar.kristallpunk .token-hotbar.checks-open .status-summary {
-    display: flex;
-  }
+#hotbar.kristallpunk .token-hotbar.checks-open .status-summary {
+  display: flex;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1447,10 +1438,6 @@ body.theme-light #hotbar.kristallpunk,
 /* Macros in the character mode (#35): folded in at first; the button of the bar folds them out beside the
    status tracker (class "macros-open" on the bar), which then shows its short form. The negative margin
    takes back the gap of the bar while folded in */
-#hotbar.kristallpunk .token-hotbar .figure-status {
-  transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out;
-}
-
 #hotbar.kristallpunk .token-hotbar .figure-macros {
   flex: 0 0 0;
   min-width: 0;
@@ -1478,13 +1465,11 @@ body.theme-light #hotbar.kristallpunk,
   display: flex;
 }
 
-/* On a narrow bar, folded-out checks take the place of the macros for the time being */
-@container token-view (width < 900px) {
-  #hotbar.kristallpunk.macros-open .token-hotbar.checks-open .figure-macros {
-    flex: 0 0 0;
-    margin-left: -12px;
-    visibility: hidden;
-  }
+/* Folded-out checks take the place of the macros for the time being */
+#hotbar.kristallpunk.macros-open .token-hotbar.checks-open .figure-macros {
+  flex: 0 0 0;
+  margin-left: -12px;
+  visibility: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
