@@ -1,5 +1,5 @@
 {{!-- Token hotbar, character mode (#32); context from module/apps/token-hotbar.mjs prepareTokenHotbar().
-      On a narrow bar the checks are folded in; hovering or focusing them folds them out and shows
+      The checks are folded in; hovering or focusing them folds them out and shows
       the short form of the status tracker instead (class "checks-open", set by the bar). --}}
 <div class="token-hotbar">
   <div class="figure">
@@ -30,6 +30,11 @@
     </div>
   </div>
 
+  {{!-- Macros fold out here by the button of the bar; "@root": the bar's context with slots and page --}}
+  <div class="figure-macros">
+    {{> "systems/kristallpunk/templates/ui/hotbar-macros.hbs" @root}}
+  </div>
+
   <div class="figure-checks">
     <div class="checks-folded" aria-hidden="true">
       <i class="fa-solid fa-chevron-left" inert></i>
@@ -37,8 +42,8 @@
       <span>{{localize "KRISTALLPUNK.Hotbar.Checks"}}</span>
     </div>
     {{!-- Each group is a card that sits at the bottom of its slot; at rest it shows as many rows as the
-          derived values. On a wide bar it grows upwards over the bar when hovered or focused; on a narrow bar
-          all cards grow at once when the checks fold out, and only then. Tooltips anchor above the card. --}}
+          derived values. When the checks fold out, all cards grow upwards over the bar one column after
+          the other, and only then. Tooltips anchor above the card. --}}
     <div class="checks-list" role="group" aria-label="{{localize "KRISTALLPUNK.Hotbar.Checks"}}"
          style="--kp-rest-rows: {{checks.restRows}}">
       {{#each checks.groups as |group|}}

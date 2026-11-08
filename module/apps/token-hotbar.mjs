@@ -102,7 +102,7 @@ function prepareChecks(actor) {
 }
 
 /**
- * Short form of the status tracker, shown while the checks are folded out on a narrow bar (#32):
+ * Short form of the status tracker, shown while the checks (#32) or the macros (#35) are folded out:
  * per domain the wounds and the stamina as value and maximum, and the conviction.
  * @param {Actor} actor
  * @returns {{domains: object[], conviction: string, convictionLabel: string}}

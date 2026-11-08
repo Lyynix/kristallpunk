@@ -30,13 +30,12 @@ export function registerSettings() {
     requiresReload: true
   });
 
-  // View of the system's bar last chosen on this client (#31); switched by the button in the bar
-  game.settings.register(SYSTEM_ID, "hotbarView", {
+  // Whether the macros of the system's bar are folded out on this client (#35); set by the button in the bar
+  game.settings.register(SYSTEM_ID, "hotbarMacros", {
     scope: "client",
     config: false,
-    type: String,
-    choices: { macros: "macros", token: "token" },
-    default: "token"
+    type: Boolean,
+    default: false
   });
 
   // Consequences of a check: stamina cost and conviction shift (#14, #15)
