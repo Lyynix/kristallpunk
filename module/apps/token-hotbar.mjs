@@ -36,7 +36,7 @@ export function currentFigure() {
  * of the same actor can be told apart, otherwise the actor's name.
  * The status tracker is the same building block as on the sheet; only owners may change it or roll.
  * @returns {{actor: Actor, editable: boolean, name: string, img: string, tokenId: string|null, hint: string,
- *   statusTracker: object, statusSummary: object, checks: object[]}|null}  null if there is no figure to show.
+ *   statusTracker: object, statusSummary: object, checks: object}|null}  null if there is no figure to show.
  */
 export function prepareTokenHotbar() {
   const { actor, token } = currentFigure();
@@ -55,10 +55,12 @@ export function prepareTokenHotbar() {
 }
 
 /**
- * Everything the figure can roll from the bar, in three columns: the skills of each domain in the order
- * of CONFIG.KRISTALLPUNK.skills, then the derived values.
+ * Everything the figure can roll from the bar, as three cards: the skills of each domain in the order
+ * of CONFIG.KRISTALLPUNK.skills, then the derived values. At rest every card is as high as the card of the
+ * derived values (`restRows`); a card with more entries grows upwards while hovered (#32).
  * @param {Actor} actor
- * @returns {{key: string, entries: {key: string, label: string, value: number, tooltip: string}[]}[]}
+ * @returns {{restRows: number, groups: {key: string, label: string, rows: number, more: boolean,
+ *   entries: {key: string, label: string, value: number, tooltip: string}[]}[]}}
  */
 function prepareChecks(actor) {
   const { skills, attributes, derived, domains } = CONFIG.KRISTALLPUNK;
@@ -67,17 +69,24 @@ function prepareChecks(actor) {
     label = game.i18n.localize(label);
     return { key, label, value, tooltip: `${label} ${value} · ${hint}` };
   };
-  const groups = Object.keys(domains).map(domain => ({
+  const groups = Object.entries(domains).map(([domain, { label }]) => ({
     key: domain,
+    label: game.i18n.localize(label),
     entries: Object.entries(skills)
       .filter(([, skill]) => attributes[skill.attribute].domain === domain)
       .map(([key, skill]) => entry(key, skill.label, actor.system.skills[key].total))
   }));
   groups.push({
     key: "derived",
+    label: game.i18n.localize("KRISTALLPUNK.Hotbar.Derived"),
     entries: Object.entries(derived).map(([key, value]) => entry(key, value.label, actor.system.derived[key].value))
   });
-  return groups;
+  const restRows = groups.at(-1).entries.length;
+  for ( const group of groups ) {
+    group.rows = group.entries.length;
+    group.more = group.rows > restRows;
+  }
+  return { restRows, groups };
 }
 
 /**

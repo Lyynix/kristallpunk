@@ -1025,7 +1025,8 @@
   /* Text color of Foundry's hotbar, set per theme */
   color: var(--key-text-color, var(--color-light-1));
   pointer-events: all;
-  overflow: hidden;
+  /* Clipped sideways only: the check cards grow upwards over the bar */
+  overflow-x: clip;
   /* Decides between the wide and the narrow layout of the character mode */
   container: token-view / inline-size;
 }
@@ -1125,7 +1126,9 @@
   --kp-checks-width: 330px;
   position: relative;
   flex: 0 0 var(--kp-checks-width);
-  overflow: hidden;
+  /* Unlike overflow: hidden, clip does not let a flex item shrink below its content on its own */
+  min-width: 0;
+  overflow-x: clip;
 }
 
 #hotbar.kristallpunk .token-hotbar .checks-list {
@@ -1136,24 +1139,85 @@
   height: 100%;
 }
 
+/* Each group is a slot as high as the bar; its card sits at the bottom of the slot and is as high as
+   the card of the derived values (--kp-rest-rows). Hovered or focused, it grows upwards to all its rows */
+#hotbar.kristallpunk .token-hotbar .checks-list {
+  --kp-check-row: 19px;
+  --kp-check-head: 16px;
+}
+
 #hotbar.kristallpunk .token-hotbar .check-group {
   --kp-rgb: 160 160 160;
+  position: relative;
+  min-width: 0;
+}
+
+#hotbar.kristallpunk .token-hotbar .check-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  height: calc(var(--kp-check-head) + (var(--kp-rest-rows) * var(--kp-check-row)));
+  border-radius: 4px;
+  /* Tint of the domain over the opaque color of the bar, so the card covers what lies above the bar */
+  background: linear-gradient(rgb(var(--kp-rgb) / 0.12), rgb(var(--kp-rgb) / 0.12)), var(--slot-color, var(--color-cool-5-90));
+  overflow: hidden;
+  transition: height 0.2s ease-out;
+}
+
+/* Wide bar: a card grows while hovered or focused. On a narrow bar only folding out the checks grows them */
+@container token-view (width >= 900px) {
+  #hotbar.kristallpunk .token-hotbar .check-card:is(:hover, :focus-within) {
+    height: calc(var(--kp-check-head) + (var(--kp-rows) * var(--kp-check-row)));
+    z-index: 1;
+  }
+
+  #hotbar.kristallpunk .token-hotbar .check-card.more:is(:hover, :focus-within)::after {
+    opacity: 0;
+  }
+}
+
+/* Shadow at the bottom of a card with more rows than shown, so it reads as cut off */
+#hotbar.kristallpunk .token-hotbar .check-card.more::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.5), transparent);
+  pointer-events: none;
+  transition: opacity 0.2s ease-out;
+}
+
+#hotbar.kristallpunk .token-hotbar .check-group-label {
+  flex: none;
+  height: var(--kp-check-head);
+  padding: 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-11);
+  font-weight: bold;
+  line-height: var(--kp-check-head);
 }
 
 #hotbar.kristallpunk .token-hotbar .check-group.body { --kp-rgb: var(--kp-body-rgb); }
 #hotbar.kristallpunk .token-hotbar .check-group.mind { --kp-rgb: var(--kp-mind-rgb); }
 
 #hotbar.kristallpunk .token-hotbar .check {
-  flex: 1 1 0;
-  min-height: 0;
+  flex: none;
   display: flex;
+  box-sizing: border-box;
+  /* Foundry gives buttons a minimum height; the row height must be exact for the card heights */
+  min-height: 0;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  height: auto;
+  height: calc(var(--kp-check-row) - 1px);
+  margin: 1px 0 0;
   padding: 0 4px;
   border: none;
   border-radius: 3px;
@@ -1161,10 +1225,6 @@
   color: inherit;
   font-size: var(--font-size-11);
   line-height: 1;
-}
-
-#hotbar.kristallpunk .token-hotbar .check + .check {
-  margin-top: 1px;
 }
 
 #hotbar.kristallpunk .token-hotbar .check:not(:disabled):is(:hover, :focus-visible) {
@@ -1254,7 +1314,20 @@
 @container token-view (width < 900px) {
   #hotbar.kristallpunk .token-hotbar .figure-status,
   #hotbar.kristallpunk .token-hotbar .figure-checks {
-    transition: flex-grow 0.25s ease, flex-basis 0.25s ease;
+    transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out;
+  }
+
+  /* Folded out, all cards grow and stay grown until the checks fold in again. The checks slide in from the
+     right, so the left card is in view first: each column grows a little later (--kp-column, set per group).
+     Folding in, all cards shrink together */
+  #hotbar.kristallpunk .token-hotbar.checks-open .check-card {
+    height: calc(var(--kp-check-head) + (var(--kp-rows) * var(--kp-check-row)));
+    transition-delay: calc(var(--kp-column, 0) * 80ms);
+  }
+
+  #hotbar.kristallpunk .token-hotbar.checks-open .check-card.more::after {
+    opacity: 0;
+    transition-delay: calc(var(--kp-column, 0) * 80ms);
   }
 
   #hotbar.kristallpunk .token-hotbar .figure-status {
@@ -1302,7 +1375,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #hotbar.kristallpunk .token-hotbar :is(.figure-status, .figure-checks) {
+  #hotbar.kristallpunk .token-hotbar :is(.figure-status, .figure-checks, .check-card),
+  #hotbar.kristallpunk .token-hotbar .check-card::after {
     transition: none;
   }
 }

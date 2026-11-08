@@ -9,6 +9,7 @@ export const VIEWS = ["macros", "token"];
 /** How long the pointer rests on the folded checks before they fold out, in ms. */
 const FOLD_OUT_DELAY = 150;
 
+
 /**
  * The system's own bar at the bottom of the screen (#31). It replaces Foundry's macro bar and holds
  * the token hotbar next to the macros; a button switches between both views.
@@ -145,7 +146,8 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   /**
    * Checks: a click opens the check dialog, a shift-click rolls right away.
    * On a narrow bar (see the container query in the styles) the checks are folded in. Resting on them, or
-   * focusing them, folds them out (class "checks-open"); the status tracker then shows its short form.
+   * focusing them, folds them out (class "checks-open") with all cards grown at once; the status tracker
+   * then shows its short form.
    * Resting on the status tracker or leaving the bar folds them in again. The state survives re-renders,
    * e.g. after a roll changed the actor.
    * @param {HTMLElement} view

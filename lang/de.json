@@ -50,6 +50,7 @@
     "Hotbar": {
       "NoFigure": "Keine Figur ausgewählt.",
       "Checks": "Proben",
+      "Derived": "Abgeleitet",
       "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
       "Portrait": {
         "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
