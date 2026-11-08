@@ -32,7 +32,7 @@ export function currentFigure() {
 
 /**
  * Render context of the token hotbar partial.
- * Image: the token's image, otherwise the actor's portrait. Name: the token's name, so unlinked tokens
+ * Image: the token's image, otherwise the actor's portrait (see figureImage). Name: the token's name, so unlinked tokens
  * of the same actor can be told apart, otherwise the actor's name.
  * The status tracker is the same building block as on the sheet; only owners may change it or roll.
  * @returns {{actor: Actor, editable: boolean, name: string, img: string, tokenId: string|null, hint: string,
@@ -48,10 +48,22 @@ export function prepareTokenHotbar() {
     statusSummary: prepareStatusSummary(actor),
     checks: prepareChecks(actor),
     name: token?.document.name || actor.name,
-    img: token?.document.texture.src || actor.img,
+    img: figureImage(actor, token),
     tokenId: token?.id ?? null,
     hint: token ? "KRISTALLPUNK.Hotbar.Portrait.Token" : "KRISTALLPUNK.Hotbar.Portrait.Sheet"
   };
+}
+
+/**
+ * Image of the figure: the token's image, unless it has none or still shows Foundry's default image;
+ * then the actor's portrait.
+ * @param {Actor} actor
+ * @param {Token|null} token
+ * @returns {string}
+ */
+function figureImage(actor, token) {
+  const src = token?.document.texture.src;
+  return (src && (src !== CONST.DEFAULT_TOKEN)) ? src : actor.img;
 }
 
 /**

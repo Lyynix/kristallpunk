@@ -1001,6 +1001,17 @@
 /*  Hotbar (#31)                                */
 /* -------------------------------------------- */
 
+/* Opaque base color the check cards are mixed from, per interface theme like Foundry's own hotbar colors:
+   light gives pastel cards for the dark text of the light theme, dark gives muted cards for its light text */
+#hotbar.kristallpunk {
+  --kp-card-base: var(--color-cool-5);
+}
+
+body.theme-light #hotbar.kristallpunk,
+.themed.theme-light #hotbar.kristallpunk {
+  --kp-card-base: white;
+}
+
 /* Both views are rendered; data-view decides which one is shown */
 #hotbar.kristallpunk .hotbar-view.macros {
   gap: 8px;
@@ -1161,8 +1172,8 @@
   flex-direction: column;
   height: calc(var(--kp-check-head) + (var(--kp-rest-rows) * var(--kp-check-row)));
   border-radius: 4px;
-  /* Tint of the domain over the opaque color of the bar, so the card covers what lies above the bar */
-  background: linear-gradient(rgb(var(--kp-rgb) / 0.12), rgb(var(--kp-rgb) / 0.12)), var(--slot-color, var(--color-cool-5-90));
+  /* Opaque mix of the domain color into the theme's base, so the card covers what lies above the bar */
+  background: color-mix(in oklab, rgb(var(--kp-rgb)) 20%, var(--kp-card-base));
   overflow: hidden;
   transition: height 0.2s ease-out;
 }
