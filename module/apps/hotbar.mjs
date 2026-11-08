@@ -183,11 +183,14 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
 
   /**
    * Show the remembered view and label the switch button with the view it leads to.
+   * Tooltips of the whole bar point up, where there is room for them; set on the element, because a root
+   * template part only provides the children of the element, not its attributes.
    */
   #applyView() {
     if ( !this.element ) return;
     const view = this.view;
     this.element.dataset.view = view;
+    this.element.dataset.tooltipDirection = "UP";
     const button = this.element.querySelector("[data-action=switchView]");
     const label = game.i18n.localize(`KRISTALLPUNK.Hotbar.SwitchTo.${view === "macros" ? "token" : "macros"}`);
     button.dataset.tooltip = label;

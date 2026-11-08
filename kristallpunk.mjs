@@ -13,6 +13,7 @@ import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import KristallpunkHotbar from "./module/apps/hotbar.mjs";
 import { registerTokenHotbarHooks } from "./module/apps/token-hotbar.mjs";
+import { registerHotbarTooltips } from "./module/apps/hotbar-tooltips.mjs";
 
 Hooks.once("init", () => {
   console.log("Kristallpunk | Initializing system");
@@ -29,6 +30,7 @@ Hooks.once("init", () => {
     CONFIG.ui.hotbar = KristallpunkHotbar;
     KristallpunkHotbar.registerKeybindings();
     registerTokenHotbarHooks();
+    registerHotbarTooltips();
   }
 
   // Token resources. Listed explicitly because the stamina maximum is derived, not stored,

@@ -1,9 +1,10 @@
 {{!-- The system's bar (#31). Keeps the structure, ids and actions of Foundry's macro bar,
       so Foundry's styles and the logic inherited from its Hotbar class keep working.
-      Both views are always rendered; `data-view` on the bar decides which one is shown. --}}
+      Both views are always rendered; `data-view` on the bar decides which one is shown.
+      Tooltips of the whole bar point up; the bar sets the direction on its element. --}}
 <aside id="hotbar">
   {{!-- Mute and main menu concern the whole game and stay in both views --}}
-  <div id="hotbar-controls-left" class="hotbar-controls flexcol" data-tooltip-direction="LEFT">
+  <div id="hotbar-controls-left" class="hotbar-controls flexcol">
     <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip
             aria-label="{{localize "HOTBAR.ACTIONS.Mute"}}"></button>
     <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip
@@ -11,7 +12,7 @@
   </div>
 
   <div class="hotbar-view macros flexrow">
-    <menu id="action-bar" class="flexrow" data-tooltip-direction="UP">
+    <menu id="action-bar" class="flexrow">
       {{#each slots as |slot|}}
       <li class="slot {{slot.cssClass}}" role="button" data-action="execute" data-slot="{{slot.slot}}"
           style="{{slot.style}}" aria-label="{{slot.ariaLabel}}"
@@ -22,7 +23,7 @@
       {{/each}}
     </menu>
 
-    <div id="hotbar-controls-right" class="hotbar-controls flexrow" data-tooltip-direction="RIGHT">
+    <div id="hotbar-controls-right" class="hotbar-controls flexrow">
       <nav id="hotbar-page-controls" class="flexcol">
         <button type="button" class="plain hotbar-page-control page-next fa-solid fa-triangle icon"
                 data-action="page" data-direction="1" data-tooltip aria-label="{{localize "HOTBAR.ACTIONS.PageNext"}}"></button>
@@ -48,7 +49,7 @@
     {{/if}}
   </div>
 
-  <div class="hotbar-controls hotbar-switch flexcol" data-tooltip-direction="RIGHT">
+  <div class="hotbar-controls hotbar-switch flexcol">
     <button type="button" class="ui-control fa-solid fa-arrow-right-arrow-left icon" data-action="switchView"
             data-tooltip></button>
   </div>
