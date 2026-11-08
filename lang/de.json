@@ -48,7 +48,14 @@
       "Decrease": "Einen weniger"
     },
     "Hotbar": {
-      "Placeholder": "Hier erscheint bald die Token-Hotbar.",
+      "NoFigure": "Keine Figur ausgewählt.",
+      "Checks": "Proben",
+      "Derived": "Abgeleitet",
+      "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
+      "Portrait": {
+        "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
+        "Sheet": "Doppelklick: Bogen öffnen"
+      },
       "SwitchTo": {
         "macros": "Zur Makroleiste",
         "token": "Zur Token-Hotbar"
