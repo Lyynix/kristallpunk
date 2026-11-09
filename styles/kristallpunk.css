@@ -1128,6 +1128,8 @@ body.theme-light #hotbar.kristallpunk,
 }
 
 #hotbar.kristallpunk .token-hotbar {
+  /* Width of the folded-out checks; on a wide bar also the width of the macros beside the tracker */
+  --kp-checks-width: 330px;
   display: flex;
   align-items: stretch;
   flex: 1;
@@ -1189,7 +1191,6 @@ body.theme-light #hotbar.kristallpunk,
 
 /* Checks (#32): skills of body and mind and the derived values in three columns of buttons */
 #hotbar.kristallpunk .token-hotbar .figure-checks {
-  --kp-checks-width: 330px;
   position: relative;
   flex: 0 0 var(--kp-checks-width);
   /* Unlike overflow: hidden, clip does not let a flex item shrink below its content on its own */
@@ -1364,7 +1365,7 @@ body.theme-light #hotbar.kristallpunk,
   font-weight: bold;
 }
 
-/* Folding the checks, on every width of the bar: at first the status tracker takes the width and the checks
+/* Folding the checks, on every width of the bar but the widest (lg, see below): at first the status tracker takes the width and the checks
    are folded in to a strip. Folded out ("checks-open", set by the bar), the checks take their width and the
    tracker shows its short form */
 #hotbar.kristallpunk .token-hotbar .figure-status,
@@ -1416,15 +1417,16 @@ body.theme-light #hotbar.kristallpunk,
   pointer-events: auto;
 }
 
-#hotbar.kristallpunk .token-hotbar.checks-open .figure-status {
+/* The short form of the tracker is not needed on a wide bar (lg, see below) */
+#hotbar.kristallpunk:not(.lg) .token-hotbar.checks-open .figure-status {
   flex: 0 0 110px;
 }
 
-#hotbar.kristallpunk .token-hotbar.checks-open .status-tracker {
+#hotbar.kristallpunk:not(.lg) .token-hotbar.checks-open .status-tracker {
   display: none;
 }
 
-#hotbar.kristallpunk .token-hotbar.checks-open .status-summary {
+#hotbar.kristallpunk:not(.lg) .token-hotbar.checks-open .status-summary {
   display: flex;
 }
 
@@ -1436,7 +1438,8 @@ body.theme-light #hotbar.kristallpunk,
 }
 
 /* Macros in the character mode (#35): folded in at first; the button of the bar folds them out beside the
-   status tracker (class "macros-open" on the bar), which then shows its short form. The negative margin
+   status tracker (class "macros-open" on the bar), which then shows its short form (on a wide bar they
+   take the place of the checks instead, see below). The negative margin
    takes back the gap of the bar while folded in */
 #hotbar.kristallpunk .token-hotbar .figure-macros {
   flex: 0 0 0;
@@ -1453,15 +1456,15 @@ body.theme-light #hotbar.kristallpunk,
   visibility: visible;
 }
 
-#hotbar.kristallpunk.macros-open .token-hotbar .figure-status {
+#hotbar.kristallpunk.macros-open:not(.lg) .token-hotbar .figure-status {
   flex: 0 0 110px;
 }
 
-#hotbar.kristallpunk.macros-open .token-hotbar .status-tracker {
+#hotbar.kristallpunk.macros-open:not(.lg) .token-hotbar .status-tracker {
   display: none;
 }
 
-#hotbar.kristallpunk.macros-open .token-hotbar .status-summary {
+#hotbar.kristallpunk.macros-open:not(.lg) .token-hotbar .status-summary {
   display: flex;
 }
 
@@ -1474,6 +1477,43 @@ body.theme-light #hotbar.kristallpunk,
 
 @media (prefers-reduced-motion: reduce) {
   #hotbar.kristallpunk .token-hotbar :is(.figure-status, .figure-macros) {
+    transition: none;
+  }
+}
+
+/* Wide bar (Foundry's class "lg"): the status tracker always keeps its full form. Beside it are either the
+   checks or the macros, switched by the button of the bar; both take the same width, so the tracker does not
+   move. The checks are never folded in to a strip; resting on them still grows all cards upwards */
+#hotbar.kristallpunk.lg .token-hotbar .figure-checks {
+  flex-basis: var(--kp-checks-width);
+  transition: flex-basis 0.25s ease-out, margin-left 0.25s ease-out, visibility 0.25s;
+}
+
+#hotbar.kristallpunk.lg .token-hotbar .checks-folded {
+  display: none;
+}
+
+#hotbar.kristallpunk.lg .token-hotbar .checks-list {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#hotbar.kristallpunk.lg.macros-open .token-hotbar .figure-macros,
+#hotbar.kristallpunk.lg.macros-open .token-hotbar.checks-open .figure-macros {
+  flex: 0 0 var(--kp-checks-width);
+  margin-left: 0;
+  visibility: visible;
+}
+
+#hotbar.kristallpunk.lg.macros-open .token-hotbar .figure-checks,
+#hotbar.kristallpunk.lg.macros-open .token-hotbar.checks-open .figure-checks {
+  flex-basis: 0;
+  margin-left: -12px;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk.lg .token-hotbar .figure-checks {
     transition: none;
   }
 }

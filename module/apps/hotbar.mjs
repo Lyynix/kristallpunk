@@ -148,7 +148,8 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
 
   /**
    * Checks: a click opens the check dialog, a shift-click rolls right away.
-   * The checks are folded in to a strip, on every width of the bar. Resting on them, or
+   * The checks are folded in to a strip, on every width of the bar but the widest, where only their cards
+   * grow (see the CSS for class "lg"). Resting on them, or
    * focusing them, folds them out (class "checks-open") with all cards grown at once; the status tracker
    * then shows its short form, and folded-out macros give way for the time being.
    * Resting on the status tracker or leaving the bar folds them in again. The state survives re-renders,
@@ -187,15 +188,28 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   #checksOpen = false;
 
   /**
-   * Show the macros folded out or in, and label the button accordingly. Without a figure the macros are
-   * always shown, so the button has nothing to do there.
+   * Foundry sets the size classes here; on a wide bar (lg) the button switches between checks and macros
+   * instead of folding, so its label follows the size class.
+   * @inheritDoc
+   */
+  _onResize() {
+    super._onResize();
+    this.#applyMacros();
+  }
+
+  /**
+   * Show the macros folded out or in, and label the button accordingly. On a wide bar (class "lg") the
+   * macros take the place of the checks instead. Without a figure the macros are always shown, so the button
+   * has nothing to do there.
    */
   #applyMacros() {
-    if ( !this.element ) return;
+    const button = this.element?.querySelector("[data-action=toggleMacros]");
+    if ( !button ) return;
     const open = this.macrosOpen;
     this.element.classList.toggle("macros-open", open);
-    const button = this.element.querySelector("[data-action=toggleMacros]");
-    const label = game.i18n.localize(`KRISTALLPUNK.Hotbar.Macros.${open ? "Close" : "Open"}`);
+    const wide = this.element.classList.contains("lg");
+    const key = wide ? (open ? "ShowChecks" : "ShowMacros") : (open ? "Close" : "Open");
+    const label = game.i18n.localize(`KRISTALLPUNK.Hotbar.Macros.${key}`);
     button.dataset.tooltip = label;
     button.setAttribute("aria-label", label);
     button.setAttribute("aria-pressed", String(open));
