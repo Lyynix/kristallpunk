@@ -38,7 +38,7 @@ import { SYSTEM_ID } from "../settings.mjs";
  * @param {{sixes?: number, ones?: number}} [options.preset]  GM only: exactly this many sixes and ones (#25).
  *                                                The other dice show 2 to 5. Ignored with a warning for players.
  *                                                In the check dialog, the GM can also open a window to preset them.
- * @param {string} [options.request]              ID of the check request message this check answers (#33).
+ * @param {string} [options.request]              `requestId` of the check request this check answers (#33).
  * @returns {Promise<{roll: Roll, pool: object, result: object, cost: object, message: ChatMessage}|null>}
  *   null if the check could not be rolled or the dialog was closed.
  */

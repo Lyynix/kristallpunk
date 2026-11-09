@@ -12,7 +12,7 @@ import RequestDialog, { defaultRequestSelection, requestFigures, VISIBILITIES } 
  * @param {string} key                                A skill key (e.g. "athletics") or derived value key (e.g. "courage").
  * @param {object} [options]
  * @param {(Actor|string)[]} [options.actors]         Figures or their UUIDs. Defaults to the targeted figures,
- *                                                    otherwise the characters of the players who are online.
+ *                                                    otherwise all characters assigned to players.
  * @param {string} [options.grade="daring"]           carefree, daring or fateful.
  * @param {import("./check.mjs").CheckModifier[]} [options.modifiers]  Individual bonuses and penalties.
  * @param {"public"|"involved"} [options.visibility="public"]  Who sees the request: everybody, or only the GMs

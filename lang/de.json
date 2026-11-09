@@ -59,7 +59,10 @@
         "Title": "Probe angefordert: {label}",
         "Missing": "Diese Figur gibt es nicht mehr.",
         "Roll": "Würfeln",
-        "RollOnBehalf": "Stellvertretend würfeln"
+        "RollOnBehalf": "Stellvertretend würfeln",
+        "Rolled": "gewürfelt",
+        "ShowCheck": "Probe im Chat zeigen",
+        "Done": "Alle haben gewürfelt."
       },
       "Warning": {
         "GMOnly": "Nur die SL kann Proben anfordern.",
@@ -102,6 +105,10 @@
       "CoreHotbar": {
         "Name": "Foundrys Makroleiste verwenden",
         "Hint": "Zeigt statt der Leiste des Systems Foundrys eigene Makroleiste, z. B. falls ein Modul mit der Leiste des Systems nicht zurechtkommt. Die Token-Hotbar steht dann nicht zur Verfügung."
+      },
+      "AssignChecksToRequests": {
+        "Name": "Würfe aus dem Bogen passenden Anforderungen zuordnen",
+        "Hint": "Würfelt eine Figur eine angeforderte Probe nicht über die Anforderungskarte, sondern z. B. aus dem Bogen oder der Leiste, zählt der Wurf trotzdem für die Anforderung. Gibt es mehrere offene Anforderungen derselben Probe, zählt er für die älteste. Ausgeschaltet zählen nur Würfe über die Anforderungskarte."
       },
       "AutoApply": {
         "Name": "Konsequenzen automatisch anwenden",

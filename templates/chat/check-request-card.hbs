@@ -7,6 +7,7 @@
     </span>
     <span class="check-grade">{{localize grade}}</span>
   </header>
+  {{#if done}}<p class="request-done">{{localize "KRISTALLPUNK.Request.Card.Done"}}</p>{{/if}}
   {{#if modifiers.length}}
   <ul class="request-modifiers">
     {{#each modifiers as |modifier|}}<li>{{modifier}}</li>{{/each}}
@@ -23,7 +24,31 @@
         <span class="figure-name">{{figure.name}}</span>
         {{#if figure.players}}<span class="figure-players">{{figure.players}}</span>{{/if}}
       </span>
-      {{#if (eq figure.roll "own")}}
+      {{#if figure.result}}
+      {{!-- Short form of the check; a click shows the check in the chat --}}
+      <button type="button" class="request-result plain {{#unless figure.result.hidden}}{{#if figure.result.success}}success{{else}}failure{{/if}}{{/unless}}"
+              data-action="showCheck" data-message-id="{{figure.result.messageId}}"
+              data-tooltip="{{localize "KRISTALLPUNK.Request.Card.ShowCheck"}}">
+        {{#if figure.result.hidden}}
+        <span class="result-outcome">{{localize "KRISTALLPUNK.Request.Card.Rolled"}}</span>
+        {{else}}
+        <span class="result-dice">
+          {{#each figure.result.dice as |die|}}<i class="{{die.icon}} {{die.highlight}}" inert></i>{{/each}}
+        </span>
+        {{!-- One line: a critical result instead of successes and outcome --}}
+        <span class="result-outcome">
+          {{#if figure.result.criticalSuccess}}
+          <strong class="critical success">{{localize "KRISTALLPUNK.Check.CriticalSuccess"}}</strong>
+          {{else if figure.result.criticalFailure}}
+          <strong class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</strong>
+          {{else}}
+          {{localize "KRISTALLPUNK.Check.Successes" count=figure.result.successes}} ·
+          <strong>{{#if figure.result.success}}{{localize "KRISTALLPUNK.Check.Success"}}{{else}}{{localize "KRISTALLPUNK.Check.Failure"}}{{/if}}</strong>
+          {{/if}}
+        </span>
+        {{/if}}
+      </button>
+      {{else if (eq figure.roll "own")}}
       <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
               data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Roll"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Roll"}}">
         <i class="fa-solid fa-dice" inert></i>

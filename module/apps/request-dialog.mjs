@@ -38,8 +38,8 @@ export function requestFigures(list) {
 }
 
 /**
- * Which figures a request starts with: the figures the GM targets, if there are any; otherwise the
- * characters of the players who are online. The list is the assigned one, unless a targeted figure is
+ * Which figures a request starts with: the figures the GM targets, if there are any; otherwise all
+ * characters assigned to players. The list is the assigned one, unless a targeted figure is
  * only in the list of owned figures.
  * @returns {{list: "assigned"|"owned", uuids: string[]}}
  */
@@ -53,8 +53,7 @@ export function defaultRequestSelection() {
   if ( targets.length ) {
     return { list: targets.every(uuid => assigned.has(uuid)) ? "assigned" : "owned", uuids: [...new Set(targets)] };
   }
-  const online = game.users.filter(user => !user.isGM && user.active && TYPES.includes(user.character?.type));
-  return { list: "assigned", uuids: [...new Set(online.map(user => user.character.uuid))] };
+  return { list: "assigned", uuids: [...assigned] };
 }
 
 /**
