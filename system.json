@@ -34,7 +34,8 @@
       }
     },
     "ChatMessage": {
-      "check": {}
+      "check": {},
+      "checkRequest": {}
     }
   },
   "primaryTokenAttribute": "stamina.body",

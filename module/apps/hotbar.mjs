@@ -3,6 +3,7 @@ import { CHECKS_TEMPLATE, panToToken, prepareTokenHotbar, TEMPLATE as TOKEN_HOTB
 import { prepareGmHotbar, TEMPLATE as GM_HOTBAR } from "./gm-hotbar.mjs";
 import { activateStatusTracker, TEMPLATE as STATUS_TRACKER } from "./status-tracker.mjs";
 import { rollCheck } from "../api/check.mjs";
+import { requestCheck } from "../api/request.mjs";
 
 /** How long the pointer rests on the folded checks before they fold out, in ms. */
 const FOLD_OUT_DELAY = 150;
@@ -117,7 +118,8 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   }
 
   /**
-   * Wire up the GM mode (#33): each action tile calls its action; a click on a check will request it.
+   * Wire up the GM mode (#33): each action tile calls its action. A click on a check opens the request
+   * dialog, a shift-click requests it right away from the preselected figures.
    * @param {object|null} gm  From prepareGmHotbar().
    */
   #activateGm(gm) {
@@ -127,8 +129,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
     for ( const tile of view.querySelectorAll("[data-gm-action]") ) {
       tile.addEventListener("click", event => actions.get(tile.dataset.gmAction)?.onClick(event));
     }
-    // Requesting a check follows once its flow is settled (#33)
-    this.#activateChecks(view, () => {});
+    this.#activateChecks(view, (key, event) => requestCheck(key, { dialog: !event.shiftKey }));
   }
 
   /**

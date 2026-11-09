@@ -40,6 +40,32 @@
         "Minimum": "Regel der 1: mindestens ein Würfel"
       }
     },
+    "Request": {
+      "Dialog": {
+        "Title": "Probe anfordern: {label}",
+        "Figures": "Figuren",
+        "List": {
+          "assigned": "Zugeordnete Figuren",
+          "owned": "Figuren von Spieler*innen"
+        },
+        "NoFigures": "In dieser Liste gibt es keine Figuren.",
+        "Submit": "Anfordern"
+      },
+      "Visibility": {
+        "public": "Öffentlich",
+        "involved": "Nur Beteiligte"
+      },
+      "Card": {
+        "Title": "Probe angefordert: {label}",
+        "Missing": "Diese Figur gibt es nicht mehr.",
+        "Roll": "Würfeln",
+        "RollOnBehalf": "Stellvertretend würfeln"
+      },
+      "Warning": {
+        "GMOnly": "Nur die SL kann Proben anfordern.",
+        "NoFigures": "Keine Figur ausgewählt."
+      }
+    },
     "PresetDialog": {
       "Title": "Würfel vorgeben: {label}",
       "Sixes": "Sechser",

@@ -39,7 +39,9 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         change: new NumberField({ required: true, integer: true, nullable: false, initial: 0 })
       }),
       // Rerolls in order (#15, #16), see rules.check.REROLL_MODES; reroll n brings the dice of roll n + 1
-      rerolls: new ArrayField(new StringField({ required: true, blank: false, choices: checkRules.REROLL_MODES }))
+      rerolls: new ArrayField(new StringField({ required: true, blank: false, choices: checkRules.REROLL_MODES })),
+      // ID of the check request message this check answers (#33), if it was rolled from the request
+      request: new StringField({ required: true, blank: false, nullable: true, initial: null })
     };
   }
 

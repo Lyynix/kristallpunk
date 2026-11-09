@@ -1,0 +1,41 @@
+{{!-- Check request (#33); context from module/data/check-request-message.mjs renderCard() --}}
+<div class="kristallpunk check-request-card">
+  <header class="check-title">
+    <span class="check-label">
+      <i class="fa-solid fa-hand-point-up" inert></i>
+      {{localize "KRISTALLPUNK.Request.Card.Title" label=label}}
+    </span>
+    <span class="check-grade">{{localize grade}}</span>
+  </header>
+  {{#if modifiers.length}}
+  <ul class="request-modifiers">
+    {{#each modifiers as |modifier|}}<li>{{modifier}}</li>{{/each}}
+  </ul>
+  {{/if}}
+  <ul class="request-figures">
+    {{#each figures as |figure|}}
+    <li class="request-figure" data-uuid="{{figure.uuid}}">
+      {{#if figure.missing}}
+      <span class="figure-name missing">{{localize "KRISTALLPUNK.Request.Card.Missing"}}</span>
+      {{else}}
+      <img src="{{figure.img}}" alt="">
+      <span class="figure-label">
+        <span class="figure-name">{{figure.name}}</span>
+        {{#if figure.players}}<span class="figure-players">{{figure.players}}</span>{{/if}}
+      </span>
+      {{#if (eq figure.roll "own")}}
+      <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
+              data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Roll"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Roll"}}">
+        <i class="fa-solid fa-dice" inert></i>
+      </button>
+      {{else if (eq figure.roll "behalf")}}
+      <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
+              data-tooltip="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}">
+        <i class="fa-solid fa-people-arrows" inert></i>
+      </button>
+      {{/if}}
+      {{/if}}
+    </li>
+    {{/each}}
+  </ul>
+</div>

@@ -9,33 +9,7 @@
     {{/each}}
   </fieldset>
 
-  {{!-- Every bonus and penalty on its own row; they are netted only by rules.check.pool --}}
-  <fieldset class="modifiers">
-    <legend>{{localize "KRISTALLPUNK.CheckDialog.Modifiers"}}</legend>
-    {{#each modifiers as |modifier|}}
-    <div class="modifier-row">
-      <select name="modifiers.{{modifier.index}}.type" aria-label="{{localize "KRISTALLPUNK.CheckDialog.Type"}}">
-        {{selectOptions @root.modifierTypes selected=modifier.type localize=true}}
-      </select>
-      <input type="number" name="modifiers.{{modifier.index}}.amount" value="{{modifier.amount}}" min="1" step="1"
-             aria-label="{{localize "KRISTALLPUNK.CheckDialog.Amount"}}">
-      <input type="text" name="modifiers.{{modifier.index}}.label" value="{{modifier.label}}"
-             placeholder="{{localize "KRISTALLPUNK.CheckDialog.Reason"}}" aria-label="{{localize "KRISTALLPUNK.CheckDialog.Reason"}}">
-      <button type="button" class="icon fa-solid fa-trash" data-action="removeModifier" data-index="{{modifier.index}}"
-              data-tooltip="{{localize "KRISTALLPUNK.CheckDialog.Remove"}}" aria-label="{{localize "KRISTALLPUNK.CheckDialog.Remove"}}"></button>
-    </div>
-    {{else}}
-    <p class="hint">{{localize "KRISTALLPUNK.CheckDialog.NoModifiers"}}</p>
-    {{/each}}
-    <div class="modifier-buttons">
-      <button type="button" data-action="addBonus">
-        <i class="fa-solid fa-plus" inert></i> {{localize "KRISTALLPUNK.CheckDialog.Bonus"}}
-      </button>
-      <button type="button" data-action="addPenalty">
-        <i class="fa-solid fa-minus" inert></i> {{localize "KRISTALLPUNK.CheckDialog.Penalty"}}
-      </button>
-    </div>
-  </fieldset>
+  {{> "systems/kristallpunk/templates/apps/parts/modifiers.hbs"}}
 
   <div class="form-group">
     <label for="{{rootId}}-helpers">{{localize "KRISTALLPUNK.CheckDialog.Helpers"}}</label>
