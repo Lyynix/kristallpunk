@@ -14,8 +14,20 @@ const TYPES = ["protagonist"];
  */
 export const FIGURE_LISTS = ["assigned", "owned"];
 
-/** Who sees a request: everybody, or only the GMs and the players of the requested figures. */
-export const VISIBILITIES = ["public", "involved"];
+/**
+ * Who sees a request and its checks. `whisper`: the card goes only to the GMs and the owners of the requested
+ * figures. `messageMode`: chat visibility the checks are prefilled with; null keeps the player's own setting.
+ * - public: everybody sees the card and the checks.
+ * - involved: only the involved see the card; the checks as the players choose.
+ * - private: only who rolls and the GMs see a check.
+ * - blind: only the GMs see a check.
+ */
+export const VISIBILITIES = {
+  public: { whisper: false, messageMode: "public" },
+  involved: { whisper: true, messageMode: null },
+  private: { whisper: true, messageMode: "gm" },
+  blind: { whisper: true, messageMode: "blind" }
+};
 
 /**
  * Figures of a list, sorted by name, each with the players it is assigned to.
@@ -134,7 +146,7 @@ export default class RequestDialog extends HandlebarsApplicationMixin(Applicatio
       modifiers: prepareModifierRows(modifiers),
       modifierTypes: MODIFIER_TYPES,
       visibility,
-      visibilities: Object.fromEntries(VISIBILITIES.map(key => [key, `KRISTALLPUNK.Request.Visibility.${key}`])),
+      visibilities: Object.fromEntries(Object.keys(VISIBILITIES).map(key => [key, `KRISTALLPUNK.Request.Visibility.${key}`])),
       buttons: [{ type: "submit", icon: "fa-solid fa-dice", label: "KRISTALLPUNK.Request.Dialog.Submit" }]
     };
   }

@@ -11,6 +11,7 @@
 import { rollCheck } from "../api/check.mjs";
 import { orderDice } from "./check-message.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
+import { VISIBILITIES } from "../apps/request-dialog.mjs";
 
 const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
 
@@ -32,6 +33,8 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
         label: new StringField({ required: true, blank: true })
       })),
       figures: new ArrayField(new DocumentUUIDField({ type: "Actor" })),
+      // Who sees the request and its checks, see VISIBILITIES in apps/request-dialog.mjs
+      visibility: new StringField({ required: true, choices: () => Object.keys(VISIBILITIES), initial: "public" }),
       // Which check message answers the request for which figure
       results: new ArrayField(new SchemaField({
         actor: new DocumentUUIDField({ type: "Actor" }),
@@ -114,8 +117,9 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
   }
 
   /**
-   * Roll the requested check for one of the figures, prefilled with the request. Anyone who owns the figure
-   * may roll, the GM on behalf of the player. The check dialog lets them change grade and modifiers.
+   * Roll the requested check for one of the figures, prefilled with the request: grade, modifiers and the chat
+   * visibility its `visibility` asks for. Anyone who owns the figure may roll, the GM on behalf of the player.
+   * The check dialog lets them change all of it.
    * @param {string} uuid  One of the requested figures.
    * @param {object} [options]
    * @param {boolean} [options.dialog=true]  Show the check dialog.
@@ -132,9 +136,12 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
       ui.notifications.warn("KRISTALLPUNK.Check.Warning.ActorMissing", { localize: true });
       return null;
     }
-    return rollCheck(actor, this.check, {
+    const options = {
       grade: this.grade, modifiers: this.modifiers.map(modifier => ({ ...modifier })), dialog, request: this.requestId
-    });
+    };
+    const messageMode = VISIBILITIES[this.visibility]?.messageMode;
+    if ( messageMode ) options.messageMode = messageMode;
+    return rollCheck(actor, this.check, options);
   }
 
   /* -------------------------------------------- */

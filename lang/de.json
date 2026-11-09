@@ -53,7 +53,9 @@
       },
       "Visibility": {
         "public": "Öffentlich",
-        "involved": "Nur Beteiligte"
+        "involved": "Nur Beteiligte",
+        "private": "Privat (Ergebnis nur für Würfelnde und SL)",
+        "blind": "Blind (Ergebnis nur für die SL)"
       },
       "Card": {
         "Title": "Probe angefordert: {label}",

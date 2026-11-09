@@ -15,8 +15,8 @@ import RequestDialog, { defaultRequestSelection, requestFigures, VISIBILITIES } 
  *                                                    otherwise all characters assigned to players.
  * @param {string} [options.grade="daring"]           carefree, daring or fateful.
  * @param {import("./check.mjs").CheckModifier[]} [options.modifiers]  Individual bonuses and penalties.
- * @param {"public"|"involved"} [options.visibility="public"]  Who sees the request: everybody, or only the GMs
- *                                                    and the owners of the requested figures.
+ * @param {"public"|"involved"|"private"|"blind"} [options.visibility="public"]  Who sees the request and its
+ *                                                    checks, see VISIBILITIES in apps/request-dialog.mjs.
  * @param {boolean} [options.dialog=true]             Show the request dialog, prefilled with these options.
  * @returns {Promise<ChatMessage|null>}  null if nothing was requested.
  */
@@ -29,7 +29,7 @@ export async function requestCheck(key, options = {}) {
   const entry = skills[key] ?? derived[key];
   if ( !entry ) throw new Error(`Unknown check ${key}`);
   let { grade = "daring", modifiers = [], visibility = "public", dialog = true } = options;
-  if ( !VISIBILITIES.includes(visibility) ) throw new Error(`Unknown visibility ${visibility}`);
+  if ( !(visibility in VISIBILITIES) ) throw new Error(`Unknown visibility ${visibility}`);
 
   const preset = defaultRequestSelection();
   let uuids = options.actors ? options.actors.map(actor => (typeof actor === "string" ? actor : actor.uuid)) : preset.uuids;
@@ -51,11 +51,11 @@ export async function requestCheck(key, options = {}) {
     type: "checkRequest",
     speaker: ChatMessage.implementation.getSpeaker({ user: game.user }),
     system: {
-      check: key, grade, figures: uuids,
+      check: key, grade, figures: uuids, visibility,
       modifiers: modifiers.map(({ value, label = "" }) => ({ value, label }))
     }
   };
-  if ( visibility === "involved" ) data.whisper = involvedUsers(uuids);
+  if ( VISIBILITIES[visibility].whisper ) data.whisper = involvedUsers(uuids);
   return ChatMessage.implementation.create(data);
 }
 
