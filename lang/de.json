@@ -62,11 +62,17 @@
         "RollOnBehalf": "Stellvertretend würfeln",
         "Rolled": "gewürfelt",
         "ShowCheck": "Probe im Chat zeigen",
-        "Done": "Alle haben gewürfelt."
+        "Done": "Alle haben gewürfelt.",
+        "Closed": "Geschlossen.",
+        "Close": "Anforderung schließen",
+        "Remove": "Aus der Anforderung nehmen",
+        "Removed": "herausgenommen",
+        "NotRolled": "nicht gewürfelt"
       },
       "Warning": {
         "GMOnly": "Nur die SL kann Proben anfordern.",
-        "NoFigures": "Keine Figur ausgewählt."
+        "NoFigures": "Keine Figur ausgewählt.",
+        "NotOpen": "Diese Anforderung ist für die Figur nicht mehr offen."
       }
     },
     "PresetDialog": {

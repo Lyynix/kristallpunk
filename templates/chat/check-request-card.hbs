@@ -7,7 +7,7 @@
     </span>
     <span class="check-grade">{{localize grade}}</span>
   </header>
-  {{#if done}}<p class="request-done">{{localize "KRISTALLPUNK.Request.Card.Done"}}</p>{{/if}}
+  {{#if status}}<p class="request-status">{{localize status}}</p>{{/if}}
   {{#if modifiers.length}}
   <ul class="request-modifiers">
     {{#each modifiers as |modifier|}}<li>{{modifier}}</li>{{/each}}
@@ -48,19 +48,36 @@
         </span>
         {{/if}}
       </button>
-      {{else if (eq figure.roll "own")}}
-      <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
-              data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Roll"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Roll"}}">
-        <i class="fa-solid fa-dice" inert></i>
-      </button>
-      {{else if (eq figure.roll "behalf")}}
-      <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
-              data-tooltip="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}">
-        <i class="fa-solid fa-people-arrows" inert></i>
-      </button>
+      {{else if figure.state}}
+      <span class="request-state">{{localize figure.state}}</span>
+      {{else}}
+      <span class="request-actions">
+        {{#if (eq figure.roll "own")}}
+        <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
+                data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Roll"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Roll"}}">
+          <i class="fa-solid fa-dice" inert></i>
+        </button>
+        {{else if (eq figure.roll "behalf")}}
+        <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
+                data-tooltip="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}">
+          <i class="fa-solid fa-people-arrows" inert></i>
+        </button>
+        {{/if}}
+        {{#if figure.remove}}
+        <button type="button" class="request-roll" data-action="removeFigure" data-uuid="{{figure.uuid}}"
+                data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Remove"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Remove"}}">
+          <i class="fa-solid fa-user-minus" inert></i>
+        </button>
+        {{/if}}
+      </span>
       {{/if}}
       {{/if}}
     </li>
     {{/each}}
   </ul>
+  {{#if canClose}}
+  <button type="button" class="request-close" data-action="closeRequest">
+    <i class="fa-solid fa-lock" inert></i> {{localize "KRISTALLPUNK.Request.Card.Close"}}
+  </button>
+  {{/if}}
 </div>

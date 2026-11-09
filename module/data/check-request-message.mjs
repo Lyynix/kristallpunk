@@ -12,7 +12,7 @@ import { rollCheck } from "../api/check.mjs";
 import { orderDice } from "./check-message.mjs";
 import { SYSTEM_ID } from "../settings.mjs";
 
-const { DocumentUUIDField, StringField, NumberField, ArrayField, SchemaField } = foundry.data.fields;
+const { DocumentUUIDField, StringField, NumberField, BooleanField, ArrayField, SchemaField } = foundry.data.fields;
 
 /** Handlebars template of the card; preloaded during init so the card can be rendered synchronously. */
 export const TEMPLATE = "systems/kristallpunk/templates/chat/check-request-card.hbs";
@@ -36,7 +36,11 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
       results: new ArrayField(new SchemaField({
         actor: new DocumentUUIDField({ type: "Actor" }),
         message: new StringField({ required: true, blank: false })
-      }))
+      })),
+      // Figures the GM took out of the request before they rolled
+      removed: new ArrayField(new DocumentUUIDField({ type: "Actor" })),
+      // Closed by the GM: no figure can answer it any more
+      closed: new BooleanField()
     };
   }
 
@@ -69,11 +73,13 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
   }
 
   /**
-   * Figures that have not rolled yet. A figure whose check was deleted counts as open again.
+   * Figures that still have to roll: neither rolled nor taken out, and none once the request is closed.
+   * A figure whose check was deleted counts as open again.
    * @type {string[]}
    */
   get openFigures() {
-    return this.figures.filter(uuid => !this.resultFor(uuid));
+    if ( this.closed ) return [];
+    return this.figures.filter(uuid => !this.removed.includes(uuid) && !this.resultFor(uuid));
   }
 
   /**
@@ -83,7 +89,28 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
    * @returns {boolean}
    */
   isOpenFor(uuid, check) {
-    return (check === this.check) && this.figures.includes(uuid) && !this.resultFor(uuid);
+    return (check === this.check) && this.openFigures.includes(uuid);
+  }
+
+  /**
+   * Close the request: figures that have not rolled cannot answer it any more. GM only.
+   * @returns {Promise<boolean>}  Whether this call closed it.
+   */
+  async close() {
+    if ( !game.user.isGM || this.closed ) return false;
+    await this.parent.update({ "system.closed": true });
+    return true;
+  }
+
+  /**
+   * Take a figure that has not rolled out of the request. GM only.
+   * @param {string} uuid
+   * @returns {Promise<boolean>}  Whether this call took it out.
+   */
+  async removeFigure(uuid) {
+    if ( !game.user.isGM || !this.openFigures.includes(uuid) ) return false;
+    await this.parent.update({ "system.removed": [...this.removed, uuid] });
+    return true;
   }
 
   /**
@@ -96,6 +123,10 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
    */
   async roll(uuid, { dialog = true } = {}) {
     if ( !this.figures.includes(uuid) ) return null;
+    if ( !this.openFigures.includes(uuid) ) {
+      ui.notifications.warn("KRISTALLPUNK.Request.Warning.NotOpen", { localize: true });
+      return null;
+    }
     const actor = await fromUuid(uuid);
     if ( !actor ) {
       ui.notifications.warn("KRISTALLPUNK.Check.Warning.ActorMissing", { localize: true });
@@ -111,24 +142,35 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
   /**
    * HTML of the card. Synchronous, so it can replace the message content inside the render hook.
    * Each figure shows its result once it has rolled; to whom the check is hidden, only that it has rolled.
+   * Figures that did not roll show why: taken out, or the request was closed. The GM can close the request
+   * and take out figures that have not rolled.
    * @returns {string}
    */
   renderCard() {
     const players = game.users.filter(user => !user.isGM);
+    const open = this.openFigures;
     const figures = this.figures.map(uuid => {
       const actor = fromUuidSync(uuid);
       if ( !actor ) return { uuid, missing: true };
       const check = this.resultFor(uuid);
+      const isOpen = open.includes(uuid);
+      let state = null;
+      if ( !check && !isOpen ) state = this.removed.includes(uuid) ? "Removed" : "NotRolled";
       return {
         uuid,
         name: actor.name,
         img: actor.img,
         players: players.filter(user => user.character === actor).map(user => user.name).join(", "),
         result: check ? prepareResult(check) : null,
+        state: state ? `KRISTALLPUNK.Request.Card.${state}` : null,
         // The GM rolls on behalf of the player; players only for their own figures
-        roll: (check || !actor.isOwner) ? null : (game.user.isGM ? "behalf" : "own")
+        roll: (isOpen && actor.isOwner) ? (game.user.isGM ? "behalf" : "own") : null,
+        remove: isOpen && game.user.isGM
       };
     });
+    let status = null;
+    if ( this.closed ) status = "KRISTALLPUNK.Request.Card.Closed";
+    else if ( !open.length ) status = "KRISTALLPUNK.Request.Card.Done";
     return Handlebars.partials[TEMPLATE]({
       label: this.label,
       grade: CONFIG.KRISTALLPUNK.checkGrades[this.grade].label,
@@ -136,14 +178,15 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
         ? `${modifier.value.signedString()} ${modifier.label}`
         : modifier.value.signedString()),
       figures,
-      done: !this.openFigures.length
+      status,
+      canClose: game.user.isGM && (open.length > 0)
     }, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
   }
 
   /**
    * Replace the content of a request message with its card. Registered for the renderChatMessageHTML hook.
    * A click on a roll button opens the prefilled check dialog, a shift-click rolls right away.
-   * A click on a result shows its check in the chat.
+   * A click on a result shows its check in the chat. The GM's buttons close the request or take a figure out.
    * @param {ChatMessage} message
    * @param {HTMLElement} html
    */
@@ -155,6 +198,16 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
     for ( const button of content.querySelectorAll("[data-action=rollRequested]") ) {
       button.addEventListener("click", event => message.system.roll(button.dataset.uuid, { dialog: !event.shiftKey }));
     }
+    for ( const button of content.querySelectorAll("[data-action=removeFigure]") ) {
+      button.addEventListener("click", () => {
+        button.disabled = true;
+        message.system.removeFigure(button.dataset.uuid);
+      });
+    }
+    content.querySelector("[data-action=closeRequest]")?.addEventListener("click", event => {
+      event.currentTarget.disabled = true;
+      message.system.close();
+    });
     for ( const result of content.querySelectorAll("[data-action=showCheck]") ) {
       result.addEventListener("click", () => showCheck(result.dataset.messageId));
     }

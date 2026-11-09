@@ -1135,10 +1135,31 @@
   padding: 0;
 }
 
-.kristallpunk.check-request-card .request-done {
+.kristallpunk.check-request-card .request-status {
   margin: 0;
   font-size: var(--font-size-12);
   font-style: italic;
+}
+
+/* Roll button, and for the GM the button that takes the figure out */
+.kristallpunk.check-request-card .request-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Taken out, or not rolled before the request was closed */
+.kristallpunk.check-request-card .request-state {
+  font-size: var(--font-size-12);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.kristallpunk.check-request-card .request-figure:has(.request-state) :is(img, .figure-label) {
+  opacity: 0.5;
+}
+
+.kristallpunk.check-request-card .request-close {
+  margin: 0.25rem 0 0;
 }
 
 /* Short form of a check: its dice above, successes and outcome below, aligned right */
