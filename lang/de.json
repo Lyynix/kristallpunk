@@ -58,11 +58,13 @@
       },
       "Macros": {
         "Open": "Makros ausklappen",
-        "Close": "Makros einklappen"
+        "Close": "Makros einklappen",
+        "ShowMacros": "Makros zeigen",
+        "ShowChecks": "Proben zeigen"
       },
       "Keybinding": {
         "Name": "Makros ein- und ausklappen",
-        "Hint": "Klappt in der Leiste am unteren Rand die Makros neben dem Status-Anzeiger aus und wieder ein."
+        "Hint": "Klappt in der Leiste am unteren Rand die Makros neben dem Status-Anzeiger aus und wieder ein. Auf breiten Bildschirmen wechselt es zwischen Proben und Makros."
       }
     },
     "Settings": {
