@@ -1,0 +1,22 @@
+{{!-- Token hotbar, GM mode (#33); context from module/apps/gm-hotbar.mjs prepareGmHotbar(). The same frame as
+      the character mode: on the left the GM actions instead of the figure, then the macros, then the checks.
+      The macros are always shown; on narrower bars they give way while the checks are folded out, on a wide
+      bar (class "lg") the checks stay unfolded beside them. --}}
+<div class="token-hotbar gm-mode">
+  {{!-- Always present, also without actions, so its place stays the same --}}
+  <div class="gm-actions">
+    {{#each actions as |action|}}
+    <button type="button" class="gm-action" data-gm-action="{{action.name}}" data-tooltip="{{action.label}}">
+      <i class="{{action.icon}}" inert></i>
+      <span>{{action.label}}</span>
+    </button>
+    {{/each}}
+  </div>
+
+  {{!-- "@root": the bar's context with slots and page --}}
+  <div class="gm-macros">
+    {{> "systems/kristallpunk/templates/ui/hotbar-macros.hbs" @root}}
+  </div>
+
+  {{> "systems/kristallpunk/templates/ui/hotbar-checks.hbs" checks}}
+</div>

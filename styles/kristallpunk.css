@@ -1505,8 +1505,8 @@ body.theme-light #hotbar.kristallpunk,
   visibility: visible;
 }
 
-#hotbar.kristallpunk.lg.macros-open .token-hotbar .figure-checks,
-#hotbar.kristallpunk.lg.macros-open .token-hotbar.checks-open .figure-checks {
+#hotbar.kristallpunk.lg.macros-open .token-hotbar:not(.gm-mode) .figure-checks,
+#hotbar.kristallpunk.lg.macros-open .token-hotbar.checks-open:not(.gm-mode) .figure-checks {
   flex-basis: 0;
   margin-left: -12px;
   visibility: hidden;
@@ -1514,6 +1514,75 @@ body.theme-light #hotbar.kristallpunk,
 
 @media (prefers-reduced-motion: reduce) {
   #hotbar.kristallpunk.lg .token-hotbar .figure-checks {
+    transition: none;
+  }
+}
+
+/* The button that folds the macros, where it has nothing to do (without a figure and in the GM mode):
+   invisible, but keeping its place, so the bar does not change */
+#hotbar.kristallpunk .hotbar-toggle .unused {
+  visibility: hidden;
+}
+
+/* GM mode (#33): the frame of the character mode, with the GM actions on the left instead of the figure,
+   then the macros, which are always shown, then the checks at the right edge. On narrower bars folded-out
+   checks take the place of the macros for the time being; on a wide bar (lg) they stay unfolded beside them.
+   The actions keep their place also while there are none: as wide as the hint without a figure, with room for
+   three tiles in each of two rows */
+#hotbar.kristallpunk .gm-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  flex: 0 0 210px;
+  height: 100%;
+}
+
+#hotbar.kristallpunk .gm-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  /* Foundry gives buttons a minimum height */
+  min-height: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 4px;
+  font-size: var(--font-size-11);
+  line-height: 1.1;
+}
+
+#hotbar.kristallpunk .gm-action i {
+  font-size: var(--font-size-16);
+}
+
+#hotbar.kristallpunk .gm-action span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hotbar.kristallpunk .token-hotbar .gm-macros {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-x: clip;
+  transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out, margin-left 0.25s ease-out, visibility 0.25s;
+}
+
+#hotbar.kristallpunk .token-hotbar.gm-mode .figure-checks {
+  margin-left: auto;
+}
+
+#hotbar.kristallpunk:not(.lg) .token-hotbar.gm-mode.checks-open .gm-macros {
+  flex: 0 0 0;
+  margin-left: -12px;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk .token-hotbar .gm-macros {
     transition: none;
   }
 }

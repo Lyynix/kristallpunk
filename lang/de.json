@@ -52,6 +52,7 @@
       "Checks": "Proben",
       "Derived": "Abgeleitet",
       "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
+      "RequestHint": "Klick: Probe anfordern",
       "Portrait": {
         "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
         "Sheet": "Doppelklick: Bogen öffnen"
