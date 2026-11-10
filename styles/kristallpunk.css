@@ -1964,3 +1964,67 @@ body.theme-light #hotbar.kristallpunk,
     transition: none;
   }
 }
+
+/* -------------------------------------------- */
+/*  Item sheet (#45)                            */
+/* -------------------------------------------- */
+
+.kristallpunk.item .window-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kristallpunk.item .sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kristallpunk.item .sheet-header .portrait {
+  flex: none;
+  width: 4rem;
+  height: 4rem;
+  border: none;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.kristallpunk.item .sheet-header .title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.kristallpunk.item .sheet-header .name {
+  font-size: var(--font-size-20);
+  height: auto;
+}
+
+.kristallpunk.item .sheet-header .type {
+  font-size: var(--font-size-12);
+  opacity: 0.8;
+}
+
+.kristallpunk.item .tab.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.kristallpunk.item .tab.description prose-mirror {
+  flex: 1;
+  min-height: 8rem;
+}
+
+/* Automation level (#45): full, partial (faded gear), none */
+.kristallpunk .automation {
+  font-size: var(--font-size-16);
+}
+
+.kristallpunk .automation.partial {
+  opacity: 0.6;
+}

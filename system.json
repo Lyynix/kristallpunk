@@ -33,6 +33,11 @@
         "htmlFields": ["background", "relationships", "equipment"]
       }
     },
+    "Item": {
+      "equipment": {
+        "htmlFields": ["description"]
+      }
+    },
     "ChatMessage": {
       "check": {},
       "checkRequest": {}

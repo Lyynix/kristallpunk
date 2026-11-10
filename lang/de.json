@@ -2,6 +2,9 @@
   "TYPES": {
     "Actor": {
       "protagonist": "Protagonist*in"
+    },
+    "Item": {
+      "equipment": "Ausrüstung"
     }
   },
   "KRISTALLPUNK": {
@@ -474,6 +477,39 @@
       "Delete": "Löschen",
       "DeleteOnItem": "Effekte eines Items werden am Item gelöscht.",
       "OtherChange": "{label}: {type} {value}"
+    },
+    "Item": {
+      "Sheet": "Item-Bogen",
+      "Tab": {
+        "description": "Beschreibung",
+        "details": "Details"
+      },
+      "Automation": {
+        "Label": "Automatisierung",
+        "Level": {
+          "full": "Vollständig automatisiert",
+          "partial": "Teilweise automatisiert",
+          "none": "Nicht automatisiert"
+        }
+      },
+      "FIELDS": {
+        "description": { "label": "Beschreibung" },
+        "automation": {
+          "level": {
+            "label": "Grad",
+            "hint": "Wie weit das System die Regeln dieses Items umsetzt. Wird von Hand gepflegt."
+          },
+          "note": {
+            "label": "Nicht automatisiert",
+            "hint": "Was am Tisch selbst beachtet werden muss."
+          }
+        }
+      },
+      "Equipment": {
+        "FIELDS": {
+          "quantity": { "label": "Anzahl" }
+        }
+      }
     },
     "Mod": {
       "Label": "Modifikator",
