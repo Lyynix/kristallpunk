@@ -2,6 +2,9 @@
   "TYPES": {
     "Actor": {
       "protagonist": "Protagonist*in"
+    },
+    "Item": {
+      "equipment": "Ausrüstung"
     }
   },
   "KRISTALLPUNK": {
@@ -215,6 +218,7 @@
       "Attributes": "Attribute",
       "Skills": "Fertigkeiten",
       "Stamina": "Ausdauer",
+      "EquipmentNotes": "Notizen",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
       "Formula": {
@@ -472,8 +476,50 @@
       "Disable": "Ausschalten",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
-      "DeleteOnItem": "Effekte eines Items werden am Item gelöscht.",
+      "OnItem": "Effekte eines Items werden am Item geändert. Ob sie wirken, hängt am Item.",
+      "EditOnItem": "Am Item bearbeiten",
       "OtherChange": "{label}: {type} {value}"
+    },
+    "Item": {
+      "Sheet": "Item-Bogen",
+      "Tab": {
+        "description": "Beschreibung",
+        "details": "Details",
+        "effects": "Effekte"
+      },
+      "Automation": {
+        "Label": "Automatisierung",
+        "Level": {
+          "full": "Vollständig automatisiert",
+          "partial": "Teilweise automatisiert",
+          "none": "Nicht automatisiert"
+        }
+      },
+      "FIELDS": {
+        "description": { "label": "Beschreibung" },
+        "automation": {
+          "level": {
+            "label": "Grad",
+            "hint": "Wie weit das System die Regeln dieses Items umsetzt. Wird von Hand gepflegt."
+          },
+          "note": {
+            "label": "Nicht automatisiert",
+            "hint": "Was am Tisch selbst beachtet werden muss."
+          }
+        }
+      },
+      "Equipment": {
+        "FIELDS": {
+          "quantity": { "label": "Anzahl" }
+        }
+      }
+    },
+    "Items": {
+      "Create": "{type} anlegen",
+      "New": "{type} (neu)",
+      "Edit": "Bearbeiten",
+      "Delete": "Löschen",
+      "None": "Keine"
     },
     "Mod": {
       "Label": "Modifikator",

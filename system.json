@@ -33,11 +33,26 @@
         "htmlFields": ["background", "relationships", "equipment"]
       }
     },
+    "Item": {
+      "equipment": {
+        "htmlFields": ["description"]
+      }
+    },
     "ChatMessage": {
       "check": {},
       "checkRequest": {}
     }
   },
+  "packs": [
+    {
+      "name": "equipment",
+      "label": "Ausrüstung",
+      "path": "packs/equipment",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    }
+  ],
   "primaryTokenAttribute": "stamina.body",
   "secondaryTokenAttribute": "stamina.mind",
   "grid": {

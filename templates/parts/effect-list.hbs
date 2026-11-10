@@ -1,0 +1,66 @@
+{{!-- List of active effects (#44), shared by the character sheet and the item sheet (#45); see module/sheets/effect-list.mjs --}}
+  {{#each effectGroups as |group|}}
+  <section class="effect-group {{group.key}}">
+    <header class="effect-row header">
+      <span class="name">{{localize group.label}}</span>
+      <span class="source">{{localize "KRISTALLPUNK.Effects.Source"}}</span>
+      <span class="changes">{{localize "KRISTALLPUNK.Effects.Changes"}}</span>
+      <span class="controls">
+        {{#if @root.editable}}
+        <button type="button" class="inline-control icon fa-solid fa-plus" data-action="createEffect"
+                {{#if group.disabled}}data-disabled{{/if}}
+                data-tooltip="{{group.createHint}}" aria-label="{{group.createHint}}"></button>
+        {{/if}}
+      </span>
+    </header>
+    <ol class="effect-list">
+      {{#each group.effects as |effect|}}
+      <li class="effect-row" data-effect="{{effect.uuid}}">
+        <span class="name">
+          <img src="{{effect.img}}" alt="" inert>
+          <span>{{effect.name}}</span>
+        </span>
+        <span class="source">
+          {{#if effect.item}}
+          <a data-action="openEffectSource" data-tooltip="{{localize "KRISTALLPUNK.Effects.OpenItem"}}">{{effect.item}}</a>
+          {{else if effect.origin}}
+          {{effect.origin}}
+          {{else}}
+          –
+          {{/if}}
+        </span>
+        <span class="changes">{{effect.changes}}</span>
+        <span class="controls">
+          {{#if @root.editable}}
+          {{#if effect.item}}
+          {{!-- Effects of items are changed on the item only; whether they work follows the item (#45, #49).
+                Disabled buttons show no tooltip, so the hint sits on a wrapper. --}}
+          <span data-tooltip="{{localize "KRISTALLPUNK.Effects.OnItem"}}">
+            <button type="button" class="inline-control icon fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"
+                    disabled aria-label="{{localize "KRISTALLPUNK.Effects.OnItem"}}"></button>
+          </span>
+          <button type="button" class="inline-control icon fa-solid fa-pen-to-square" data-action="openEffectSource"
+                  data-tab="effects" data-tooltip="{{localize "KRISTALLPUNK.Effects.EditOnItem"}}"
+                  aria-label="{{localize "KRISTALLPUNK.Effects.EditOnItem"}}"></button>
+          <span data-tooltip="{{localize "KRISTALLPUNK.Effects.OnItem"}}">
+            <button type="button" class="inline-control icon fa-solid fa-trash" disabled
+                    aria-label="{{localize "KRISTALLPUNK.Effects.OnItem"}}"></button>
+          </span>
+          {{else}}
+          <button type="button" class="inline-control icon fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"
+                  data-action="toggleEffect" data-tooltip="{{effect.toggleHint}}" aria-label="{{effect.toggleHint}}"
+                  aria-pressed="{{#if effect.disabled}}false{{else}}true{{/if}}"></button>
+          <button type="button" class="inline-control icon fa-solid fa-pen-to-square" data-action="editEffect"
+                  data-tooltip="{{localize "KRISTALLPUNK.Effects.Edit"}}" aria-label="{{localize "KRISTALLPUNK.Effects.Edit"}}"></button>
+          <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteEffect"
+                  data-tooltip="{{localize "KRISTALLPUNK.Effects.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Effects.Delete"}}"></button>
+          {{/if}}
+          {{/if}}
+        </span>
+      </li>
+      {{else}}
+      <li class="effect-row empty">{{localize "KRISTALLPUNK.Effects.None"}}</li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/each}}

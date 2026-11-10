@@ -1,7 +1,10 @@
 <section class="tab inventory {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
-  {{!-- Free text until equipment items exist; editable in play mode, since it changes during play --}}
+  {{!-- Items can be added and removed in play mode too, since the inventory changes during play (#45) --}}
+  {{> "kristallpunk.item-list" list=equipmentList}}
+
+  {{!-- Free text for everything not kept as an item; editable in play mode as well --}}
   <div class="text-field">
-    <label>{{systemFields.equipment.label}}</label>
+    <label>{{localize "KRISTALLPUNK.Sheet.EquipmentNotes"}}</label>
     <prose-mirror name="system.equipment" value="{{system.equipment}}" toggled>{{{enriched.equipment}}}</prose-mirror>
   </div>
 </section>

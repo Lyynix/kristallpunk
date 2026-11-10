@@ -13,7 +13,11 @@ import * as rules from "./module/rules/_module.mjs";
 import * as api from "./module/api/_module.mjs";
 import { registerSettings, SYSTEM_ID } from "./module/settings.mjs";
 import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
+import KristallpunkItemSheet from "./module/sheets/item-sheet.mjs";
+import EquipmentData from "./module/data/item/equipment.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
+import * as effectList from "./module/sheets/effect-list.mjs";
+import * as itemList from "./module/sheets/item-list.mjs";
 import KristallpunkHotbar from "./module/apps/hotbar.mjs";
 import { registerTokenHotbarHooks } from "./module/apps/token-hotbar.mjs";
 import { registerHotbarTooltips } from "./module/apps/hotbar-tooltips.mjs";
@@ -27,6 +31,7 @@ Hooks.once("init", () => {
   CONFIG.KRISTALLPUNK = KRISTALLPUNK;
   registerSettings();
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
+  CONFIG.Item.dataModels.equipment = EquipmentData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();
@@ -54,10 +59,16 @@ Hooks.once("init", () => {
     makeDefault: true,
     label: "KRISTALLPUNK.Sheet.Protagonist"
   });
+  foundry.documents.collections.Items.registerSheet("kristallpunk", KristallpunkItemSheet, {
+    makeDefault: true,
+    label: "KRISTALLPUNK.Item.Sheet"
+  });
 
   // Partials shared between applications; the chat cards are preloaded so they render synchronously
   foundry.applications.handlebars.loadTemplates({
-    [statusTracker.PARTIAL]: statusTracker.TEMPLATE, [CHECK_CARD]: CHECK_CARD, [REQUEST_CARD]: REQUEST_CARD
+    [statusTracker.PARTIAL]: statusTracker.TEMPLATE, [effectList.PARTIAL]: effectList.TEMPLATE,
+    [itemList.PARTIAL]: itemList.TEMPLATE,
+    [CHECK_CARD]: CHECK_CARD, [REQUEST_CARD]: REQUEST_CARD
   });
 });
 

@@ -1,6 +1,7 @@
 import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
 import { breakdown, modifierParts } from "./value-breakdown.mjs";
-import { describeChange } from "../data/effect-targets.mjs";
+import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
+import { ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -20,11 +21,8 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     actions: {
       toggleEditMode: ProtagonistSheet.#onToggleEditMode,
       rollCheck: ProtagonistSheet.#onRollCheck,
-      createEffect: ProtagonistSheet.#onCreateEffect,
-      toggleEffect: ProtagonistSheet.#onToggleEffect,
-      editEffect: ProtagonistSheet.#onEditEffect,
-      deleteEffect: ProtagonistSheet.#onDeleteEffect,
-      openEffectSource: ProtagonistSheet.#onOpenEffectSource
+      ...EFFECT_ACTIONS,
+      ...ITEM_ACTIONS
     }
   };
 
@@ -80,7 +78,11 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       statusTracker: prepareStatusTracker(this.actor),
       ageGroupLabel: CONFIG.KRISTALLPUNK.ageGroups[this.actor.system.ageGroup]?.label ?? "",
       enriched: await this.#enrichTexts(["equipment", "background", "relationships"]),
-      effectGroups: this.#prepareEffectGroups()
+      effectGroups: prepareEffectGroups(this.actor),
+      equipmentList: prepareItemList(this.actor, "equipment", {
+        detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
+        detail: item => String(item.system.quantity)
+      })
     });
   }
 
@@ -381,125 +383,6 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
    */
   static #onRollCheck(event, target) {
     game.kristallpunk.api.rollCheck(this.actor, target.dataset.check);
-  }
-
-  /* -------------------------------------------- */
-  /*  Effects tab (#44)                           */
-  /* -------------------------------------------- */
-
-  /**
-   * All effects of the figure, its own and those transferred from its items, as two groups: active and
-   * inactive (switched off, or suppressed, e.g. because their duration ran out). Each group is sorted by name.
-   * @returns {object[]}
-   */
-  #prepareEffectGroups() {
-    const groups = {
-      active: { key: "active", label: "KRISTALLPUNK.Effects.Active", disabled: false, effects: [] },
-      inactive: { key: "inactive", label: "KRISTALLPUNK.Effects.Inactive", disabled: true, effects: [] }
-    };
-    for ( const group of Object.values(groups) ) {
-      group.createHint = game.i18n.localize(`KRISTALLPUNK.Effects.Create.${group.key}`);
-    }
-    for ( const effect of this.actor.allApplicableEffects() ) {
-      const item = effect.parent instanceof foundry.documents.Item ? effect.parent : null;
-      groups[effect.active ? "active" : "inactive"].effects.push({
-        uuid: effect.uuid,
-        name: effect.name,
-        img: effect.img,
-        item: item?.name ?? null,
-        origin: item ? null : this.#effectOrigin(effect),
-        changes: effect.system.changes.filter(change => change.key).map(describeChange).join(", "),
-        disabled: effect.disabled,
-        toggleHint: game.i18n.localize(`KRISTALLPUNK.Effects.${effect.disabled ? "Enable" : "Disable"}`)
-      });
-    }
-    for ( const group of Object.values(groups) ) group.effects.sort((a, b) => a.name.localeCompare(b.name, game.i18n.lang));
-    return Object.values(groups);
-  }
-
-  /**
-   * Name of what caused an effect of the figure itself, from its `origin` (e.g. a spell or another figure).
-   * Null if it has none, if it points to the figure itself, or if that document no longer exists.
-   * @param {ActiveEffect} effect
-   * @returns {string|null}
-   */
-  #effectOrigin(effect) {
-    if ( !effect.origin || (effect.origin === this.actor.uuid) ) return null;
-    try {
-      return foundry.utils.fromUuidSync(effect.origin)?.name ?? null;
-    } catch {
-      return null;
-    }
-  }
-
-  /**
-   * The effect of the clicked row; it may belong to the actor or to one of its items.
-   * @param {HTMLElement} target
-   * @returns {ActiveEffect|null}
-   */
-  #effectOf(target) {
-    const uuid = target.closest("[data-effect]")?.dataset.effect;
-    return uuid ? foundry.utils.fromUuidSync(uuid) : null;
-  }
-
-  /**
-   * Create an effect on the figure and open it: switched on from the group of active effects,
-   * switched off from the group of inactive ones.
-   * @this {ProtagonistSheet}
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
-  static async #onCreateEffect(event, target) {
-    const [effect] = await this.actor.createEmbeddedDocuments("ActiveEffect", [{
-      name: game.i18n.localize("KRISTALLPUNK.Effects.NewEffect"),
-      img: "icons/svg/aura.svg",
-      disabled: "disabled" in target.dataset
-    }]);
-    effect?.sheet.render({ force: true });
-  }
-
-  /**
-   * Switch an effect on or off. Effects of items are switched on the item.
-   * @this {ProtagonistSheet}
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
-  static async #onToggleEffect(event, target) {
-    const effect = this.#effectOf(target);
-    await effect?.update({ disabled: !effect.disabled });
-  }
-
-  /**
-   * Open the configuration of an effect.
-   * @this {ProtagonistSheet}
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
-  static #onEditEffect(event, target) {
-    this.#effectOf(target)?.sheet.render({ force: true });
-  }
-
-  /**
-   * Delete an effect of the figure after asking. Effects of items are deleted on the item.
-   * @this {ProtagonistSheet}
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
-  static async #onDeleteEffect(event, target) {
-    const effect = this.#effectOf(target);
-    if ( !effect || (effect.parent !== this.actor) ) return;
-    await effect.deleteDialog();
-  }
-
-  /**
-   * Open the item an effect comes from.
-   * @this {ProtagonistSheet}
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
-  static #onOpenEffectSource(event, target) {
-    const item = this.#effectOf(target)?.parent;
-    if ( item instanceof foundry.documents.Item ) item.sheet.render({ force: true });
   }
 }
 

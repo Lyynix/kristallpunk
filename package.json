@@ -1,9 +1,14 @@
 {
   "name": "kristallpunk",
   "private": true,
-  "description": "Development tooling for the Kristallpunk system. Not part of the release package.",
+  "description": "Development tooling for the Kristallpunk system (tests, compendium packs). Not part of the release package.",
   "license": "GPL-3.0-only",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "packs:pack": "node tools/packs.mjs pack",
+    "packs:unpack": "node tools/packs.mjs unpack"
+  },
+  "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "3.0.5"
   }
 }

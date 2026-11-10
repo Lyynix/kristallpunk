@@ -1,0 +1,17 @@
+<section class="tab description {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  <prose-mirror name="system.description" value="{{system.description}}" toggled {{disabled (not editable)}}>
+    {{{enrichedDescription}}}
+  </prose-mirror>
+
+  {{#if automation}}
+  {{!-- Set by hand by whoever maintains the item, so the table knows what to keep in mind (#45) --}}
+  <fieldset class="automation-fields standard-form">
+    <legend>{{localize "KRISTALLPUNK.Item.Automation.Label"}}</legend>
+    {{formGroup systemFields.automation.fields.level value=system.automation.level choices=automation.levels
+                localize=true disabled=(not editable)}}
+    {{#if automation.showNote}}
+    {{formGroup systemFields.automation.fields.note value=system.automation.note localize=true disabled=(not editable)}}
+    {{/if}}
+  </fieldset>
+  {{/if}}
+</section>

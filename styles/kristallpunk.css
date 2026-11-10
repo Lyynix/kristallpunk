@@ -531,22 +531,22 @@
 
 /* -------------------------------------------- */
 /* -------------------------------------------- */
-/*  Tab: effects (#44)                          */
+/*  Effect list (#44, #45)                      */
 /* -------------------------------------------- */
 
-.kristallpunk.protagonist .tab.effects.active {
+.kristallpunk .tab.effects.active {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.kristallpunk.protagonist .effect-list {
+.kristallpunk .effect-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.kristallpunk.protagonist .effect-row {
+.kristallpunk .effect-row {
   display: grid;
   grid-template-columns: 3fr 2fr 4fr 4.5rem;
   gap: 0.5rem;
@@ -555,48 +555,118 @@
   border-bottom: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.2));
 }
 
-.kristallpunk.protagonist .effect-row.header {
+.kristallpunk .effect-row.header {
   font-size: var(--font-size-11);
   font-weight: bold;
 }
 
-.kristallpunk.protagonist .effect-row.header .name {
+.kristallpunk .effect-row.header .name {
   font-size: var(--font-size-13);
 }
 
-.kristallpunk.protagonist .effect-row.empty {
+.kristallpunk .effect-row.empty {
   display: block;
   opacity: 0.7;
   font-style: italic;
 }
 
-.kristallpunk.protagonist .effect-row .name {
+.kristallpunk .effect-row .name {
   display: flex;
   align-items: center;
   gap: 0.375rem;
   min-width: 0;
 }
 
-.kristallpunk.protagonist .effect-row .name img {
+.kristallpunk .effect-row .name img {
   flex: none;
   width: 1.5rem;
   height: 1.5rem;
   border: none;
 }
 
-.kristallpunk.protagonist .effect-row .name span,
-.kristallpunk.protagonist .effect-row .source {
+.kristallpunk .effect-row .name span,
+.kristallpunk .effect-row .source {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.kristallpunk.protagonist .effect-row .controls {
+.kristallpunk .effect-row .controls {
   display: flex;
   justify-content: flex-end;
   gap: 0.125rem;
 }
 
+/* -------------------------------------------- */
+/*  Item lists (#45)                            */
+/* -------------------------------------------- */
+
+.kristallpunk .item-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kristallpunk .item-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5rem 4.5rem;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.125rem 0;
+  border-bottom: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.2));
+}
+
+.kristallpunk .item-row.with-detail {
+  grid-template-columns: 1fr 4rem 1.5rem 4.5rem;
+}
+
+.kristallpunk .item-row.header {
+  font-size: var(--font-size-11);
+  font-weight: bold;
+}
+
+.kristallpunk .item-row.header .name {
+  font-size: var(--font-size-13);
+}
+
+.kristallpunk .item-row.empty {
+  display: block;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.kristallpunk .item-row .name {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.kristallpunk .item-row .name img {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+}
+
+.kristallpunk .item-row .name a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kristallpunk .item-row .detail,
+.kristallpunk .item-row .automation-cell {
+  text-align: center;
+}
+
+.kristallpunk .item-row .controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.125rem;
+}
+
+/* -------------------------------------------- */
 /*  Tabs: inventory and profile                 */
 /* -------------------------------------------- */
 
@@ -1963,4 +2033,68 @@ body.theme-light #hotbar.kristallpunk,
   #hotbar.kristallpunk .token-hotbar .gm-macros {
     transition: none;
   }
+}
+
+/* -------------------------------------------- */
+/*  Item sheet (#45)                            */
+/* -------------------------------------------- */
+
+.kristallpunk.item .window-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kristallpunk.item .sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kristallpunk.item .sheet-header .portrait {
+  flex: none;
+  width: 4rem;
+  height: 4rem;
+  border: none;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.kristallpunk.item .sheet-header .title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.kristallpunk.item .sheet-header .name {
+  font-size: var(--font-size-20);
+  height: auto;
+}
+
+.kristallpunk.item .sheet-header .type {
+  font-size: var(--font-size-12);
+  opacity: 0.8;
+}
+
+.kristallpunk.item .tab.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.kristallpunk.item .tab.description prose-mirror {
+  flex: 1;
+  min-height: 8rem;
+}
+
+/* Automation level (#45): full, partial (faded gear), none */
+.kristallpunk .automation {
+  font-size: var(--font-size-16);
+}
+
+.kristallpunk .automation.partial {
+  opacity: 0.6;
 }

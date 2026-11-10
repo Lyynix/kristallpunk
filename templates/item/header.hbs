@@ -1,0 +1,13 @@
+<header class="sheet-header">
+  <img class="portrait" src="{{item.img}}" alt="{{item.name}}" data-action="editImage" data-edit="img">
+  <div class="title">
+    <input class="name" type="text" name="name" value="{{item.name}}"
+           aria-label="{{localize "KRISTALLPUNK.Sheet.Name"}}" {{disabled (not editable)}}>
+    <span class="type">{{typeLabel}}</span>
+  </div>
+  {{#if automation.info}}
+  {{!-- How far the item's rules are carried out by the system (#45) --}}
+  <i class="automation {{automation.info.level}} fa-solid {{automation.info.icon}}"
+     data-tooltip="{{automation.info.label}}" aria-label="{{automation.info.label}}" role="img"></i>
+  {{/if}}
+</header>

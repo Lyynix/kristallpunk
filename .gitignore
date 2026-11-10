@@ -6,6 +6,10 @@ CLAUDE.md
 node_modules/
 *.zip
 
+# Compendium packs are built from packs/_source with "npm run packs:pack"
+packs/*
+!packs/_source/
+
 # OS and editor files
 .DS_Store
 Thumbs.db

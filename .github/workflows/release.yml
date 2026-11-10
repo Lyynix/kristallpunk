@@ -85,16 +85,29 @@ jobs:
           jq -e . system.json > /dev/null
           cat system.json
 
+      - name: Set up Node
+        if: steps.version.outputs.skip != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # The compendium packs are built from their JSON sources in packs/_source
+      - name: Build compendium packs
+        if: steps.version.outputs.skip != 'true'
+        run: |
+          npm ci
+          npm run packs:pack
+
       - name: Build system.zip
         if: steps.version.outputs.skip != 'true'
         run: |
-          # Only runtime files go into the package; tests, workflows and
+          # Only runtime files go into the package; tests, workflows, pack sources and
           # local files stay out. Folders that don't exist yet are skipped.
           files=()
-          for path in system.json kristallpunk.mjs module templates styles lang assets LICENSE README.md; do
+          for path in system.json kristallpunk.mjs module templates styles lang assets packs LICENSE README.md; do
             [ -e "$path" ] && files+=("$path")
           done
-          zip -r system.zip "${files[@]}"
+          zip -r system.zip "${files[@]}" -x "packs/_source/*" "packs/*/LOCK" "packs/*/LOG*"
 
       # Only now the release is created, so a failed build leaves no empty release behind.
       # GitHub writes the notes from the pull requests since the last release; the
