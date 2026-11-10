@@ -40,6 +40,50 @@
         "Minimum": "Regel der 1: mindestens ein Würfel"
       }
     },
+    "Request": {
+      "Dialog": {
+        "Title": "Probe anfordern: {label}",
+        "Figures": "Figuren",
+        "List": {
+          "assigned": "Zugeordnete Figuren",
+          "owned": "Figuren von Spieler*innen"
+        },
+        "NoFigures": "In dieser Liste gibt es keine Figuren.",
+        "Submit": "Anfordern"
+      },
+      "Visibility": {
+        "public": "Öffentlich",
+        "involved": "Nur Beteiligte",
+        "private": "Privat (Ergebnis nur für Würfelnde und SL)",
+        "blind": "Blind (Ergebnis nur für die SL)"
+      },
+      "Card": {
+        "Title": "Probe angefordert: {label}",
+        "Missing": "Diese Figur gibt es nicht mehr.",
+        "Roll": "Würfeln",
+        "RollOnBehalf": "Stellvertretend würfeln",
+        "Rolled": "gewürfelt",
+        "ShowCheck": "Probe im Chat zeigen",
+        "Done": "Alle haben gewürfelt.",
+        "Closed": "Geschlossen.",
+        "Close": "Anforderung schließen",
+        "Remove": "Aus der Anforderung nehmen",
+        "Removed": "herausgenommen",
+        "NotRolled": "nicht gewürfelt"
+      },
+      "Startup": {
+        "Title": "Offene Anforderungen",
+        "Content": "Diese Anforderungen sind noch offen. Solange sie offen sind, sind die Proben in der Leiste der Figuren hervorgehoben.",
+        "ContentAssign": "Diese Anforderungen sind noch offen. Solange sie offen sind, sind die Proben in der Leiste der Figuren hervorgehoben, und passende Würfe aus dem Bogen oder der Leiste zählen für sie.",
+        "Close": "Alle schließen",
+        "Keep": "Offen lassen"
+      },
+      "Warning": {
+        "GMOnly": "Nur die SL kann Proben anfordern.",
+        "NoFigures": "Keine Figur ausgewählt.",
+        "NotOpen": "Diese Anforderung ist für die Figur nicht mehr offen."
+      }
+    },
     "PresetDialog": {
       "Title": "Würfel vorgeben: {label}",
       "Sixes": "Sechser",
@@ -52,6 +96,8 @@
       "Checks": "Proben",
       "Derived": "Abgeleitet",
       "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
+      "RequestHint": "Klick: Probe anfordern",
+      "RequestedHint": "Angefordert · Klick: Probe für die Anforderung · Shift-Klick: ohne Dialog würfeln",
       "Portrait": {
         "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
         "Sheet": "Doppelklick: Bogen öffnen"
@@ -75,6 +121,10 @@
       "CoreHotbar": {
         "Name": "Foundrys Makroleiste verwenden",
         "Hint": "Zeigt statt der Leiste des Systems Foundrys eigene Makroleiste, z. B. falls ein Modul mit der Leiste des Systems nicht zurechtkommt. Die Token-Hotbar steht dann nicht zur Verfügung."
+      },
+      "AssignChecksToRequests": {
+        "Name": "Würfe aus dem Bogen passenden Anforderungen zuordnen",
+        "Hint": "Würfelt eine Figur eine angeforderte Probe nicht über die Anforderungskarte, sondern z. B. aus dem Bogen oder der Leiste, zählt der Wurf trotzdem für die Anforderung. Gibt es mehrere offene Anforderungen derselben Probe, zählt er für die älteste. Ausgeschaltet zählen nur Würfe über die Anforderungskarte."
       },
       "AutoApply": {
         "Name": "Konsequenzen automatisch anwenden",

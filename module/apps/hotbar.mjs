@@ -1,7 +1,10 @@
 import { SYSTEM_ID } from "../settings.mjs";
-import { panToToken, prepareTokenHotbar, TEMPLATE as TOKEN_HOTBAR } from "./token-hotbar.mjs";
+import { CHECKS_TEMPLATE, panToToken, prepareTokenHotbar, TEMPLATE as TOKEN_HOTBAR } from "./token-hotbar.mjs";
+import { prepareGmHotbar, TEMPLATE as GM_HOTBAR } from "./gm-hotbar.mjs";
 import { activateStatusTracker, TEMPLATE as STATUS_TRACKER } from "./status-tracker.mjs";
 import { rollCheck } from "../api/check.mjs";
+import { requestCheck } from "../api/request.mjs";
+import { figureOf, findRequest } from "../data/check-request-message.mjs";
 
 /** How long the pointer rests on the folded checks before they fold out, in ms. */
 const FOLD_OUT_DELAY = 150;
@@ -13,7 +16,7 @@ const MACROS = "systems/kristallpunk/templates/ui/hotbar-macros.hbs";
 /**
  * The system's own bar at the bottom of the screen (#31). It replaces Foundry's macro bar and shows the
  * character mode (#32) of the selected figure; its macros fold out beside the status tracker by a button (#35).
- * Without a figure it shows a hint and the macros.
+ * Without a figure it shows the GM mode (#33) to GMs, otherwise a hint and the macros.
  *
  * Subclasses Foundry's Hotbar, so executing macros (also by the keys 1 to 0, folded in or not), drag and drop,
  * paging, locking, clearing and the context menu keep working; only the template is our own.
@@ -37,7 +40,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
       root: true,
       template: "systems/kristallpunk/templates/ui/hotbar.hbs",
       // Partials, loaded before the first render
-      templates: [TOKEN_HOTBAR, STATUS_TRACKER, MACROS]
+      templates: [TOKEN_HOTBAR, GM_HOTBAR, CHECKS_TEMPLATE, STATUS_TRACKER, MACROS]
     }
   };
 
@@ -88,6 +91,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.figure = prepareTokenHotbar();
+    context.gm = context.figure ? null : prepareGmHotbar();
     return context;
   }
 
@@ -99,6 +103,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
     this.element.dataset.tooltipDirection = "UP";
     this.#applyMacros();
     this.#activateFigure(context.figure);
+    this.#activateGm(context.gm);
   }
 
   /**
@@ -106,11 +111,32 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
    * @param {object|null} figure  From prepareTokenHotbar().
    */
   #activateFigure(figure) {
-    const view = this.element.querySelector(".token-hotbar");
+    const view = this.element.querySelector(".token-hotbar:not(.gm-mode)");
     if ( !figure || !view ) return;
     this.#activatePortrait(view, figure);
     this.#activateTracker(view, figure);
-    this.#activateChecks(view, figure);
+    this.#activateChecks(view, (key, event) => {
+      const dialog = !event.shiftKey;
+      // A requested check answers its request (#33), prefilled with it
+      const request = findRequest(event.currentTarget.dataset.request);
+      if ( !request ) return rollCheck(figure.actor, key, { dialog });
+      return request.system.roll(figureOf(figure.actor.uuid), { dialog, actor: figure.actor });
+    });
+  }
+
+  /**
+   * Wire up the GM mode (#33): each action tile calls its action. A click on a check opens the request
+   * dialog, a shift-click requests it right away from the preselected figures.
+   * @param {object|null} gm  From prepareGmHotbar().
+   */
+  #activateGm(gm) {
+    const view = this.element.querySelector(".token-hotbar.gm-mode");
+    if ( !gm || !view ) return;
+    const actions = new Map(gm.actions.map(action => [action.name, action]));
+    for ( const tile of view.querySelectorAll("[data-gm-action]") ) {
+      tile.addEventListener("click", event => actions.get(tile.dataset.gmAction)?.onClick(event));
+    }
+    this.#activateChecks(view, (key, event) => requestCheck(key, { dialog: !event.shiftKey }));
   }
 
   /**
@@ -147,21 +173,21 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
   }
 
   /**
-   * Checks: a click opens the check dialog, a shift-click rolls right away.
+   * Checks, in the character mode and the GM mode alike: a click calls `onCheck`.
    * The checks are folded in to a strip, on every width of the bar but the widest, where only their cards
    * grow (see the CSS for class "lg"). Resting on them, or
    * focusing them, folds them out (class "checks-open") with all cards grown at once; the status tracker
    * then shows its short form, and folded-out macros give way for the time being.
-   * Resting on the status tracker or leaving the bar folds them in again. The state survives re-renders,
-   * e.g. after a roll changed the actor.
+   * Resting on what lies at the left (status tracker or GM actions) or leaving the bar folds them in again.
+   * The state survives re-renders, e.g. after a roll changed the actor.
    * @param {HTMLElement} view
-   * @param {object} figure
+   * @param {(key: string, event: PointerEvent) => any} onCheck
    */
-  #activateChecks(view, figure) {
+  #activateChecks(view, onCheck) {
     const checks = view.querySelector(".figure-checks");
-    const status = view.querySelector(".figure-status");
+    const left = view.querySelector(".figure-status, .gm-actions");
     for ( const button of checks.querySelectorAll("[data-check]") ) {
-      button.addEventListener("click", event => rollCheck(figure.actor, button.dataset.check, { dialog: !event.shiftKey }));
+      button.addEventListener("click", event => onCheck(button.dataset.check, event));
     }
 
     let timer = null;
@@ -177,7 +203,7 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
     });
     checks.addEventListener("pointerleave", () => clearTimeout(timer));
     checks.addEventListener("focusin", () => setOpen(true));
-    status.addEventListener("pointerenter", () => setOpen(false));
+    left?.addEventListener("pointerenter", () => setOpen(false));
     view.addEventListener("pointerleave", () => setOpen(false));
     view.addEventListener("focusout", event => {
       if ( !view.contains(event.relatedTarget) ) setOpen(false);
@@ -199,8 +225,8 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
 
   /**
    * Show the macros folded out or in, and label the button accordingly. On a wide bar (class "lg") the
-   * macros take the place of the checks instead. Without a figure the macros are always shown, so the button
-   * has nothing to do there.
+   * macros take the place of the checks instead. Without a figure and in the GM mode (#33) the macros are
+   * always shown: the button has nothing to do there and is made invisible, keeping its place.
    */
   #applyMacros() {
     const button = this.element?.querySelector("[data-action=toggleMacros]");
@@ -213,7 +239,9 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
     button.dataset.tooltip = label;
     button.setAttribute("aria-label", label);
     button.setAttribute("aria-pressed", String(open));
-    button.disabled = !this.element.querySelector(".token-hotbar");
+    const usable = !!this.element.querySelector(".token-hotbar:not(.gm-mode)");
+    button.disabled = !usable;
+    button.classList.toggle("unused", !usable);
   }
 
   /**

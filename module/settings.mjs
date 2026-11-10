@@ -38,6 +38,16 @@ export function registerSettings() {
     default: false
   });
 
+  // Checks not rolled from a request card count for an open request of the same check and figure (#33)
+  game.settings.register(SYSTEM_ID, "assignChecksToRequests", {
+    name: "KRISTALLPUNK.Settings.AssignChecksToRequests.Name",
+    hint: "KRISTALLPUNK.Settings.AssignChecksToRequests.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
   // Consequences of a check: stamina cost and conviction shift (#14, #15)
   game.settings.register(SYSTEM_ID, "autoApply", {
     name: "KRISTALLPUNK.Settings.AutoApply.Name",

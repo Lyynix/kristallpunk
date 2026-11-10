@@ -39,7 +39,9 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
         change: new NumberField({ required: true, integer: true, nullable: false, initial: 0 })
       }),
       // Rerolls in order (#15, #16), see rules.check.REROLL_MODES; reroll n brings the dice of roll n + 1
-      rerolls: new ArrayField(new StringField({ required: true, blank: false, choices: checkRules.REROLL_MODES }))
+      rerolls: new ArrayField(new StringField({ required: true, blank: false, choices: checkRules.REROLL_MODES })),
+      // `requestId` of the check request this check answers (#33), if it was rolled from the request
+      request: new StringField({ required: true, blank: false, nullable: true, initial: null })
     };
   }
 
@@ -687,7 +689,7 @@ const FACE_ICONS = ["one", "two", "three", "four", "five", "six"];
  * @param {boolean} criticalFailure
  * @returns {{face: number, icon: string, highlight: "success"|"failure"|null}[]}
  */
-function orderDice(faces, criticalFailure) {
+export function orderDice(faces, criticalFailure) {
   const die = (face, highlight = null) => ({
     face, highlight,
     icon: `${highlight ? "fa-solid" : "fa-regular"} fa-dice-${FACE_ICONS[face - 1]}`

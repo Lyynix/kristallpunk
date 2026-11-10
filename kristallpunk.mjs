@@ -6,6 +6,9 @@
 import { KRISTALLPUNK } from "./module/config.mjs";
 import ProtagonistData from "./module/data/protagonist.mjs";
 import CheckMessageData, { TEMPLATE as CHECK_CARD } from "./module/data/check-message.mjs";
+import CheckRequestMessageData, {
+  registerCheckRequestHooks, TEMPLATE as REQUEST_CARD
+} from "./module/data/check-request-message.mjs";
 import * as rules from "./module/rules/_module.mjs";
 import * as api from "./module/api/_module.mjs";
 import { registerSettings, SYSTEM_ID } from "./module/settings.mjs";
@@ -24,6 +27,8 @@ Hooks.once("init", () => {
   registerSettings();
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
+  CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
+  registerCheckRequestHooks();
 
   // The system's bar replaces Foundry's macro bar, unless the client asks for Foundry's (#31)
   if ( !game.settings.get(SYSTEM_ID, "coreHotbar") ) {
@@ -48,9 +53,12 @@ Hooks.once("init", () => {
     label: "KRISTALLPUNK.Sheet.Protagonist"
   });
 
-  // Partials shared between applications; the check card is preloaded so it renders synchronously
-  foundry.applications.handlebars.loadTemplates({ [statusTracker.PARTIAL]: statusTracker.TEMPLATE, [CHECK_CARD]: CHECK_CARD });
+  // Partials shared between applications; the chat cards are preloaded so they render synchronously
+  foundry.applications.handlebars.loadTemplates({
+    [statusTracker.PARTIAL]: statusTracker.TEMPLATE, [CHECK_CARD]: CHECK_CARD, [REQUEST_CARD]: REQUEST_CARD
+  });
 });
 
 Hooks.on("renderChatMessageHTML", CheckMessageData.onRenderChatMessageHTML);
+Hooks.on("renderChatMessageHTML", CheckRequestMessageData.onRenderChatMessageHTML);
 Hooks.on("getChatMessageContextOptions", CheckMessageData.onGetChatMessageContextOptions);

@@ -1,0 +1,83 @@
+{{!-- Check request (#33); context from module/data/check-request-message.mjs renderCard() --}}
+<div class="kristallpunk check-request-card">
+  <header class="check-title">
+    <span class="check-label">
+      <i class="fa-solid fa-hand-point-up" inert></i>
+      {{localize "KRISTALLPUNK.Request.Card.Title" label=label}}
+    </span>
+    <span class="check-grade">{{localize grade}}</span>
+  </header>
+  {{#if status}}<p class="request-status">{{localize status}}</p>{{/if}}
+  {{#if modifiers.length}}
+  <ul class="request-modifiers">
+    {{#each modifiers as |modifier|}}<li>{{modifier}}</li>{{/each}}
+  </ul>
+  {{/if}}
+  <ul class="request-figures">
+    {{#each figures as |figure|}}
+    <li class="request-figure" data-uuid="{{figure.uuid}}">
+      {{#if figure.missing}}
+      <span class="figure-name missing">{{localize "KRISTALLPUNK.Request.Card.Missing"}}</span>
+      {{else}}
+      <img src="{{figure.img}}" alt="">
+      <span class="figure-label">
+        <span class="figure-name">{{figure.name}}</span>
+        {{#if figure.players}}<span class="figure-players">{{figure.players}}</span>{{/if}}
+      </span>
+      {{#if figure.result}}
+      {{!-- Short form of the check; a click shows the check in the chat --}}
+      <button type="button" class="request-result plain {{#unless figure.result.hidden}}{{#if figure.result.success}}success{{else}}failure{{/if}}{{/unless}}"
+              data-action="showCheck" data-message-id="{{figure.result.messageId}}"
+              data-tooltip="{{localize "KRISTALLPUNK.Request.Card.ShowCheck"}}">
+        {{#if figure.result.hidden}}
+        <span class="result-outcome">{{localize "KRISTALLPUNK.Request.Card.Rolled"}}</span>
+        {{else}}
+        <span class="result-dice">
+          {{#each figure.result.dice as |die|}}<i class="{{die.icon}} {{die.highlight}}" inert></i>{{/each}}
+        </span>
+        {{!-- One line: a critical result instead of successes and outcome --}}
+        <span class="result-outcome">
+          {{#if figure.result.criticalSuccess}}
+          <strong class="critical success">{{localize "KRISTALLPUNK.Check.CriticalSuccess"}}</strong>
+          {{else if figure.result.criticalFailure}}
+          <strong class="critical failure">{{localize "KRISTALLPUNK.Check.CriticalFailure"}}</strong>
+          {{else}}
+          {{localize "KRISTALLPUNK.Check.Successes" count=figure.result.successes}} ·
+          <strong>{{#if figure.result.success}}{{localize "KRISTALLPUNK.Check.Success"}}{{else}}{{localize "KRISTALLPUNK.Check.Failure"}}{{/if}}</strong>
+          {{/if}}
+        </span>
+        {{/if}}
+      </button>
+      {{else if figure.state}}
+      <span class="request-state">{{localize figure.state}}</span>
+      {{else}}
+      <span class="request-actions">
+        {{#if (eq figure.roll "own")}}
+        <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
+                data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Roll"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Roll"}}">
+          <i class="fa-solid fa-dice" inert></i>
+        </button>
+        {{else if (eq figure.roll "behalf")}}
+        <button type="button" class="request-roll" data-action="rollRequested" data-uuid="{{figure.uuid}}"
+                data-tooltip="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.RollOnBehalf"}}">
+          <i class="fa-solid fa-dice-d6" inert></i>
+        </button>
+        {{/if}}
+        {{#if figure.remove}}
+        <button type="button" class="request-roll" data-action="removeFigure" data-uuid="{{figure.uuid}}"
+                data-tooltip="{{localize "KRISTALLPUNK.Request.Card.Remove"}}" aria-label="{{localize "KRISTALLPUNK.Request.Card.Remove"}}">
+          <i class="fa-solid fa-user-minus" inert></i>
+        </button>
+        {{/if}}
+      </span>
+      {{/if}}
+      {{/if}}
+    </li>
+    {{/each}}
+  </ul>
+  {{#if canClose}}
+  <button type="button" class="request-close" data-action="closeRequest">
+    <i class="fa-solid fa-lock" inert></i> {{localize "KRISTALLPUNK.Request.Card.Close"}}
+  </button>
+  {{/if}}
+</div>

@@ -5,6 +5,7 @@
  */
 
 import { prepareStatusTracker } from "./status-tracker.mjs";
+import { openRequestsFor } from "../data/check-request-message.mjs";
 
 /** Template path; the bar loads it as a partial under this name before its first render. */
 export const TEMPLATE = "systems/kristallpunk/templates/ui/token-hotbar.hbs";
@@ -66,39 +67,52 @@ function figureImage(actor, token) {
   return (src && (src !== CONST.DEFAULT_TOKEN)) ? src : actor.img;
 }
 
+/** Template path of the checks, shared by the character mode and the GM mode (#33). */
+export const CHECKS_TEMPLATE = "systems/kristallpunk/templates/ui/hotbar-checks.hbs";
+
 /**
- * Everything the figure can roll from the bar, as three cards: the skills of each domain in the order
+ * Everything that can be rolled from the bar, as three cards: the skills of each domain in the order
  * of CONFIG.KRISTALLPUNK.skills, then the derived values. At rest every card is as high as the card of the
- * derived values (`restRows`); a card with more entries grows upwards while hovered (#32).
- * @param {Actor} actor
- * @returns {{restRows: number, groups: {key: string, label: string, rows: number, more: boolean,
- *   entries: {key: string, label: string, value: number, tooltip: string}[]}[]}}
+ * derived values (`restRows`); a card with more entries grows upwards while the checks are folded out (#32).
+ * With a figure the cards show its values and only owners may roll; checks requested from the figure (#33) are
+ * marked with their request, and a click answers it. Without a figure (the GM mode, #33) they show the names
+ * only, and a click requests the check.
+ * @param {Actor|null} actor
+ * @returns {{restRows: number, showValues: boolean, disabled: boolean, requested: boolean, groups: {key: string,
+ *   label: string, rows: number, more: boolean, entries: {key: string, label: string, value: number|null,
+ *   tooltip: string, request: string|null}[]}[]}}
  */
-function prepareChecks(actor) {
+export function prepareChecks(actor) {
   const { skills, attributes, derived, domains } = CONFIG.KRISTALLPUNK;
-  const hint = game.i18n.localize("KRISTALLPUNK.Hotbar.CheckHint");
+  const hint = game.i18n.localize(`KRISTALLPUNK.Hotbar.${actor ? "CheckHint" : "RequestHint"}`);
+  const requestedHint = game.i18n.localize("KRISTALLPUNK.Hotbar.RequestedHint");
+  const requests = actor ? openRequestsFor(actor) : new Map();
   const entry = (key, label, value) => {
     label = game.i18n.localize(label);
-    return { key, label, value, tooltip: `${label} ${value} · ${hint}` };
+    const request = requests.get(key)?.system.requestId ?? null;
+    let tooltip = `${label} · ${hint}`;
+    if ( request ) tooltip = `${label} ${value} · ${requestedHint}`;
+    else if ( actor ) tooltip = `${label} ${value} · ${hint}`;
+    return { key, label, value, tooltip, request };
   };
   const groups = Object.entries(domains).map(([domain, { label }]) => ({
     key: domain,
     label: game.i18n.localize(label),
     entries: Object.entries(skills)
       .filter(([, skill]) => attributes[skill.attribute].domain === domain)
-      .map(([key, skill]) => entry(key, skill.label, actor.system.skills[key].total))
+      .map(([key, skill]) => entry(key, skill.label, actor?.system.skills[key].total ?? null))
   }));
   groups.push({
     key: "derived",
     label: game.i18n.localize("KRISTALLPUNK.Hotbar.Derived"),
-    entries: Object.entries(derived).map(([key, value]) => entry(key, value.label, actor.system.derived[key].value))
+    entries: Object.entries(derived).map(([key, value]) => entry(key, value.label, actor?.system.derived[key].value ?? null))
   });
   const restRows = groups.at(-1).entries.length;
   for ( const group of groups ) {
     group.rows = group.entries.length;
     group.more = group.rows > restRows;
   }
-  return { restRows, groups };
+  return { restRows, groups, showValues: !!actor, disabled: !!actor && !actor.isOwner, requested: requests.size > 0 };
 }
 
 /**
@@ -158,6 +172,13 @@ export function registerTokenHotbarHooks() {
   });
   Hooks.on("createToken", refresh);
   Hooks.on("deleteToken", refresh);
+  // Requested checks are marked (#33); a request changes when it is made, answered, posted anew or closed
+  const request = message => {
+    if ( message.type === "checkRequest" ) refresh();
+  };
+  Hooks.on("createChatMessage", request);
+  Hooks.on("updateChatMessage", request);
+  Hooks.on("deleteChatMessage", request);
 }
 
 /**

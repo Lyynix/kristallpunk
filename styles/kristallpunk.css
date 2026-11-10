@@ -661,57 +661,105 @@
 /*  Check dialog                                */
 /* -------------------------------------------- */
 
-.kristallpunk.check-dialog .window-content {
+.kristallpunk:is(.check-dialog, .request-dialog) .window-content {
   gap: 0.75rem;
 }
 
-.kristallpunk:is(.check-dialog, .preset-dialog) .form-footer {
+.kristallpunk:is(.check-dialog, .preset-dialog, .request-dialog) .form-footer {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
 }
 
-.kristallpunk:is(.check-dialog, .preset-dialog) .form-footer button {
+.kristallpunk:is(.check-dialog, .preset-dialog, .request-dialog) .form-footer button {
   flex: 1;
 }
 
-.kristallpunk.check-dialog .check-form {
+.kristallpunk.check-dialog .check-form,
+.kristallpunk.request-dialog .request-form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.kristallpunk.check-dialog .grades {
+.kristallpunk:is(.check-dialog, .request-dialog) .grades {
   display: flex;
   justify-content: space-around;
 }
 
-.kristallpunk.check-dialog .grade {
+.kristallpunk:is(.check-dialog, .request-dialog) .grade {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.kristallpunk.check-dialog .modifiers {
+.kristallpunk:is(.check-dialog, .request-dialog) .modifiers {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.kristallpunk.check-dialog .modifier-row {
+.kristallpunk:is(.check-dialog, .request-dialog) .modifier-row {
   display: grid;
   grid-template-columns: 6rem 3.5rem 1fr 2rem;
   gap: 0.25rem;
   align-items: center;
 }
 
-.kristallpunk.check-dialog .modifier-row input[type="number"] {
+.kristallpunk:is(.check-dialog, .request-dialog) .modifier-row input[type="number"] {
   text-align: center;
 }
 
-.kristallpunk.check-dialog .modifier-buttons {
+.kristallpunk:is(.check-dialog, .request-dialog) .modifier-buttons {
   display: flex;
   gap: 0.25rem;
+}
+
+/* Request dialog (#33): the two lists of figures, then one row per figure with portrait, name and players */
+.kristallpunk.request-dialog .figure-lists {
+  display: flex;
+  justify-content: space-around;
+}
+
+.kristallpunk.request-dialog .figure-list {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.kristallpunk.request-dialog .figure-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 16rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.kristallpunk.request-dialog .figure-choice {
+  display: grid;
+  grid-template-columns: auto 2rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kristallpunk.request-dialog .figure-choice img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border: none;
+  border-radius: 4px;
+}
+
+.kristallpunk.request-dialog .figure-choice .figure-name {
+  font-weight: bold;
+}
+
+.kristallpunk.request-dialog .figure-choice .figure-players {
+  font-size: var(--font-size-12);
+  opacity: 0.8;
 }
 
 .kristallpunk.check-dialog .check-preview {
@@ -995,6 +1043,217 @@
 .kristallpunk.check-card:has([data-action=rerollWithConviction][data-mode=all]:is(:hover, :focus-visible)) .check-dice.current .die {
   color: var(--kp-reroll-color);
   transform: translateY(-0.15rem);
+}
+
+/* -------------------------------------------- */
+/*  Check request card (#33)                    */
+/* -------------------------------------------- */
+
+.kristallpunk.check-request-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kristallpunk.check-request-card .check-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.kristallpunk.check-request-card .check-label {
+  font-weight: bold;
+}
+
+.kristallpunk.check-request-card .check-grade {
+  font-style: italic;
+}
+
+.kristallpunk.check-request-card :is(.request-modifiers, .request-figures) {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kristallpunk.check-request-card .request-modifiers {
+  font-size: var(--font-size-12);
+}
+
+.kristallpunk.check-request-card .request-figures {
+  gap: 0.25rem;
+}
+
+/* One row per figure: portrait, name with players, and the roll button on the right */
+.kristallpunk.check-request-card .request-figure {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+}
+
+.kristallpunk.check-request-card .request-figure img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border: none;
+  border-radius: 4px;
+}
+
+.kristallpunk.check-request-card .figure-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.kristallpunk.check-request-card .figure-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.kristallpunk.check-request-card .figure-name.missing {
+  grid-column: 1 / -1;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.kristallpunk.check-request-card .figure-players {
+  font-size: var(--font-size-12);
+  opacity: 0.8;
+}
+
+.kristallpunk.check-request-card .request-roll {
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.kristallpunk.check-request-card .request-status {
+  margin: 0;
+  font-size: var(--font-size-12);
+  font-style: italic;
+}
+
+/* Roll button, and for the GM the button that takes the figure out */
+.kristallpunk.check-request-card .request-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Taken out, or not rolled before the request was closed */
+.kristallpunk.check-request-card .request-state {
+  font-size: var(--font-size-12);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.kristallpunk.check-request-card .request-figure:has(.request-state) :is(img, .figure-label) {
+  opacity: 0.5;
+}
+
+.kristallpunk.check-request-card .request-close {
+  margin: 0.25rem 0 0;
+}
+
+/* Short form of a check: its dice above, successes and outcome below, aligned right */
+.kristallpunk.check-request-card .request-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0.1rem 0.25rem;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font-size: var(--font-size-12);
+  line-height: 1.2;
+  text-align: right;
+  cursor: pointer;
+}
+
+.kristallpunk.check-request-card .request-result:is(:hover, :focus-visible) {
+  background: rgb(128 128 128 / 0.15);
+}
+
+.kristallpunk.check-request-card .result-dice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.1rem;
+  font-size: var(--font-size-16);
+}
+
+.kristallpunk.check-request-card .result-dice .success,
+.kristallpunk.check-request-card .critical.success {
+  color: var(--color-level-success);
+}
+
+.kristallpunk.check-request-card .result-dice .failure,
+.kristallpunk.check-request-card .critical.failure {
+  color: var(--color-level-error);
+}
+
+.kristallpunk.check-request-card .critical {
+  font-weight: bold;
+}
+
+/* Question on start about open requests (#33): one row per request with its date and a button to close it */
+.kristallpunk.request-startup .open-requests {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kristallpunk.request-startup .open-requests li {
+  display: grid;
+  grid-template-columns: auto 1fr 2rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kristallpunk.request-startup .request-date {
+  font-size: var(--font-size-12);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.kristallpunk.request-startup .open-requests button {
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  margin: 0;
+}
+
+/* A check shown from a request card lights up briefly */
+#chat .chat-message.kp-highlight {
+  animation: kp-highlight 1.5s ease-out;
+}
+
+@keyframes kp-highlight {
+  from { box-shadow: inset 0 0 0 2px var(--color-warm-1); }
+  to { box-shadow: inset 0 0 0 2px transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #chat .chat-message.kp-highlight {
+    animation: none;
+    outline: 2px solid var(--color-warm-1);
+  }
 }
 
 /* -------------------------------------------- */
@@ -1291,6 +1550,37 @@ body.theme-light #hotbar.kristallpunk,
   cursor: default;
 }
 
+/* Checks requested from the figure (#33): framed in the accent color, with the symbol of the request card */
+#hotbar.kristallpunk .token-hotbar .check.requested {
+  box-shadow: inset 0 0 0 1px var(--color-warm-1);
+  font-weight: bold;
+}
+
+#hotbar.kristallpunk .token-hotbar .check.requested i {
+  color: var(--color-warm-1);
+}
+
+/* The folded strip shows that a check is requested, and pulses gently */
+#hotbar.kristallpunk .token-hotbar .checks-folded.requested {
+  box-shadow: inset 0 0 0 1px var(--color-warm-1);
+  animation: kp-requested 2s ease-in-out infinite;
+}
+
+#hotbar.kristallpunk .token-hotbar .checks-folded.requested .fa-hand-point-up {
+  color: var(--color-warm-1);
+}
+
+@keyframes kp-requested {
+  0%, 100% { background: rgb(160 160 160 / 0.12); }
+  50% { background: color-mix(in oklab, var(--color-warm-1) 30%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk .token-hotbar .checks-folded.requested {
+    animation: none;
+  }
+}
+
 #hotbar.kristallpunk .token-hotbar .check-name {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1505,8 +1795,8 @@ body.theme-light #hotbar.kristallpunk,
   visibility: visible;
 }
 
-#hotbar.kristallpunk.lg.macros-open .token-hotbar .figure-checks,
-#hotbar.kristallpunk.lg.macros-open .token-hotbar.checks-open .figure-checks {
+#hotbar.kristallpunk.lg.macros-open .token-hotbar:not(.gm-mode) .figure-checks,
+#hotbar.kristallpunk.lg.macros-open .token-hotbar.checks-open:not(.gm-mode) .figure-checks {
   flex-basis: 0;
   margin-left: -12px;
   visibility: hidden;
@@ -1514,6 +1804,75 @@ body.theme-light #hotbar.kristallpunk,
 
 @media (prefers-reduced-motion: reduce) {
   #hotbar.kristallpunk.lg .token-hotbar .figure-checks {
+    transition: none;
+  }
+}
+
+/* The button that folds the macros, where it has nothing to do (without a figure and in the GM mode):
+   invisible, but keeping its place, so the bar does not change */
+#hotbar.kristallpunk .hotbar-toggle .unused {
+  visibility: hidden;
+}
+
+/* GM mode (#33): the frame of the character mode, with the GM actions on the left instead of the figure,
+   then the macros, which are always shown, then the checks at the right edge. On narrower bars folded-out
+   checks take the place of the macros for the time being; on a wide bar (lg) they stay unfolded beside them.
+   The actions keep their place also while there are none: as wide as the hint without a figure, with room for
+   three tiles in each of two rows */
+#hotbar.kristallpunk .gm-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  flex: 0 0 210px;
+  height: 100%;
+}
+
+#hotbar.kristallpunk .gm-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  /* Foundry gives buttons a minimum height */
+  min-height: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 4px;
+  font-size: var(--font-size-11);
+  line-height: 1.1;
+}
+
+#hotbar.kristallpunk .gm-action i {
+  font-size: var(--font-size-16);
+}
+
+#hotbar.kristallpunk .gm-action span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hotbar.kristallpunk .token-hotbar .gm-macros {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-x: clip;
+  transition: flex-grow 0.25s ease-out, flex-basis 0.25s ease-out, margin-left 0.25s ease-out, visibility 0.25s;
+}
+
+#hotbar.kristallpunk .token-hotbar.gm-mode .figure-checks {
+  margin-left: auto;
+}
+
+#hotbar.kristallpunk:not(.lg) .token-hotbar.gm-mode.checks-open .gm-macros {
+  flex: 0 0 0;
+  margin-left: -12px;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk .token-hotbar .gm-macros {
     transition: none;
   }
 }

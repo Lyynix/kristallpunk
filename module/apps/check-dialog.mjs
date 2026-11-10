@@ -1,4 +1,5 @@
 import * as checkRules from "../rules/check.mjs";
+import { MODIFIER_TYPES, prepareModifierRows, readModifierRows, TEMPLATE as MODIFIERS } from "./modifiers.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -54,7 +55,7 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
   };
 
   static PARTS = {
-    form: { template: `${TEMPLATES}/form.hbs` },
+    form: { template: `${TEMPLATES}/form.hbs`, templates: [MODIFIERS] },
     preview: { template: `${TEMPLATES}/preview.hbs` },
     footer: { template: "templates/generic/form-footer.hbs" }
   };
@@ -89,13 +90,8 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
       grades: Object.entries(CONFIG.KRISTALLPUNK.checkGrades).map(([key, { label }]) => ({
         key, label, checked: key === grade
       })),
-      modifiers: modifiers.map((modifier, index) => ({
-        index,
-        type: modifier.value < 0 ? "penalty" : "bonus",
-        amount: Math.abs(modifier.value),
-        label: modifier.label ?? ""
-      })),
-      modifierTypes: { bonus: "KRISTALLPUNK.CheckDialog.Bonus", penalty: "KRISTALLPUNK.CheckDialog.Penalty" },
+      modifiers: prepareModifierRows(modifiers),
+      modifierTypes: MODIFIER_TYPES,
       helpers,
       helperOptions: Object.fromEntries(Array.from({ length: MAX_HELPERS + 1 }, (_, n) => [n, String(n)])),
       messageMode,
@@ -166,13 +162,9 @@ export default class CheckDialog extends HandlebarsApplicationMixin(ApplicationV
    */
   #readForm() {
     const data = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(this.element).object);
-    const rows = Object.values(data.modifiers ?? {});
     this.#state = {
       grade: data.grade ?? this.#state.grade,
-      modifiers: rows.map(row => {
-        const amount = Math.max(0, Math.trunc(Number(row.amount) || 0));
-        return { value: row.type === "penalty" ? -amount : amount, label: row.label?.trim() ?? "" };
-      }),
+      modifiers: readModifierRows(data),
       helpers: Number(data.helpers ?? this.#state.helpers),
       messageMode: data.messageMode ?? this.#state.messageMode,
       cost: this.#state.cost.map(({ domain }) => ({

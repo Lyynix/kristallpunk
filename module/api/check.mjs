@@ -38,6 +38,7 @@ import { SYSTEM_ID } from "../settings.mjs";
  * @param {{sixes?: number, ones?: number}} [options.preset]  GM only: exactly this many sixes and ones (#25).
  *                                                The other dice show 2 to 5. Ignored with a warning for players.
  *                                                In the check dialog, the GM can also open a window to preset them.
+ * @param {string} [options.request]              `requestId` of the check request this check answers (#33).
  * @returns {Promise<{roll: Roll, pool: object, result: object, cost: object, message: ChatMessage}|null>}
  *   null if the check could not be rolled or the dialog was closed.
  */
@@ -89,7 +90,8 @@ export async function rollCheck(actor, key, options = {}) {
   // The message data keeps bonuses, penalties and helpers apart; it nets them via rules.check.pool
   const messageData = {
     actor: actor.uuid, check: key, grade, base: target.base,
-    modifiers: modifiers.map(({ value, label = "" }) => ({ value, label })), helpers
+    modifiers: modifiers.map(({ value, label = "" }) => ({ value, label })), helpers,
+    request: options.request ?? null
   };
   const data = new CheckMessageData(messageData);
   const pool = data.pool;

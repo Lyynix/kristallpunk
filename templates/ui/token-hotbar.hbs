@@ -35,31 +35,5 @@
     {{> "systems/kristallpunk/templates/ui/hotbar-macros.hbs" @root}}
   </div>
 
-  <div class="figure-checks">
-    <div class="checks-folded" aria-hidden="true">
-      <i class="fa-solid fa-chevron-left" inert></i>
-      <i class="fa-solid fa-dice" inert></i>
-      <span>{{localize "KRISTALLPUNK.Hotbar.Checks"}}</span>
-    </div>
-    {{!-- Each group is a card that sits at the bottom of its slot; at rest it shows as many rows as the
-          derived values. When the checks fold out, all cards grow upwards over the bar one column after
-          the other, and only then. Tooltips anchor above the card. --}}
-    <div class="checks-list" role="group" aria-label="{{localize "KRISTALLPUNK.Hotbar.Checks"}}"
-         style="--kp-rest-rows: {{checks.restRows}}">
-      {{#each checks.groups as |group|}}
-      <div class="check-group {{group.key}}" style="--kp-rows: {{group.rows}}; --kp-column: {{@index}}">
-        <div class="check-card{{#if group.more}} more{{/if}}" data-tooltip-anchor>
-          <span class="check-group-label">{{group.label}}</span>
-          {{#each group.entries as |entry|}}
-          <button type="button" class="check" data-check="{{entry.key}}" data-tooltip-text="{{entry.tooltip}}"
-                  {{#unless ../../editable}}disabled{{/unless}}>{{!-- "../../": the figure, not the group or entry --}}
-            <span class="check-name">{{entry.label}}</span>
-            <span class="check-value">{{entry.value}}</span>
-          </button>
-          {{/each}}
-        </div>
-      </div>
-      {{/each}}
-    </div>
-  </div>
+  {{> "systems/kristallpunk/templates/ui/hotbar-checks.hbs" checks}}
 </div>

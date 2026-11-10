@@ -1,0 +1,47 @@
+{{!-- Request dialog of the GM (#33); context from module/apps/request-dialog.mjs --}}
+<div class="request-form standard-form">
+  <fieldset class="figures">
+    <legend>{{localize "KRISTALLPUNK.Request.Dialog.Figures"}}</legend>
+    <div class="figure-lists">
+      {{#each lists as |list|}}
+      <label class="figure-list">
+        <input type="radio" name="list" value="{{list.key}}" {{checked list.checked}}>
+        {{localize list.label}}
+      </label>
+      {{/each}}
+    </div>
+    <ul class="figure-choices">
+      {{#each figures as |figure|}}
+      <li>
+        <label class="figure-choice">
+          <input type="checkbox" name="figure" value="{{figure.uuid}}" {{checked figure.checked}}>
+          <img src="{{figure.img}}" alt="">
+          <span class="figure-name">{{figure.name}}</span>
+          {{#if figure.players}}<span class="figure-players">{{figure.players}}</span>{{/if}}
+        </label>
+      </li>
+      {{else}}
+      <li class="hint">{{localize "KRISTALLPUNK.Request.Dialog.NoFigures"}}</li>
+      {{/each}}
+    </ul>
+  </fieldset>
+
+  <fieldset class="grades">
+    <legend>{{localize "KRISTALLPUNK.CheckDialog.Grade"}}</legend>
+    {{#each grades as |grade|}}
+    <label class="grade">
+      <input type="radio" name="grade" value="{{grade.key}}" {{checked grade.checked}}>
+      {{localize grade.label}}
+    </label>
+    {{/each}}
+  </fieldset>
+
+  {{> "systems/kristallpunk/templates/apps/parts/modifiers.hbs"}}
+
+  <div class="form-group">
+    <label for="{{rootId}}-visibility">{{localize "KRISTALLPUNK.CheckDialog.Visibility"}}</label>
+    <select id="{{rootId}}-visibility" name="visibility">
+      {{selectOptions visibilities selected=visibility localize=true}}
+    </select>
+  </div>
+</div>

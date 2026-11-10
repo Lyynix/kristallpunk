@@ -1,5 +1,5 @@
 {{!-- The system's bar (#31). One frame: with a figure the character mode (#32), whose macros fold out
-      beside the status tracker (#35); without one a hint and the macros. Keeps the ids and actions of
+      beside the status tracker (#35); without one the GM mode (#33) for GMs, otherwise a hint and the macros. Keeps the ids and actions of
       Foundry's macro bar (see hotbar-macros.hbs), so the logic inherited from its Hotbar class keeps working.
       Tooltips of the whole bar point up; the bar sets the direction on its element. --}}
 <aside id="hotbar">
@@ -14,8 +14,10 @@
   <div class="hotbar-main">
     {{#if figure}}
     {{> "systems/kristallpunk/templates/ui/token-hotbar.hbs" figure}}
+    {{else if gm}}
+    {{> "systems/kristallpunk/templates/ui/gm-hotbar.hbs" gm}}
     {{else}}
-    {{!-- Without a figure the macros are always shown; the GM mode (#33) will take the place of the hint --}}
+    {{!-- Without a figure the macros are always shown --}}
     <div class="no-figure">
       <p class="placeholder">{{localize "KRISTALLPUNK.Hotbar.NoFigure"}}</p>
       {{> "systems/kristallpunk/templates/ui/hotbar-macros.hbs"}}
