@@ -3,6 +3,8 @@
  * Used by the character sheet; built so the token hotbar can use it too.
  */
 
+import { changeTypeLabel } from "../data/effect-targets.mjs";
+
 /**
  * The parts of a stored modifier after active effects: one part per change of an applied effect that targets
  * the modifier, then the manual adjustment. Only changes of the phase "initial" count, since only they are
@@ -24,8 +26,7 @@ export function modifierParts(actor, path) {
         const value = Number(change.value);
         parts.push({ label, value: Number.isFinite(value) ? value : null, type: null });
       } else {
-        const type = foundry.documents.ActiveEffect.implementation.CHANGE_TYPES[change.type]?.label ?? change.type;
-        parts.push({ label, value: null, type: `${game.i18n.localize(type)} ${change.value}` });
+        parts.push({ label, value: null, type: `${changeTypeLabel(change.type)} ${change.value}` });
       }
     }
   }

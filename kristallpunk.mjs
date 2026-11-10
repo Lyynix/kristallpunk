@@ -17,6 +17,7 @@ import * as statusTracker from "./module/apps/status-tracker.mjs";
 import KristallpunkHotbar from "./module/apps/hotbar.mjs";
 import { registerTokenHotbarHooks } from "./module/apps/token-hotbar.mjs";
 import { registerHotbarTooltips } from "./module/apps/hotbar-tooltips.mjs";
+import { registerEffectTargetHooks } from "./module/data/effect-targets.mjs";
 
 Hooks.once("init", () => {
   console.log("Kristallpunk | Initializing system");
@@ -29,6 +30,7 @@ Hooks.once("init", () => {
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();
+  registerEffectTargetHooks();
 
   // The system's bar replaces Foundry's macro bar, unless the client asks for Foundry's (#31)
   if ( !game.settings.get(SYSTEM_ID, "coreHotbar") ) {

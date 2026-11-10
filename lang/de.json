@@ -212,7 +212,9 @@
       "Protagonist": "Protagonist*innen-Akte",
       "Name": "Name",
       "EditMode": "Bearbeitungsmodus umschalten",
+      "Attributes": "Attribute",
       "Skills": "Fertigkeiten",
+      "Stamina": "Ausdauer",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
       "Formula": {
@@ -236,7 +238,8 @@
         "character": "Charakter",
         "competences": "Kompetenzen & Magie",
         "inventory": "Inventar",
-        "profile": "Steckbrief"
+        "profile": "Steckbrief",
+        "effects": "Effekte"
       }
     },
     "Domain": {
@@ -452,6 +455,25 @@
         "armor": { "label": "KRISTALLPUNK.Armor.Label", "hint": "KRISTALLPUNK.Armor.Hint" },
         "ward": { "label": "KRISTALLPUNK.Ward.Label", "hint": "KRISTALLPUNK.Ward.Hint" }
       }
+    },
+    "Effects": {
+      "Active": "Aktiv",
+      "Inactive": "Inaktiv",
+      "Source": "Quelle",
+      "Changes": "Änderungen",
+      "OpenItem": "Item öffnen",
+      "None": "Keine",
+      "NewEffect": "Neuer Effekt",
+      "Create": {
+        "active": "Effekt anlegen",
+        "inactive": "Effekt ausgeschaltet anlegen"
+      },
+      "Enable": "Einschalten",
+      "Disable": "Ausschalten",
+      "Edit": "Bearbeiten",
+      "Delete": "Löschen",
+      "DeleteOnItem": "Effekte eines Items werden am Item gelöscht.",
+      "OtherChange": "{label}: {type} {value}"
     },
     "Mod": {
       "Label": "Modifikator",
