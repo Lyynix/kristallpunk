@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
-  CONVICTION_STAGES, OPTIONS, convictionStage, rerollMode, consequences
+  CONVICTION_STAGES, convictionStage, rerollMode, consequences
 } from "../../module/rules/conviction.mjs";
 
 describe("convictionStage", () => {
@@ -80,20 +80,21 @@ describe("consequences", () => {
     assert.equal(result.clamped, true);
   });
 
-  it("shifts only once for a double triple by default", () => {
-    assert.equal(consequences({ before: 0, critical: 2 }).delta, 1);
-    assert.equal(consequences({ before: 0, critical: -2 }).delta, -1);
+  it("shifts once per triple: six sixes are +2, six ones -2 (#17)", () => {
+    assert.equal(consequences({ before: 0, critical: 2 }).delta, 2);
+    assert.equal(consequences({ before: 0, critical: -2 }).delta, -2);
   });
 
-  it("shifts once per triple with the option 'each'", () => {
-    assert.equal(consequences({ before: 0, critical: 2, options: { tripleShift: "each" } }).delta, 2);
-    const result = consequences({ before: -2, critical: -2, options: { tripleShift: "each" } });
+  it("stops a double shift at the limits", () => {
+    const result = consequences({ before: -2, critical: -2 });
     assert.equal(result.value, -3);
+    assert.equal(result.delta, -1);
     assert.equal(result.clamped, true);
+    assert.deepEqual(consequences({ before: 2, critical: 2 }).parts, [{ key: "shift", value: 1 }]);
   });
 
-  it("has 'once' as default option", () => {
-    assert.equal(OPTIONS.tripleShift[0], "once");
+  it("shifts by what is left after netting, e.g. six sixes and three ones (#17)", () => {
+    assert.equal(consequences({ before: 0, critical: 1 }).delta, 1);
   });
 
   it("costs one point for a reroll", () => {
@@ -131,6 +132,5 @@ describe("consequences", () => {
   it("rejects invalid input", () => {
     assert.throws(() => consequences({ before: 4, critical: 0 }), RangeError);
     assert.throws(() => consequences({ before: 0, critical: 0.5 }), TypeError);
-    assert.throws(() => consequences({ before: 0, critical: 1, options: { tripleShift: "twice" } }), RangeError);
   });
 });
