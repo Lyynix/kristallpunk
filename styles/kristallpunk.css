@@ -530,6 +530,73 @@
 }
 
 /* -------------------------------------------- */
+/* -------------------------------------------- */
+/*  Tab: effects (#44)                          */
+/* -------------------------------------------- */
+
+.kristallpunk.protagonist .tab.effects.active {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.kristallpunk.protagonist .effect-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kristallpunk.protagonist .effect-row {
+  display: grid;
+  grid-template-columns: 3fr 2fr 4fr 4.5rem;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.125rem 0;
+  border-bottom: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.2));
+}
+
+.kristallpunk.protagonist .effect-row.header {
+  font-size: var(--font-size-11);
+  font-weight: bold;
+}
+
+.kristallpunk.protagonist .effect-row.header .name {
+  font-size: var(--font-size-13);
+}
+
+.kristallpunk.protagonist .effect-row.empty {
+  display: block;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.kristallpunk.protagonist .effect-row .name {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.kristallpunk.protagonist .effect-row .name img {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+}
+
+.kristallpunk.protagonist .effect-row .name span,
+.kristallpunk.protagonist .effect-row .source {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kristallpunk.protagonist .effect-row .controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.125rem;
+}
+
 /*  Tabs: inventory and profile                 */
 /* -------------------------------------------- */
 
