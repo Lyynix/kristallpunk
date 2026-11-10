@@ -69,3 +69,40 @@ function staminaMaxLabel(domain) {
   const fields = CONFIG.Actor.dataModels.protagonist.schema.fields;
   return game.i18n.format("KRISTALLPUNK.Sheet.MaxOf", { label: fields.stamina.fields[domain].fields.value.label });
 }
+
+/**
+ * Suggest the targets in Foundry's effect configuration (#44): each key field of a change gets a list of the
+ * targets with their names, and a tooltip with the name of the target it holds. Typing any other key stays
+ * possible. Called during init.
+ */
+export function registerEffectTargetHooks() {
+  Hooks.on("renderActiveEffectConfig", (app, element) => {
+    const inputs = element.querySelectorAll('input[name^="system.changes."][name$=".key"]');
+    if ( !inputs.length ) return;
+    const id = `${app.id}-kristallpunk-targets`;
+    let list = element.querySelector(`datalist#${CSS.escape(id)}`);
+    if ( !list ) {
+      list = document.createElement("datalist");
+      list.id = id;
+      for ( const target of effectTargets() ) {
+        const option = document.createElement("option");
+        option.value = target.key;
+        option.label = `${target.group}: ${target.label}`;
+        list.append(option);
+      }
+      element.append(list);
+    }
+    const labels = new Map(effectTargets().map(target => [target.key, target.label]));
+    const showLabel = input => {
+      const label = labels.get(input.value);
+      if ( label ) input.dataset.tooltip = label;
+      else delete input.dataset.tooltip;
+    };
+    for ( const input of inputs ) {
+      input.setAttribute("list", id);
+      input.setAttribute("autocomplete", "off");
+      showLabel(input);
+      input.addEventListener("input", () => showLabel(input));
+    }
+  });
+}
