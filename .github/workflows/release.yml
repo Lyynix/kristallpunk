@@ -1,17 +1,30 @@
-# Builds the system package when a GitHub release is published.
+# Builds the system package and releases it.
 # Based on the FVTT League of Foundry Developers module template, but without
 # third-party substitution/release actions: jq, zip and gh ship with the runner.
+#
+# Two ways in:
+# - Closing a milestone releases it: the tag is the version at the start of the
+#   milestone's title (e.g. "0.3.0 Token-Hotbar" -> 0.3.0), the release is named
+#   after the whole title and created on the default branch. A milestone with
+#   open issues is opened again instead; a version that is already released is
+#   skipped. Milestone events always run the workflow from the default branch.
+# - Publishing a release by hand (e.g. for a fix) builds and attaches the package.
+#   A release created by this workflow does not trigger this way again, because
+#   events caused by the workflow token start no workflows.
 #
 # Tag format: plain version without "v", e.g. 0.1.0 or 14.2.1.
 
 name: Release
 
 on:
+  milestone:
+    types: [closed]
   release:
     types: [published]
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   build:
@@ -20,18 +33,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read version from tag
+      - name: Read version
         id: version
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          MILESTONE_TITLE: ${{ github.event.milestone.title }}
+          MILESTONE_NUMBER: ${{ github.event.milestone.number }}
         run: |
+          if [ "$EVENT" = "milestone" ]; then
+            TAG="${MILESTONE_TITLE%% *}"
+          else
+            TAG="$RELEASE_TAG"
+          fi
           if [[ ! "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::error::Tag '$TAG' is not a plain version like 0.1.0"
+            echo "::error::'$TAG' is not a plain version like 0.1.0"
             exit 1
           fi
           echo "version=$TAG" >> "$GITHUB_OUTPUT"
+          [ "$EVENT" = "milestone" ] || exit 0
+
+          # Ask the API, not the event payload, so issues closed just before count
+          OPEN=$(gh api "repos/$GITHUB_REPOSITORY/milestones/$MILESTONE_NUMBER" --jq .open_issues)
+          if [ "$OPEN" -gt 0 ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/milestones/$MILESTONE_NUMBER" -f state=open > /dev/null
+            echo "::error::Milestone '$MILESTONE_TITLE' still has $OPEN open issue(s); opened it again, nothing released"
+            exit 1
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then
+            echo "::notice::$TAG is already released; nothing to do"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Fill in system.json placeholders
+        if: steps.version.outputs.skip != 'true'
         env:
           VERSION: ${{ steps.version.outputs.version }}
           MANIFEST_URL: https://github.com/${{ github.repository }}/releases/latest/download/system.json
@@ -50,6 +86,7 @@ jobs:
           cat system.json
 
       - name: Build system.zip
+        if: steps.version.outputs.skip != 'true'
         run: |
           # Only runtime files go into the package; tests, workflows and
           # local files stay out. Folders that don't exist yet are skipped.
@@ -59,7 +96,25 @@ jobs:
           done
           zip -r system.zip "${files[@]}"
 
+      # Only now the release is created, so a failed build leaves no empty release behind.
+      # GitHub writes the notes from the pull requests since the last release; the
+      # milestone's description, if any, goes above them.
+      - name: Create release from milestone
+        if: github.event_name == 'milestone' && steps.version.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          TITLE: ${{ github.event.milestone.title }}
+          DESCRIPTION: ${{ github.event.milestone.description }}
+        run: |
+          gh release create "$VERSION" system.json system.zip \
+            --target "$GITHUB_SHA" \
+            --title "$TITLE" \
+            --notes "$DESCRIPTION" \
+            --generate-notes
+
       - name: Attach files to release
+        if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
@@ -68,12 +123,14 @@ jobs:
       # Publish the version to the Foundry package registry.
       # Enable once the system is registered on foundryvtt.com and the
       # release token is stored as repository secret FOUNDRY_RELEASE_TOKEN.
+      # NOTES points at the release created above or published by hand.
       # - name: Publish to Foundry package registry
+      #   if: steps.version.outputs.skip != 'true'
       #   env:
       #     FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
       #     VERSION: ${{ steps.version.outputs.version }}
       #     MANIFEST: https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.version }}/system.json
-      #     NOTES: ${{ github.event.release.html_url }}
+      #     NOTES: https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.version }}
       #   run: |
       #     jq -n \
       #       --arg version "$VERSION" \
