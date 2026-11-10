@@ -90,13 +90,17 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /**
-   * Attributes grouped by domain, with the input maximum depending on the creation exception.
-   * The exception itself is not editable here; it is set during character creation.
+   * Attributes grouped by domain. Play mode shows the total, edit mode the entered value and the modifier
+   * (#43). The input maximum depends on the creation exception, which is not editable here; it is set
+   * during character creation.
+   * Inputs show the stored values: active effects change the prepared modifier, and saving that would
+   * store their result as input.
    * @returns {object[]}
    */
   #prepareAttributeGroups() {
     const { domains, attributes } = CONFIG.KRISTALLPUNK;
     const limits = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
+    const source = this.actor._source.system;
     return Object.entries(domains).map(([domain, { label }]) => ({
       key: domain,
       label,
@@ -104,10 +108,15 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         .filter(([, config]) => config.domain === domain)
         .map(([key, config]) => {
           const data = this.actor.system.attributes[key];
+          const stored = source.attributes[key];
           return {
             key,
             label: config.label,
-            value: data.value,
+            value: stored.value,
+            total: data.total,
+            breakdown: breakdown([term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), stored.value)],
+              stored.value, data.total - stored.value),
+            mod: modInput(`system.attributes.${key}.mod`, stored.mod),
             min: limits.min,
             max: data.exception ? limits.exceptionMax : limits.max
           };
@@ -123,6 +132,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
    */
   #prepareValueGroups() {
     const system = this.actor.system;
+    const source = this.actor._source.system;
     const fields = system.schema.fields;
     const { domains, attributes, derived } = CONFIG.KRISTALLPUNK;
     const attributeName = key => game.i18n.localize(attributes[key].label);
@@ -155,7 +165,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         value,
         formula,
         breakdown: breakdown(terms, value - mod, mod),
-        mod: { name: `system.derived.${key}.mod`, value: mod, display: signed(mod) }
+        mod: modInput(`system.derived.${key}.mod`, source.derived[key].mod)
       };
     };
 
@@ -168,7 +178,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         value: max,
         formula: domainAttributes.map(attributeAbbr).join(" + "),
         breakdown: breakdown(domainAttributes.map(attributeTerm), max - maxMod, maxMod),
-        mod: { name: `system.stamina.${domain}.maxMod`, value: maxMod, display: signed(maxMod) }
+        mod: modInput(`system.stamina.${domain}.maxMod`, source.stamina[domain].maxMod)
       }];
       for ( const [key, config] of Object.entries(derived) ) {
         if ( config.domain === domain ) tiles.push(derivedTile(key));
@@ -177,7 +187,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         key: protection,
         label: fields[protection].label,
         hint: fields[protection].hint,
-        input: { name: `system.${protection}`, value: system[protection], min: fields[protection].min, max: fields[protection].max }
+        input: { name: `system.${protection}`, value: source[protection], min: fields[protection].min, max: fields[protection].max }
       });
       return { key: domain, label, tiles };
     });
@@ -192,11 +202,13 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
 
   /**
    * Skills grouped by domain (the domain of their linked attribute), as on the official sheet.
+   * Inputs show the stored values, see #prepareAttributeGroups.
    * @returns {object[]}
    */
   #prepareSkillGroups() {
     const { domains, attributes, skills } = CONFIG.KRISTALLPUNK;
     const limits = CONFIG.KRISTALLPUNK.protagonist.limits.skill;
+    const source = this.actor._source.system;
     return Object.entries(domains).map(([domain, { label }]) => ({
       key: domain,
       label,
@@ -204,19 +216,21 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         .filter(([, config]) => attributes[config.attribute].domain === domain)
         .map(([key, config]) => {
           const data = this.actor.system.skills[key];
+          const stored = source.skills[key];
+          const attribute = this.actor.system.attributes[config.attribute].total;
           const terms = [
-            term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), data.value),
-            term(game.i18n.localize(attributes[config.attribute].label), this.actor.system.attributes[config.attribute].total)
+            term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), stored.value),
+            term(game.i18n.localize(attributes[config.attribute].label), attribute)
           ];
+          const base = stored.value + attribute;
           return {
             key,
             label: config.label,
             attribute: attributes[config.attribute].abbreviation,
-            value: data.value,
-            mod: data.mod,
-            modDisplay: signed(data.mod),
+            value: stored.value,
+            modDisplay: modInput(`system.skills.${key}.mod`, stored.mod).display,
             total: data.total,
-            breakdown: breakdown(terms, data.total - data.mod, data.mod),
+            breakdown: breakdown(terms, base, data.total - base),
             min: limits.min,
             max: limits.max
           };
@@ -322,6 +336,8 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   static #onToggleEditMode() {
     this.#editMode = !this.#editMode;
     this.#applyEditMode();
+    // The attributes show inputs instead of their totals, which may change the width of the header
+    this.#fitHeader();
   }
 
   /**
@@ -346,6 +362,17 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
  */
 function signed(value) {
   return value > 0 ? `+${value}` : String(value);
+}
+
+/**
+ * Input of a stored modifier. Takes the stored value, never the prepared one: active effects change the
+ * prepared modifier, and saving that would store their result as manual adjustment (#43).
+ * @param {string} name   Field path, e.g. "system.skills.athletics.mod".
+ * @param {number} value  The stored modifier.
+ * @returns {{name: string, value: number, display: string}}
+ */
+function modInput(name, value) {
+  return { name, value, display: signed(value) };
 }
 
 /**
