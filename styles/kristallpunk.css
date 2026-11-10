@@ -83,10 +83,31 @@
   white-space: nowrap;
 }
 
-.kristallpunk.protagonist .attribute input[type="number"] {
-  width: 2.5rem;
+.kristallpunk.protagonist .attribute input {
+  width: 2.25rem;
   height: 1.5rem;
   text-align: center;
+}
+
+/* Play mode: the total; edit mode: entered value and modifier side by side, within the label's width (#43) */
+.kristallpunk.protagonist .attribute .total {
+  display: flex;
+  align-items: center;
+  height: 1.5rem;
+  font-weight: bold;
+}
+
+.kristallpunk.protagonist .attribute .inputs {
+  display: none;
+  gap: 0.125rem;
+}
+
+.kristallpunk.protagonist.edit-mode .attribute .total {
+  display: none;
+}
+
+.kristallpunk.protagonist.edit-mode .attribute .inputs {
+  display: flex;
 }
 
 .kristallpunk.protagonist .overview {

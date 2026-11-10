@@ -3,16 +3,47 @@
  * Available as game.kristallpunk.rules.derived.
  */
 
+/** Hard limits of an attribute's total (Kurzregeln 1.0, p. 23; #17). */
+export const ATTRIBUTE_LIMITS = { min: 0, max: 7 };
+
+/** Limits of a skill's own part, without the attribute (Erschaffung 1.0, p. 12). */
+export const SKILL_LIMITS = { min: 0, max: 9 };
+
 /**
- * Total value of a skill: skill value plus its linked attribute (Kurzregeln 1.0, p. 5).
+ * Total value of an attribute: the entered value plus its modifier (manual adjustment and active effects),
+ * kept within the limits.
  * @param {object} data
- * @param {number} data.value      The skill value.
- * @param {number} data.attribute  The value of the linked attribute.
- * @param {number} [data.mod=0]    Manual adjustment added to the result.
+ * @param {number} data.value                 The entered value.
+ * @param {number} [data.mod=0]               Modifier added to it.
+ * @param {{min: number, max: number}} [data.limits]  Defaults to ATTRIBUTE_LIMITS.
  * @returns {number}
  */
-export function skillTotal({ value, attribute, mod = 0 }) {
-  return value + attribute + mod;
+export function attributeTotal({ value, mod = 0, limits = ATTRIBUTE_LIMITS }) {
+  return clamp(value + mod, limits);
+}
+
+/**
+ * Total value of a skill: its own part plus its linked attribute (Kurzregeln 1.0, p. 5).
+ * The own part is the skill value plus its modifier (manual adjustment and active effects),
+ * kept within the limits.
+ * @param {object} data
+ * @param {number} data.value                 The skill value.
+ * @param {number} data.attribute             The total of the linked attribute.
+ * @param {number} [data.mod=0]               Modifier added to the skill value.
+ * @param {{min: number, max: number}} [data.limits]  Limits of the own part; defaults to SKILL_LIMITS.
+ * @returns {number}
+ */
+export function skillTotal({ value, attribute, mod = 0, limits = SKILL_LIMITS }) {
+  return clamp(value + mod, limits) + attribute;
+}
+
+/**
+ * @param {number} value
+ * @param {{min: number, max: number}} limits
+ * @returns {number}
+ */
+function clamp(value, { min, max }) {
+  return Math.min(max, Math.max(min, value));
 }
 
 /**

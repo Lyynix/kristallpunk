@@ -23,7 +23,9 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
           required: true, nullable: false, integer: true,
           min: limits.attribute.min, max: limits.attribute.exceptionMax, initial: 1
         }),
-        exception: new BooleanField()
+        exception: new BooleanField(),
+        // Target for active effects (#43); the total is derived and capped
+        mod: mod()
       });
     }
 
@@ -106,12 +108,21 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
    * @override
    */
   prepareDerivedData() {
+    // Totals of the attributes first: everything else is based on them (#43).
+    // The hard cap is the exception maximum (Kurzregeln 1.0, p. 23; #17).
+    const limits = CONFIG.KRISTALLPUNK.protagonist.limits;
+    const attributeLimits = { min: limits.attribute.min, max: limits.attribute.exceptionMax };
+    for ( const attribute of Object.values(this.attributes) ) {
+      attribute.total = rules.attributeTotal({ value: attribute.value, mod: attribute.mod, limits: attributeLimits });
+    }
+
     for ( const [key, skill] of Object.entries(this.skills) ) {
       const { attribute } = CONFIG.KRISTALLPUNK.skills[key];
       skill.total = rules.skillTotal({
         value: skill.value,
-        attribute: this.attributes[attribute].value,
-        mod: skill.mod
+        attribute: this.attributes[attribute].total,
+        mod: skill.mod,
+        limits: limits.skill
       });
     }
 
@@ -120,7 +131,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     }
 
     // Needs the stamina maxima from above
-    const a = Object.fromEntries(Object.entries(this.attributes).map(([key, { value }]) => [key, value]));
+    const a = Object.fromEntries(Object.entries(this.attributes).map(([key, { total }]) => [key, total]));
     const d = this.derived;
     d.courage.value = rules.courage({ strength: a.strength, will: a.will, mod: d.courage.mod });
     d.crystalEcho.value = rules.crystalEcho({ senses: a.senses, empathy: a.empathy, mod: d.crystalEcho.mod });
@@ -159,14 +170,16 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Maximum stamina of a domain, based on the current attributes and modifier.
+   * Maximum stamina of a domain, based on the totals of its attributes and the modifier.
+   * Computes the totals itself, since _preCreate needs it before prepareDerivedData has run.
    * @param {string} domain
    * @returns {number}
    */
   #staminaMax(domain) {
+    const { min, exceptionMax: max } = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
     const attributes = Object.entries(this.attributes)
       .filter(([key]) => CONFIG.KRISTALLPUNK.attributes[key].domain === domain)
-      .map(([, attribute]) => attribute.value);
+      .map(([, attribute]) => rules.attributeTotal({ value: attribute.value, mod: attribute.mod, limits: { min, max } }));
     return rules.staminaMax({ attributes, mod: this.stamina[domain].maxMod });
   }
 

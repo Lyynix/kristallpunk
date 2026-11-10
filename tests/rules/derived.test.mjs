@@ -1,8 +1,32 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
-  courage, crystalEcho, insight, resilience, skillTotal, staminaMax, toughness
+  attributeTotal, courage, crystalEcho, insight, resilience, skillTotal, staminaMax, toughness
 } from "../../module/rules/derived.mjs";
+
+describe("attributeTotal", () => {
+  it("is the entered value without modifier", () => {
+    assert.equal(attributeTotal({ value: 4 }), 4);
+  });
+
+  it("adds the modifier", () => {
+    assert.equal(attributeTotal({ value: 4, mod: 2 }), 6);
+    assert.equal(attributeTotal({ value: 4, mod: -1 }), 3);
+  });
+
+  it("is capped at 7 by default (Kurzregeln 1.0, p. 23; #17)", () => {
+    assert.equal(attributeTotal({ value: 6, mod: 2 }), 7);
+    assert.equal(attributeTotal({ value: 7, mod: 0 }), 7);
+  });
+
+  it("does not drop below 0", () => {
+    assert.equal(attributeTotal({ value: 1, mod: -3 }), 0);
+  });
+
+  it("takes other limits", () => {
+    assert.equal(attributeTotal({ value: 5, mod: 3, limits: { min: 0, max: 6 } }), 6);
+  });
+});
 
 describe("skillTotal", () => {
   it("adds skill value and linked attribute", () => {
@@ -20,6 +44,19 @@ describe("skillTotal", () => {
 
   it("reaches 15 at the human maximum (attribute 6, skill 9)", () => {
     assert.equal(skillTotal({ value: 9, attribute: 6 }), 15);
+  });
+
+  it("caps the skill part (value and modifier) at 9 by default (Erschaffung 1.0, p. 12)", () => {
+    assert.equal(skillTotal({ value: 9, attribute: 4, mod: 2 }), 13);
+    assert.equal(skillTotal({ value: 8, attribute: 7, mod: 3 }), 16);
+  });
+
+  it("does not let the skill part drop below 0", () => {
+    assert.equal(skillTotal({ value: 0, attribute: 4, mod: -2 }), 4);
+  });
+
+  it("takes other limits", () => {
+    assert.equal(skillTotal({ value: 5, attribute: 2, mod: 2, limits: { min: 0, max: 6 } }), 8);
   });
 });
 
