@@ -1,4 +1,5 @@
 import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
+import { breakdown, modifierParts } from "./value-breakdown.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -114,8 +115,13 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
             label: config.label,
             value: stored.value,
             total: data.total,
-            breakdown: breakdown([term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), stored.value)],
-              stored.value, data.total - stored.value),
+            breakdown: breakdown({
+              terms: [{ label: game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), value: stored.value }],
+              base: stored.value,
+              mod: data.mod,
+              parts: modifierParts(this.actor, `attributes.${key}.mod`),
+              limits: { min: limits.min, max: limits.exceptionMax }
+            }).text,
             mod: modInput(`system.attributes.${key}.mod`, stored.mod),
             min: limits.min,
             max: data.exception ? limits.exceptionMax : limits.max
@@ -136,7 +142,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     const fields = system.schema.fields;
     const { domains, attributes, derived } = CONFIG.KRISTALLPUNK;
     const attributeName = key => game.i18n.localize(attributes[key].label);
-    const attributeTerm = key => term(attributeName(key), system.attributes[key].total);
+    const attributeTerm = key => ({ label: attributeName(key), value: system.attributes[key].total });
     // Formulas use the abbreviations (as on the official sheet) so they fit on one line
     const attributeAbbr = key => game.i18n.localize(attributes[key].abbreviation);
     const staminaMaxLabel = domain => game.i18n.format("KRISTALLPUNK.Sheet.MaxOf", {
@@ -164,7 +170,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         label: game.i18n.localize(config.label),
         value,
         formula,
-        breakdown: breakdown(terms, value - mod, mod),
+        breakdown: breakdown({ terms, base: value - mod, mod, parts: modifierParts(this.actor, `derived.${key}.mod`) }).text,
         mod: modInput(`system.derived.${key}.mod`, source.derived[key].mod)
       };
     };
@@ -177,7 +183,10 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         label: staminaMaxLabel(domain),
         value: max,
         formula: domainAttributes.map(attributeAbbr).join(" + "),
-        breakdown: breakdown(domainAttributes.map(attributeTerm), max - maxMod, maxMod),
+        breakdown: breakdown({
+          terms: domainAttributes.map(attributeTerm), base: max - maxMod, mod: maxMod,
+          parts: modifierParts(this.actor, `stamina.${domain}.maxMod`)
+        }).text,
         mod: modInput(`system.stamina.${domain}.maxMod`, source.stamina[domain].maxMod)
       }];
       for ( const [key, config] of Object.entries(derived) ) {
@@ -217,12 +226,6 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         .map(([key, config]) => {
           const data = this.actor.system.skills[key];
           const stored = source.skills[key];
-          const attribute = this.actor.system.attributes[config.attribute].total;
-          const terms = [
-            term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), stored.value),
-            term(game.i18n.localize(attributes[config.attribute].label), attribute)
-          ];
-          const base = stored.value + attribute;
           return {
             key,
             label: config.label,
@@ -230,12 +233,34 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
             value: stored.value,
             modDisplay: modInput(`system.skills.${key}.mod`, stored.mod).display,
             total: data.total,
-            breakdown: breakdown(terms, base, data.total - base),
+            breakdown: this.#skillBreakdown(key, stored.value, data, limits),
             min: limits.min,
             max: limits.max
           };
         })
     }));
+  }
+
+  /**
+   * Tooltip of a skill. Without modifier and cap in one line ("Wert 5 + Kraft 6 = 11"); otherwise first
+   * the skill's own part with its modifier and cap, then the attribute added to it.
+   * @param {string} key
+   * @param {number} value                 The stored skill value.
+   * @param {object} data                  The prepared skill data.
+   * @param {{min: number, max: number}} limits  Limits of the own part.
+   * @returns {string}
+   */
+  #skillBreakdown(key, value, data, limits) {
+    const { attributes, skills } = CONFIG.KRISTALLPUNK;
+    const attributeKey = skills[key].attribute;
+    const attribute = { label: game.i18n.localize(attributes[attributeKey].label), value: this.actor.system.attributes[attributeKey].total };
+    const valueTerm = { label: game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), value };
+    const own = breakdown({
+      terms: [valueTerm], base: value, mod: data.mod, parts: modifierParts(this.actor, `skills.${key}.mod`), limits
+    });
+    if ( !own.detailed ) return breakdown({ terms: [valueTerm, attribute], base: value + attribute.value }).text;
+    const sum = breakdown({ terms: [String(own.value), attribute], base: data.total }).text;
+    return `${own.text}<br>${sum}`;
   }
 
   /**
@@ -373,28 +398,4 @@ function signed(value) {
  */
 function modInput(name, value) {
   return { name, value, display: signed(value) };
-}
-
-/**
- * One term of a breakdown, e.g. "Kraft 3".
- * @param {string} label
- * @param {number} value
- * @returns {string}
- */
-function term(label, value) {
-  return game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Term", { label, value });
-}
-
-/**
- * Breakdown of a computed value with the actual numbers, e.g. "Kraft 3 + Wille 5 = 8",
- * extended by the modifier if one is set.
- * @param {string[]} terms  The terms that add up to the rule result.
- * @param {number} base     The rule result without modifier.
- * @param {number} mod      The modifier.
- * @returns {string}
- */
-function breakdown(terms, base, mod) {
-  const result = game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Result", { terms: terms.join(" + "), result: base });
-  if ( !mod ) return result;
-  return game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.WithMod", { base: result, mod: signed(mod), total: base + mod });
 }

@@ -222,7 +222,10 @@
         "Term": "{label} {value}",
         "Half": "{label} {value} ÷ 2",
         "Result": "{terms} = {result}",
-        "WithMod": "{base}, Mod {mod} → {total}"
+        "WithMods": "{base}, {mods} → {total}",
+        "FromItem": "{effect} ({item})",
+        "CappedMax": "Obergrenze {limit}: {raw} wird zu {value}",
+        "CappedMin": "Untergrenze {limit}: {raw} wird zu {value}"
       },
       "Column": {
         "Value": "Wert",
