@@ -218,6 +218,7 @@
       "Attributes": "Attribute",
       "Skills": "Fertigkeiten",
       "Stamina": "Ausdauer",
+      "EquipmentNotes": "Notizen",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
       "Formula": {
@@ -512,6 +513,13 @@
           "quantity": { "label": "Anzahl" }
         }
       }
+    },
+    "Items": {
+      "Create": "{type} anlegen",
+      "New": "{type} (neu)",
+      "Edit": "Bearbeiten",
+      "Delete": "Löschen",
+      "None": "Keine"
     },
     "Mod": {
       "Label": "Modifikator",

@@ -1,6 +1,7 @@
 import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
 import { breakdown, modifierParts } from "./value-breakdown.mjs";
 import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
+import { ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -20,7 +21,8 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     actions: {
       toggleEditMode: ProtagonistSheet.#onToggleEditMode,
       rollCheck: ProtagonistSheet.#onRollCheck,
-      ...EFFECT_ACTIONS
+      ...EFFECT_ACTIONS,
+      ...ITEM_ACTIONS
     }
   };
 
@@ -76,7 +78,11 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       statusTracker: prepareStatusTracker(this.actor),
       ageGroupLabel: CONFIG.KRISTALLPUNK.ageGroups[this.actor.system.ageGroup]?.label ?? "",
       enriched: await this.#enrichTexts(["equipment", "background", "relationships"]),
-      effectGroups: prepareEffectGroups(this.actor)
+      effectGroups: prepareEffectGroups(this.actor),
+      equipmentList: prepareItemList(this.actor, "equipment", {
+        detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
+        detail: item => String(item.system.quantity)
+      })
     });
   }
 
