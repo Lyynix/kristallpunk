@@ -94,24 +94,27 @@ export const EFFECT_ACTIONS = {
   },
 
   /**
-   * Switch an effect on or off. Effects of items are switched on the item.
+   * Switch an effect of the sheet's document on or off. Effects transferred from items are left alone:
+   * they are changed on the item, and whether they work follows the item (#49).
    * @this {DocumentSheetV2}
    * @param {PointerEvent} event
    * @param {HTMLElement} target
    */
   async toggleEffect(event, target) {
     const effect = effectOf(target);
-    await effect?.update({ disabled: !effect.disabled });
+    if ( !effect || (effect.parent !== this.document) ) return;
+    await effect.update({ disabled: !effect.disabled });
   },
 
   /**
-   * Open the configuration of an effect.
+   * Open the configuration of an effect of the sheet's document.
    * @this {DocumentSheetV2}
    * @param {PointerEvent} event
    * @param {HTMLElement} target
    */
   editEffect(event, target) {
-    effectOf(target)?.sheet.render({ force: true });
+    const effect = effectOf(target);
+    if ( effect?.parent === this.document ) effect.sheet.render({ force: true });
   },
 
   /**
@@ -127,13 +130,15 @@ export const EFFECT_ACTIONS = {
   },
 
   /**
-   * Open the item an effect comes from.
+   * Open the item an effect comes from, on the tab named by `data-tab` if given (e.g. its effects).
    * @this {DocumentSheetV2}
    * @param {PointerEvent} event
    * @param {HTMLElement} target
    */
-  openEffectSource(event, target) {
+  async openEffectSource(event, target) {
     const item = effectOf(target)?.parent;
-    if ( item instanceof foundry.documents.Item ) item.sheet.render({ force: true });
+    if ( !(item instanceof foundry.documents.Item) ) return;
+    await item.sheet.render({ force: true });
+    if ( target.dataset.tab ) item.sheet.changeTab(target.dataset.tab, "primary");
   }
 };

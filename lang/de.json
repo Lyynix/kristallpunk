@@ -475,7 +475,8 @@
       "Disable": "Ausschalten",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
-      "DeleteOnItem": "Effekte eines Items werden am Item gelöscht.",
+      "OnItem": "Effekte eines Items werden am Item geändert. Ob sie wirken, hängt am Item.",
+      "EditOnItem": "Am Item bearbeiten",
       "OtherChange": "{label}: {type} {value}"
     },
     "Item": {

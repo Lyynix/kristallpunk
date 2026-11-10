@@ -32,18 +32,26 @@
         <span class="changes">{{effect.changes}}</span>
         <span class="controls">
           {{#if @root.editable}}
+          {{#if effect.item}}
+          {{!-- Effects of items are changed on the item only; whether they work follows the item (#45, #49).
+                Disabled buttons show no tooltip, so the hint sits on a wrapper. --}}
+          <span data-tooltip="{{localize "KRISTALLPUNK.Effects.OnItem"}}">
+            <button type="button" class="inline-control icon fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"
+                    disabled aria-label="{{localize "KRISTALLPUNK.Effects.OnItem"}}"></button>
+          </span>
+          <button type="button" class="inline-control icon fa-solid fa-pen-to-square" data-action="openEffectSource"
+                  data-tab="effects" data-tooltip="{{localize "KRISTALLPUNK.Effects.EditOnItem"}}"
+                  aria-label="{{localize "KRISTALLPUNK.Effects.EditOnItem"}}"></button>
+          <span data-tooltip="{{localize "KRISTALLPUNK.Effects.OnItem"}}">
+            <button type="button" class="inline-control icon fa-solid fa-trash" disabled
+                    aria-label="{{localize "KRISTALLPUNK.Effects.OnItem"}}"></button>
+          </span>
+          {{else}}
           <button type="button" class="inline-control icon fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"
                   data-action="toggleEffect" data-tooltip="{{effect.toggleHint}}" aria-label="{{effect.toggleHint}}"
                   aria-pressed="{{#if effect.disabled}}false{{else}}true{{/if}}"></button>
           <button type="button" class="inline-control icon fa-solid fa-pen-to-square" data-action="editEffect"
                   data-tooltip="{{localize "KRISTALLPUNK.Effects.Edit"}}" aria-label="{{localize "KRISTALLPUNK.Effects.Edit"}}"></button>
-          {{#if effect.item}}
-          {{!-- Disabled buttons show no tooltip, so the hint sits on a wrapper --}}
-          <span data-tooltip="{{localize "KRISTALLPUNK.Effects.DeleteOnItem"}}">
-            <button type="button" class="inline-control icon fa-solid fa-trash" disabled
-                    aria-label="{{localize "KRISTALLPUNK.Effects.DeleteOnItem"}}"></button>
-          </span>
-          {{else}}
           <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteEffect"
                   data-tooltip="{{localize "KRISTALLPUNK.Effects.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Effects.Delete"}}"></button>
           {{/if}}
