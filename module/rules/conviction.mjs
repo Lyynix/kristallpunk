@@ -28,15 +28,6 @@ export function convictionStage(value, { stages = CONVICTION_STAGES } = {}) {
 export const LIMITS = { min: -3, max: 3 };
 
 /**
- * Interpretations that can be switched; the first value is the default.
- * `tripleShift`: how far a double triple shifts conviction, "once" (±1 per check) or "each" (±1 per triple).
- * Open question, see issue #17.
- */
-export const OPTIONS = {
-  tripleShift: ["once", "each"]
-};
-
-/**
  * How a check may be rerolled by spending conviction (Kurzregeln 1.0, p. 9–10):
  * from +3 to +1 the sixes stay, from 0 to -2 all dice are rerolled, at -3 there is no reroll.
  * The value is the one before this check shifted conviction (provisional, see issue #17).
@@ -54,23 +45,21 @@ export function rerollMode(value) {
 /**
  * How a check changes conviction (Kurzregeln 1.0, p. 9–10 and 13).
  * - A reroll costs one point.
- * - The final result shifts conviction: +1 for a critical success, -1 for a critical failure.
- *   With a reroll only the new result counts; the shift of the first result does not apply (provisional, #17).
+ * - The final result shifts conviction by 1 per triple, after netting sixes against ones: +1 for a critical
+ *   success, -1 for a critical failure, so six sixes give +2 (#17).
+ *   With a reroll only the new result counts; the shift of the first result does not apply (#17).
  * - The reroll is applied first, then the shift; each step stops at -3 and +3.
  * @param {object} data
  * @param {number} data.before            Conviction before this check changed it.
  * @param {boolean} [data.rerolled=false] Whether conviction was spent on a reroll.
  * @param {number} [data.critical=0]      Netted triples of the final result, from rules.check.evaluate.
- * @param {object} [data.options]         Interpretations, see OPTIONS; defaults are the first values.
  * @returns {{value: number, delta: number, clamped: boolean, parts: {key: string, value: number}[]}}
  *   `value` is the conviction afterwards, `delta` the change; `parts` lists reroll and shift as applied,
  *   `clamped` tells whether a limit cut a step short.
  */
-export function consequences({ before, rerolled = false, critical = 0, options = {} }) {
+export function consequences({ before, rerolled = false, critical = 0 }) {
   assertConviction(before, "before");
   if ( !Number.isInteger(critical) ) throw new TypeError("critical must be an integer");
-  const tripleShift = options.tripleShift ?? OPTIONS.tripleShift[0];
-  if ( !OPTIONS.tripleShift.includes(tripleShift) ) throw new RangeError(`unknown tripleShift ${tripleShift}`);
   if ( rerolled && (rerollMode(before) === null) ) throw new RangeError(`no reroll possible at ${before}`);
 
   let value = before;
@@ -84,7 +73,7 @@ export function consequences({ before, rerolled = false, critical = 0, options =
   };
 
   if ( rerolled ) step("reroll", -1);
-  if ( critical !== 0 ) step("shift", tripleShift === "once" ? Math.sign(critical) : critical);
+  if ( critical !== 0 ) step("shift", critical);
   return { value, delta: value - before, clamped, parts };
 }
 
