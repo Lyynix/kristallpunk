@@ -1209,6 +1209,36 @@
   font-weight: bold;
 }
 
+/* Question on start about open requests (#33): one row per request with its date and a button to close it */
+.kristallpunk.request-startup .open-requests {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kristallpunk.request-startup .open-requests li {
+  display: grid;
+  grid-template-columns: auto 1fr 2rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kristallpunk.request-startup .request-date {
+  font-size: var(--font-size-12);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.kristallpunk.request-startup .open-requests button {
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  margin: 0;
+}
+
 /* A check shown from a request card lights up briefly */
 #chat .chat-message.kp-highlight {
   animation: kp-highlight 1.5s ease-out;

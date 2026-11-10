@@ -71,6 +71,13 @@
         "Removed": "herausgenommen",
         "NotRolled": "nicht gewürfelt"
       },
+      "Startup": {
+        "Title": "Offene Anforderungen",
+        "Content": "Diese Anforderungen sind noch offen. Solange sie offen sind, sind die Proben in der Leiste der Figuren hervorgehoben.",
+        "ContentAssign": "Diese Anforderungen sind noch offen. Solange sie offen sind, sind die Proben in der Leiste der Figuren hervorgehoben, und passende Würfe aus dem Bogen oder der Leiste zählen für sie.",
+        "Close": "Alle schließen",
+        "Keep": "Offen lassen"
+      },
       "Warning": {
         "GMOnly": "Nur die SL kann Proben anfordern.",
         "NoFigures": "Keine Figur ausgewählt.",

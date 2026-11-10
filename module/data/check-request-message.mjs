@@ -429,7 +429,67 @@ export function registerCheckRequestHooks() {
   Hooks.on("deleteChatMessage", message => {
     if ( message.type === "check" ) refreshRequestsOf(message);
   });
-  Hooks.once("ready", () => {
-    if ( isLinker() ) catchUp();
+  // Only when the world is loaded, not when another GM becomes the active one
+  Hooks.once("ready", async () => {
+    if ( !isLinker() ) return;
+    await catchUp();
+    await askToCloseOpen();
   });
+}
+
+/**
+ * Ask the GM whether to close the requests that are still open when the world is loaded, so none is forgotten:
+ * an open request keeps its check marked in the players' bars. Asked once per load; keeping them open is fine.
+ * Each request can also be closed on its own; the dialog closes once none is left.
+ * @returns {Promise<boolean>}  Whether all remaining requests were closed.
+ */
+export async function askToCloseOpen() {
+  const open = requests()
+    .filter(request => request.system.openFigures.length)
+    .sort((a, b) => a.system.since - b.system.since);
+  if ( !open.length ) return false;
+  const { escapeHTML } = foundry.utils;
+  const closeOne = game.i18n.localize("KRISTALLPUNK.Request.Card.Close");
+  // Each request as on its card: when, check, grade and modifiers, then the figures that still have to roll
+  const items = open.map(request => {
+    const { system } = request;
+    const details = [
+      game.i18n.localize(CONFIG.KRISTALLPUNK.checkGrades[system.grade].label),
+      ...system.modifiers.map(modifier => (modifier.label
+        ? `${modifier.value.signedString()} ${modifier.label}`
+        : modifier.value.signedString()))
+    ];
+    const names = system.openFigures.map(uuid => fromUuidSync(uuid)?.name).filter(name => name);
+    const date = new Date(system.since).toLocaleString(game.i18n.lang, { dateStyle: "short", timeStyle: "short" });
+    return `<li data-request-id="${system.requestId}">
+      <span class="request-date">${escapeHTML(date)}</span>
+      <span class="request-text"><strong>${escapeHTML(system.label)}</strong>, ${escapeHTML(details.join(", "))}: ${escapeHTML(names.join(", "))}</span>
+      <button type="button" class="icon fa-solid fa-lock" data-close-request data-tooltip="${closeOne}" aria-label="${closeOne}"></button>
+    </li>`;
+  });
+  // Open requests also take matching checks rolled elsewhere, if the setting is on
+  const content = game.settings.get(SYSTEM_ID, "assignChecksToRequests") ? "ContentAssign" : "Content";
+  const close = await foundry.applications.api.DialogV2.confirm({
+    classes: ["kristallpunk", "request-startup"],
+    window: { title: "KRISTALLPUNK.Request.Startup.Title", icon: "fa-solid fa-hand-point-up" },
+    content: `<p>${game.i18n.localize(`KRISTALLPUNK.Request.Startup.${content}`)}</p><ul class="open-requests">${items.join("")}</ul>`,
+    yes: { label: "KRISTALLPUNK.Request.Startup.Close", icon: "fa-solid fa-lock" },
+    no: { label: "KRISTALLPUNK.Request.Startup.Keep", icon: "fa-solid fa-lock-open", default: true },
+    rejectClose: false,
+    render: (event, dialog) => {
+      for ( const button of dialog.element.querySelectorAll("[data-close-request]") ) {
+        button.addEventListener("click", async () => {
+          const item = button.closest("[data-request-id]");
+          button.disabled = true;
+          await findRequest(item.dataset.requestId)?.system.close();
+          item.remove();
+          if ( !dialog.element.querySelector("[data-request-id]") ) dialog.close();
+        });
+      }
+    }
+  });
+  if ( close !== true ) return false;
+  const remaining = requests().filter(request => !request.system.closed && request.system.openFigures.length);
+  await ChatMessage.implementation.updateDocuments(remaining.map(request => ({ _id: request.id, "system.closed": true })));
+  return true;
 }
