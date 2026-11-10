@@ -123,15 +123,17 @@ export default class CheckRequestMessageData extends foundry.abstract.TypeDataMo
    * @param {string} uuid  One of the requested figures.
    * @param {object} [options]
    * @param {boolean} [options.dialog=true]  Show the check dialog.
+   * @param {Actor} [options.actor]          Who rolls, if not the figure itself: a token of it, e.g. from the bar.
    * @returns {Promise<object|null>}  See api.rollCheck.
    */
-  async roll(uuid, { dialog = true } = {}) {
+  async roll(uuid, { dialog = true, actor = null } = {}) {
     if ( !this.figures.includes(uuid) ) return null;
     if ( !this.openFigures.includes(uuid) ) {
       ui.notifications.warn("KRISTALLPUNK.Request.Warning.NotOpen", { localize: true });
       return null;
     }
-    const actor = await fromUuid(uuid);
+    if ( actor && (figureOf(actor.uuid) !== uuid) ) throw new Error(`${actor.uuid} is not the figure ${uuid}`);
+    actor ??= await fromUuid(uuid);
     if ( !actor ) {
       ui.notifications.warn("KRISTALLPUNK.Check.Warning.ActorMissing", { localize: true });
       return null;
@@ -287,11 +289,31 @@ export function findRequest(requestId) {
 }
 
 /**
- * The world actor a check was rolled for: unlinked tokens stand for the actor they were made from.
- * @param {string} uuid  As stored on the check.
- * @returns {string|null}
+ * Open requests a figure can answer, as the current user may see them: per check the oldest one, which a check
+ * of the figure would answer (see linkCheck). Used by the bar to mark requested checks.
+ * @param {Actor} actor  The figure, or a token of it.
+ * @returns {Map<string, ChatMessage>}  Request messages by check key.
  */
-function figureOf(uuid) {
+export function openRequestsFor(actor) {
+  const uuid = figureOf(actor?.uuid);
+  const open = new Map();
+  if ( !uuid ) return open;
+  const candidates = requests()
+    .filter(message => message.visible && message.system.openFigures.includes(uuid))
+    .sort((a, b) => a.system.since - b.system.since);
+  for ( const message of candidates ) {
+    if ( !open.has(message.system.check) ) open.set(message.system.check, message);
+  }
+  return open;
+}
+
+/**
+ * The figure a request names for an actor: its world actor, as unlinked tokens stand for the actor they were
+ * made from.
+ * @param {string} uuid  Of the actor, e.g. as stored on a check.
+ * @returns {string|null}  UUID of the world actor.
+ */
+export function figureOf(uuid) {
   const actor = uuid ? fromUuidSync(uuid) : null;
   if ( !actor ) return null;
   return (actor.isToken ? game.actors.get(actor.id) : actor)?.uuid ?? null;

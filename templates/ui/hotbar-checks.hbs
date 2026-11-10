@@ -1,10 +1,11 @@
 {{!-- Checks of the bar, shared by the character mode (#32) and the GM mode (#33); context from
       prepareChecks() in module/apps/token-hotbar.mjs. Folded in to a strip at first; the bar folds them out
-      (class "checks-open"). In the GM mode the cards show no values, a click requests the check. --}}
+      (class "checks-open"). In the GM mode the cards show no values, a click requests the check.
+      Checks requested from the figure are marked, the folded strip too (#33). --}}
 <div class="figure-checks">
-  <div class="checks-folded" aria-hidden="true">
+  <div class="checks-folded{{#if requested}} requested{{/if}}" aria-hidden="true">
     <i class="fa-solid fa-chevron-left" inert></i>
-    <i class="fa-solid fa-dice" inert></i>
+    <i class="fa-solid {{#if requested}}fa-hand-point-up{{else}}fa-dice{{/if}}" inert></i>
     <span>{{localize "KRISTALLPUNK.Hotbar.Checks"}}</span>
   </div>
   {{!-- Each group is a card that sits at the bottom of its slot; at rest it shows as many rows as the
@@ -18,9 +19,10 @@
         <span class="check-group-label">{{group.label}}</span>
         {{#each group.entries as |entry|}}
         {{!-- "../../": the checks, not the group or entry --}}
-        <button type="button" class="check" data-check="{{entry.key}}" data-tooltip-text="{{entry.tooltip}}"
+        <button type="button" class="check{{#if entry.request}} requested{{/if}}" data-check="{{entry.key}}"
+                {{#if entry.request}}data-request="{{entry.request}}"{{/if}} data-tooltip-text="{{entry.tooltip}}"
                 {{#if ../../disabled}}disabled{{/if}}>
-          <span class="check-name">{{entry.label}}</span>
+          <span class="check-name">{{#if entry.request}}<i class="fa-solid fa-hand-point-up" inert></i> {{/if}}{{entry.label}}</span>
           {{#if ../../showValues}}<span class="check-value">{{entry.value}}</span>{{/if}}
         </button>
         {{/each}}

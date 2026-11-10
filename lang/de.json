@@ -90,6 +90,7 @@
       "Derived": "Abgeleitet",
       "CheckHint": "Klick: Probe · Shift-Klick: ohne Dialog würfeln",
       "RequestHint": "Klick: Probe anfordern",
+      "RequestedHint": "Angefordert · Klick: Probe für die Anforderung · Shift-Klick: ohne Dialog würfeln",
       "Portrait": {
         "Token": "Klick: zum Token · Doppelklick: Bogen öffnen",
         "Sheet": "Doppelklick: Bogen öffnen"

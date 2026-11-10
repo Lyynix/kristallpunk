@@ -1520,6 +1520,37 @@ body.theme-light #hotbar.kristallpunk,
   cursor: default;
 }
 
+/* Checks requested from the figure (#33): framed in the accent color, with the symbol of the request card */
+#hotbar.kristallpunk .token-hotbar .check.requested {
+  box-shadow: inset 0 0 0 1px var(--color-warm-1);
+  font-weight: bold;
+}
+
+#hotbar.kristallpunk .token-hotbar .check.requested i {
+  color: var(--color-warm-1);
+}
+
+/* The folded strip shows that a check is requested, and pulses gently */
+#hotbar.kristallpunk .token-hotbar .checks-folded.requested {
+  box-shadow: inset 0 0 0 1px var(--color-warm-1);
+  animation: kp-requested 2s ease-in-out infinite;
+}
+
+#hotbar.kristallpunk .token-hotbar .checks-folded.requested .fa-hand-point-up {
+  color: var(--color-warm-1);
+}
+
+@keyframes kp-requested {
+  0%, 100% { background: rgb(160 160 160 / 0.12); }
+  50% { background: color-mix(in oklab, var(--color-warm-1) 30%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hotbar.kristallpunk .token-hotbar .checks-folded.requested {
+    animation: none;
+  }
+}
+
 #hotbar.kristallpunk .token-hotbar .check-name {
   overflow: hidden;
   text-overflow: ellipsis;

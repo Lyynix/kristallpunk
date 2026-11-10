@@ -4,6 +4,7 @@ import { prepareGmHotbar, TEMPLATE as GM_HOTBAR } from "./gm-hotbar.mjs";
 import { activateStatusTracker, TEMPLATE as STATUS_TRACKER } from "./status-tracker.mjs";
 import { rollCheck } from "../api/check.mjs";
 import { requestCheck } from "../api/request.mjs";
+import { figureOf, findRequest } from "../data/check-request-message.mjs";
 
 /** How long the pointer rests on the folded checks before they fold out, in ms. */
 const FOLD_OUT_DELAY = 150;
@@ -114,7 +115,13 @@ export default class KristallpunkHotbar extends foundry.applications.ui.Hotbar {
     if ( !figure || !view ) return;
     this.#activatePortrait(view, figure);
     this.#activateTracker(view, figure);
-    this.#activateChecks(view, (key, event) => rollCheck(figure.actor, key, { dialog: !event.shiftKey }));
+    this.#activateChecks(view, (key, event) => {
+      const dialog = !event.shiftKey;
+      // A requested check answers its request (#33), prefilled with it
+      const request = findRequest(event.currentTarget.dataset.request);
+      if ( !request ) return rollCheck(figure.actor, key, { dialog });
+      return request.system.roll(figureOf(figure.actor.uuid), { dialog, actor: figure.actor });
+    });
   }
 
   /**
