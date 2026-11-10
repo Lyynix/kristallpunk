@@ -197,6 +197,7 @@
       "Warning": {
         "NotOwner": "Du darfst für diese Figur keine Proben würfeln.",
         "Unconscious": "Die Figur ist bewusstlos und kann keine Probe ablegen.",
+        "NotEnoughStamina": "Die Ausdauer reicht für diese Probe nicht.",
         "CannotApply": "Du darfst die Ausdauer dieser Figur nicht ändern.",
         "ActorMissing": "Die Figur dieser Probe gibt es nicht mehr.",
         "PresetGMOnly": "Nur die SL darf Würfel vorgeben. Es wird normal gewürfelt."
