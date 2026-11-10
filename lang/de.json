@@ -329,27 +329,33 @@
         "attributes": {
           "strength": {
             "value": { "label": "KRISTALLPUNK.Attribute.Strength" },
-            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" },
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "dexterity": {
             "value": { "label": "KRISTALLPUNK.Attribute.Dexterity" },
-            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" },
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "senses": {
             "value": { "label": "KRISTALLPUNK.Attribute.Senses" },
-            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" },
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "will": {
             "value": { "label": "KRISTALLPUNK.Attribute.Will" },
-            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" },
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "intelligence": {
             "value": { "label": "KRISTALLPUNK.Attribute.Intelligence" },
-            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" },
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           },
           "empathy": {
             "value": { "label": "KRISTALLPUNK.Attribute.Empathy" },
-            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" }
+            "exception": { "label": "KRISTALLPUNK.Exception.Label", "hint": "KRISTALLPUNK.Exception.Hint" },
+            "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
           }
         },
         "skills": {

@@ -126,7 +126,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     const fields = system.schema.fields;
     const { domains, attributes, derived } = CONFIG.KRISTALLPUNK;
     const attributeName = key => game.i18n.localize(attributes[key].label);
-    const attributeTerm = key => term(attributeName(key), system.attributes[key].value);
+    const attributeTerm = key => term(attributeName(key), system.attributes[key].total);
     // Formulas use the abbreviations (as on the official sheet) so they fit on one line
     const attributeAbbr = key => game.i18n.localize(attributes[key].abbreviation);
     const staminaMaxLabel = domain => game.i18n.format("KRISTALLPUNK.Sheet.MaxOf", {
@@ -206,7 +206,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
           const data = this.actor.system.skills[key];
           const terms = [
             term(game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), data.value),
-            term(game.i18n.localize(attributes[config.attribute].label), this.actor.system.attributes[config.attribute].value)
+            term(game.i18n.localize(attributes[config.attribute].label), this.actor.system.attributes[config.attribute].total)
           ];
           return {
             key,

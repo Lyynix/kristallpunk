@@ -99,7 +99,8 @@ export const KRISTALLPUNK = {
     /**
      * Value limits for human figures.
      * Attributes are capped at `max`; with the creation exception set they may reach `exceptionMax`
-     * (Kurzregeln 1.0, p. 23). Which cases qualify for the exception is still open (issue #17).
+     * (Kurzregeln 1.0, p. 23). The exception comes from the Metier and the age at creation;
+     * `exceptionMax` is a hard cap, which also gives the highest stamina of 21 (#17).
      * Skills are capped at 9 (Erschaffung 1.0, p. 12).
      * Up to three wounds per domain (Kurzregeln 1.0, p. 20); conviction ranges from -3 to +3 (p. 9).
      * Armor and ward range from 1 to 3, 0 meaning none (p. 7 and 20–21); higher values only come
