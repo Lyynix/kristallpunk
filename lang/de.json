@@ -482,7 +482,8 @@
       "Sheet": "Item-Bogen",
       "Tab": {
         "description": "Beschreibung",
-        "details": "Details"
+        "details": "Details",
+        "effects": "Effekte"
       },
       "Automation": {
         "Label": "Automatisierung",

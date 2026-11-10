@@ -1,4 +1,5 @@
 import { AUTOMATION_LEVELS } from "../data/item/base.mjs";
+import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ItemSheetV2 } = foundry.applications.sheets;
@@ -6,15 +7,17 @@ const { ItemSheetV2 } = foundry.applications.sheets;
 const TEMPLATES = "systems/kristallpunk/templates/item";
 
 /**
- * Sheet of all item types (#45). Header with image, name and automation; tabs for the description
- * and the details of the item type. Each item type brings its details as `templates/item/details/<type>.hbs`.
+ * Sheet of all item types (#45). Header with image, name and automation; tabs for the description,
+ * the details of the item type and its effects. Each item type brings its details as
+ * `templates/item/details/<type>.hbs`.
  */
 export default class KristallpunkItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["kristallpunk", "item"],
     position: { width: 520, height: 480 },
     window: { resizable: true },
-    form: { submitOnChange: true }
+    form: { submitOnChange: true },
+    actions: { ...EFFECT_ACTIONS }
   };
 
   static PARTS = {
@@ -22,12 +25,13 @@ export default class KristallpunkItemSheet extends HandlebarsApplicationMixin(It
     tabs: { template: "templates/generic/tab-navigation.hbs" },
     description: { template: `${TEMPLATES}/description.hbs`, scrollable: [""] },
     // Template set per item type, see _configureRenderParts
-    details: { template: "", scrollable: [""] }
+    details: { template: "", scrollable: [""] },
+    effects: { template: `${TEMPLATES}/effects.hbs`, scrollable: [""] }
   };
 
   static TABS = {
     primary: {
-      tabs: [{ id: "description" }, { id: "details" }],
+      tabs: [{ id: "description" }, { id: "details" }, { id: "effects" }],
       initial: "description",
       labelPrefix: "KRISTALLPUNK.Item.Tab"
     }
@@ -59,6 +63,7 @@ export default class KristallpunkItemSheet extends HandlebarsApplicationMixin(It
         // Fully automated items need no note
         showNote: system.automation.level !== "full"
       } : null,
+      effectGroups: prepareEffectGroups(this.item),
       enrichedDescription: await TextEditor.implementation.enrichHTML(system.description, {
         relativeTo: this.item, secrets: this.item.isOwner
       })
