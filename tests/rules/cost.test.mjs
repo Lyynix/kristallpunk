@@ -127,8 +127,10 @@ describe("stamina cost: straining", () => {
     assert.deepEqual(cost({ stamina: { body: 0, mind: 8 }, fear: 1 }).payments, [{ domain: "mind", amount: 3 }]);
   });
 
-  it("is not doubled from age 66 (#17)", () => {
-    assert.deepEqual(cost({ stamina: { body: 0, mind: 8 }, ageGroup: "elder" }).payments, [{ domain: "mind", amount: 2 }]);
+  it("costs 1 more from age 66, like any action (Erschaffung 1.0, p. 32; #17)", () => {
+    const result = cost({ stamina: { body: 0, mind: 8 }, ageGroup: "elder", wounds: { body: 1, mind: 0 } });
+    assert.deepEqual(result.payments, [{ domain: "mind", amount: 4 }]);
+    assert.deepEqual(result.parts, [{ key: "strain", value: 2 }, { key: "age", value: 1 }, { key: "wounds", value: 1 }]);
   });
 
   it("lists strain instead of the base cost", () => {
@@ -167,23 +169,63 @@ describe("stamina cost: not enough stamina", () => {
   });
 });
 
-describe("stamina cost: checks that leave the figure unconscious (#17, provisional)", () => {
-  it("straining with too little left still works and drains the other stamina", () => {
-    const result = cost({ stamina: { body: 0, mind: 1 } });
-    assert.equal(result.possible, true);
-    assert.deepEqual(result.payments, [{ domain: "mind", amount: 1 }]);
-    assert.equal(result.unconsciousAfter, true);
+describe("stamina cost: checks the stamina cannot pay for (#17)", () => {
+  const impossible = result => {
+    assert.equal(result.possible, false);
+    assert.equal(result.reason, "insufficient");
+    assert.deepEqual(result.payments, []);
+    assert.equal(result.unconsciousAfter, false);
+  };
+
+  it("straining is not possible if the other stamina cannot pay it all", () => {
+    impossible(cost({ stamina: { body: 0, mind: 1 } }));
   });
 
-  it("paying the last point with the other stamina already at 0 leaves the figure unconscious", () => {
+  it("is not possible if the other stamina cannot pay the full original cost", () => {
+    impossible(cost({ stamina: { body: 1, mind: 2 }, wounds: { body: 3, mind: 0 } }));
+    impossible(cost({ stamina: { body: 2, mind: 3 }, wounds: { body: 3, mind: 0 } }));
+  });
+
+  it("is not possible if the other stamina cannot pay what the option asks for", () => {
+    impossible(cost({ stamina: { body: 2, mind: 1 }, wounds: { body: 3, mind: 0 }, options: { shortfall: "rest" } }));
+    impossible(cost({ stamina: { body: 2, mind: 4 }, wounds: { body: 3, mind: 0 }, options: { shortfall: "strain" } }));
+  });
+
+  it("still lists the parts of the cost, for the warning", () => {
+    const result = cost({ stamina: { body: 0, mind: 1 } });
+    assert.deepEqual(result.parts, [{ key: "strain", value: 2 }]);
+  });
+
+  it("is not possible while unconscious, with its own reason", () => {
+    const result = cost({ stamina: { body: 0, mind: 0 } });
+    assert.equal(result.possible, false);
+    assert.equal(result.reason, "unconscious");
+  });
+
+  it("has no reason when possible", () => {
+    assert.equal(cost().reason, null);
+    assert.equal(cost({ domain: null }).reason, null);
+  });
+});
+
+describe("stamina cost: checks that leave the figure unconscious (#17)", () => {
+  it("paying the last point with the other stamina already at 0", () => {
     const result = cost({ stamina: { body: 1, mind: 0 } });
+    assert.equal(result.possible, true);
     assert.deepEqual(result.payments, [{ domain: "body", amount: 1 }]);
     assert.equal(result.unconsciousAfter, true);
   });
 
-  it("not enough in both drains both", () => {
-    const result = cost({ stamina: { body: 1, mind: 2 }, wounds: { body: 3, mind: 0 } });
-    assert.deepEqual(result.payments, [{ domain: "body", amount: 1 }, { domain: "mind", amount: 2 }]);
+  it("straining with exactly enough left", () => {
+    const result = cost({ stamina: { body: 0, mind: 2 } });
+    assert.equal(result.possible, true);
+    assert.deepEqual(result.payments, [{ domain: "mind", amount: 2 }]);
+    assert.equal(result.unconsciousAfter, true);
+  });
+
+  it("not enough in the own stamina, and exactly enough in the other one", () => {
+    const result = cost({ stamina: { body: 2, mind: 4 }, wounds: { body: 3, mind: 0 } });
+    assert.deepEqual(result.payments, [{ domain: "body", amount: 2 }, { domain: "mind", amount: 4 }]);
     assert.equal(result.unconsciousAfter, true);
   });
 

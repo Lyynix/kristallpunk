@@ -66,13 +66,16 @@ export async function rollCheck(actor, key, options = {}) {
     wounds: { ...system.wounds },
     ageGroup: system.ageGroup
   });
-  if ( !cost.possible ) {
-    ui.notifications.warn("KRISTALLPUNK.Check.Warning.Unconscious", { localize: true });
+  // An unconscious figure cannot act at all. A check the stamina cannot pay for is only stopped while the
+  // cost is calculated automatically; otherwise the cost is up to the table (#17).
+  const autoCost = game.settings.get(SYSTEM_ID, "autoCost");
+  if ( !cost.possible && (autoCost || (cost.reason === "unconscious")) ) {
+    const warning = cost.reason === "unconscious" ? "Unconscious" : "NotEnoughStamina";
+    ui.notifications.warn(`KRISTALLPUNK.Check.Warning.${warning}`, { localize: true });
     return null;
   }
 
   // Payments to make: given, computed, or none if the cost is not calculated automatically
-  const autoCost = game.settings.get(SYSTEM_ID, "autoCost");
   let payments = options.cost ?? (autoCost ? cost.payments : []);
 
   let askPreset = false;

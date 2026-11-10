@@ -38,14 +38,15 @@ const DOMAINS = ["body", "mind"];
 
 /**
  * Stamina cost of a check.
- * - A skill check costs 1 of its domain's stamina (2 from age 66), plus 1 per wound of that domain
- *   (up to +3) and the fear level.
+ * - A skill check costs 1 of its domain's stamina, plus 1 per wound of that domain (up to +3) and the
+ *   fear level. From age 66 every action costs 1 more, straining too (Erschaffung 1.0, p. 32; #17).
  * - Checks on derived values cost nothing.
  * - If the own stamina is at 0, the figure strains: the other stamina pays 2 plus surcharges.
  * - If the own stamina does not cover the cost, see the `shortfall` option.
- * - With both stamina at 0 the figure is unconscious and cannot act at all. A check that empties
- *   both still happens, but leaves the figure unconscious (provisional, see #17).
- * Payments never exceed the available stamina.
+ * - With both stamina at 0 the figure is unconscious and cannot act at all (reason "unconscious").
+ * - A check the stamina cannot pay for in full is not possible (reason "insufficient"); one that uses up
+ *   the last stamina still happens, but leaves the figure unconscious (#17).
+ * `parts` is filled even if the check is not possible, so the caller can tell what it would cost.
  * @param {object} data
  * @param {string|null} data.domain                  "body" or "mind" for a skill; null for a derived value.
  * @param {{body: number, mind: number}} data.stamina Current stamina.
@@ -53,9 +54,9 @@ const DOMAINS = ["body", "mind"];
  * @param {number} [data.fear=0]                     Fear level, 0 to 3.
  * @param {string} [data.ageGroup="adult"]           Age group key (rules/age.mjs).
  * @param {object} [data.options]                    Interpretations, see OPTIONS; defaults are the first values.
- * @returns {{possible: boolean, payments: {domain: string, amount: number}[], parts: {key: string, value: number}[],
- *   strained: boolean, unconsciousAfter: boolean}}
- *   `parts` lists what the cost is made of (base, age, strain, wounds, fear) for display.
+ * @returns {{possible: boolean, reason: "unconscious"|"insufficient"|null, payments: {domain: string, amount: number}[],
+ *   parts: {key: string, value: number}[], strained: boolean, unconsciousAfter: boolean}}
+ *   `parts` lists what the cost is made of (base, strain, age, wounds, fear) for display.
  */
 export function stamina({ domain, stamina: current, wounds, fear = 0, ageGroup = "adult", options = {} }) {
   validate({ domain, current, wounds, fear, ageGroup, options });
@@ -63,49 +64,48 @@ export function stamina({ domain, stamina: current, wounds, fear = 0, ageGroup =
   const none = { payments: [], parts: [], strained: false, unconsciousAfter: false };
 
   // Unconscious: no action at all. Derived values cost nothing.
-  if ( (current.body === 0) && (current.mind === 0) ) return { possible: false, ...none };
-  if ( domain === null ) return { possible: true, ...none };
+  if ( (current.body === 0) && (current.mind === 0) ) return { possible: false, reason: "unconscious", ...none };
+  if ( domain === null ) return { possible: true, reason: null, ...none };
 
   const other = domain === "body" ? "mind" : "body";
+  const ageParts = ageGroup === "elder" ? [{ key: "age", value: ELDER_SURCHARGE }] : [];
 
-  const normalParts = [{ key: "base", value: BASE_COST }];
-  if ( ageGroup === "elder" ) normalParts.push({ key: "age", value: ELDER_SURCHARGE });
-  normalParts.push(...surchargeParts(wounds[domain], fear, opts.surcharges));
+  const normalParts = [{ key: "base", value: BASE_COST }, ...ageParts, ...surchargeParts(wounds[domain], fear, opts.surcharges)];
   const normalCost = sum(normalParts);
 
   const strainWounds = wounds[opts.strainWounds === "check" ? domain : other];
-  const strainParts = [{ key: "strain", value: STRAIN_COST }, ...surchargeParts(strainWounds, fear, opts.surcharges)];
+  const strainParts = [{ key: "strain", value: STRAIN_COST }, ...ageParts,
+    ...surchargeParts(strainWounds, fear, opts.surcharges)];
   const strainCost = sum(strainParts);
 
-  const left = { ...current };
-  const payments = [];
-  const pay = (payer, amount) => {
-    const paid = Math.min(amount, left[payer]);
-    if ( paid > 0 ) payments.push({ domain: payer, amount: paid });
-    left[payer] -= paid;
-  };
-
+  // What each stamina has to pay
+  let due;
   let parts;
   let strained;
   if ( current[domain] === 0 ) {
-    pay(other, strainCost);
+    due = { [other]: strainCost };
     parts = strainParts;
     strained = true;
   }
   else if ( current[domain] >= normalCost ) {
-    pay(domain, normalCost);
+    due = { [domain]: normalCost };
     parts = normalParts;
     strained = false;
   }
   else {
     const rest = normalCost - current[domain];
-    pay(domain, current[domain]);
-    pay(other, { full: normalCost, rest, strain: strainCost }[opts.shortfall]);
+    due = { [domain]: current[domain], [other]: { full: normalCost, rest, strain: strainCost }[opts.shortfall] };
     parts = normalParts;
     strained = true;
   }
 
-  return { possible: true, payments, parts, strained, unconsciousAfter: (left.body === 0) && (left.mind === 0) };
+  if ( Object.entries(due).some(([payer, amount]) => amount > current[payer]) ) {
+    return { possible: false, reason: "insufficient", ...none, parts, strained };
+  }
+  const payments = Object.entries(due).map(([payer, amount]) => ({ domain: payer, amount }));
+  const left = { ...current };
+  for ( const { domain: payer, amount } of payments ) left[payer] -= amount;
+  return { possible: true, reason: null, payments, parts, strained, unconsciousAfter: (left.body === 0) && (left.mind === 0) };
 }
 
 /**
