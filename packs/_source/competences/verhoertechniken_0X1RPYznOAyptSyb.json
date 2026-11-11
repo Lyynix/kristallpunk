@@ -1,0 +1,21 @@
+{
+  "_id": "0X1RPYznOAyptSyb",
+  "name": "Verhörtechniken",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast verschiedene Verhörtechniken gelernt, um Informationen aus jemandem herauszubekommen, vielleicht sogar ohne dass dieser bemerkt, was er gerade verraten hat, Verhörtechniken können nicht gleichzeitig mit bedrohen oder einschüchtern verwendet werden. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "authority",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6400,
+  "flags": {},
+  "_key": "!items!0X1RPYznOAyptSyb"
+}

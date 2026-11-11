@@ -1,0 +1,21 @@
+{
+  "_id": "bpeK35QYMF3X4w1h",
+  "name": "Nahkampfstil, Boxkampf",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast einen Teil deiner Vergangenheit in den Pits und Arenen der schlechten Viertel verbracht, ob am Hafen oder bei den Minen, geprellte Rippen, blaue Augen und gebrochene Nasen gehörten zu deinem Alltag. Aber dein Punch hat immer gesessen und du hast so manchen auf die Bretter geschickt. Dies gilt nur bei waffenlosem Kampf oder mit Schlagring bewaffnet, du hast einen mächtigen rechten oder linken Haken, dein Basisschaden (unbewaffnet oder mit Schlagring) ist um +1 erhöht. Verursachst du mit einem 3er-Pasch eine Leibwunde, kannst du dich stattdessen entscheiden, denjenigen für W6+ Basisschaden in Runden bewusstlos geschlagen zu haben und du darfst, wie immer, 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Basisschaden +1, Bewusstlosigkeit statt Leibwunde"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4900,
+  "flags": {},
+  "_key": "!items!bpeK35QYMF3X4w1h"
+}

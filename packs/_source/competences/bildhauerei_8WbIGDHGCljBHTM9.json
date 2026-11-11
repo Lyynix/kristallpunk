@@ -1,0 +1,21 @@
+{
+  "_id": "8WbIGDHGCljBHTM9",
+  "name": "Bildhauerei",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr bewandert in der Kunst der Bildhauerei und kennst dich mit den Stilepochen und entsprechenden Künstlern ebenso aus, wie du selber handwerklich in der Lage bist kunstvoll Gegenstände aus Ton, Stein, Holz oder ähnlichen Materialien herzustellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen. Wenn du ein galvanistischer Bildhauer bist, kannst du diese Kompetenz auch für Prismenresonanz einsetzen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Einsatz für Prismenresonanz"
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7400,
+  "flags": {},
+  "_key": "!items!8WbIGDHGCljBHTM9"
+}

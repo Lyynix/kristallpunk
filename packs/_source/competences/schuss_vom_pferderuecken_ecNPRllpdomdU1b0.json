@@ -1,0 +1,21 @@
+{
+  "_id": "ecNPRllpdomdU1b0",
+  "name": "Schuß vom Pferderücken",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist trainiert darin vom beweglichen Rücken eines Pferdes eine Schusswaffe abzufeuern und hast deshalb keinen Malus vom Pferderücken aus zu feuern (siehe „Bonusse und Malusse“) und du darfst alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Kein Malus vom Pferderücken"
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2200,
+  "flags": {},
+  "_key": "!items!ecNPRllpdomdU1b0"
+}

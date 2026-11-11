@@ -1,0 +1,21 @@
+{
+  "_id": "qEYxe1AvctYdrdK5",
+  "name": "Wildtierkunde",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich mit Pflege, Aufzucht und Haltung von Wildtieren aus und kennst ihre Gewohnheiten, Vorlieben und Schwächen, bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2800,
+  "flags": {},
+  "_key": "!items!qEYxe1AvctYdrdK5"
+}

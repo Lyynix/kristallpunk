@@ -1,0 +1,21 @@
+{
+  "_id": "Ki7Y37yf98ewJbla",
+  "name": "Ladedrill",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Wenn du eine Schwarzpulverwaffe nachlädst benötigst du eine Runde weniger als bei der Waffe angegeben ist, jedoch immer mindestens eine Runde. Für diese Kompetenz ist keine Probe erforderlich.</p>",
+    "automation": {
+      "level": "none",
+      "note": "Nachladen eine Runde schneller, ohne Probe"
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1900,
+  "flags": {},
+  "_key": "!items!Ki7Y37yf98ewJbla"
+}

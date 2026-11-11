@@ -1,0 +1,21 @@
+{
+  "_id": "yTcGsFAcMPQg2opl",
+  "name": "Schreckhaft",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Deine Sinne sind so angespannt, wenn du auf Wache stehst oder in ähnlichen Situationen, dass du beim kleinsten Geräusch oder der kleinsten Bewegung im Augenwinkel zusammenzuckst. Wenn du überrascht werden sollst, darfst du eine Aufmerksamkeitsprobe durchführen und alle 1er einmal wiederholen. Bei Erfolg kannst du nicht überrascht werden und hast +1 auf deine Initiative-Probe(n) für diese Szene. Diese Kompetenz kann mit Wachtposten kombiniert werden.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Nicht überrascht werden, +1 auf Initiative"
+    },
+    "skill": "awareness",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 600,
+  "flags": {},
+  "_key": "!items!yTcGsFAcMPQg2opl"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "DNv7GNkcklhrH31h",
+  "name": "Buchführung und Verwaltung",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich sehr gut in Buchführung und Verwaltung aus und kennst die Kniffe der Betrüger. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6700,
+  "flags": {},
+  "_key": "!items!DNv7GNkcklhrH31h"
+}

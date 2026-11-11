@@ -1,0 +1,21 @@
+{
+  "_id": "bFuHwNqiHvOLiqoG",
+  "name": "Fechtstil, japanisch",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du wurdest trainiert in der Tradition der Samurai und bist sehr geschickt im Kampf mit zweihändig geführten Schwertern, vor allem dem japanischen Katana. Diese Waffen sind in Europa jedoch kaum zu finden und wenn du sie nicht von deinem Lehrmeister aus Japan mitgebracht hast, dann musst du ein europäisches Äquivalent finden oder anfertigen lassen. Du benötigst eine 1-1/2 oder zweihändige Waffe und kannst mit diesem Fechtstil keinen Schild oder Linkehand-Waffe führen. Du bist so geübt darin, die Schwachstellen des Gegners auszunutzen, dass alle deine Gegner einen Malus von 1 auf ihre Ausweichen- oder Verteidigen-Probe erhalten. Du darfst 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Malus 1 auf Ausweichen und Verteidigen der Gegner"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4800,
+  "flags": {},
+  "_key": "!items!bFuHwNqiHvOLiqoG"
+}

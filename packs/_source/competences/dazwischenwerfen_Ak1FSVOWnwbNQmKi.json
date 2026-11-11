@@ -1,0 +1,21 @@
+{
+  "_id": "Ak1FSVOWnwbNQmKi",
+  "name": "Dazwischenwerfen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist immer sehr auf eine bestimmte Person konzentriert und lässt sie nicht aus den Augen, wenn es gefährlich wird. Bei einer erfolgreichen Aufmerksamkeitsprobe kannst du dich zwischen eine Person und ihren Angreifer stellen und an ihrer Stelle den Angriff, als wäre er gegen dich gegangen, abwehren. Du darfst alle 1er einmal wiederholen. Die Person muss direkt bei dir sein. Diese Kompetenz kannst du außerhalb deiner Zugreihenfolge machen. Wenn Dazwischenwerfen gelingt, übernimmst du für diese Runde die Aktion deiner dir anvertrauten Person.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Angriff an Stelle der Person abwehren, außerhalb der Reihenfolge handeln"
+    },
+    "skill": "awareness",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 500,
+  "flags": {},
+  "_key": "!items!Ak1FSVOWnwbNQmKi"
+}

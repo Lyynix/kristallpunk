@@ -1,0 +1,21 @@
+{
+  "_id": "pcdA0ijMJDuNPRRd",
+  "name": "Straßenkampf",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kommst aus der Stadt und dein Kampfstil ist nicht fein, sondern dreckig und du bist sehr geübt darin improvisierte einhändige Waffen zu verwenden, du hast mit solchen Waffen einen Bonus von +1 bei Angriff und Verteidigung und du darfst alle 1er einmal wiederholen. Du hast einen körperlichen Basisschaden von +1, wenn du waffenlos kämpfst. Ein Mensch hat somit 2 anstelle von 1.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "+1 mit improvisierten Waffen, Basisschaden +1 waffenlos"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4300,
+  "flags": {},
+  "_key": "!items!pcdA0ijMJDuNPRRd"
+}

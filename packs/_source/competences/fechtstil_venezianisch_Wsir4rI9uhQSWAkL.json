@@ -1,0 +1,21 @@
+{
+  "_id": "Wsir4rI9uhQSWAkL",
+  "name": "Fechtstil, venezianisch",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Die venezianischen Fechtmeister der Renaissance haben maßgeblich das Fechten in Europa beeinflusst. Er wird vor allem in Italien und Frankreich bevorzugt. Die Kompetenz gilt im Kampf mit Degen, Rapier. Du darfst alle 1er einmal wiederholen und du darfst einmal pro Runde verteidigen, ohne Status zu bezahlen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Einmal pro Runde verteidigen ohne Ausdauerkosten"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4600,
+  "flags": {},
+  "_key": "!items!Wsir4rI9uhQSWAkL"
+}

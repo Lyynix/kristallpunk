@@ -1,0 +1,21 @@
+{
+  "_id": "LA0vdwxHMxd7K3Pb",
+  "name": "Überwachen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kannst deine Fertigkeit Aufmerksamkeit dazu benutzen, jemanden ungesehen zu verfolgen und du darfst alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "awareness",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 800,
+  "flags": {},
+  "_key": "!items!LA0vdwxHMxd7K3Pb"
+}

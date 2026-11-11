@@ -1,0 +1,21 @@
+{
+  "_id": "QPB8017eipR0hbmv",
+  "name": "Darstellung",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr gut darin, eine Rolle zu spielen, Text, Stimme und Körpersprache passen zusammen. Zusätzlich kennst du dich besonders gut mit Theaterstücken, sowie Autoren und Regisseuren verschiedener Epochen aus und kannst vieles auswendig. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "acting",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10000,
+  "flags": {},
+  "_key": "!items!QPB8017eipR0hbmv"
+}

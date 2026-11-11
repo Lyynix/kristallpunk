@@ -1,0 +1,21 @@
+{
+  "_id": "Yny1T9beuKrFdZho",
+  "name": "Gesetz",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich aus in den Gesetzen deines Landes und bist vielleicht sogar Anwalt. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7100,
+  "flags": {},
+  "_key": "!items!Yny1T9beuKrFdZho"
+}

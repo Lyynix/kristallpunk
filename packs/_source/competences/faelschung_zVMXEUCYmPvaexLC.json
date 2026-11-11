@@ -1,0 +1,21 @@
+{
+  "_id": "zVMXEUCYmPvaexLC",
+  "name": "Fälschung",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist eine begabte Fälscher*in und in der Lage täuschend echte Kopien von Gegenständen oder Dokumenten herzustellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7500,
+  "flags": {},
+  "_key": "!items!zVMXEUCYmPvaexLC"
+}

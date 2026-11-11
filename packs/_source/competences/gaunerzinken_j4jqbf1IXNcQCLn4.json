@@ -1,0 +1,21 @@
+{
+  "_id": "j4jqbf1IXNcQCLn4",
+  "name": "Gaunerzinken",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst die Zeichen und du weißt, wo sie gerne angebracht werden. Diebe und Einbrecher verwenden gerne kleine, für den Unbedarften unsichtbare Zeichen um lohnenswerte, aber auch gefährliche Orte zu kennzeichnen. Wenn du mit dieser Kompetenz nach Gaunerzinken suchst, darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3300,
+  "flags": {},
+  "_key": "!items!j4jqbf1IXNcQCLn4"
+}

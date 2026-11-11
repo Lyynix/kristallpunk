@@ -1,0 +1,21 @@
+{
+  "_id": "C547sWER63JqbQE4",
+  "name": "Wie ein Blatt im Wind",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist so leichtfüßig und hast eine hervorragende Körperbeherrschung. Die Anzahl der Erfolge dieser Probe werden zusätzlich wie Rüstung gezählt. Allerdings kannst du wie ein Blatt im Wind nicht anwenden, wenn du Rüstung trägst. Du darfst bei Ausweichen-Proben im Fernkampf und im Nahkampf alle 1er einmal wiederholen und Erfolge zählen beim Ungerüsteten wie Rüstung.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Erfolge zählen ohne Rüstung wie Rüstung"
+    },
+    "skill": "dodge",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1400,
+  "flags": {},
+  "_key": "!items!C547sWER63JqbQE4"
+}

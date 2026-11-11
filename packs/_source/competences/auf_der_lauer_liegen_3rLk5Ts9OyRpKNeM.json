@@ -1,0 +1,21 @@
+{
+  "_id": "3rLk5Ts9OyRpKNeM",
+  "name": "Auf der Lauer liegen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du darfst deinen Fertigkeitswert Heimlichkeit für Aufmerksamkeit-Proben verwenden, wenn du auf der Lauer liegst. Bei einem Erfolg hast du in jedem Fall den Überraschungseffekt (= eine freie Aktion bevor die Initiative gewürfelt wird) gegenüber deinem Gegner. Für diese spezielle Heimlichkeit-Probe darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Heimlichkeit statt Aufmerksamkeit, Überraschungseffekt"
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3100,
+  "flags": {},
+  "_key": "!items!3rLk5Ts9OyRpKNeM"
+}

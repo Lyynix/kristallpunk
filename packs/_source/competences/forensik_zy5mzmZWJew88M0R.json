@@ -1,0 +1,21 @@
+{
+  "_id": "zy5mzmZWJew88M0R",
+  "name": "Forensik",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist ein Spezialist darin, Todesursachen gewaltsam Verstorbener festzustellen und Leichen dahingehend zu untersuchen. Dies ist eine sehr junge Disziplin und wird noch von vielen Kollegen belächelt. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "medicine",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 8300,
+  "flags": {},
+  "_key": "!items!zy5mzmZWJew88M0R"
+}

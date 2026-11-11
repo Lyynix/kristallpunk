@@ -1,0 +1,21 @@
+{
+  "_id": "e9iKvPeEykelcIxO",
+  "name": "Antike Sprachen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du beherrschst Latein und Altgriechisch leidlich in Wort und Schrift. Für einfache Texte musst du nicht würfeln. Du kannst dies auch mehrfach lernen für einzelne weitere antike Sprachen, wie Babylonisch, Ägyptisch, und so weiter. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6500,
+  "flags": {},
+  "_key": "!items!e9iKvPeEykelcIxO"
+}

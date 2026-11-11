@@ -1,0 +1,21 @@
+{
+  "_id": "c5Xe3EMmkxHRAt3b",
+  "name": "Tanzen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast Tanzen gelernt und kennst verschiedene Paar- oder Gruppentänze. Du weißt um die geforderten Bewegungsabläufe und bist sehr gut darin. Bei einer Probe hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "dodge",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1300,
+  "flags": {},
+  "_key": "!items!c5Xe3EMmkxHRAt3b"
+}

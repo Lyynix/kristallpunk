@@ -1,0 +1,21 @@
+{
+  "_id": "9GielX0A5bCyBQt2",
+  "name": "Nahkampfstil, asiatisches Kung Fu",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Im Gegensatz zu vielen anderen Stilen geht es hier mehr um eine defensive Haltung und die Vermeidung von eigenem Schaden. Dieser Kampfstil gilt für alle Waffenarten und auch für waffenlosen Kampf, allerdings musst du vollkommen ungerüstet sein - die Kämpfer*in ist so behände in ihren Verteidigungs- und Ausweichbewegungen, dass sie einen Bonus von +1 bei allen körperlichen Verteidigungs-Proben und Ausweichen-Proben erhält und du darfst bei solchen Aktionen alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "+1 auf Verteidigung und Ausweichen ohne Rüstung"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5100,
+  "flags": {},
+  "_key": "!items!9GielX0A5bCyBQt2"
+}

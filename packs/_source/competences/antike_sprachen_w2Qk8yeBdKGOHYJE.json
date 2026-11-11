@@ -1,0 +1,21 @@
+{
+  "_id": "w2Qk8yeBdKGOHYJE",
+  "name": "Antike Sprachen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du beherrschst die klassischen in der Wissenschaft verwendeten antiken Sprachen deiner Wahl in Wort und Schrift und kennst dich sehr gut in der Literatur und der aktuellen Forschung der entsprechenden Zeit aus (Latein und Altgriechisch). Diese Kompetenz gibt es auch bei Bildung, hat hier aber den wissenschaftlichen Schwerpunkt. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "science",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10400,
+  "flags": {},
+  "_key": "!items!w2Qk8yeBdKGOHYJE"
+}

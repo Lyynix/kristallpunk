@@ -1,0 +1,21 @@
+{
+  "_id": "DDF4zkdQwNFCahoF",
+  "name": "Lieblingswaffe",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Dies ist deine Lieblingswaffe, sie liegt dir wie angewachsen in der Hand und du kennst jede Scharte, jede Niete, jeden Verzug und jede Eigenart von ihr. Du darfst bei Nahkampfproben mit dieser Waffe alle 1er einmal wiederholen. Wähle eine bestimmte Waffe, für die dies gilt.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4200,
+  "flags": {},
+  "_key": "!items!DDF4zkdQwNFCahoF"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "N0vhZMhw2Qs66tfg",
+  "name": "Verbergen&verstecken",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Eins werden mit den Schatten, das liegt dir, nicht gesehen werden, wenn dein Nachbar entdeckt wird. Wenn du dich verstecken oder verbergen willst, darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3900,
+  "flags": {},
+  "_key": "!items!N0vhZMhw2Qs66tfg"
+}

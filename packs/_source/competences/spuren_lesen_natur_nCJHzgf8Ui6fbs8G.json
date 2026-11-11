@@ -1,0 +1,21 @@
+{
+  "_id": "nCJHzgf8Ui6fbs8G",
+  "name": "Spuren lesen Natur",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist in der Lage Fährten zu folgen, die Mensch und Tier in der Landschaft hinterlassen. Du kannst die Kompetenz nutzen um Informationen über eine Spur im Boden zu erfahren oder ihr folgen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5500,
+  "flags": {},
+  "_key": "!items!nCJHzgf8Ui6fbs8G"
+}

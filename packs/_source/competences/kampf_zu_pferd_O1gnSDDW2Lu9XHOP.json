@@ -1,0 +1,21 @@
+{
+  "_id": "O1gnSDDW2Lu9XHOP",
+  "name": "Kampf zu Pferd",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist trainiert darin vom beweglichen Rücken eines Pferdes zu kämpfen und hast deshalb keinen Malus für den Kampf von einem Pferderücken, zusätzlich erhältst du den Bonus für eine erhöhte Position im Nahkampf und du darfst alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Kein Malus vom Pferderücken, Bonus für erhöhte Position"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4000,
+  "flags": {},
+  "_key": "!items!O1gnSDDW2Lu9XHOP"
+}

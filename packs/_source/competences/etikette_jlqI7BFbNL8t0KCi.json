@@ -1,0 +1,21 @@
+{
+  "_id": "jlqI7BFbNL8t0KCi",
+  "name": "Etikette",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du weißt, wie man sich in Gesellschaft benimmt. Mit Etikette kennst du dich in deiner Gesellschaftsschicht aus, weißt aber auch über andere Gesellschaften, was man dort generell tut oder nicht tut. Bei Proben hierzu darfst du alle 1er deiner Probe einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6900,
+  "flags": {},
+  "_key": "!items!jlqI7BFbNL8t0KCi"
+}

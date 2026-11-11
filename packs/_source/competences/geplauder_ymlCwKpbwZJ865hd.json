@@ -1,0 +1,21 @@
+{
+  "_id": "ymlCwKpbwZJ865hd",
+  "name": "Geplauder",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist äußerst geschickt darin, Menschen mit belanglosem Geplauder abzulenken, zu unterhalten, damit sie sich voll und ganz auf dich konzentrieren. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "rhetoric",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9600,
+  "flags": {},
+  "_key": "!items!ymlCwKpbwZJ865hd"
+}

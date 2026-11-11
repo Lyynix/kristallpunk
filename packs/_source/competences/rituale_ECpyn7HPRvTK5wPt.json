@@ -1,0 +1,21 @@
+{
+  "_id": "ECpyn7HPRvTK5wPt",
+  "name": "Rituale",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Rituale benötigen immer eine gewisse Vorbereitungszeit, bestimmte Utensilien müssen beschafft werden, ein Salzkreis oder Pentagramm muss hergestellt werden, Kerzen entzündet usw. Sind alle Vorbereitungen korrekt getroffen erhält der Ritualzauberer einen Bonus von +1. Ist all dies geschehen, müssen sich alle Teilnehmer des Rituals einfinden und an den Händen halten, um eine galvanische Verbindung aufzubauen, oder eben nur du alleine. Nur dein Charakter muss das Ritual beherrschen und du brauchst natürlich einen Kristall. Jede Beteiligte gilt als Helfer. Denkt daran, dass eine einzelne Probe nie einen höheren Bonus als +3 erhalten kann, egal aus welcher Quelle. Beherrschst du diese Kompetenz, dann darfst du alle 1er deiner Probe einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "+1 auf das Ritual, Teilnehmer als Helfer"
+    },
+    "skill": "prismResonance",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9200,
+  "flags": {},
+  "_key": "!items!ECpyn7HPRvTK5wPt"
+}

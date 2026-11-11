@@ -1,0 +1,21 @@
+{
+  "_id": "MbbXEz9KP3e4V7Ip",
+  "name": "Kräutermedizin",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich sehr gut mit naturheilkundlichen Verfahren aus und kannst aus der Apotheke der Natur Medikamente für viele Leiden herstellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "medicine",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 8500,
+  "flags": {},
+  "_key": "!items!MbbXEz9KP3e4V7Ip"
+}

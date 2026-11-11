@@ -1,0 +1,21 @@
+{
+  "_id": "JSCRWMGeCb8XC6Ca",
+  "name": "Fachwissen-Profession",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist nicht nur gut, in dem was du tust, sondern hast über und um dein Fachgebiet herum ein enormes Fachwissen. Du hast ein enormes theoretisches Wissen über deine Profession und darfst bei Proben dazu alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7000,
+  "flags": {},
+  "_key": "!items!JSCRWMGeCb8XC6Ca"
+}

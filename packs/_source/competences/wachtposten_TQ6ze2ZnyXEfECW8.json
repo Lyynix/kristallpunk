@@ -1,0 +1,21 @@
+{
+  "_id": "TQ6ze2ZnyXEfECW8",
+  "name": "Wachtposten",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast schon Nächte durchgemacht und beherrschst bestimmte Techniken wach und aufmerksam zu bleiben. Wenn du Wache stehst, darfst du für Aufmerksamkeitsproben 1er einmal wiederholen. Diese Kompetenz kann mit Schreckhaft kombiniert werden.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "awareness",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 700,
+  "flags": {},
+  "_key": "!items!TQ6ze2ZnyXEfECW8"
+}

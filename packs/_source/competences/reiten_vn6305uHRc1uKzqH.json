@@ -1,0 +1,21 @@
+{
+  "_id": "vn6305uHRc1uKzqH",
+  "name": "Reiten",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist es gewohnt, lange Zeit auf dem Rücken eines Reittieres zu verbringen und bist geübt darin dein Tier selbst durch schwieriges Gelände zu dirigieren. Du darfst 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "athletics",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 200,
+  "flags": {},
+  "_key": "!items!vn6305uHRc1uKzqH"
+}

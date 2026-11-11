@@ -1,0 +1,21 @@
+{
+  "_id": "zKZMW97J45LFK0bd",
+  "name": "Glücksspieler*in",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr begabt in allen gesellschaftlichen Karten und Glücksspielen und kennst alle Regeln. Du liebst all diese Spiele und bist sehr gut darin und durch dein Können in diesem Bereich bist du ein gern gesehener Gast bei gesellschaftlichen Anlässen, Soireen und in Salons und ähnlichen Etablissements. Du kannst einmal pro Runde bei Glücksspiel-Proben beliebig viele Würfel einmal erneut würfeln.</p>",
+    "automation": {
+      "level": "none",
+      "note": "Bei Glücksspiel beliebig viele Würfel einmal neu würfeln"
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7600,
+  "flags": {},
+  "_key": "!items!zKZMW97J45LFK0bd"
+}

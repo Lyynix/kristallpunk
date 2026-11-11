@@ -1,0 +1,21 @@
+{
+  "_id": "fTNEzMDzONXCiSMW",
+  "name": "Achtsamkeit",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast ein großes empathisches Verständnis anderer Menschen und kannst dich gut in sie hineinfühlen. Dies versetzt dich in die Lage zu versuchen mit dieser Kompetenz ihre Motivation zu verstehen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7300,
+  "flags": {},
+  "_key": "!items!fTNEzMDzONXCiSMW"
+}

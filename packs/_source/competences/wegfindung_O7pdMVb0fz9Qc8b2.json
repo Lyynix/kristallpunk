@@ -1,0 +1,21 @@
+{
+  "_id": "O7pdMVb0fz9Qc8b2",
+  "name": "Wegfindung",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du verirrst dich so gut wie nie, du kannst dir sehr gut Landmarken merken und findest immer von einem Ort zurück, wenn du sehen konntest wie du hierher kamst. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5800,
+  "flags": {},
+  "_key": "!items!O7pdMVb0fz9Qc8b2"
+}

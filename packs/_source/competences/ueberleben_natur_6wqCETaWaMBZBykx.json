@@ -1,0 +1,21 @@
+{
+  "_id": "6wqCETaWaMBZBykx",
+  "name": "Überleben-Natur",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du weißt, wie man ohne Vorräte in der Natur überlebt, wo man gute Rastplätze findet, wo man etwas zu essen findet. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5700,
+  "flags": {},
+  "_key": "!items!6wqCETaWaMBZBykx"
+}

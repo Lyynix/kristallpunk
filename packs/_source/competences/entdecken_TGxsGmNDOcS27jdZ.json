@@ -1,0 +1,21 @@
+{
+  "_id": "TGxsGmNDOcS27jdZ",
+  "name": "Entdecken",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Dir fällt es leicht, kleinste Veränderungen festzustellen und kannst damit gut getarnte oder verborgene Dinge oder Lebewesen entdecken. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "awareness",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1000,
+  "flags": {},
+  "_key": "!items!TGxsGmNDOcS27jdZ"
+}

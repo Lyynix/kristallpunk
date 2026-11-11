@@ -1,0 +1,21 @@
+{
+  "_id": "0MCSkCIA0whRfsAQ",
+  "name": "Fachwissen-Dichtung",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist ein begnadeter Lyriker. Es fällt dir unheimlich leicht, schöne Worte in gekonntem Versmaß aneinander zu reihen und kennst dich mit Dichtung und Dichtern vieler Epochen und Verlagen aus. Du kannst deinen Wert für Inspiration anstelle von Redekunst verwenden, wenn es thematisch passt (sprich mit deiner SL). Bei Proben hierzu darfst du alle 1er einmal wiederholen. Wenn du ein galvanischer Dichter bist, kannst du diese Kompetenz auch für Prismenresonanz einsetzen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Inspiration statt Redekunst, Einsatz für Prismenresonanz"
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7900,
+  "flags": {},
+  "_key": "!items!0MCSkCIA0whRfsAQ"
+}

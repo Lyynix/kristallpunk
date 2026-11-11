@@ -1,0 +1,21 @@
+{
+  "_id": "SIHelLRvME1LNfCX",
+  "name": "Bibliotheksstruktur",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du findest dich in Bibliotheken gut zurecht, du kannst die Fertigkeit Bildung anstelle von Aufmerksamkeit verwenden, wenn du etwas in einer Bibliothek suchst. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Bildung statt Aufmerksamkeit"
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6600,
+  "flags": {},
+  "_key": "!items!SIHelLRvME1LNfCX"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "Ds2MMAnMN8q9B3Pm",
+  "name": "Fachwissen-Malerei",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich mit Farben, Malgründen, Papier und Pinseln und ebenso mit Künstlern und Kunstepochen aus. Du weißt viel über aktuelle Künstler und den Kunstbetrieb. Diese Kenntnisse kannst du auch nutzen, um Kristallkonstrukte herzustellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen. Wenn du ein galvanistischer Künstler bist, kannst du diese Kompetenz auch mit Prismenresonanz einsetzen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Einsatz für Prismenresonanz"
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7700,
+  "flags": {},
+  "_key": "!items!Ds2MMAnMN8q9B3Pm"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "OnCTs2Dj9bGxZj6U",
+  "name": "Philosophie&Geschichte",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich mit philosophischem Gedankengut und Theorien aus vielen Epochen und Erdteilen aus. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "science",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10800,
+  "flags": {},
+  "_key": "!items!OnCTs2Dj9bGxZj6U"
+}

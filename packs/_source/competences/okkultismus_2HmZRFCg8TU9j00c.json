@@ -1,0 +1,21 @@
+{
+  "_id": "2HmZRFCg8TU9j00c",
+  "name": "Okkultismus",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du forschst über die übernatürlichen unerklärlichen Zusammenhänge und über das Erscheinen der dunklen Kristalle und ihre Motive, falls sie welche haben. Du hast Einsichten in diesem Gebiet wie kaum jemand anderes. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "science",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10600,
+  "flags": {},
+  "_key": "!items!2HmZRFCg8TU9j00c"
+}

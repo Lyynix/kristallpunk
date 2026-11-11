@@ -1,0 +1,21 @@
+{
+  "_id": "ewjottKQl9XumhDE",
+  "name": "Scharfschütze",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Wenn du mit einem Gewehr schießt, bringt dir zielen +2 und die optimale Reichweite verdoppelt sich. Außerdem darfst du 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Zielen +2, doppelte optimale Reichweite"
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1700,
+  "flags": {},
+  "_key": "!items!ewjottKQl9XumhDE"
+}

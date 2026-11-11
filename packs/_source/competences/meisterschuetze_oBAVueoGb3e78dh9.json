@@ -1,0 +1,21 @@
+{
+  "_id": "oBAVueoGb3e78dh9",
+  "name": "Meisterschütze",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hattest einen Lehrmeister im Kampf mit einem bestimmten Typ Waffe, zum Beispiel Wurfmesser, Bögen, Armbrüsten oder Steinschlosspistole oder Perkussionsgewehr, usw. Gib den Waffentyp an. Kämpfst du mit dieser Art Waffe, darfst du alle 1er einmal wiederholen. Diese Kompetenz kann mehrfach erlernt werden.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2100,
+  "flags": {},
+  "_key": "!items!oBAVueoGb3e78dh9"
+}

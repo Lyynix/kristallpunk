@@ -1,0 +1,21 @@
+{
+  "_id": "FpWfPSQYHp8ect6F",
+  "name": "Standhaftigkeit",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist geübt darin, dich gegen Bedrohungen und Einschüchterungen anderer zu wehren. Du darfst in psychologischen Konflikten deinen Wert für Autorität anstelle deines „Seelenhalt“ verwenden. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Autorität statt Seelenhalt"
+    },
+    "skill": "authority",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6300,
+  "flags": {},
+  "_key": "!items!FpWfPSQYHp8ect6F"
+}

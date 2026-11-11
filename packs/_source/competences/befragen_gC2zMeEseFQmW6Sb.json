@@ -1,0 +1,21 @@
+{
+  "_id": "gC2zMeEseFQmW6Sb",
+  "name": "Befragen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr geschickt darin, andere auszuhorchen. Bei Proben hierzu darfst du 1er einmal wiederholen. Befragen ist ein „Psychologischer Konflikt“, dein Ziel gilt als Verteidiger und kann nach Wahl seine eigene Redekunst verwenden (dies kostet einen Punkt Geist-Ausdauer) oder verwendet seinen Wert für Seelenhalt dafür. Bei Proben hierzu darfst du alle 1er einmal wiederholen. Dies gilt für den Besitzer der Kompetenz sowohl als Angreifender, wie auch als Verteidigender.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Psychologischer Konflikt"
+    },
+    "skill": "rhetoric",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9300,
+  "flags": {},
+  "_key": "!items!gC2zMeEseFQmW6Sb"
+}

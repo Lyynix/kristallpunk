@@ -1,0 +1,21 @@
+{
+  "_id": "UTGpLBnYFizFKtxj",
+  "name": "Navigation",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Mit der Sonne, den Sternen und einem Sextanten und/oder Kompass bist du in der Lage deine genaue Position auf einer Karte zu bestimmen und eine gewünschte Richtung einzuschlagen und zu halten. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5300,
+  "flags": {},
+  "_key": "!items!UTGpLBnYFizFKtxj"
+}

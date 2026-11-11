@@ -1,0 +1,21 @@
+{
+  "_id": "xoxbzvB31nOkmQ2s",
+  "name": "Fachwissen-Musik",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kannst singen und hast umfangreiche Kenntnisse über Musik, Komponisten und Instrumente aus allen Epochen. Du hast ein durchaus großes Repertoire an Stücken, das du spielen kannst und bist so ein gern gesehener Gast in Gesellschaften aller Art. Wähle ein Instrument, welches du dann spielen kannst. Mehrfachwahl für mehr Instrumente ist möglich. Außerdem bist du sehr bewandert in zeitgenössischer Musik und kennst dich mit Komponisten aus. Bei Proben hierzu darfst du alle 1er einmal wiederholen. Wenn du ein galvanistischer Musiker bist, kannst du diese Kompetenz auch für Prismenresonanz einsetzen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Einsatz für Prismenresonanz"
+    },
+    "skill": "inspiration",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7800,
+  "flags": {},
+  "_key": "!items!xoxbzvB31nOkmQ2s"
+}

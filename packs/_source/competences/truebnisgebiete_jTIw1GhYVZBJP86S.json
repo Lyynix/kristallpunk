@@ -1,0 +1,21 @@
+{
+  "_id": "jTIw1GhYVZBJP86S",
+  "name": "Trübnisgebiete",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du weißt, wie man sich in Trübnisgebieten verhalten soll, was für Gefahren es gibt und was man dort essen kann und was nicht. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5600,
+  "flags": {},
+  "_key": "!items!jTIw1GhYVZBJP86S"
+}

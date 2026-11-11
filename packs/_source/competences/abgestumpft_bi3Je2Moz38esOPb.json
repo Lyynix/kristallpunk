@@ -1,0 +1,21 @@
+{
+  "_id": "bi3Je2Moz38esOPb",
+  "name": "abgestumpft",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast so viel Leid, Verletzungen und Krankheit gesehen, dass du beim Anblick entstellter Körper keine Mutproben machen musst, bei anderen Mutproben darfst du 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "none",
+      "note": "Keine Mutproben beim Anblick entstellter Körper, Neuwurf der 1er bei anderen Mutproben"
+    },
+    "skill": "medicine",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 8000,
+  "flags": {},
+  "_key": "!items!bi3Je2Moz38esOPb"
+}

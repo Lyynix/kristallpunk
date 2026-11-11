@@ -1,0 +1,21 @@
+{
+  "_id": "f1EAdacvOw3iLB5G",
+  "name": "Überzeugen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Niemand kann deinen Argumenten widerstehen. Mit ganzem Körpereinsatz und unwiderlegbaren Argumenten bringst du jeden dazu deine Aussagen anzunehmen. Du bist dabei absolut aufrichtig. Bei Proben hierzu darfst du alle 1er einmal wiederholen. Diese Kompetenz kann auch genutzt werden um dem Überzeugen eines anderen zu widerstehen. Dann ist dies ein „Psychologischer Konflikt“, wobei der Überzeugende als Angreifer seine Probe durch deine Würfelerfolge erschwert bekommt.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Psychologischer Konflikt"
+    },
+    "skill": "rhetoric",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9800,
+  "flags": {},
+  "_key": "!items!f1EAdacvOw3iLB5G"
+}

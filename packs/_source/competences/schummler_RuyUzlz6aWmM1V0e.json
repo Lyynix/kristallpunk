@@ -1,0 +1,21 @@
+{
+  "_id": "RuyUzlz6aWmM1V0e",
+  "name": "Schummler",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr begabt bei Glücksspielen und kennst alle Regeln und bist in der Lage Fortuna oft ein wenig nachzuhelfen. Wenn du ein Glücksspiel spielst, dann darfst du pro Erfolg einen Würfel auf die gegenüberliegende Seite drehen und du darfst alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Pro Erfolg einen Würfel umdrehen"
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3700,
+  "flags": {},
+  "_key": "!items!RuyUzlz6aWmM1V0e"
+}

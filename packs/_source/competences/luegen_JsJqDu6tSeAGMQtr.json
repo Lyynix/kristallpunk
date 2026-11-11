@@ -1,0 +1,21 @@
+{
+  "_id": "JsJqDu6tSeAGMQtr",
+  "name": "Lügen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast eine so ehrlich wirkende Art an dir, dass man dir einfach immer glauben muss, selbst wenn du die größten Lügen auftischst. Bei Proben hierzu darfst du alle 1er einmal wiederholen. Diese Kompetenz kann auch genutzt werden um die Lügen eines anderen zu durchschauen. Dann ist dies ein „Psychologischer Konflikt“, wobei der Lügner als Angreifer durch deine Erfolge seine Lügen-Probe erschwert bekommt.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Psychologischer Konflikt"
+    },
+    "skill": "rhetoric",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9700,
+  "flags": {},
+  "_key": "!items!JsJqDu6tSeAGMQtr"
+}

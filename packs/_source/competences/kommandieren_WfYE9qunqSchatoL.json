@@ -1,0 +1,21 @@
+{
+  "_id": "WfYE9qunqSchatoL",
+  "name": "Kommandieren",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Bei Erfolg kannst du einen Befehl an eine befreundete oder untergebene Person geben. Dazu muss dein Ziel in Rufweite sein und dich auch hören können. Im Zweifel muss das Ziel eine Aufmerksamkeitsprobe bestehen, um dich zu hören. Jeder, der deinen Befehl befolgt, kann von dir einen Bonus von +1 bis +3 erhalten, genauso, als ob 1-3 Personen helfen würden. Du kannst maximal so viele Punkte Bonus verteilen, wie du Erfolge hattest. Bei einem kritischen Erfolg erhalten alle deiner Gruppe einen Bonus in Höhe deiner Erfolge. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Bonus an Befehlsempfänger verteilen"
+    },
+    "skill": "authority",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6200,
+  "flags": {},
+  "_key": "!items!WfYE9qunqSchatoL"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "rsTkuJ116z6ix4P0",
+  "name": "Naturphilosophie",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Dies umfasst Astronomie, Physik und Mathematik. Während Astronomie und Physik versuchen die Welt und das Universum zu beschreiben, dient die Mathematik als Sprache dazu. Dies ist seit der Antike so. Du bist sehr gebildet in diesen drei Fachbereichen und kannst sie sehr gut anwenden. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "science",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 11000,
+  "flags": {},
+  "_key": "!items!rsTkuJ116z6ix4P0"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "zOGeyKHVfry5hEup",
+  "name": "Kristallschuß",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Mit dieser Kompetenz löst du den Effekt von Kristallmunition aus, obwohl du kein Zauberer bist. Du machst anderen Schaden (siehe Kristallmunition bei Ausrüstung) und du darfst alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Effekt der Kristallmunition"
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1800,
+  "flags": {},
+  "_key": "!items!zOGeyKHVfry5hEup"
+}

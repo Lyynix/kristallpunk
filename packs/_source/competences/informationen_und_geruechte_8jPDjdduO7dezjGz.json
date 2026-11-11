@@ -1,0 +1,21 @@
+{
+  "_id": "8jPDjdduO7dezjGz",
+  "name": "Informationen und Gerüchte",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Innerhalb deiner Berufsklasse hast du Zugang zu vielen Informationen und Gerüchten. Du hast viel gehört und mit vielen Leuten geredet. Wenn du für Informationen oder Gerüchte eine Probe machen musst, darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3400,
+  "flags": {},
+  "_key": "!items!8jPDjdduO7dezjGz"
+}

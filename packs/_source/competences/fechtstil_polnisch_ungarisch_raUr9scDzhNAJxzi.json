@@ -1,0 +1,21 @@
+{
+  "_id": "raUr9scDzhNAJxzi",
+  "name": "Fechtstil, polnisch/ungarisch",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Über Ungarn und Polen hat sich der Säbel als herausragende Kavalleriewaffe durchgesetzt. Die vergleichsweise einfachere Handhabbarkeit macht ihn aber auch für den Kampf zu Fuß immer interessanter. Auch der Adel, vor allem der polnische, findet zunehmend Gefallen daran. Du wirbelst den Säbel gekonnt durch die Luft und erhältst mit einem Säbel bewaffnet +1 auf deinen gewürfelten Initiativewert (du erhältst also Werte zwischen 2 und 7). Kämpfst du vom Rücken eines Pferdes aus, dann erhöht sich zusätzlich dein Basisschaden um 1.</p>",
+    "automation": {
+      "level": "none",
+      "note": "+1 auf Initiative mit Säbel, Basisschaden +1 zu Pferd"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4700,
+  "flags": {},
+  "_key": "!items!raUr9scDzhNAJxzi"
+}

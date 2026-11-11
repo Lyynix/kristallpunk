@@ -1,0 +1,21 @@
+{
+  "_id": "rXh0yUSVub2f7izB",
+  "name": "Landwehr",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du stammst vom Land, du gehst täglich mit Heugabel, Schaufel und Dreschflegel um und du bist dadurch sehr geübt im Umgang mit improvisierten zweihändigen Waffen. Wenn du mit solchen Waffen kämpfst darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4100,
+  "flags": {},
+  "_key": "!items!rXh0yUSVub2f7izB"
+}

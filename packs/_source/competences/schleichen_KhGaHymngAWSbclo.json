@@ -2,19 +2,20 @@
   "_id": "KhGaHymngAWSbclo",
   "name": "Schleichen",
   "type": "competence",
-  "img": "icons/svg/item-bag.svg",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
   "system": {
-    "description": "<p>Du nutzt jede Deckung und bewegst dich lautlos, wo andere auffallen. Bei Proben zum Schleichen darfst du alle 1er einmal wiederholen.</p>",
+    "description": "<p>Gekonnt nutzt du jede Deckung und schaffst es, dich lautlos zu bewegen, wo andere, wie ein stampfendes Pferd klingen. Bei Schleichen-Proben darfst du alle 1er einmal wiederholen.</p>",
     "automation": {
       "level": "full",
       "note": ""
     },
     "skill": "stealth",
-    "specification": ""
+    "specification": "",
+    "rerollOnes": true
   },
   "effects": [],
   "folder": null,
-  "sort": 0,
+  "sort": 3600,
   "flags": {},
   "_key": "!items!KhGaHymngAWSbclo"
 }

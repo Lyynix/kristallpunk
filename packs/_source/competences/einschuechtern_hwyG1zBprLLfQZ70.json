@@ -1,0 +1,21 @@
+{
+  "_id": "hwyG1zBprLLfQZ70",
+  "name": "Einschüchtern",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Dies dient meist dazu, die Handlung eines anderen zu verhindern oder zu unterdrücken. Bist du erfolgreich, hat der Gegner -3 bei seiner nächsten Probe oder lässt von seinem Vorhaben ganz ab. Deine SL entscheidet, was in der entsprechenden Situation am besten passt. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "-3 auf die nächste Probe des Gegners"
+    },
+    "skill": "authority",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6100,
+  "flags": {},
+  "_key": "!items!hwyG1zBprLLfQZ70"
+}

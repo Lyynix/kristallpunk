@@ -1,0 +1,21 @@
+{
+  "_id": "MufUw0og92rnq02w",
+  "name": "Gauklertricks",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Dies sind kleine Zaubertricks ohne echte Zauberei, du kannst Münzen in deiner Hand verschwinden lassen und hinter dem Ohr deines Gegenübers wieder zum Vorschein bringen und dergleichen mehr, solcherlei Tricks sind für dich ein Kinderspiel, Gauklertricks sind für dich sorglose Proben.</p>",
+    "automation": {
+      "level": "none",
+      "note": "Gauklertricks sind sorglose Proben"
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3200,
+  "flags": {},
+  "_key": "!items!MufUw0og92rnq02w"
+}

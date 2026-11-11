@@ -174,10 +174,8 @@
           "all": "Alle Würfel werden neu gewürfelt, auch die 6er. Kostet 1 Innenleben."
         },
         "Competence": {
-          "Button": "Kompetenz einsetzen",
-          "Hint": "Alle Einser werden neu gewürfelt, wenn eine Kompetenz die Handlung abdeckt.",
-          "List": "Passende Kompetenzen: {competences}",
-          "None": "Keine passende Kompetenz."
+          "Button": "{competence} einsetzen",
+          "Hint": "Alle Einser werden einmal neu gewürfelt, wenn die Kompetenz die Handlung abdeckt."
         },
         "Kept": "aus dem vorigen Wurf behalten",
         "History": "Verlauf",
@@ -186,6 +184,7 @@
           "keepSixes": "Innenleben: 6er behalten, {count} neu",
           "all": "Innenleben: alle {count} neu",
           "ones": "Kompetenz: {count} Einser neu",
+          "onesWith": "{competence}: {count} Einser neu",
           "edit": "Von der SL bearbeitet"
         }
       },

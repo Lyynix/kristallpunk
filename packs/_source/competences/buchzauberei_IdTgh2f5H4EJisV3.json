@@ -1,0 +1,21 @@
+{
+  "_id": "IdTgh2f5H4EJisV3",
+  "name": "Buchzauberei",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Das klassische Zauberbuch schaffte eine Vereinheitlichung von Zauberresonanz-Ansätzen und ist Anhaltspunkt für weniger geübte Zauberkundige oder solche, die etwas zaubern möchten, das nicht ihrem Fachgebiet entspricht. Buchzauberei kann als Kompetenz gelernt werden und macht dich zu einem Spezialisten darin, aus allen möglichen Quellen zu zaubern. Zauberst du mit der Anleitung aus einem Buch und beherrschst du zusätzlich die benutzte Magieart, so erhältst du einen Bonus für deine Prismenresonanzprobe von +1. Beherrschst du die Magieart nicht, so hast du einen Malus für deine Prismenresonanzprobe von -1. Beherrschst du die Kompetenz Buchzauberei, darfst du alle 1er deiner Probe einmal wiederholen, wenn du eine Anleitung wörtlich aus einem Zauberbuch verwendest.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "+1 oder -1 auf Prismenresonanz mit Zauberbuch"
+    },
+    "skill": "prismResonance",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9100,
+  "flags": {},
+  "_key": "!items!IdTgh2f5H4EJisV3"
+}

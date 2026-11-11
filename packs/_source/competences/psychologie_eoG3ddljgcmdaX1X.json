@@ -1,0 +1,21 @@
+{
+  "_id": "eoG3ddljgcmdaX1X",
+  "name": "Psychologie",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich gut mit den Tiefen der menschlichen Psyche aus. Du darfst deine Fertigkeit Medizin verwenden um Geiststatus und Traumata zu heilen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Medizin zum Heilen von Geist-Ausdauer und Traumata"
+    },
+    "skill": "medicine",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 8800,
+  "flags": {},
+  "_key": "!items!eoG3ddljgcmdaX1X"
+}
