@@ -1,0 +1,21 @@
+{
+  "_id": "fenmsUQ6w63y66dj",
+  "name": "Fremdsprachen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du beherrschst eine Fremdsprache deiner Wahl (diese Kompetenz kann mehrfach gewählt werden) in Wort und Schrift und du bist außerdem in der Lage verwandte Sprachen zu denen, die du beherrschst grob Zusammenhänge zu verstehen. Z.B. deine Muttersprache ist Deutsch, deine Fremdsprache ist Italienisch und somit kannst du bei erfolgreicher Probe grob den Sinn spanischer oder portugiesischer Sätze verstehen. Für einfache Konversation in der gewählten Fremdsprache brauchst du nicht würfeln. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 7200,
+  "flags": {},
+  "_key": "!items!fenmsUQ6w63y66dj"
+}

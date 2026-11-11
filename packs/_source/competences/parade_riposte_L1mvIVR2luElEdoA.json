@@ -1,0 +1,21 @@
+{
+  "_id": "L1mvIVR2luElEdoA",
+  "name": "Parade-Riposte",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Nur mit ein- und zweihändigen Klingenwaffen. du bist so geübt im Ausnutzen gegnerischer Schwächen, dass du den Schwung eines misslungenen Angriffs eines Gegners direkt für einen freien Gegenangriff verwendest. Wenn du einen Angriff parierst, dich also verteidigst und NICHT ausweichst oder Härte verwendest und der Gegner keinen Treffer setzen kann, dann darfst du einen Angriff direkt nach seiner Aktion durchführen. Dieser Angriff kostet dich ganz normal Ausdauer und wird nach den normalen Regeln für Nahkampfangriffe abgehandelt. Dieser Angriff zählt aber NICHT als deine Aktion in dieser Runde.</p>",
+    "automation": {
+      "level": "none",
+      "note": "Freier Gegenangriff nach erfolgreicher Parade"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4500,
+  "flags": {},
+  "_key": "!items!L1mvIVR2luElEdoA"
+}

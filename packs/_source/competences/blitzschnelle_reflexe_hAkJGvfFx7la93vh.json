@@ -1,0 +1,21 @@
+{
+  "_id": "hAkJGvfFx7la93vh",
+  "name": "Blitzschnelle Reflexe",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Deine Auge-Muskel-Koordination ist so trainiert, dass du vielen Angriffen mit Leichtigkeit entgehst und sie sofort konterst. Bei einer erfolgreichen Ausweichenprobe, darfst du sofort nach dem Angriff deines Gegners einmal einen eigenen Angriff durchführen, als wärst du an der Reihe. Dies betrifft nicht deine Aktion diese Runde in Initiativreihenfolge. Du darfst bei der Ausweichenprobe alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Sofortiger Gegenangriff nach erfolgreichem Ausweichen"
+    },
+    "skill": "dodge",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1200,
+  "flags": {},
+  "_key": "!items!hAkJGvfFx7la93vh"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "RMgI4zoa0Rm9ESzC",
+  "name": "Kutschen & Fuhrwerke",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kannst Kutschen und Fuhrwerke lenken und kennst dich mit der Pflege von Zugtieren aus. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5200,
+  "flags": {},
+  "_key": "!items!RMgI4zoa0Rm9ESzC"
+}

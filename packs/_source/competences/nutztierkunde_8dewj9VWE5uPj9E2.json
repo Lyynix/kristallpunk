@@ -1,0 +1,21 @@
+{
+  "_id": "8dewj9VWE5uPj9E2",
+  "name": "Nutztierkunde",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich mit Pflege, Aufzucht und Haltung von Nutztieren aus, bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2700,
+  "flags": {},
+  "_key": "!items!8dewj9VWE5uPj9E2"
+}

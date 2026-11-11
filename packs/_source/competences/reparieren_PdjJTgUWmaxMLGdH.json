@@ -1,0 +1,21 @@
+{
+  "_id": "PdjJTgUWmaxMLGdH",
+  "name": "Reparieren",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kannst zwar kein Handwerk direkt, bist aber gut im Instandsetzen. Bei Proben zu Reparatur darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2400,
+  "flags": {},
+  "_key": "!items!PdjJTgUWmaxMLGdH"
+}

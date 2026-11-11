@@ -1,0 +1,21 @@
+{
+  "_id": "Ve0HrZRr9Pfpwaoy",
+  "name": "Biologie",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Alle Lebewesen dieses Planeten sind dein Fachgebiet, du forschst über das Leben selbst, vom kleinsten Bakterium bis zu Pflanzen und Tieren. Du beschaffst Museen seltene Exemplare aus aller Welt und selbst aus der Trübnis. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "science",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10500,
+  "flags": {},
+  "_key": "!items!Ve0HrZRr9Pfpwaoy"
+}

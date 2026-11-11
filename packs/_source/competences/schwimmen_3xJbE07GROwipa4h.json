@@ -1,0 +1,21 @@
+{
+  "_id": "3xJbE07GROwipa4h",
+  "name": "Schwimmen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr geübt im Schwimmen und Tauchen, du darfst 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "athletics",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 400,
+  "flags": {},
+  "_key": "!items!3xJbE07GROwipa4h"
+}

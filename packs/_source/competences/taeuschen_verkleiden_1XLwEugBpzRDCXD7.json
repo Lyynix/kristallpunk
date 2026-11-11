@@ -1,0 +1,21 @@
+{
+  "_id": "1XLwEugBpzRDCXD7",
+  "name": "Täuschen&Verkleiden",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du schaffst es mit einfachsten Mitteln perfekt wie jemand anderes auszusehen und zu wirken. Du kopierst dabei Redeweise und Körpersprache. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "acting",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10200,
+  "flags": {},
+  "_key": "!items!1XLwEugBpzRDCXD7"
+}

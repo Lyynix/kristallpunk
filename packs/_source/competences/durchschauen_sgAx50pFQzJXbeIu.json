@@ -1,0 +1,21 @@
+{
+  "_id": "sgAx50pFQzJXbeIu",
+  "name": "Durchschauen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Verwende deine Fertigkeit Aufmerksamkeit anstelle von Redekunst, um zu erkennen, ob jemand dir die Wahrheit sagt oder nicht. Du achtest dabei auf die kleinsten Zuckungen im Gesicht des anderen, ob er schwitzt, zwinkert usw. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Aufmerksamkeit statt Redekunst"
+    },
+    "skill": "awareness",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 900,
+  "flags": {},
+  "_key": "!items!sgAx50pFQzJXbeIu"
+}

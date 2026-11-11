@@ -1,0 +1,21 @@
+{
+  "_id": "N8UwEGPikGlETL2y",
+  "name": "Etikette",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich sehr gut mit gesellschaftlichen Umgangsformen aus und kannst diese anwenden, selbst wenn du nicht zum selben Stand gehörst. Du bist in der Lage das Verhalten einer Gesellschaft zu kopieren und zu imitieren. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "acting",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10100,
+  "flags": {},
+  "_key": "!items!N8UwEGPikGlETL2y"
+}

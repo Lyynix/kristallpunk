@@ -1,0 +1,21 @@
+{
+  "_id": "LW6e7Id8AfZ22Gmg",
+  "name": "Dauerlauf",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist ein geübter ausdauernder Läufer und darfst beispielsweise bei Verfolgungsjagden 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "athletics",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 300,
+  "flags": {},
+  "_key": "!items!LW6e7Id8AfZ22Gmg"
+}

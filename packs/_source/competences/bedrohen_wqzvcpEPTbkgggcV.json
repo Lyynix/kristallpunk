@@ -1,0 +1,21 @@
+{
+  "_id": "wqzvcpEPTbkgggcV",
+  "name": "Bedrohen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Um jemanden zu bedrohen, muss deine Androhung spürbar sein, niemand nimmt dich ernst, wenn die angedrohten Konsequenzen nicht eintreten können. Wenn deine Bedrohung umsetzbar ist. Wenn du Erfolg hast, dann tut dein Opfer das was du willst oder verhält sich nach deinen Vorgaben. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "authority",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6000,
+  "flags": {},
+  "_key": "!items!wqzvcpEPTbkgggcV"
+}

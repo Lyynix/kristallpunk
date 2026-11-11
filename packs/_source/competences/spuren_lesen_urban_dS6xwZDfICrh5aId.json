@@ -1,0 +1,21 @@
+{
+  "_id": "dS6xwZDfICrh5aId",
+  "name": "Spuren lesen urban",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich sehr gut mit den Spuren aus, die andere im urbanen Bereich hinterlassen. Außerdem weißt du einiges über den Aufbau von Städten und Siedlungen und hast Ahnung davon, wo etwas zu finden ist. Du kannst mit dieser Kompetenz Informationen erhalten oder einer Spur folgen und bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "orientation",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5400,
+  "flags": {},
+  "_key": "!items!dS6xwZDfICrh5aId"
+}

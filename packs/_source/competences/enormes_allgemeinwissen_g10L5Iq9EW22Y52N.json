@@ -1,0 +1,21 @@
+{
+  "_id": "g10L5Iq9EW22Y52N",
+  "name": "Enormes Allgemeinwissen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist außergewöhnlich gebildet und kennst dich in vielen Fachgebieten aus, selbst wenn es nicht dein Fachgebiet ist. Wird dein Wissen auf die Probe gestellt, darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "education",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 6800,
+  "flags": {},
+  "_key": "!items!g10L5Iq9EW22Y52N"
+}

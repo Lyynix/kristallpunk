@@ -1,0 +1,21 @@
+{
+  "_id": "Lq6SD9pXwYHBLEup",
+  "name": "Asiatischer Kampf",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du warst in Asien oder hattest einen Lehrer von dort und hast eine spezielle Ausbildung in asiatischen Kampftechniken erhalten. Du verstehst dich darauf, wie man die Bewegungen des Gegners gegen ihn einsetzt und sein Momentum nutzt, um ihm blitzschnell zu schaden. Du kannst deinen Ausweichenwert anstelle des Nahkampfwertes verwenden, wenn du waffenlos oder mit Kleinstwaffen (Schlagring, Messer usw.) angreifst oder verteidigst. Du darfst alle 1er einmal wiederholen. Und du kannst die Nahkampf-Kompetenz Kung Fu lernen und mit deinem Ausweichenwert anstelle des Nahkampfwertes einsetzen, wenn du möchtest.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Ausweichen statt Nahkampf waffenlos oder mit Kleinstwaffen"
+    },
+    "skill": "dodge",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1100,
+  "flags": {},
+  "_key": "!items!Lq6SD9pXwYHBLEup"
+}

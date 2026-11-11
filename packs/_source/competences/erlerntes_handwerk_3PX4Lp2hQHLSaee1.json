@@ -1,0 +1,21 @@
+{
+  "_id": "3PX4Lp2hQHLSaee1",
+  "name": "Erlerntes Handwerk",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Bäcker, Bauer, Bootsbauer, Buchbinder, Büchsenmacher, Förster, Koch, Sattler, Schlosser, Schmied, Schneider, Schuster, Steinmetz, Telegraph, Tischler, Uhrmacher, Wolkenschiffbauer, Zimmermann, um nur einige zu nennen. Du hast dieses Handwerk erlernt und kannst mit dem geeigneten Material und Werkzeug etwas herstellen und reparieren, bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2300,
+  "flags": {},
+  "_key": "!items!3PX4Lp2hQHLSaee1"
+}

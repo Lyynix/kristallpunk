@@ -1,0 +1,21 @@
+{
+  "_id": "hQLdSPP4RPdPARQD",
+  "name": "Taschendiebstahl",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Leute unbemerkt um ihre Wertsachen zu erleichtern ist deine Spezialität, du lenkst dein Opfer ab, während du das Kollier vom Hals ziehst oder den Geldbeutel aus der Tasche greifst. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3800,
+  "flags": {},
+  "_key": "!items!hQLdSPP4RPdPARQD"
+}

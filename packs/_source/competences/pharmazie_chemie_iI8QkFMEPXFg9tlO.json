@@ -1,0 +1,21 @@
+{
+  "_id": "iI8QkFMEPXFg9tlO",
+  "name": "Pharmazie&Chemie",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Das Wissen um die Wirksamkeit natürlicher und künstlicher Stoffe, ebenso wie ihre Herstellung und Verwendung sind dein Metier. Mit einem Labor bist du in der Lage Medikamente und andere wirksame Stoffe herzustellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "science",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 10700,
+  "flags": {},
+  "_key": "!items!iI8QkFMEPXFg9tlO"
+}

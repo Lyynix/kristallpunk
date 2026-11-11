@@ -1,0 +1,21 @@
+{
+  "_id": "tahPymkMBefRaerl",
+  "name": "Fürsorge",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist anderen gegenüber so einfühlsam, dass es ihnen nach einem Gespräch mit dir besser geht. Du kannst mit dieser Kompetenz Erste Hilfe für die Geist-Ausdauer mit Redekunst leisten. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Erste Hilfe für Geist-Ausdauer mit Redekunst"
+    },
+    "skill": "rhetoric",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 9500,
+  "flags": {},
+  "_key": "!items!tahPymkMBefRaerl"
+}

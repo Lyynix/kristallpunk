@@ -1,0 +1,21 @@
+{
+  "_id": "7Qhf9NUEqIWgseR7",
+  "name": "Artillerist",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist ausgebildet worden großkalibrige Waffen abzufeuern. Wenn du ein Geschütz abfeuerst, darfst du alle 1er einmal wiederholen, außerdem kannst du eine Geschützmannschaft dazu anleiten ein Geschütz um eine Runde schneller zu laden.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Geschütz eine Runde schneller laden"
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1500,
+  "flags": {},
+  "_key": "!items!7Qhf9NUEqIWgseR7"
+}

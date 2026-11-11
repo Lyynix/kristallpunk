@@ -1,0 +1,21 @@
+{
+  "_id": "9QeoL89jZLtiSBpX",
+  "name": "Duellant",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Wenn du mit einer Pistole schießt, bringt dir eine Runde zielen +2 und die optimale Reichweite verdoppelt sich. Außerdem darfst du 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Zielen +2, doppelte optimale Reichweite"
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1600,
+  "flags": {},
+  "_key": "!items!9QeoL89jZLtiSBpX"
+}

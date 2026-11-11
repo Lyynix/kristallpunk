@@ -1,0 +1,21 @@
+{
+  "_id": "KnwB5wzSV9aZYVPM",
+  "name": "Pathologie",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich sehr gut mit Todesursachen durch Krankheiten und Vergiftungen aus und kannst durch eine Obduktion herausfinden, woran jemand verstorben ist. Diese Kompetenz dient auch dazu eine Diagnose bei Lebenden zu erstellen oder um eine Krankheit oder Vergiftung bei Verstorbenen festzustellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "medicine",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 8700,
+  "flags": {},
+  "_key": "!items!KnwB5wzSV9aZYVPM"
+}

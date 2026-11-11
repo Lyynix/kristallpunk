@@ -1,0 +1,21 @@
+{
+  "_id": "CPEgaVmEHyGiu4XS",
+  "name": "Schlossknacker",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hast geschickte Hände, ein gutes Gehör und viel Übung oder Erfahrung mit Zahlenschlössern und ähnlichem. Wenn du geeignetes Werkzeug hast, Stethoskop, Dietriche oder was benötigt wird, dann hast du noch einen extra Bonus von +1. Schlösserknacken bezieht sich auf alle Arten von Schlössern. Du darfst also deine Fertigkeit Heimlichkeit anstelle von Handwerk für Proben hierzu verwenden, zusätzlich darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "+1 mit Werkzeug, Heimlichkeit statt Handwerk"
+    },
+    "skill": "stealth",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3500,
+  "flags": {},
+  "_key": "!items!CPEgaVmEHyGiu4XS"
+}

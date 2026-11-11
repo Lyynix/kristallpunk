@@ -1,0 +1,21 @@
+{
+  "_id": "Xif1Pk6Q39vYPZ3M",
+  "name": "Kristallapparaturen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Diese neuartigen, mit Kristallen und galvanischen Strömen betriebenen Apparate kannst du mit dem geeigneten Werkzeug und Material reparieren und auch herstellen, du darfst bei Proben hierzu alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2600,
+  "flags": {},
+  "_key": "!items!Xif1Pk6Q39vYPZ3M"
+}

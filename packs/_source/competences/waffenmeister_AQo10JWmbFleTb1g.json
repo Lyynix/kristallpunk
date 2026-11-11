@@ -1,0 +1,21 @@
+{
+  "_id": "AQo10JWmbFleTb1g",
+  "name": "Waffenmeister",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du hattest einen Lehrmeister im Kampf mit einem bestimmten Typ Nahkampfwaffe, zum Beispiel Säbel, Degen, Axt, Lanze usw., gib den Waffentyp an. Kämpfst du mit dieser Art Waffe, darfst du pro Aktion einmal alle 1er wiederholen. Diese Kompetenz kann mehrfach erlernt werden.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 4400,
+  "flags": {},
+  "_key": "!items!AQo10JWmbFleTb1g"
+}

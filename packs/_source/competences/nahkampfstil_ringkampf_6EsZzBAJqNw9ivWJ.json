@@ -1,0 +1,21 @@
+{
+  "_id": "6EsZzBAJqNw9ivWJ",
+  "name": "Nahkampfstil, Ringkampf",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>In deiner Volksgruppe gibt es vielleicht traditionell ausgetragene Ringkämpfe oder du warst an den zahlreich im Mittelmeerraum veranstalteten Ringkämpfen beteiligt, ähnlich, wie die Boxer, siehe oben. Gilt nur bei waffenlosem Kampf. Du versuchst mit deinem Angriff den Gegner umzureißen und in einen Würgegriff zu nehmen. Bei Erfolg umklammerst du dein Ziel und reißt es mit dir zu Boden. Das Ziel muss in Folgerunden / Aktionen versuchen, sich loszureißen, was es mit seinem Attribut Kraft gegen deinen Nahkampfwert in einer vergleichenden Probe gewinnen muss. Hat das Opfer dieselbe Kompetenz, dann darf es auch seinen Nahkampfwert verwenden um deinem Würgegriff zu entkommen. Ansonsten bleibt es in deinem Würgegriff und erleidet jede Runde Schaden. Du erhältst unbewaffnet einen Bonus von +1 auf Angriffs- und Verteidigungsproben und du darfst alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Würgegriff, +1 auf Angriff und Verteidigung unbewaffnet"
+    },
+    "skill": "meleeCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 5000,
+  "flags": {},
+  "_key": "!items!6EsZzBAJqNw9ivWJ"
+}

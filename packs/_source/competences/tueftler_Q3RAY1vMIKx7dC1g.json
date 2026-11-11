@@ -1,0 +1,21 @@
+{
+  "_id": "Q3RAY1vMIKx7dC1g",
+  "name": "Tüftler",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du bist sehr gut im Improvisieren mit vorhandenen Gerätschaften und kannst daraus anderes herstellen, z.B. aus Küchengeräten ein Labor und ähnliches mehr.</p>",
+    "automation": {
+      "level": "none",
+      "note": "Improvisiertes Herstellen, ohne Neuwurf"
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 3000,
+  "flags": {},
+  "_key": "!items!Q3RAY1vMIKx7dC1g"
+}

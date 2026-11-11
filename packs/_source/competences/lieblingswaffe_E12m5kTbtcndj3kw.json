@@ -1,0 +1,21 @@
+{
+  "_id": "E12m5kTbtcndj3kw",
+  "name": "Lieblingswaffe",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Dies ist deine Lieblingswaffe, du kennst jede Scharte, jede Schraube, jeden Verzug und jede Eigenart von ihr. Benenne eine einzelne Fernkampfwaffe in deinem Besitz. Wenn du mit dieser Waffe schießt, darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "rangedCombat",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2000,
+  "flags": {},
+  "_key": "!items!E12m5kTbtcndj3kw"
+}

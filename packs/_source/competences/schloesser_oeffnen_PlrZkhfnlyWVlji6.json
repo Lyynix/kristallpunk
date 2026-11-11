@@ -1,0 +1,21 @@
+{
+  "_id": "PlrZkhfnlyWVlji6",
+  "name": "Schlösser öffnen",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kannst versuchen ein Schloß zu öffnen und du darfst bei Proben hierzu alle 1er einmal wiederholen. Mit dem geeigneten Werkzeug (Dietriche) hast du einen Bonus von +1.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "+1 mit Dietrichen"
+    },
+    "skill": "craft",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2500,
+  "flags": {},
+  "_key": "!items!PlrZkhfnlyWVlji6"
+}

@@ -1,0 +1,21 @@
+{
+  "_id": "Tapky0ef8VV9wvbk",
+  "name": "Internist",
+  "type": "competence",
+  "img": "icons/commodities/treasure/medal-ribbon-star-gold-red.webp",
+  "system": {
+    "description": "<p>Du kennst dich sehr gut mit Krankheiten, Vergiftungen und deren Behandlung aus. Mit dieser Kompetenz kannst du auch ein entsprechendes Gegenmittel oder Medikament herstellen. Bei Proben hierzu darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "medicine",
+    "specification": "",
+    "rerollOnes": true
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 8400,
+  "flags": {},
+  "_key": "!items!Tapky0ef8VV9wvbk"
+}
