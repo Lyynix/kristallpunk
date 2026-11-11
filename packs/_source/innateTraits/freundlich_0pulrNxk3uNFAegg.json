@@ -1,0 +1,129 @@
+{
+  "_id": "0pulrNxk3uNFAegg",
+  "name": "freundlich",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Alle mögen dich, da dein freundliches, offenes Auftreten allen ein Lächeln ins Gesicht zaubert…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "arrogant",
+      "misstrauisch"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "wctbVUTAnSiy9yWG",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!0pulrNxk3uNFAegg.wctbVUTAnSiy9yWG"
+    },
+    {
+      "_id": "WrR8GAvifJX9e36a",
+      "name": "Redekunst +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!0pulrNxk3uNFAegg.WrR8GAvifJX9e36a"
+    },
+    {
+      "_id": "vx7WsxTqi2H9BSsy",
+      "name": "Medizin +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!0pulrNxk3uNFAegg.vx7WsxTqi2H9BSsy"
+    }
+  ],
+  "folder": null,
+  "sort": 1000,
+  "flags": {},
+  "_key": "!items!0pulrNxk3uNFAegg"
+}

@@ -1,0 +1,128 @@
+{
+  "_id": "lCrBHGhlfpbUHjBy",
+  "name": "ungeschickt",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Wenn einem doch nicht dauernd alles aus der Hand fallen würde, du warst immer schon mehr Theoretiker als Praktiker. Beim Nachdenken fällt einem nichts aus der Hand…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "geschickt"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "XUGSYioVyzL1PnR7",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!lCrBHGhlfpbUHjBy.XUGSYioVyzL1PnR7"
+    },
+    {
+      "_id": "sbvWdh8nYY3uTljT",
+      "name": "Wissenschaft +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!lCrBHGhlfpbUHjBy.sbvWdh8nYY3uTljT"
+    },
+    {
+      "_id": "rS8ycq1mZRyISijj",
+      "name": "Bildung +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!lCrBHGhlfpbUHjBy.rS8ycq1mZRyISijj"
+    }
+  ],
+  "folder": null,
+  "sort": 3200,
+  "flags": {},
+  "_key": "!items!lCrBHGhlfpbUHjBy"
+}

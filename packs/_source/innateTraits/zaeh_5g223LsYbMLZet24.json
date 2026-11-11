@@ -1,0 +1,97 @@
+{
+  "_id": "5g223LsYbMLZet24",
+  "name": "zäh",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Dir kann nichts so schnell was anhaben und alle anderen sind Weicheier…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": []
+  },
+  "effects": [
+    {
+      "_id": "DIzlsEKtGb7ZQGB7",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!5g223LsYbMLZet24.DIzlsEKtGb7ZQGB7"
+    },
+    {
+      "_id": "L8QyKN6khaRm2Vs7",
+      "name": "Härte +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.derived.toughness.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!5g223LsYbMLZet24.L8QyKN6khaRm2Vs7"
+    }
+  ],
+  "folder": null,
+  "sort": 3500,
+  "flags": {},
+  "_key": "!items!5g223LsYbMLZet24"
+}

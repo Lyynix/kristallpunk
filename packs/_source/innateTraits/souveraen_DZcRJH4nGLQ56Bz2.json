@@ -1,0 +1,128 @@
+{
+  "_id": "DZcRJH4nGLQ56Bz2",
+  "name": "souverän",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Dein Auftreten ist selbstbewusst und du hast die Ideen. Andere tun oft, was du von ihnen willst und das ist auch gut so…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "unsicher"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "oF7lGdVKm7e0aRll",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!DZcRJH4nGLQ56Bz2.oF7lGdVKm7e0aRll"
+    },
+    {
+      "_id": "pAE7TO1MuamXNcFl",
+      "name": "Autorität +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!DZcRJH4nGLQ56Bz2.pAE7TO1MuamXNcFl"
+    },
+    {
+      "_id": "OLg1I6SOPBXnwmhn",
+      "name": "Inspiration +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!DZcRJH4nGLQ56Bz2.OLg1I6SOPBXnwmhn"
+    }
+  ],
+  "folder": null,
+  "sort": 2800,
+  "flags": {},
+  "_key": "!items!DZcRJH4nGLQ56Bz2"
+}

@@ -1,0 +1,128 @@
+{
+  "_id": "H8hgUdwqroqYS4iZ",
+  "name": "stur",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Wenn du was willst, dann bleibst du da auch dran, kein Geheimnis ist vor dir sicher</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "redegewandt"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "Y7CYlm1QlHir8zYm",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!H8hgUdwqroqYS4iZ.Y7CYlm1QlHir8zYm"
+    },
+    {
+      "_id": "HEDkMVUL3O68kuAo",
+      "name": "Autorität +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!H8hgUdwqroqYS4iZ.HEDkMVUL3O68kuAo"
+    },
+    {
+      "_id": "8jUi4AdtGbDhiAip",
+      "name": "Wissenschaft +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!H8hgUdwqroqYS4iZ.8jUi4AdtGbDhiAip"
+    }
+  ],
+  "folder": null,
+  "sort": 2900,
+  "flags": {},
+  "_key": "!items!H8hgUdwqroqYS4iZ"
+}

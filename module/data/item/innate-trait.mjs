@@ -10,6 +10,9 @@ const { SetField, StringField } = foundry.data.fields;
 export default class InnateTraitData extends ItemDataModel {
   static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "KRISTALLPUNK.Item.InnateTrait"];
 
+  /** @override */
+  static DEFAULT_IMAGE = "icons/environment/people/commoner.webp";
+
   /** How many innate traits a figure has (Erschaffung 1.0, p. 8). */
   static PER_FIGURE = 3;
 

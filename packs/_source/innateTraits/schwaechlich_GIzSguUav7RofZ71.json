@@ -1,0 +1,146 @@
+{
+  "_id": "GIzSguUav7RofZ71",
+  "name": "schwächlich",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Du bist vielleicht nicht so stark, wie andere, das bedeutet aber nur, dass deine Qualitäten woanders liegen. Was die anderen nicht sehen oder nicht wissen, kann dein Vorteil sein…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "kräftig"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "2qd0yUCosdPk4bcy",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!GIzSguUav7RofZ71.2qd0yUCosdPk4bcy"
+    },
+    {
+      "_id": "hLjV3KQ4LBsy7LPf",
+      "name": "Heimlichkeit +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!GIzSguUav7RofZ71.hLjV3KQ4LBsy7LPf"
+    },
+    {
+      "_id": "JBMK9n63N1D9KzQc",
+      "name": "Bildung +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!GIzSguUav7RofZ71.JBMK9n63N1D9KzQc"
+    },
+    {
+      "_id": "rcyMOAar3RHfdKle",
+      "name": "Wissenschaft +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!GIzSguUav7RofZ71.rcyMOAar3RHfdKle"
+    }
+  ],
+  "folder": null,
+  "sort": 2500,
+  "flags": {},
+  "_key": "!items!GIzSguUav7RofZ71"
+}

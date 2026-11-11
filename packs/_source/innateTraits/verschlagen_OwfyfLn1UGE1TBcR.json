@@ -1,0 +1,128 @@
+{
+  "_id": "OwfyfLn1UGE1TBcR",
+  "name": "verschlagen",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Niemand soll wissen was du denkst und niemand muss wissen was du tust, außerdem ist das hier alles viel zu gefährlich um offen zu handeln…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "ehrlich"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "anAQEgNydYIyxBQv",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!OwfyfLn1UGE1TBcR.anAQEgNydYIyxBQv"
+    },
+    {
+      "_id": "NoM3ptLRTyvwHL9Z",
+      "name": "Heimlichkeit +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!OwfyfLn1UGE1TBcR.NoM3ptLRTyvwHL9Z"
+    },
+    {
+      "_id": "XazuJZAHBpQQ1FQI",
+      "name": "Aufmerksamkeit +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!OwfyfLn1UGE1TBcR.XazuJZAHBpQQ1FQI"
+    }
+  ],
+  "folder": null,
+  "sort": 3400,
+  "flags": {},
+  "_key": "!items!OwfyfLn1UGE1TBcR"
+}

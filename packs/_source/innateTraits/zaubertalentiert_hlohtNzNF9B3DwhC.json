@@ -1,0 +1,97 @@
+{
+  "_id": "hlohtNzNF9B3DwhC",
+  "name": "zaubertalentiert",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Du hast eine natürliche Begabung die Energien der Kristalle zu formen. Manche Effekte passieren fast wie von alleine…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": []
+  },
+  "effects": [
+    {
+      "_id": "mG8uK5SQffSk6azn",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!hlohtNzNF9B3DwhC.mG8uK5SQffSk6azn"
+    },
+    {
+      "_id": "XfAkcI9sA4e5V88o",
+      "name": "Prismenresonanz +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!hlohtNzNF9B3DwhC.XfAkcI9sA4e5V88o"
+    }
+  ],
+  "folder": null,
+  "sort": 3600,
+  "flags": {},
+  "_key": "!items!hlohtNzNF9B3DwhC"
+}
