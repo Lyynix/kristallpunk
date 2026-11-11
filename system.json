@@ -36,6 +36,9 @@
     "Item": {
       "equipment": {
         "htmlFields": ["description"]
+      },
+      "competence": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {
@@ -48,6 +51,14 @@
       "name": "equipment",
       "label": "Ausrüstung",
       "path": "packs/equipment",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    },
+    {
+      "name": "competences",
+      "label": "Kompetenzen",
+      "path": "packs/competences",
       "type": "Item",
       "system": "kristallpunk",
       "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }

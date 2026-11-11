@@ -4,7 +4,8 @@
       "protagonist": "Protagonist*in"
     },
     "Item": {
-      "equipment": "Ausrüstung"
+      "equipment": "Ausrüstung",
+      "competence": "Kompetenz"
     }
   },
   "KRISTALLPUNK": {
@@ -511,6 +512,18 @@
       "Equipment": {
         "FIELDS": {
           "quantity": { "label": "Anzahl" }
+        }
+      },
+      "Competence": {
+        "FIELDS": {
+          "skill": {
+            "label": "Fertigkeit",
+            "hint": "Die Fertigkeit, zu der die Kompetenz gehört. Bei Proben auf diese Fertigkeit wird sie zum Neuwurf der 1er vorgeschlagen."
+          },
+          "specification": {
+            "label": "Angabe",
+            "hint": "Wofür eine mehrfach erlernbare Kompetenz gilt, z. B. die Waffe bei Waffenmeister."
+          }
         }
       }
     },

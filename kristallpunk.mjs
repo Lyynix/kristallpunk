@@ -15,6 +15,7 @@ import { registerSettings, SYSTEM_ID } from "./module/settings.mjs";
 import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
 import KristallpunkItemSheet from "./module/sheets/item-sheet.mjs";
 import EquipmentData from "./module/data/item/equipment.mjs";
+import CompetenceData from "./module/data/item/competence.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
@@ -32,6 +33,7 @@ Hooks.once("init", () => {
   registerSettings();
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
   CONFIG.Item.dataModels.equipment = EquipmentData;
+  CONFIG.Item.dataModels.competence = CompetenceData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();
