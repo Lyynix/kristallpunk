@@ -1,0 +1,99 @@
+{
+  "_id": "eOMiBw3jRpoFECVr",
+  "name": "schwer von Begriff",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Nein, du bist nicht dumm, dir werden die Zusammenhänge aber immer erst später als den anderen klar, die denken auch immer so kompliziert…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "schlau"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "P2WdaZg1oCznHIVq",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!eOMiBw3jRpoFECVr.P2WdaZg1oCznHIVq"
+    },
+    {
+      "_id": "u64fbpJaQFF2wFbS",
+      "name": "Athletik +1, Mut +1",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.derived.courage.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!eOMiBw3jRpoFECVr.u64fbpJaQFF2wFbS"
+    }
+  ],
+  "folder": null,
+  "sort": 2700,
+  "flags": {},
+  "_key": "!items!eOMiBw3jRpoFECVr"
+}

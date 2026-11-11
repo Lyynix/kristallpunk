@@ -1,0 +1,97 @@
+{
+  "_id": "FrqeYH5ZpqEY4Pak",
+  "name": "nachtragend",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Du merkst dir jeden und vor allem die, die dir etwas angetan haben und irgendwann wenn die Gelegenheit kommt…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": []
+  },
+  "effects": [
+    {
+      "_id": "kDrVBeBsFwbfjCag",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!FrqeYH5ZpqEY4Pak.kDrVBeBsFwbfjCag"
+    },
+    {
+      "_id": "pe6veOrpgRCBxb2p",
+      "name": "Autorität +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!FrqeYH5ZpqEY4Pak.pe6veOrpgRCBxb2p"
+    }
+  ],
+  "folder": null,
+  "sort": 1800,
+  "flags": {},
+  "_key": "!items!FrqeYH5ZpqEY4Pak"
+}

@@ -1,0 +1,90 @@
+{
+  "_id": "BYsOjES9i7cTWXvf",
+  "name": "unaufmerksam",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Was, wo, wer? Wieder einmal hast du nichts mitbekommen, weil du dich gerade in deiner eigenen, natürlich viel wichtigeren, Welt befunden hast. Das ganze Gerede der anderen nervt, deine Tatkraft und Energie fließen lieber in das, was du tust.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": []
+  },
+  "effects": [
+    {
+      "_id": "9xjvKrdDRqtddewr",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!BYsOjES9i7cTWXvf.9xjvKrdDRqtddewr"
+    },
+    {
+      "_id": "vz6XEaD4SA46MeXf",
+      "name": "Handwerk +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!BYsOjES9i7cTWXvf.vz6XEaD4SA46MeXf"
+    }
+  ],
+  "folder": null,
+  "sort": 3100,
+  "flags": {},
+  "_key": "!items!BYsOjES9i7cTWXvf"
+}

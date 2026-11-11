@@ -39,6 +39,9 @@
       },
       "competence": {
         "htmlFields": ["description"]
+      },
+      "innateTrait": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {
@@ -59,6 +62,14 @@
       "name": "competences",
       "label": "Kompetenzen",
       "path": "packs/competences",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    },
+    {
+      "name": "innateTraits",
+      "label": "Angeborene Eigenschaften",
+      "path": "packs/innateTraits",
       "type": "Item",
       "system": "kristallpunk",
       "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }

@@ -19,12 +19,11 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     const attributes = {};
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.attributes) ) {
       attributes[key] = new SchemaField({
-        value: new NumberField({
-          required: true, nullable: false, integer: true,
-          min: limits.attribute.min, max: limits.attribute.exceptionMax, initial: 1
-        }),
+        // Former entered value and creation exception (#47). Kept only so the file cleanup can turn the value into
+        // the modifier; empty for figures that are clean, and not shown anywhere else.
+        value: new NumberField({ required: true, nullable: true, integer: true, min: 0, initial: null }),
         exception: new BooleanField(),
-        // Target for active effects (#43); the total is derived and capped
+        // Manual points and target for active effects (#43); the total is derived and capped
         mod: mod()
       });
     }
@@ -73,7 +72,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       relationships: new HTMLField(),
       equipment: new HTMLField(),
 
-      // Free text until the matching item types exist
+      // Former free text of innate traits, now items (#47). Kept only so the file cleanup can still read it;
+      // it is emptied there and not shown anywhere else.
       innateTraits: new ArrayField(text(), { initial: ["", "", ""] }),
       // Former free text of competences, now items (#46). Kept only so the file cleanup can still read it;
       // it is emptied there and not shown anywhere else.
@@ -110,12 +110,11 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
    * @override
    */
   prepareDerivedData() {
-    // Totals of the attributes first: everything else is based on them (#43).
-    // The hard cap is the exception maximum (Kurzregeln 1.0, p. 23; #17).
+    // Totals of the attributes first: everything else is based on them (#43). They come from the modifier alone,
+    // that is from active effects and manual points (#47), capped hard at 7 (Kurzregeln 1.0, p. 23; #17).
     const limits = CONFIG.KRISTALLPUNK.protagonist.limits;
-    const attributeLimits = { min: limits.attribute.min, max: limits.attribute.exceptionMax };
     for ( const attribute of Object.values(this.attributes) ) {
-      attribute.total = rules.attributeTotal({ value: attribute.value, mod: attribute.mod, limits: attributeLimits });
+      attribute.total = rules.attributeTotal({ value: 0, mod: attribute.mod, limits: limits.attribute });
     }
 
     for ( const [key, skill] of Object.entries(this.skills) ) {
@@ -178,26 +177,10 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
    * @returns {number}
    */
   #staminaMax(domain) {
-    const { min, exceptionMax: max } = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
+    const limits = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
     const attributes = Object.entries(this.attributes)
       .filter(([key]) => CONFIG.KRISTALLPUNK.attributes[key].domain === domain)
-      .map(([, attribute]) => rules.attributeTotal({ value: attribute.value, mod: attribute.mod, limits: { min, max } }));
+      .map(([, attribute]) => rules.attributeTotal({ value: 0, mod: attribute.mod, limits }));
     return rules.staminaMax({ attributes, mod: this.stamina[domain].maxMod });
-  }
-
-  /**
-   * Attributes above the regular maximum require the creation exception.
-   * @override
-   */
-  static validateJoint(data) {
-    const { max } = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
-    for ( const [key, attribute] of Object.entries(data.attributes ?? {}) ) {
-      if ( (attribute.value > max) && !attribute.exception ) {
-        throw new Error(game.i18n.format("KRISTALLPUNK.Validation.AttributeAboveMax", {
-          attribute: game.i18n.localize(CONFIG.KRISTALLPUNK.attributes[key].label),
-          max
-        }));
-      }
-    }
   }
 }

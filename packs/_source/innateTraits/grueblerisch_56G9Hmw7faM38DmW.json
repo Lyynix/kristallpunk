@@ -1,0 +1,128 @@
+{
+  "_id": "56G9Hmw7faM38DmW",
+  "name": "grüblerisch",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Du findest das alles noch nicht richtig durchdacht, du möchtest dich gerne erst einmal zurückziehen und das Für und Wider mit dir selber durchgehen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "neugierig"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "gyz9ckjB605MK66b",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!56G9Hmw7faM38DmW.gyz9ckjB605MK66b"
+    },
+    {
+      "_id": "InWmaYOAxmFnils3",
+      "name": "Prismenresonanz +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!56G9Hmw7faM38DmW.InWmaYOAxmFnils3"
+    },
+    {
+      "_id": "dQiiEiz8svYfOcEg",
+      "name": "Wissenschaft +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {
+        "kristallpunk": {
+          "choice": "Fertigkeit"
+        }
+      },
+      "_key": "!items.effects!56G9Hmw7faM38DmW.dQiiEiz8svYfOcEg"
+    }
+  ],
+  "folder": null,
+  "sort": 1200,
+  "flags": {},
+  "_key": "!items!56G9Hmw7faM38DmW"
+}

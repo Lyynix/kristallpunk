@@ -1,0 +1,92 @@
+{
+  "_id": "z4SqFqtHl1YMauRd",
+  "name": "plump",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Ja, du wiegst zu viel oder bist dürr und ungelenk und Eleganz ist nicht das was du mit dir verbindest und vielleicht kannst du nicht so weit springen oder so hoch klettern wie die anderen, aber du bist trotzdem stark und schlau…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "athletisch"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "qTsWrNNUV9aafsXj",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!z4SqFqtHl1YMauRd.qTsWrNNUV9aafsXj"
+    },
+    {
+      "_id": "J84qSOzhUXMi1W9H",
+      "name": "Inspiration +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!z4SqFqtHl1YMauRd.J84qSOzhUXMi1W9H"
+    }
+  ],
+  "folder": null,
+  "sort": 2000,
+  "flags": {},
+  "_key": "!items!z4SqFqtHl1YMauRd"
+}

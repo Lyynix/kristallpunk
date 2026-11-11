@@ -480,11 +480,118 @@
 /*  Tab: competences & magic                    */
 /* -------------------------------------------- */
 
-.kristallpunk.protagonist .innate-traits {
+/* Innate traits as tags in three equal columns, as on the official sheet (#47); more than three wrap to the next row.
+   The columns align their tag at the start, in the middle and at the end, so each place depends on its column only.
+   Each tag keeps room at its right for the x that slides in on hover; its full width stays the same, so nothing
+   moves. The space left of the first column matches the space right of the last one, room included. */
+.kristallpunk.protagonist .innate-trait-tags {
+  --kp-tag-delete-room: 1.5rem;
+  --kp-tag-edge: 0.25rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 0.375rem;
   margin: 0 0 0.75rem;
+  padding: 0.375rem var(--kp-tag-edge) 0.5rem;
+}
+
+.kristallpunk.protagonist .trait-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 100%;
+  margin: 0 var(--kp-tag-delete-room) 0 0;
+  transition: margin-right 0.15s ease;
+  height: 1.75rem;
+  padding: 0 0.375rem 0 0.75rem;
+  border: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.4));
+  border-radius: 999px;
+  background: rgb(128 128 128 / 0.1);
+  font-size: var(--font-size-14);
+  line-height: 1;
+}
+
+.kristallpunk.protagonist .trait-tag .trait-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The x slides in at the right on hover and focus; the tag grows to the right, its text stays in place */
+.kristallpunk.protagonist .trait-tag .item-delete {
+  flex: none;
+  width: 0;
+  min-width: 0;
+  margin-left: -0.25rem;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: width 0.15s ease, margin-left 0.15s ease, opacity 0.15s ease;
+}
+
+/* Room on the left of the first column too, as wide as the room right of the last one */
+.kristallpunk.protagonist .trait-tag.start {
+  justify-self: start;
+  margin-left: var(--kp-tag-delete-room);
+}
+
+/* Room on both sides, so the tag itself sits in the middle of its column */
+.kristallpunk.protagonist .trait-tag.center {
+  justify-self: center;
+  margin-left: var(--kp-tag-delete-room);
+}
+
+.kristallpunk.protagonist .trait-tag.end {
+  justify-self: end;
+}
+
+/* The x takes the room the tag kept free (gap 0.25rem + 1.25rem) */
+.kristallpunk.protagonist .trait-tag:is(:hover, :focus-within) {
+  margin-right: 0;
+}
+
+.kristallpunk.protagonist .trait-tag:is(:hover, :focus-within) .item-delete {
+  width: 1.25rem;
+  margin-left: 0;
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kristallpunk.protagonist .trait-tag,
+  .kristallpunk.protagonist .trait-tag .item-delete {
+    transition: none;
+  }
+}
+
+.kristallpunk.protagonist .trait-tag .automation {
+  font-size: var(--font-size-10);
+  opacity: 0.55;
+}
+
+.kristallpunk.protagonist .trait-tag.conflict {
+  border-color: var(--color-level-warning, #ee9b3a);
+}
+
+.kristallpunk.protagonist .trait-tag .warning {
+  color: var(--color-level-warning, #ee9b3a);
+}
+
+/* A free place to add a trait */
+.kristallpunk.protagonist .trait-tag.empty {
+  width: auto;
+  padding: 0 0.75rem;
+  border-style: dashed;
+  background: none;
+  box-shadow: none;
+  font-size: var(--font-size-12);
+  opacity: 0.65;
+}
+
+.kristallpunk.protagonist .trait-tag.empty:hover,
+.kristallpunk.protagonist .trait-tag.empty:focus-visible {
+  opacity: 1;
 }
 
 .kristallpunk.protagonist .tab.competences.active {
@@ -609,6 +716,16 @@
   white-space: nowrap;
 }
 
+/* Alternative effects of an item (#47) */
+.kristallpunk .effect-row .effect-choice {
+  flex: none;
+  padding: 0 0.25rem;
+  border: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.4));
+  border-radius: 3px;
+  font-size: var(--font-size-11);
+  white-space: nowrap;
+}
+
 .kristallpunk .effect-row .controls {
   display: flex;
   justify-content: flex-end;
@@ -628,18 +745,27 @@
 /* The name gets the room; the extra column (e.g. quantity, skill) is as wide as the list asks for (#46) */
 .kristallpunk .item-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 1.75rem;
+  grid-template-columns: minmax(0, 1fr) 1.5rem;
   gap: 0.5rem;
   align-items: center;
-  padding: 0.125rem 0;
-  border-bottom: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.2));
+  min-height: 1.75rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
 }
 
 .kristallpunk .item-row.with-detail {
-  grid-template-columns: minmax(0, 1fr) var(--kp-item-detail-width, 3.5rem) 1.75rem;
+  grid-template-columns: minmax(0, 1fr) var(--kp-item-detail-width, 3.5rem) 1.5rem;
+}
+
+.kristallpunk .item-list .item-row:hover,
+.kristallpunk .item-list .item-row:focus-within {
+  background: rgb(128 128 128 / 0.12);
 }
 
 .kristallpunk .item-row.header {
+  margin-bottom: 0.125rem;
+  border-bottom: 1px solid var(--color-border-light-2, rgb(128 128 128 / 0.3));
+  border-radius: 0;
   font-size: var(--font-size-11);
   font-weight: bold;
 }
@@ -650,7 +776,7 @@
 
 .kristallpunk .item-row.empty {
   display: block;
-  opacity: 0.7;
+  opacity: 0.6;
   font-style: italic;
 }
 
@@ -659,13 +785,6 @@
   align-items: center;
   gap: 0.375rem;
   min-width: 0;
-}
-
-.kristallpunk .item-row .name img {
-  flex: none;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: none;
 }
 
 /* Long names wrap to a second line before they are shortened */
@@ -679,15 +798,11 @@
   line-height: 1.2;
 }
 
-/* Automation as a small mark right after the name */
+/* Automation as a small, quiet mark right after the name */
 .kristallpunk .item-row .name .automation {
   flex: none;
-  font-size: var(--font-size-11);
-  opacity: 0.7;
-}
-
-.kristallpunk .item-row .name .automation.partial {
-  opacity: 0.45;
+  font-size: var(--font-size-10);
+  opacity: 0.55;
 }
 
 .kristallpunk .item-row .detail {
@@ -695,6 +810,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
+  font-size: var(--font-size-13);
+  opacity: 0.75;
+}
+
+.kristallpunk .item-row.header .detail {
+  opacity: 1;
+  font-size: inherit;
 }
 
 .kristallpunk .item-row .warning {
@@ -704,6 +826,15 @@
 .kristallpunk .item-row .controls {
   display: flex;
   justify-content: flex-end;
+}
+
+/* Deleting shows on hover and focus, so the list stays calm */
+.kristallpunk .item-row .item-delete {
+  opacity: 0;
+}
+
+.kristallpunk .item-row:is(:hover, :focus-within) .item-delete {
+  opacity: 0.8;
 }
 
 /* -------------------------------------------- */
@@ -2135,8 +2266,11 @@ body.theme-light #hotbar.kristallpunk,
   font-size: var(--font-size-16);
 }
 
+/* A single gear is drawn larger than each of the two gears of "full"; shrunk evenly, it keeps its place in the
+   layout, so nothing next to it moves */
 .kristallpunk .automation.partial {
   opacity: 0.6;
+  transform: scale(0.5);
 }
 
 /* -------------------------------------------- */

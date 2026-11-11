@@ -1,7 +1,7 @@
 import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
 import { breakdown, modifierParts } from "./value-breakdown.mjs";
 import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
-import { activateItemMenus, ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
+import { ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
 import { needsCleanup } from "../migrations/_module.mjs";
 import FileCleanup from "../apps/file-cleanup.mjs";
 
@@ -73,8 +73,6 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       skillGroups: this.#prepareSkillGroups(),
       // Field labels for templates, localized via LOCALIZATION_PREFIXES
       systemFields: this.actor.system.schema.fields,
-      // Always three fields, as on the official sheet
-      innateTraits: Array.from({ length: 3 }, (_, i) => this.actor.system.innateTraits[i] ?? ""),
       valueGroups: this.#prepareValueGroups(),
       // Usable in play mode too, since status changes during play
       statusTracker: prepareStatusTracker(this.actor),
@@ -85,6 +83,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
         detail: item => String(item.system.quantity)
       }),
+      innateTraitSlots: this.#prepareInnateTraitSlots(),
       competenceList: prepareItemList(this.actor, "competence", {
         label: "KRISTALLPUNK.Sheet.Competences",
         detailLabel: "KRISTALLPUNK.Item.Competence.FIELDS.skill.label",
@@ -110,11 +109,10 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /**
-   * Attributes grouped by domain. Play mode shows the total, edit mode the entered value and the modifier
-   * (#43). The input maximum depends on the creation exception, which is not editable here; it is set
-   * during character creation.
-   * Inputs show the stored values: active effects change the prepared modifier, and saving that would
-   * store their result as input.
+   * Attributes grouped by domain. Play mode shows the total, edit mode the manual modifier (#47): the points of an
+   * attribute come from items as active effects, the tooltip lists them.
+   * The input shows the stored modifier: active effects change the prepared one, and saving that would store
+   * their result as manual points.
    * @returns {object[]}
    */
   #prepareAttributeGroups() {
@@ -128,25 +126,33 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         .filter(([, config]) => config.domain === domain)
         .map(([key, config]) => {
           const data = this.actor.system.attributes[key];
-          const stored = source.attributes[key];
           return {
             key,
             label: config.label,
-            value: stored.value,
             total: data.total,
             breakdown: breakdown({
-              terms: [{ label: game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), value: stored.value }],
-              base: stored.value,
-              mod: data.mod,
-              parts: modifierParts(this.actor, `attributes.${key}.mod`),
-              limits: { min: limits.min, max: limits.exceptionMax }
+              terms: [], base: 0, mod: data.mod, parts: modifierParts(this.actor, `attributes.${key}.mod`), limits
             }).text,
-            mod: modInput(`system.attributes.${key}.mod`, stored.mod),
-            min: limits.min,
-            max: data.exception ? limits.exceptionMax : limits.max
+            mod: modInput(`system.attributes.${key}.mod`, source.attributes[key].mod)
           };
         })
     }));
+  }
+
+  /**
+   * The innate traits as slots side by side, as on the official sheet (#47): at least three, empty ones to add a
+   * trait. A figure with more traits gets more slots. Traits that exclude each other, or more than a figure has,
+   * are marked; nothing is blocked.
+   * @returns {{item: object|null}[]}
+   */
+  #prepareInnateTraitSlots() {
+    const { items } = prepareItemList(this.actor, "innateTrait", {
+      warning: item => item.system.conflictsOn(this.actor).join(" ") || null
+    });
+    const count = Math.max(CONFIG.Item.dataModels.innateTrait.PER_FIGURE, items.length);
+    // Each of the three columns aligns its tag: at the start, in the middle, at the end
+    const columns = ["start", "center", "end"];
+    return Array.from({ length: count }, (_, i) => ({ item: items[i] ?? null, column: columns[i % columns.length] }));
   }
 
   /**
@@ -309,12 +315,6 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     }
     else ui.notifications.warn("KRISTALLPUNK.Cleanup.SheetBlocked", { localize: true });
     return false;
-  }
-
-  /** @override */
-  async _onFirstRender(context, options) {
-    await super._onFirstRender(context, options);
-    activateItemMenus(this);
   }
 
   /** @override */

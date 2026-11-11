@@ -1,4 +1,5 @@
 import { describeChange } from "../data/effect-targets.mjs";
+import { choiceGroup } from "../apps/effect-choice.mjs";
 
 /**
  * The list of active effects (#44), shared by the character sheet and the item sheet (#45).
@@ -39,6 +40,8 @@ export function prepareEffectGroups(document) {
       origin: item ? null : effectOrigin(effect, document),
       changes: effect.system.changes.filter(change => change.key).map(describeChange).join(", "),
       disabled: effect.disabled,
+      // Alternatives of an item, of which one is chosen when it is added to a figure (#47)
+      choice: choiceGroup(effect),
       toggleHint: game.i18n.localize(`KRISTALLPUNK.Effects.${effect.disabled ? "Enable" : "Disable"}`)
     });
   }

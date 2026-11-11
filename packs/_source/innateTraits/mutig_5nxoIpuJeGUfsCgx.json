@@ -1,0 +1,99 @@
+{
+  "_id": "5nxoIpuJeGUfsCgx",
+  "name": "mutig",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Ganz vorne spielt die Musik, du belächelst die ganzen Zauderer und Hasenfüße, voran voran, dabei schaust du selten rechts oder links, was kann schon schiefgehen…</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "ängstlich"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "TgtBM5ZeIeDqHqUz",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!5nxoIpuJeGUfsCgx.TgtBM5ZeIeDqHqUz"
+    },
+    {
+      "_id": "TlZf5QvVv7Ksey2Q",
+      "name": "Mut +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.derived.courage.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!5nxoIpuJeGUfsCgx.TlZf5QvVv7Ksey2Q"
+    }
+  ],
+  "folder": null,
+  "sort": 1700,
+  "flags": {},
+  "_key": "!items!5nxoIpuJeGUfsCgx"
+}

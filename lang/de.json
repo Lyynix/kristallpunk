@@ -5,7 +5,8 @@
     },
     "Item": {
       "equipment": "Ausrüstung",
-      "competence": "Kompetenz"
+      "competence": "Kompetenz",
+      "innateTrait": "Angeborene Eigenschaft"
     }
   },
   "KRISTALLPUNK": {
@@ -220,6 +221,8 @@
       "Stamina": "Ausdauer",
       "EquipmentNotes": "Notizen",
       "Competences": "Kompetenzen",
+      "InnateTraits": "Angeborene Eigenschaften",
+      "AddInnateTrait": "Eigenschaft",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
@@ -230,7 +233,8 @@
         "Term": "{label} {value}",
         "Half": "{label} {value} ÷ 2",
         "Result": "{terms} = {result}",
-        "WithMods": "{base}, {mods} → {total}",
+        "Total": "→ {total}",
+        "Nothing": "Noch keine Punkte",
         "FromItem": "{effect} ({item})",
         "CappedMax": "Obergrenze {limit}: {raw} wird zu {value}",
         "CappedMin": "Untergrenze {limit}: {raw} wird zu {value}"
@@ -516,6 +520,16 @@
           "quantity": { "label": "Anzahl" }
         }
       },
+      "InnateTrait": {
+        "Excluded": "{name} und {other} schließen sich gegenseitig aus.",
+        "TooMany": "Eine Figur hat {max} angeborene Eigenschaften, diese hat {count}.",
+        "FIELDS": {
+          "excludes": {
+            "label": "Schließt aus",
+            "hint": "Namen der Eigenschaften, die eine Figur nicht zusammen mit dieser haben kann. Gilt in beide Richtungen."
+          }
+        }
+      },
       "Competence": {
         "FIELDS": {
           "skill": {
@@ -545,30 +559,42 @@
       "SheetBlockedGM": "Diese Akte muss erst bereinigt werden.",
       "Competences": "{count} Kompetenzen aus dem Freitext erzeugen",
       "Competence": "1 Kompetenz aus dem Freitext erzeugen",
+      "Attributes": "Attributswerte als eigene Punkte übernehmen",
+      "InnateTraits": "{count} angeborene Eigenschaften aus dem Freitext übernehmen",
+      "InnateTraitsFromTemplate": "davon {count} aus einer Vorlage, ihre Punkte werden mit den bisherigen Werten verrechnet",
+      "InnateTraitsWithoutTemplate": "{count} ohne Vorlage, ohne Punkte",
+      "InnateTraitSkipped": "{name} wurde bei {actor} nicht übernommen, weil die Wahl abgebrochen wurde.",
+      "AttributeValue": "{attribute} {value}",
       "FromTemplate": "davon {count} aus einer Vorlage übernommen",
       "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
       "World": "Welt"
+    },
+    "EffectChoice": {
+      "Title": "Wahl: {item}",
+      "Hint": "{item} lässt dir eine Wahl. Welcher Effekt soll gelten?",
+      "Confirm": "Übernehmen",
+      "Group": "Wahlgruppe",
+      "GroupHint": "Effekte eines Items mit derselben Wahlgruppe sind Alternativen: Beim Hinzufügen zu einer Figur wird einer davon gewählt. Leer: gilt immer.",
+      "Tag": "Wahl: {group}",
+      "ListHint": "Nur einer der Effekte dieser Wahl gilt; gewählt wird beim Hinzufügen zu einer Figur."
     },
     "Items": {
       "Create": "{type} anlegen",
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
-      "Menu": "Aktionen",
       "None": "Keine"
     },
     "Mod": {
       "Label": "Modifikator",
       "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0.",
+      "AttributeHint": "Eigene Punkte zusätzlich zu denen aus Items (angeborene Eigenschaften, Metier, Alter).",
       "MaxLabel": "Modifikator auf Maximum",
       "MaxHint": "Manuelle Anpassung, die auf das berechnete Maximum addiert wird. Normalerweise 0."
     },
     "Exception": {
       "Label": "Erschaffungsausnahme",
       "Hint": "Erlaubt bei diesem Attribut einen Wert über dem regulären Maximum, wenn die Erschaffung das vorsieht."
-    },
-    "Validation": {
-      "AttributeAboveMax": "{attribute}: Werte über {max} sind nur mit gesetzter Erschaffungsausnahme erlaubt."
     }
   }
 }

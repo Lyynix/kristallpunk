@@ -1,0 +1,99 @@
+{
+  "_id": "RVbaena0D0FpvVta",
+  "name": "athletisch",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Du liebst den Wind in deinen Haaren, wenn du rennst und hörst gerne das Rauschen deines Pulses, wenn du dich körperlich anstrengst.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "excludes": [
+      "plump"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "SAUj06JhLbc2ojJa",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!RVbaena0D0FpvVta.SAUj06JhLbc2ojJa"
+    },
+    {
+      "_id": "471T7dHL33g0KIO2",
+      "name": "Athletik +2",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!RVbaena0D0FpvVta.471T7dHL33g0KIO2"
+    }
+  ],
+  "folder": null,
+  "sort": 300,
+  "flags": {},
+  "_key": "!items!RVbaena0D0FpvVta"
+}

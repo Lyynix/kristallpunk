@@ -1,3 +1,5 @@
+import { resolveEffectChoices } from "../../apps/effect-choice.mjs";
+
 const { HTMLField, SchemaField, StringField } = foundry.data.fields;
 
 /**
@@ -29,6 +31,8 @@ export default class ItemDataModel extends foundry.abstract.TypeDataModel {
 
   /**
    * New items without an image of their own get the default image of their type.
+   * Added to a figure, an item with alternative effects asks which ones should count (#47); the choice can be
+   * given in advance as `options.kristallpunk.choices` (effect ids by choice group). Cancelling adds nothing.
    * @override
    */
   async _preCreate(data, options, user) {
@@ -36,6 +40,9 @@ export default class ItemDataModel extends foundry.abstract.TypeDataModel {
     const image = this.constructor.DEFAULT_IMAGE;
     const Item = foundry.documents.Item;
     if ( image && (!data.img || (data.img === Item.DEFAULT_ICON)) ) this.parent.updateSource({ img: image });
+    if ( this.parent.parent instanceof foundry.documents.Actor ) {
+      if ( !await resolveEffectChoices(this.parent, options.kristallpunk?.choices) ) return false;
+    }
   }
 
   static defineSchema() {

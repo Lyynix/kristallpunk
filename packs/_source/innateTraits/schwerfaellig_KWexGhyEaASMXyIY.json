@@ -1,0 +1,106 @@
+{
+  "_id": "KWexGhyEaASMXyIY",
+  "name": "schwerfällig",
+  "type": "innateTrait",
+  "img": "icons/environment/people/commoner.webp",
+  "system": {
+    "description": "<p>Ja, du bist immer der langsamste von allen, aber es geht ja nicht um die Geschwindigkeit, sondern um die Show.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Initiative mit 2W6, der niedrigere zählt"
+    },
+    "excludes": [
+      "flink"
+    ]
+  },
+  "effects": [
+    {
+      "_id": "M9FdUQIxqjB4aqyC",
+      "name": "Attributspunkte",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!KWexGhyEaASMXyIY.M9FdUQIxqjB4aqyC"
+    },
+    {
+      "_id": "xm43VVhGqncImG2v",
+      "name": "Schauspiel +2, Redekunst +1",
+      "img": "icons/environment/people/commoner.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.acting.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!KWexGhyEaASMXyIY.xm43VVhGqncImG2v"
+    }
+  ],
+  "folder": null,
+  "sort": 2600,
+  "flags": {},
+  "_key": "!items!KWexGhyEaASMXyIY"
+}

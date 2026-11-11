@@ -7,6 +7,7 @@
  */
 
 import { parseCompetences } from "./parse-competences.mjs";
+import { gatherTemplates } from "./templates.mjs";
 
 /** Version of this migration; migrations are run in this order. */
 export const version = 1;
@@ -31,7 +32,11 @@ export function needs(actor) {
  * @returns {Promise<{skills: Record<string, string>, templates: Map<string, object[]>}>}
  */
 export async function prepare() {
-  return { skills: skillNames(), templates: await gatherTemplates() };
+  // Competences of the same name under several skills are told apart by their skill
+  const templates = await gatherTemplates({
+    type: "competence", pack: SYSTEM_PACK, fields: ["system.skill"], variant: item => item.system?.skill ?? null
+  });
+  return { skills: skillNames(), templates };
 }
 
 /**
@@ -93,8 +98,8 @@ function planFor(actor, { skills, templates }) {
   return parseCompetences(actor.system.competences, skills).map(entry => {
     const candidates = templates.get(entry.name.toLowerCase()) ?? [];
     let template = null;
-    if ( entry.skill ) template = candidates.find(candidate => candidate.skill === entry.skill) ?? null;
-    else if ( new Set(candidates.map(candidate => candidate.skill)).size === 1 ) template = candidates[0];
+    if ( entry.skill ) template = candidates.find(candidate => candidate.variant === entry.skill) ?? null;
+    else if ( new Set(candidates.map(candidate => candidate.variant)).size === 1 ) template = candidates[0];
     return { ...entry, template };
   });
 }
@@ -107,43 +112,11 @@ function planFor(actor, { skills, templates }) {
 function describe(entry) {
   const { escapeHTML } = foundry.utils;
   const name = entry.specification ? `${entry.name} (${entry.specification})` : entry.name;
-  const skill = entry.template?.skill ?? entry.skill;
+  const skill = entry.template?.variant ?? entry.skill;
   const skillLabel = skill ? game.i18n.localize(CONFIG.KRISTALLPUNK.skills[skill]?.label ?? skill) : null;
   let text = skillLabel ? `${name}: ${skillLabel}` : name;
   if ( entry.template ) text += ` (${entry.template.source})`;
   return escapeHTML(text);
-}
-
-/**
- * Competences that can serve as templates, by their names in lower case. The system's compendium comes first,
- * then the world's items, then other compendiums of items.
- * @returns {Promise<Map<string, {uuid: string, skill: string|null, source: string}[]>>}
- */
-async function gatherTemplates() {
-  const templates = new Map();
-  const add = (name, uuid, skill, source) => {
-    const key = name.toLowerCase();
-    if ( !templates.has(key) ) templates.set(key, []);
-    const list = templates.get(key);
-    // An earlier source wins over a later one with the same skill
-    if ( !list.some(entry => entry.skill === skill) ) list.push({ uuid, skill: skill ?? null, source });
-  };
-
-  const systemPack = game.packs.get(SYSTEM_PACK);
-  const otherPacks = game.packs.filter(pack => (pack.documentName === "Item") && (pack !== systemPack));
-  const fromPack = async pack => {
-    const index = await pack.getIndex({ fields: ["type", "system.skill"] });
-    for ( const entry of index ) {
-      if ( entry.type === "competence" ) add(entry.name, entry.uuid, entry.system?.skill, pack.title);
-    }
-  };
-
-  if ( systemPack ) await fromPack(systemPack);
-  for ( const item of game.items ) {
-    if ( item.type === "competence" ) add(item.name, item.uuid, item.system.skill, game.i18n.localize("KRISTALLPUNK.Cleanup.World"));
-  }
-  for ( const pack of otherPacks ) await fromPack(pack);
-  return templates;
 }
 
 /**
