@@ -5,7 +5,8 @@
     },
     "Item": {
       "equipment": "Ausrüstung",
-      "competence": "Kompetenz"
+      "competence": "Kompetenz",
+      "innateTrait": "Angeborene Eigenschaft"
     }
   },
   "KRISTALLPUNK": {
@@ -220,6 +221,9 @@
       "Stamina": "Ausdauer",
       "EquipmentNotes": "Notizen",
       "Competences": "Kompetenzen",
+      "InnateTraits": "Angeborene Eigenschaften",
+      "AddInnateTrait": "Angeborene Eigenschaft anlegen",
+      "FormerInnateTraits": "Bisherige angeborene Eigenschaften (Freitext)",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
@@ -516,6 +520,16 @@
       "Equipment": {
         "FIELDS": {
           "quantity": { "label": "Anzahl" }
+        }
+      },
+      "InnateTrait": {
+        "Excluded": "{name} und {other} schließen sich gegenseitig aus.",
+        "TooMany": "Eine Figur hat {max} angeborene Eigenschaften, diese hat {count}.",
+        "FIELDS": {
+          "excludes": {
+            "label": "Schließt aus",
+            "hint": "Namen der Eigenschaften, die eine Figur nicht zusammen mit dieser haben kann. Gilt in beide Richtungen."
+          }
         }
       },
       "Competence": {

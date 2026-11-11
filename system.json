@@ -39,6 +39,9 @@
       },
       "competence": {
         "htmlFields": ["description"]
+      },
+      "innateTrait": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {

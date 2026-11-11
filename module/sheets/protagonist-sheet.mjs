@@ -73,8 +73,9 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       skillGroups: this.#prepareSkillGroups(),
       // Field labels for templates, localized via LOCALIZATION_PREFIXES
       systemFields: this.actor.system.schema.fields,
-      // Always three fields, as on the official sheet
+      // The former free text of innate traits, always three fields, shown only while one holds something (#47)
       innateTraits: Array.from({ length: 3 }, (_, i) => this.actor.system.innateTraits[i] ?? ""),
+      formerInnateTraits: this.actor.system.innateTraits.some(trait => trait?.trim()),
       valueGroups: this.#prepareValueGroups(),
       // Usable in play mode too, since status changes during play
       statusTracker: prepareStatusTracker(this.actor),
@@ -85,6 +86,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
         detail: item => String(item.system.quantity)
       }),
+      innateTraitSlots: this.#prepareInnateTraitSlots(),
       competenceList: prepareItemList(this.actor, "competence", {
         label: "KRISTALLPUNK.Sheet.Competences",
         detailLabel: "KRISTALLPUNK.Item.Competence.FIELDS.skill.label",
@@ -138,6 +140,20 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
           };
         })
     }));
+  }
+
+  /**
+   * The innate traits as slots side by side, as on the official sheet (#47): at least three, empty ones to add a
+   * trait. A figure with more traits gets more slots. Traits that exclude each other, or more than a figure has,
+   * are marked; nothing is blocked.
+   * @returns {{item: object|null}[]}
+   */
+  #prepareInnateTraitSlots() {
+    const { items } = prepareItemList(this.actor, "innateTrait", {
+      warning: item => item.system.conflictsOn(this.actor).join(" ") || null
+    });
+    const count = Math.max(CONFIG.Item.dataModels.innateTrait.PER_FIGURE, items.length);
+    return Array.from({ length: count }, (_, i) => ({ item: items[i] ?? null }));
   }
 
   /**

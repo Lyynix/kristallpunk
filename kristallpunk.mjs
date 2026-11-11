@@ -16,6 +16,7 @@ import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
 import KristallpunkItemSheet from "./module/sheets/item-sheet.mjs";
 import EquipmentData from "./module/data/item/equipment.mjs";
 import CompetenceData from "./module/data/item/competence.mjs";
+import InnateTraitData from "./module/data/item/innate-trait.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
@@ -35,6 +36,7 @@ Hooks.once("init", () => {
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
   CONFIG.Item.dataModels.equipment = EquipmentData;
   CONFIG.Item.dataModels.competence = CompetenceData;
+  CONFIG.Item.dataModels.innateTrait = InnateTraitData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();

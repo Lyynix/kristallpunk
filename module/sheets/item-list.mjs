@@ -78,7 +78,8 @@ export function activateItemMenus(sheet) {
   ];
   const options = { jQuery: false, fixed: true };
   new ContextMenu(sheet.element, "[data-item-menu]", entries, { ...options, eventName: "click", relative: "target" });
-  new ContextMenu(sheet.element, ".item-row[data-item-id]", entries, options);
+  // Rows of the lists and the slots of innate traits (#47)
+  new ContextMenu(sheet.element, ".item-row[data-item-id], .trait-slot[data-item-id]", entries, options);
 }
 
 /**
