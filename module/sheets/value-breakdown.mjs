@@ -53,7 +53,7 @@ function effectLabel(effect) {
  * - With parts: "Kraft 6 + Wille 4 = 10, Trank +1, Mod +1 → 12"
  * - With a cap: an extra line "Grenze 7: 8 wird zu 7"
  * @param {object} data
- * @param {({label: string, value: number}|string)[]} data.terms  The terms of the base computation; a string
+ * @param {({label: string, value: number}|string)[]} data.terms  The terms of the base computation, possibly none; a string
  *                                                       is a term formatted already (not escaped).
  * @param {number} data.base                             Result of the base computation.
  * @param {number} [data.mod=0]                          The prepared modifier, after active effects.
@@ -68,7 +68,7 @@ export function breakdown({ terms, base, mod = 0, parts = [], limits }) {
   const { escapeHTML } = foundry.utils;
   const term = ({ label, value }) => game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Term", { label: escapeHTML(label), value });
   let text = terms.map(entry => (typeof entry === "string" ? entry : term(entry))).join(" + ");
-  if ( (terms.length > 1) || (typeof terms[0] === "string") || (terms[0]?.value !== base) ) {
+  if ( terms.length && ((terms.length > 1) || (typeof terms[0] === "string") || (terms[0]?.value !== base)) ) {
     text = game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Result", { terms: text, result: base });
   }
 
@@ -79,8 +79,12 @@ export function breakdown({ terms, base, mod = 0, parts = [], limits }) {
     const mods = parts.map(part => (part.type === null
       ? term({ label: part.label, value: signed(part.value) })
       : term({ label: part.label, value: escapeHTML(part.type) })));
-    text = game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.WithMods", { base: text, mods: mods.join(", "), total: raw });
+    // Without a base computation (e.g. attributes, #47) the parts alone make up the value
+    text = terms.length
+      ? game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.WithMods", { base: text, mods: mods.join(", "), total: raw })
+      : game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Sum", { mods: mods.join(", "), total: raw });
   }
+  else if ( !terms.length ) text = game.i18n.localize("KRISTALLPUNK.Sheet.Breakdown.Nothing");
 
   let value = raw;
   if ( limits ) {

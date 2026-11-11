@@ -12,17 +12,13 @@
         {{#each group.attributes as |attribute|}}
         <div class="attribute">
           <label for="{{@root.rootId}}-attribute-{{attribute.key}}">{{localize attribute.label}}</label>
-          {{!-- Play mode shows the total, edit mode the entered value and the modifier --}}
+          {{!-- Play mode shows the total, edit mode the manual points; the rest comes from items (#47) --}}
           <span class="total" data-tooltip="{{attribute.breakdown}}">{{attribute.total}}</span>
           <span class="inputs">
-            <input id="{{@root.rootId}}-attribute-{{attribute.key}}" type="number"
-                   name="system.attributes.{{attribute.key}}.value" value="{{attribute.value}}"
-                   min="{{attribute.min}}" max="{{attribute.max}}" step="1" data-lockable {{disabled @root.locked}}>
             {{!-- Text input so the modifier can show its sign (+2); data-dtype stores it as a number --}}
-            <input class="mod" type="text" inputmode="numeric" data-dtype="Number"
-                   name="{{attribute.mod.name}}" value="{{attribute.mod.display}}"
-                   aria-label="{{localize "KRISTALLPUNK.Mod.Label"}}" data-tooltip="{{localize "KRISTALLPUNK.Mod.Hint"}}"
-                   data-lockable {{disabled @root.locked}}>
+            <input id="{{@root.rootId}}-attribute-{{attribute.key}}" class="mod" type="text" inputmode="numeric"
+                   data-dtype="Number" name="{{attribute.mod.name}}" value="{{attribute.mod.display}}"
+                   data-tooltip="{{localize "KRISTALLPUNK.Mod.AttributeHint"}}" data-lockable {{disabled @root.locked}}>
           </span>
         </div>
         {{/each}}

@@ -110,11 +110,10 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /**
-   * Attributes grouped by domain. Play mode shows the total, edit mode the entered value and the modifier
-   * (#43). The input maximum depends on the creation exception, which is not editable here; it is set
-   * during character creation.
-   * Inputs show the stored values: active effects change the prepared modifier, and saving that would
-   * store their result as input.
+   * Attributes grouped by domain. Play mode shows the total, edit mode the manual modifier (#47): the points of an
+   * attribute come from items as active effects, the tooltip lists them.
+   * The input shows the stored modifier: active effects change the prepared one, and saving that would store
+   * their result as manual points.
    * @returns {object[]}
    */
   #prepareAttributeGroups() {
@@ -128,22 +127,14 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         .filter(([, config]) => config.domain === domain)
         .map(([key, config]) => {
           const data = this.actor.system.attributes[key];
-          const stored = source.attributes[key];
           return {
             key,
             label: config.label,
-            value: stored.value,
             total: data.total,
             breakdown: breakdown({
-              terms: [{ label: game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), value: stored.value }],
-              base: stored.value,
-              mod: data.mod,
-              parts: modifierParts(this.actor, `attributes.${key}.mod`),
-              limits: { min: limits.min, max: limits.exceptionMax }
+              terms: [], base: 0, mod: data.mod, parts: modifierParts(this.actor, `attributes.${key}.mod`), limits
             }).text,
-            mod: modInput(`system.attributes.${key}.mod`, stored.mod),
-            min: limits.min,
-            max: data.exception ? limits.exceptionMax : limits.max
+            mod: modInput(`system.attributes.${key}.mod`, source.attributes[key].mod)
           };
         })
     }));

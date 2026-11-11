@@ -231,6 +231,8 @@
         "Half": "{label} {value} ÷ 2",
         "Result": "{terms} = {result}",
         "WithMods": "{base}, {mods} → {total}",
+        "Sum": "{mods} → {total}",
+        "Nothing": "Noch keine Punkte",
         "FromItem": "{effect} ({item})",
         "CappedMax": "Obergrenze {limit}: {raw} wird zu {value}",
         "CappedMin": "Untergrenze {limit}: {raw} wird zu {value}"
@@ -545,6 +547,8 @@
       "SheetBlockedGM": "Diese Akte muss erst bereinigt werden.",
       "Competences": "{count} Kompetenzen aus dem Freitext erzeugen",
       "Competence": "1 Kompetenz aus dem Freitext erzeugen",
+      "Attributes": "Attributswerte als eigene Punkte übernehmen",
+      "AttributeValue": "{attribute} {value}",
       "FromTemplate": "davon {count} aus einer Vorlage übernommen",
       "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
       "World": "Welt"
@@ -560,15 +564,13 @@
     "Mod": {
       "Label": "Modifikator",
       "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0.",
+      "AttributeHint": "Eigene Punkte zusätzlich zu denen aus Items (angeborene Eigenschaften, Metier, Alter).",
       "MaxLabel": "Modifikator auf Maximum",
       "MaxHint": "Manuelle Anpassung, die auf das berechnete Maximum addiert wird. Normalerweise 0."
     },
     "Exception": {
       "Label": "Erschaffungsausnahme",
       "Hint": "Erlaubt bei diesem Attribut einen Wert über dem regulären Maximum, wenn die Erschaffung das vorsieht."
-    },
-    "Validation": {
-      "AttributeAboveMax": "{attribute}: Werte über {max} sind nur mit gesetzter Erschaffungsausnahme erlaubt."
     }
   }
 }
