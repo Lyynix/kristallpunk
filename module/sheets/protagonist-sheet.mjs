@@ -2,6 +2,8 @@ import { activateStatusTracker, prepareStatusTracker } from "../apps/status-trac
 import { breakdown, modifierParts } from "./value-breakdown.mjs";
 import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
 import { activateItemMenus, ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
+import { needsCleanup } from "../migrations/_module.mjs";
+import FileCleanup from "../apps/file-cleanup.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -292,6 +294,21 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       action: "toggleEditMode"
     });
     return buttons;
+  }
+
+  /**
+   * A figure whose data an update of the system changed opens only after it has been cleaned (#46), so the sheet
+   * only has to know the current data. The GM gets the "Aktenbereinigung" instead.
+   * @override
+   */
+  _canRender(options) {
+    if ( !needsCleanup(this.actor) ) return super._canRender(options);
+    if ( game.user.isGM ) {
+      ui.notifications.info("KRISTALLPUNK.Cleanup.SheetBlockedGM", { localize: true });
+      FileCleanup.open();
+    }
+    else ui.notifications.warn("KRISTALLPUNK.Cleanup.SheetBlocked", { localize: true });
+    return false;
   }
 
   /** @override */

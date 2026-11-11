@@ -13,15 +13,6 @@
     <div class="competence-list">
       {{!-- Can be added and removed in play mode too, like the inventory (#46) --}}
       {{> "kristallpunk.item-list" list=competenceList}}
-
-      {{!-- The former free text, shown only while it still holds something; it is taken over as items (#46) --}}
-      {{#if system.competences}}
-      <div class="text-field">
-        <label for="{{rootId}}-competences">{{localize "KRISTALLPUNK.Sheet.FormerCompetences"}}</label>
-        <textarea id="{{rootId}}-competences" name="system.competences" rows="5"
-                  data-lockable {{disabled locked}}>{{system.competences}}</textarea>
-      </div>
-      {{/if}}
     </div>
 
     <div class="magic">

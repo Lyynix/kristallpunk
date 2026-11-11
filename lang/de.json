@@ -221,7 +221,6 @@
       "Stamina": "Ausdauer",
       "EquipmentNotes": "Notizen",
       "Competences": "Kompetenzen",
-      "FormerCompetences": "Bisherige Kompetenzen (Freitext)",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
@@ -282,6 +281,7 @@
       "Inspiration": "Inspiration",
       "Medicine": "Medizin",
       "PrismResonance": "Resonanz",
+      "PrismResonanceShortRules": "Prismenresonanz",
       "Rhetoric": "Redekunst",
       "Acting": "Schauspiel",
       "Science": "Wissenschaft"
@@ -529,6 +529,22 @@
           }
         }
       }
+    },
+    "Cleanup": {
+      "Title": "Aktenbereinigung",
+      "Open": "Akten bereinigen",
+      "Intro": "Eine neue Version des Systems hat die Daten dieser Akten geändert. Bereinige sie, bevor sie wieder geöffnet werden; darunter steht, was dabei passiert.",
+      "Clean": "Bereinigen",
+      "CleanAll": "Alle bereinigen",
+      "Done": "Alle Akten sind auf dem neuesten Stand.",
+      "Failed": "Nicht alle Akten konnten bereinigt werden. Details stehen in der Konsole (F12).",
+      "SheetBlocked": "Diese Akte muss erst von der SL bereinigt werden.",
+      "SheetBlockedGM": "Diese Akte muss erst bereinigt werden.",
+      "Competences": "{count} Kompetenzen aus dem Freitext erzeugen",
+      "Competence": "1 Kompetenz aus dem Freitext erzeugen",
+      "FromTemplate": "davon {count} aus einer Vorlage übernommen",
+      "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
+      "World": "Welt"
     },
     "Items": {
       "Create": "{type} anlegen",
