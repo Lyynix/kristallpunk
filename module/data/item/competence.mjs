@@ -1,6 +1,6 @@
 import ItemDataModel from "./base.mjs";
 
-const { StringField } = foundry.data.fields;
+const { BooleanField, StringField } = foundry.data.fields;
 
 /**
  * Data model of the "competence" item type (Kompetenz, #46): a specialty within one skill. If it covers what a
@@ -21,7 +21,10 @@ export default class CompetenceData extends ItemDataModel {
         choices: () => Object.fromEntries(Object.entries(CONFIG.KRISTALLPUNK.skills).map(([key, { label }]) => [key, label]))
       }),
       // What a competence that can be learned more than once applies to, e.g. the weapon of Waffenmeister
-      specification: new StringField({ required: true, blank: true })
+      specification: new StringField({ required: true, blank: true }),
+      // Whether the competence allows rerolling the ones of a check (Kurzregeln 1.0, p. 6). Most do; a few only
+      // do something else (e.g. Ladedrill), and are not suggested for the reroll then.
+      rerollOnes: new BooleanField({ initial: true })
     };
   }
 

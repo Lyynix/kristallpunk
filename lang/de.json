@@ -526,6 +526,10 @@
           "specification": {
             "label": "Angabe",
             "hint": "Wofür eine mehrfach erlernbare Kompetenz gilt, z. B. die Waffe bei Waffenmeister."
+          },
+          "rerollOnes": {
+            "label": "Erlaubt den Neuwurf der 1er",
+            "hint": "Die meisten Kompetenzen erlauben, alle 1er einer passenden Probe einmal neu zu würfeln. Ohne Haken wird die Kompetenz dafür nicht vorgeschlagen."
           }
         }
       }
