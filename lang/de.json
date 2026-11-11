@@ -567,6 +567,15 @@
       "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
       "World": "Welt"
     },
+    "EffectChoice": {
+      "Title": "Wahl: {item}",
+      "Hint": "{item} lässt dir eine Wahl. Welcher Effekt soll gelten?",
+      "Confirm": "Übernehmen",
+      "Group": "Wahlgruppe",
+      "GroupHint": "Effekte eines Items mit derselben Wahlgruppe sind Alternativen: Beim Hinzufügen zu einer Figur wird einer davon gewählt. Leer: gilt immer.",
+      "Tag": "Wahl: {group}",
+      "ListHint": "Nur einer der Effekte dieser Wahl gilt; gewählt wird beim Hinzufügen zu einer Figur."
+    },
     "Items": {
       "Create": "{type} anlegen",
       "New": "{type} (neu)",

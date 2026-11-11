@@ -19,6 +19,9 @@
         <span class="name">
           <img src="{{effect.img}}" alt="" inert>
           <span>{{effect.name}}</span>
+          {{#if effect.choice}}
+          <span class="effect-choice" data-tooltip="{{localize "KRISTALLPUNK.EffectChoice.ListHint"}}">{{localize "KRISTALLPUNK.EffectChoice.Tag" group=effect.choice}}</span>
+          {{/if}}
         </span>
         <span class="source">
           {{#if effect.item}}
