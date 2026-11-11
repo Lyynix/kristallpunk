@@ -176,8 +176,8 @@
         "Competence": {
           "Button": "Kompetenz einsetzen",
           "Hint": "Alle Einser werden neu gewürfelt, wenn eine Kompetenz die Handlung abdeckt.",
-          "List": "Kompetenzen: {competences}",
-          "None": "Keine Kompetenzen eingetragen."
+          "List": "Passende Kompetenzen: {competences}",
+          "None": "Keine passende Kompetenz."
         },
         "Kept": "aus dem vorigen Wurf behalten",
         "History": "Verlauf",
