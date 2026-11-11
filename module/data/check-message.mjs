@@ -40,6 +40,8 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       }),
       // Rerolls in order (#15, #16), see rules.check.REROLL_MODES; reroll n brings the dice of roll n + 1
       rerolls: new ArrayField(new StringField({ required: true, blank: false, choices: checkRules.REROLL_MODES })),
+      // Name of the competence each reroll of ones rested on (#46), in the order of those rerolls
+      competencesUsed: new ArrayField(new StringField({ required: true, blank: true })),
       // `requestId` of the check request this check answers (#33), if it was rolled from the request
       request: new StringField({ required: true, blank: false, nullable: true, initial: null })
     };
@@ -73,12 +75,15 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   get steps() {
     let faces = facesOf(this.parent.rolls[0]);
     const steps = [{ mode: null, faces, kept: 0 }];
+    let ones = 0;
     this.rerolls.forEach((mode, index) => {
       const roll = this.parent.rolls[index + 1];
       if ( !roll ) return;
       const { keep } = checkRules.reroll({ faces, mode });
       faces = [...keep, ...facesOf(roll)];
-      steps.push({ mode, faces, kept: keep.length });
+      // The competence a reroll of ones rested on, if known (#46)
+      const competence = mode === "ones" ? (this.competencesUsed[ones++] || null) : null;
+      steps.push({ mode, faces, kept: keep.length, competence });
     });
     for ( const step of steps ) step.result = checkRules.evaluate({ faces: step.faces, grade: this.grade });
     return steps;
@@ -143,25 +148,39 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   /**
    * Whether the current user could reroll the ones with a competence (Kurzregeln 1.0, p. 6):
    * only on skill checks, as rules.check.canReroll allows, only with ones to reroll,
-   * and only for the one who rolled and the GM. Competences are free text until 0.4.0,
-   * so whether one fits is up to the players.
+   * only for the one who rolled and the GM, and only if the figure has a competence of the check's skill
+   * that allows it (#46). Whether that competence covers what the figure does is up to the table.
    * @type {boolean}
    */
   get canRerollWithCompetence() {
     if ( !(this.check in CONFIG.KRISTALLPUNK.skills) || this.rerolling ) return false;
     if ( !(game.user.isGM || this.parent.isAuthor) ) return false;
     if ( !checkRules.canReroll({ rerolls: this.rerolls, mode: "ones" }) ) return false;
-    return checkRules.reroll({ faces: this.faces, mode: "ones" }).count > 0;
+    if ( checkRules.reroll({ faces: this.faces, mode: "ones" }).count === 0 ) return false;
+    return this.matchingCompetences.length > 0;
   }
 
   /**
-   * Reroll all ones with a competence. The result may change a critical result, so with automatic
-   * consequences, conviction is updated right away.
+   * Names of the figure's competences that belong to the skill of this check and allow rerolling ones (#46),
+   * e.g. "Waffenmeister (Säbel)".
+   * @type {string[]}
+   */
+  get matchingCompetences() {
+    const actor = fromUuidSync(this.actor);
+    return (actor?.itemTypes.competence ?? [])
+      .filter(item => (item.system.skill === this.check) && item.system.rerollOnes)
+      .map(item => item.system.fullName);
+  }
+
+  /**
+   * Reroll all ones with a competence of the figure, which the card records (#46). The result may change a
+   * critical result, so with automatic consequences, conviction is updated right away.
+   * @param {string} competence  Name of the competence, one of matchingCompetences.
    * @returns {Promise<boolean>}  Whether this call rerolled.
    */
-  async rerollWithCompetence() {
-    if ( !this.canRerollWithCompetence ) return false;
-    if ( !await this.#reroll("ones") ) return false;
+  async rerollWithCompetence(competence) {
+    if ( !this.canRerollWithCompetence || !this.matchingCompetences.includes(competence) ) return false;
+    if ( !await this.#reroll("ones", { "system.competencesUsed": [...this.competencesUsed, competence] }) ) return false;
     if ( game.settings.get(SYSTEM_ID, "autoApply") ) await this.parent.system.applyConviction();
     return true;
   }
@@ -170,9 +189,10 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
    * Reroll the current faces in a mode. The card records the reroll before rolling, so a second click,
    * here or on another client, finds it recorded and does nothing. The new dice are attached as a further roll.
    * @param {string} mode
+   * @param {object} [record]  Further changes recorded with the reroll, undone with it if rolling fails.
    * @returns {Promise<boolean>}  Whether this call rerolled.
    */
-  async #reroll(mode) {
+  async #reroll(mode, record = {}) {
     const actor = await fromUuid(this.actor);
     if ( !actor?.isOwner ) {
       ui.notifications.warn("KRISTALLPUNK.Check.Warning.CannotApply", { localize: true });
@@ -180,13 +200,14 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     }
     const message = this.parent;
     const rerolls = [...this.rerolls];
+    const before = Object.fromEntries(Object.keys(record).map(key => [key, foundry.utils.deepClone(foundry.utils.getProperty(message, key))]));
     const { count } = checkRules.reroll({ faces: this.faces, mode });
-    await message.update({ "system.rerolls": [...rerolls, mode] });
+    await message.update({ "system.rerolls": [...rerolls, mode], ...record });
     let roll;
     try {
       roll = await new Roll(`${count}d6`).evaluate();
     } catch (err) {
-      await message.update({ "system.rerolls": rerolls });
+      await message.update({ "system.rerolls": rerolls, ...before });
       throw err;
     }
     // Dice So Nice animates rolls added to a message by itself; an edit may have switched that off (#24)
@@ -454,8 +475,9 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     const mode = this.rerollOption;
     const steps = this.steps;
     const history = steps.length > 1 ? steps.map(step => ({
-      label: game.i18n.format(`KRISTALLPUNK.Check.Reroll.Step.${step.mode ?? "first"}`, {
-        count: step.faces.length - step.kept
+      // A reroll of ones names its competence, once the card knows it (#46)
+      label: game.i18n.format(`KRISTALLPUNK.Check.Reroll.Step.${step.competence ? "onesWith" : (step.mode ?? "first")}`, {
+        count: step.faces.length - step.kept, competence: step.competence
       }),
       dice: step.faces.map((face, index) => ({
         face, kept: index < step.kept, icon: `fa-regular fa-dice-${FACE_ICONS[face - 1]}`
@@ -463,25 +485,10 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
     })) : null;
     return {
       option: mode ? { mode, hint: `KRISTALLPUNK.Check.Reroll.Mode.${mode}` } : null,
-      competence: this.canRerollWithCompetence ? { hint: this.#competenceHint() } : null,
+      // One button per competence, so it is clear which one the reroll rests on (#46)
+      competences: this.canRerollWithCompetence ? this.matchingCompetences : [],
       history
     };
-  }
-
-  /**
-   * Tooltip of the competence button: what it does, and the competences of the figure that belong to the skill of
-   * this check and allow rerolling ones, as a suggestion (#46). Whether one covers what the figure does is up to the table, so the button
-   * is never blocked. Plain text (the card shows it as `data-tooltip-text`), since items are named by users.
-   * @returns {string}
-   */
-  #competenceHint() {
-    const hint = game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.Hint");
-    const actor = fromUuidSync(this.actor);
-    const competences = (actor?.itemTypes.competence ?? [])
-      .filter(item => (item.system.skill === this.check) && item.system.rerollOnes)
-      .map(item => item.system.fullName);
-    if ( !competences.length ) return `${hint} ${game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.None")}`;
-    return `${hint} ${game.i18n.format("KRISTALLPUNK.Check.Reroll.Competence.List", { competences: competences.join(", ") })}`;
   }
 
   /**
@@ -532,10 +539,14 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
       event.currentTarget.disabled = true;
       message.system.rerollWithConviction();
     });
-    content.querySelector("[data-action=rerollWithCompetence]")?.addEventListener("click", event => {
-      event.currentTarget.disabled = true;
-      message.system.rerollWithCompetence();
-    });
+    // One button per matching competence; a click disables them all, since only one may be used (#46)
+    const competenceButtons = content.querySelectorAll("[data-action=rerollWithCompetence]");
+    for ( const button of competenceButtons ) {
+      button.addEventListener("click", () => {
+        for ( const other of competenceButtons ) other.disabled = true;
+        message.system.rerollWithCompetence(button.dataset.competence);
+      });
+    }
     const card = content.querySelector(".check-card");
     if ( card?.querySelector(".check-edit") ) bindEdit(card, message);
   }

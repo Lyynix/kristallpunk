@@ -11,6 +11,9 @@ const { BooleanField, StringField } = foundry.data.fields;
 export default class CompetenceData extends ItemDataModel {
   static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "KRISTALLPUNK.Item.Competence"];
 
+  /** @override */
+  static DEFAULT_IMAGE = "icons/commodities/treasure/medal-ribbon-star-gold-red.webp";
+
   static defineSchema() {
     return {
       ...super.defineSchema(),

@@ -20,6 +20,24 @@ export default class ItemDataModel extends foundry.abstract.TypeDataModel {
    */
   static hasRules = true;
 
+  /**
+   * Image of new items of this type that bring none of their own, instead of Foundry's default bag (#54).
+   * Null keeps Foundry's default.
+   * @type {string|null}
+   */
+  static DEFAULT_IMAGE = null;
+
+  /**
+   * New items without an image of their own get the default image of their type.
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    if ( (await super._preCreate(data, options, user)) === false ) return false;
+    const image = this.constructor.DEFAULT_IMAGE;
+    const Item = foundry.documents.Item;
+    if ( image && (!data.img || (data.img === Item.DEFAULT_ICON)) ) this.parent.updateSource({ img: image });
+  }
+
   static defineSchema() {
     return {
       description: new HTMLField(),
