@@ -1,4 +1,5 @@
-{{!-- List of a figure's items of one type (#45); see module/sheets/item-list.mjs. Expects `list`. --}}
+{{!-- List of a figure's items of one type (#45); see module/sheets/item-list.mjs. Expects `list`.
+      The name opens the item; deleting sits on the row and shows on hover (#47). --}}
 <section class="item-list-group {{list.type}}">
   <header class="item-row header {{#if list.detailLabel}}with-detail{{/if}}">
     <span class="name">{{list.label}}</span>
@@ -14,7 +15,6 @@
     {{#each list.items as |item|}}
     <li class="item-row draggable {{#if ../list.detailLabel}}with-detail{{/if}}" data-item-id="{{item.id}}">
       <span class="name">
-        <img src="{{item.img}}" alt="" inert>
         <a data-action="editItem">{{item.name}}</a>
         {{#if item.automation}}
         <i class="automation {{item.automation.level}} fa-solid {{item.automation.icon}}"
@@ -35,9 +35,10 @@
       </span>
       {{/if}}
       <span class="controls">
-        {{!-- Edit and delete sit in a menu, so the name gets the room (#46); right-clicking the row opens it too --}}
-        <button type="button" class="inline-control icon fa-solid fa-ellipsis-vertical" data-item-menu
-                data-tooltip="{{localize "KRISTALLPUNK.Items.Menu"}}" aria-label="{{localize "KRISTALLPUNK.Items.Menu"}}"></button>
+        {{#if @root.editable}}
+        <button type="button" class="inline-control icon fa-solid fa-xmark item-delete" data-action="deleteItem"
+                data-tooltip="{{localize "KRISTALLPUNK.Items.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Items.Delete"}}"></button>
+        {{/if}}
       </span>
     </li>
     {{else}}

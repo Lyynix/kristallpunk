@@ -222,7 +222,7 @@
       "EquipmentNotes": "Notizen",
       "Competences": "Kompetenzen",
       "InnateTraits": "Angeborene Eigenschaften",
-      "AddInnateTrait": "Angeborene Eigenschaft anlegen",
+      "AddInnateTrait": "Eigenschaft",
       "FormerInnateTraits": "Bisherige angeborene Eigenschaften (Freitext)",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
@@ -234,8 +234,7 @@
         "Term": "{label} {value}",
         "Half": "{label} {value} ÷ 2",
         "Result": "{terms} = {result}",
-        "WithMods": "{base}, {mods} → {total}",
-        "Sum": "{mods} → {total}",
+        "Total": "→ {total}",
         "Nothing": "Noch keine Punkte",
         "FromItem": "{effect} ({item})",
         "CappedMax": "Obergrenze {limit}: {raw} wird zu {value}",
@@ -581,7 +580,6 @@
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
-      "Menu": "Aktionen",
       "None": "Keine"
     },
     "Mod": {

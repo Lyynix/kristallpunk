@@ -50,8 +50,9 @@ function effectLabel(effect) {
  * Tooltip text of a value: the base computation, the parts of its modifier, and a cap if one applied.
  * Lines are separated by <br>; labels are escaped, since effect names are entered by users.
  * - Without parts and cap: "Kraft 6 + Wille 4 = 10"
- * - With parts: "Kraft 6 + Wille 4 = 10, Trank +1, Mod +1 → 12"
- * - With a cap: an extra line "Grenze 7: 8 wird zu 7"
+ * - With parts, one line each: "Kraft 6 + Wille 4 = 10" / "Trank +1" / "Mod +1" / "→ 12"
+ * - Without a base computation (attributes, #47): "Kräftig +2" / "Mod +1" / "→ 3"
+ * - With a cap: an extra line "Obergrenze 7: 8 wird zu 7"
  * @param {object} data
  * @param {({label: string, value: number}|string)[]} data.terms  The terms of the base computation, possibly none; a string
  *                                                       is a term formatted already (not escaped).
@@ -79,10 +80,10 @@ export function breakdown({ terms, base, mod = 0, parts = [], limits }) {
     const mods = parts.map(part => (part.type === null
       ? term({ label: part.label, value: signed(part.value) })
       : term({ label: part.label, value: escapeHTML(part.type) })));
-    // Without a base computation (e.g. attributes, #47) the parts alone make up the value
-    text = terms.length
-      ? game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.WithMods", { base: text, mods: mods.join(", "), total: raw })
-      : game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Sum", { mods: mods.join(", "), total: raw });
+    // One line each: the base computation if any (attributes have none, #47), every part, then the result
+    const lines = terms.length ? [text, ...mods] : mods;
+    lines.push(game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Total", { total: raw }));
+    text = lines.join("<br>");
   }
   else if ( !terms.length ) text = game.i18n.localize("KRISTALLPUNK.Sheet.Breakdown.Nothing");
 

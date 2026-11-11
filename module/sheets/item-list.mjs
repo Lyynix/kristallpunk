@@ -1,7 +1,8 @@
 /**
  * Lists of a figure's items by type (#45), shared by the tabs of the character sheet.
  * A sheet renders the partial with a list from prepareItemList() and adds ITEM_ACTIONS to its actions.
- * Rows are draggable: Foundry's actor sheet sorts them on drop and lets them be dragged elsewhere.
+ * Rows are draggable: Foundry's actor sheet sorts them on drop and lets them be dragged elsewhere. The name opens
+ * an item, a button on the row deletes it.
  */
 
 /** Name of the partial, loaded during init. */
@@ -56,33 +57,6 @@ function itemOf(actor, target) {
 }
 
 /**
- * The menu of the item rows (#46): edit and delete, opened by the row's menu button or by right-clicking the row.
- * Call once per sheet, on its first render: the menus listen on the sheet's element, which outlives re-renders.
- * @param {ActorSheetV2} sheet
- */
-export function activateItemMenus(sheet) {
-  const { ContextMenu } = foundry.applications.ux;
-  const item = target => itemOf(sheet.actor, target);
-  const entries = [
-    {
-      label: "KRISTALLPUNK.Items.Edit",
-      icon: '<i class="fa-solid fa-pen-to-square"></i>',
-      onClick: (event, target) => item(target)?.sheet.render({ force: true })
-    },
-    {
-      label: "KRISTALLPUNK.Items.Delete",
-      icon: '<i class="fa-solid fa-trash"></i>',
-      visible: () => sheet.isEditable,
-      onClick: (event, target) => item(target)?.deleteDialog()
-    }
-  ];
-  const options = { jQuery: false, fixed: true };
-  new ContextMenu(sheet.element, "[data-item-menu]", entries, { ...options, eventName: "click", relative: "target" });
-  // Rows of the lists and the slots of innate traits (#47)
-  new ContextMenu(sheet.element, ".item-row[data-item-id], .trait-slot[data-item-id]", entries, options);
-}
-
-/**
  * Actions of the item lists, to be spread into a sheet's actions. `this` is the actor's sheet.
  * @type {Record<string, Function>}
  */
@@ -110,5 +84,15 @@ export const ITEM_ACTIONS = {
    */
   editItem(event, target) {
     itemOf(this.actor, target)?.sheet.render({ force: true });
+  },
+
+  /**
+   * Delete an item of the figure after asking.
+   * @this {ActorSheetV2}
+   * @param {PointerEvent} event
+   * @param {HTMLElement} target
+   */
+  async deleteItem(event, target) {
+    await itemOf(this.actor, target)?.deleteDialog();
   }
 };

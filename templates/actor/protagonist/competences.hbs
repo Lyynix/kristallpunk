@@ -1,30 +1,26 @@
 <section class="standard-form tab competences {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
-  {{!-- Innate traits as slots side by side, as on the official sheet (#47) --}}
-  <fieldset class="innate-trait-slots">
+  {{!-- Innate traits as tags side by side (#47): the name opens the trait, the x removes it, free places add one --}}
+  <fieldset class="innate-trait-tags">
     <legend>{{localize "KRISTALLPUNK.Sheet.InnateTraits"}}</legend>
     {{#each innateTraitSlots as |slot|}}
     {{#if slot.item}}
-    <div class="trait-slot" data-item-id="{{slot.item.id}}">
-      <img src="{{slot.item.img}}" alt="" inert>
+    <span class="trait-tag {{slot.column}} {{#if slot.item.warning}}conflict{{/if}}" data-item-id="{{slot.item.id}}"
+          {{#if slot.item.warning}}data-tooltip="{{slot.item.warning}}"{{/if}}>
+      {{#if slot.item.warning}}<i class="warning fa-solid fa-triangle-exclamation" inert></i>{{/if}}
       <a class="trait-name" data-action="editItem">{{slot.item.name}}</a>
       {{#if slot.item.automation}}
       <i class="automation {{slot.item.automation.level}} fa-solid {{slot.item.automation.icon}}"
          data-tooltip="{{slot.item.automation.label}}" aria-label="{{slot.item.automation.label}}" role="img"></i>
       {{/if}}
-      {{#if slot.item.warning}}
-      <i class="warning fa-solid fa-triangle-exclamation" data-tooltip="{{slot.item.warning}}"
-         aria-label="{{slot.item.warning}}" role="img"></i>
+      {{#if @root.editable}}
+      <button type="button" class="inline-control icon fa-solid fa-xmark item-delete" data-action="deleteItem"
+              data-tooltip="{{localize "KRISTALLPUNK.Items.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Items.Delete"}}"></button>
       {{/if}}
-      <button type="button" class="inline-control icon fa-solid fa-ellipsis-vertical" data-item-menu
-              data-tooltip="{{localize "KRISTALLPUNK.Items.Menu"}}" aria-label="{{localize "KRISTALLPUNK.Items.Menu"}}"></button>
-    </div>
+    </span>
     {{else if @root.editable}}
-    <button type="button" class="trait-slot empty" data-action="createItem" data-type="innateTrait"
-            data-tooltip="{{localize "KRISTALLPUNK.Sheet.AddInnateTrait"}}" aria-label="{{localize "KRISTALLPUNK.Sheet.AddInnateTrait"}}">
-      <i class="fa-solid fa-plus" inert></i>
+    <button type="button" class="trait-tag empty {{slot.column}}" data-action="createItem" data-type="innateTrait">
+      <i class="fa-solid fa-plus" inert></i> {{localize "KRISTALLPUNK.Sheet.AddInnateTrait"}}
     </button>
-    {{else}}
-    <span class="trait-slot empty">–</span>
     {{/if}}
     {{/each}}
   </fieldset>

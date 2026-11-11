@@ -1,7 +1,7 @@
 import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
 import { breakdown, modifierParts } from "./value-breakdown.mjs";
 import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
-import { activateItemMenus, ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
+import { ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
 import { needsCleanup } from "../migrations/_module.mjs";
 import FileCleanup from "../apps/file-cleanup.mjs";
 
@@ -153,7 +153,9 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       warning: item => item.system.conflictsOn(this.actor).join(" ") || null
     });
     const count = Math.max(CONFIG.Item.dataModels.innateTrait.PER_FIGURE, items.length);
-    return Array.from({ length: count }, (_, i) => ({ item: items[i] ?? null }));
+    // Each of the three columns aligns its tag: at the start, in the middle, at the end
+    const columns = ["start", "center", "end"];
+    return Array.from({ length: count }, (_, i) => ({ item: items[i] ?? null, column: columns[i % columns.length] }));
   }
 
   /**
@@ -316,12 +318,6 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     }
     else ui.notifications.warn("KRISTALLPUNK.Cleanup.SheetBlocked", { localize: true });
     return false;
-  }
-
-  /** @override */
-  async _onFirstRender(context, options) {
-    await super._onFirstRender(context, options);
-    activateItemMenus(this);
   }
 
   /** @override */
