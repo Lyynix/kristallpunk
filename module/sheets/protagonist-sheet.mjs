@@ -73,9 +73,6 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       skillGroups: this.#prepareSkillGroups(),
       // Field labels for templates, localized via LOCALIZATION_PREFIXES
       systemFields: this.actor.system.schema.fields,
-      // The former free text of innate traits, always three fields, shown only while one holds something (#47)
-      innateTraits: Array.from({ length: 3 }, (_, i) => this.actor.system.innateTraits[i] ?? ""),
-      formerInnateTraits: this.actor.system.innateTraits.some(trait => trait?.trim()),
       valueGroups: this.#prepareValueGroups(),
       // Usable in play mode too, since status changes during play
       statusTracker: prepareStatusTracker(this.actor),

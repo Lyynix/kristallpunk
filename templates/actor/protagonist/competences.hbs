@@ -25,19 +25,6 @@
     {{/each}}
   </fieldset>
 
-  {{!-- The former free text of innate traits, shown only while it still holds something; the file cleanup
-        takes it over as items (#47). Resonance kinds stay free text until 0.7.0. --}}
-  {{#if formerInnateTraits}}
-  <fieldset class="innate-traits">
-    <legend>{{localize "KRISTALLPUNK.Sheet.FormerInnateTraits"}}</legend>
-    {{!-- Same name for all three: the form collects them into the array field --}}
-    {{#each innateTraits as |trait|}}
-    <input type="text" name="system.innateTraits" value="{{trait}}"
-           aria-label="{{@root.systemFields.innateTraits.label}}" data-lockable {{disabled @root.locked}}>
-    {{/each}}
-  </fieldset>
-  {{/if}}
-
   <div class="competence-columns">
     <div class="competence-list">
       {{!-- Can be added and removed in play mode too, like the inventory (#46) --}}

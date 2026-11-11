@@ -594,13 +594,6 @@
   opacity: 1;
 }
 
-.kristallpunk.protagonist .innate-traits {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin: 0 0 0.75rem;
-}
-
 .kristallpunk.protagonist .tab.competences.active {
   display: flex;
   flex-direction: column;

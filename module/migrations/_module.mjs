@@ -13,9 +13,10 @@
 
 import * as competences from "./competences.mjs";
 import * as attributes from "./attributes.mjs";
+import * as innateTraits from "./innate-traits.mjs";
 
 /** All migrations, in order. */
-const MIGRATIONS = [competences, attributes].sort((a, b) => a.version - b.version);
+const MIGRATIONS = [competences, attributes, innateTraits].sort((a, b) => a.version - b.version);
 
 /** The version of the newest migration. */
 export const NEWEST = MIGRATIONS.at(-1).version;
