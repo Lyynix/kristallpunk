@@ -220,6 +220,9 @@
       "Skills": "Fertigkeiten",
       "Stamina": "Ausdauer",
       "EquipmentNotes": "Notizen",
+      "Competences": "Kompetenzen",
+      "FormerCompetences": "Bisherige Kompetenzen (Freitext)",
+      "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
       "Formula": {
@@ -532,6 +535,7 @@
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
+      "Menu": "Aktionen",
       "None": "Keine"
     },
     "Mod": {
