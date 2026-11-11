@@ -1,0 +1,33 @@
+<div class="file-cleanup-body">
+  {{#if actors.length}}
+  <p class="hint">{{localize "KRISTALLPUNK.Cleanup.Intro"}}</p>
+  <ol class="cleanup-list">
+    {{#each actors as |actor|}}
+    <li class="cleanup-row" data-actor="{{actor.uuid}}">
+      <img src="{{actor.img}}" alt="" inert>
+      <div class="cleanup-info">
+        <span class="name">{{actor.name}}{{#if actor.scene}} <span class="scene">({{actor.scene}})</span>{{/if}}</span>
+        <ul class="changes">
+          {{#each actor.changes as |change|}}
+          <li class="{{#if change.warning}}warning{{/if}}" {{#if change.details}}data-tooltip="{{change.details}}"{{/if}}>
+            {{#if change.warning}}<i class="fa-solid fa-triangle-exclamation" inert></i>{{/if}}
+            {{change.text}}
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      <button type="button" data-action="cleanActor" {{disabled @root.busy}}>
+        <i class="fa-solid fa-broom" inert></i> {{localize "KRISTALLPUNK.Cleanup.Clean"}}
+      </button>
+    </li>
+    {{/each}}
+  </ol>
+  <footer class="form-footer">
+    <button type="button" data-action="cleanAll" {{disabled busy}}>
+      <i class="fa-solid fa-broom" inert></i> {{localize "KRISTALLPUNK.Cleanup.CleanAll"}}
+    </button>
+  </footer>
+  {{else}}
+  <p class="done">{{localize "KRISTALLPUNK.Cleanup.Done"}}</p>
+  {{/if}}
+</div>

@@ -1,5 +1,5 @@
 <section class="standard-form tab competences {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
-  {{!-- Free text until innate traits, competences and resonance kinds become items --}}
+  {{!-- Free text until innate traits and resonance kinds become items --}}
   <fieldset class="innate-traits">
     <legend>{{systemFields.innateTraits.label}}</legend>
     {{!-- Same name for all three: the form collects them into the array field --}}
@@ -10,10 +10,9 @@
   </fieldset>
 
   <div class="competence-columns">
-    <div class="text-field">
-      <label for="{{rootId}}-competences">{{systemFields.competences.label}}</label>
-      <textarea id="{{rootId}}-competences" name="system.competences" rows="10"
-                data-lockable {{disabled locked}}>{{system.competences}}</textarea>
+    <div class="competence-list">
+      {{!-- Can be added and removed in play mode too, like the inventory (#46) --}}
+      {{> "kristallpunk.item-list" list=competenceList}}
     </div>
 
     <div class="magic">

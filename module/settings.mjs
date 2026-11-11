@@ -48,6 +48,15 @@ export function registerSettings() {
     default: true
   });
 
+  // The newest migration the GM has been shown in the "Aktenbereinigung" (#46); the window opens on start
+  // only for migrations newer than this
+  game.settings.register(SYSTEM_ID, "cleanupSeen", {
+    scope: "world",
+    config: false,
+    type: Number,
+    default: 0
+  });
+
   // Consequences of a check: stamina cost and conviction shift (#14, #15)
   game.settings.register(SYSTEM_ID, "autoApply", {
     name: "KRISTALLPUNK.Settings.AutoApply.Name",

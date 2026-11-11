@@ -17,11 +17,14 @@ export const TEMPLATE = "systems/kristallpunk/templates/parts/item-list.hbs";
  * @param {object} [options]
  * @param {string} [options.label]        Heading; defaults to the type's name.
  * @param {string} [options.detailLabel]  Heading of an extra column, if the type has one.
- * @param {(item: Item) => string} [options.detail]  Content of the extra column.
+ * @param {(item: Item) => string|null} [options.detail]   Content of the extra column.
+ * @param {(item: Item) => string|null} [options.warning]  A problem shown as warning in the extra column instead.
+ * @param {(item: Item) => string} [options.name]          Name to show; defaults to the item's name.
  * @returns {{type: string, label: string, createHint: string, detailLabel: string|null,
- *   items: {id: string, name: string, img: string, automation: object|null, detail: string|null}[]}}
+ *   items: {id: string, name: string, img: string, automation: object|null, detail: string|null,
+ *   warning: string|null}[]}}
  */
-export function prepareItemList(actor, type, { label, detailLabel, detail } = {}) {
+export function prepareItemList(actor, type, { label, detailLabel, detail, warning, name } = {}) {
   const typeLabel = game.i18n.localize(CONFIG.Item.typeLabels[type]);
   return {
     type,
@@ -32,10 +35,11 @@ export function prepareItemList(actor, type, { label, detailLabel, detail } = {}
       .toSorted((a, b) => a.sort - b.sort)
       .map(item => ({
         id: item.id,
-        name: item.name,
+        name: name ? name(item) : item.name,
         img: item.img,
         automation: item.system.automationInfo ?? null,
-        detail: detail ? detail(item) : null
+        detail: detail ? detail(item) : null,
+        warning: warning ? warning(item) : null
       }))
   };
 }
@@ -49,6 +53,32 @@ export function prepareItemList(actor, type, { label, detailLabel, detail } = {}
 function itemOf(actor, target) {
   const id = target.closest("[data-item-id]")?.dataset.itemId;
   return id ? (actor.items.get(id) ?? null) : null;
+}
+
+/**
+ * The menu of the item rows (#46): edit and delete, opened by the row's menu button or by right-clicking the row.
+ * Call once per sheet, on its first render: the menus listen on the sheet's element, which outlives re-renders.
+ * @param {ActorSheetV2} sheet
+ */
+export function activateItemMenus(sheet) {
+  const { ContextMenu } = foundry.applications.ux;
+  const item = target => itemOf(sheet.actor, target);
+  const entries = [
+    {
+      label: "KRISTALLPUNK.Items.Edit",
+      icon: '<i class="fa-solid fa-pen-to-square"></i>',
+      onClick: (event, target) => item(target)?.sheet.render({ force: true })
+    },
+    {
+      label: "KRISTALLPUNK.Items.Delete",
+      icon: '<i class="fa-solid fa-trash"></i>',
+      visible: () => sheet.isEditable,
+      onClick: (event, target) => item(target)?.deleteDialog()
+    }
+  ];
+  const options = { jQuery: false, fixed: true };
+  new ContextMenu(sheet.element, "[data-item-menu]", entries, { ...options, eventName: "click", relative: "target" });
+  new ContextMenu(sheet.element, ".item-row[data-item-id]", entries, options);
 }
 
 /**
@@ -79,15 +109,5 @@ export const ITEM_ACTIONS = {
    */
   editItem(event, target) {
     itemOf(this.actor, target)?.sheet.render({ force: true });
-  },
-
-  /**
-   * Delete an item of the figure after asking.
-   * @this {ActorSheetV2}
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
-  async deleteItem(event, target) {
-    await itemOf(this.actor, target)?.deleteDialog();
   }
 };

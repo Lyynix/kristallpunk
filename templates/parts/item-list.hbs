@@ -3,7 +3,6 @@
   <header class="item-row header {{#if list.detailLabel}}with-detail{{/if}}">
     <span class="name">{{list.label}}</span>
     {{#if list.detailLabel}}<span class="detail">{{list.detailLabel}}</span>{{/if}}
-    <span class="automation-cell"></span>
     <span class="controls">
       {{#if @root.editable}}
       <button type="button" class="inline-control icon fa-solid fa-plus" data-action="createItem" data-type="{{list.type}}"
@@ -17,21 +16,24 @@
       <span class="name">
         <img src="{{item.img}}" alt="" inert>
         <a data-action="editItem">{{item.name}}</a>
-      </span>
-      {{#if ../list.detailLabel}}<span class="detail">{{item.detail}}</span>{{/if}}
-      <span class="automation-cell">
         {{#if item.automation}}
         <i class="automation {{item.automation.level}} fa-solid {{item.automation.icon}}"
            data-tooltip="{{item.automation.label}}" aria-label="{{item.automation.label}}" role="img"></i>
         {{/if}}
       </span>
-      <span class="controls">
-        <button type="button" class="inline-control icon fa-solid fa-pen-to-square" data-action="editItem"
-                data-tooltip="{{localize "KRISTALLPUNK.Items.Edit"}}" aria-label="{{localize "KRISTALLPUNK.Items.Edit"}}"></button>
-        {{#if @root.editable}}
-        <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteItem"
-                data-tooltip="{{localize "KRISTALLPUNK.Items.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Items.Delete"}}"></button>
+      {{#if ../list.detailLabel}}
+      <span class="detail">
+        {{#if item.warning}}
+        <i class="warning fa-solid fa-triangle-exclamation" data-tooltip="{{item.warning}}" aria-label="{{item.warning}}" role="img"></i>
+        {{else}}
+        <span data-tooltip="{{item.detail}}">{{item.detail}}</span>
         {{/if}}
+      </span>
+      {{/if}}
+      <span class="controls">
+        {{!-- Edit and delete sit in a menu, so the name gets the room (#46); right-clicking the row opens it too --}}
+        <button type="button" class="inline-control icon fa-solid fa-ellipsis-vertical" data-item-menu
+                data-tooltip="{{localize "KRISTALLPUNK.Items.Menu"}}" aria-label="{{localize "KRISTALLPUNK.Items.Menu"}}"></button>
       </span>
     </li>
     {{else}}

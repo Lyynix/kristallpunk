@@ -1,7 +1,9 @@
 import { activateStatusTracker, prepareStatusTracker } from "../apps/status-tracker.mjs";
 import { breakdown, modifierParts } from "./value-breakdown.mjs";
 import { EFFECT_ACTIONS, prepareEffectGroups } from "./effect-list.mjs";
-import { ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
+import { activateItemMenus, ITEM_ACTIONS, prepareItemList } from "./item-list.mjs";
+import { needsCleanup } from "../migrations/_module.mjs";
+import FileCleanup from "../apps/file-cleanup.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -82,6 +84,13 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       equipmentList: prepareItemList(this.actor, "equipment", {
         detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
         detail: item => String(item.system.quantity)
+      }),
+      competenceList: prepareItemList(this.actor, "competence", {
+        label: "KRISTALLPUNK.Sheet.Competences",
+        detailLabel: "KRISTALLPUNK.Item.Competence.FIELDS.skill.label",
+        name: item => item.system.fullName,
+        detail: item => item.system.skillLabel,
+        warning: item => (item.system.skill ? null : game.i18n.localize("KRISTALLPUNK.Sheet.NoSkill"))
       })
     });
   }
@@ -285,6 +294,27 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       action: "toggleEditMode"
     });
     return buttons;
+  }
+
+  /**
+   * A figure whose data an update of the system changed opens only after it has been cleaned (#46), so the sheet
+   * only has to know the current data. The GM gets the "Aktenbereinigung" instead.
+   * @override
+   */
+  _canRender(options) {
+    if ( !needsCleanup(this.actor) ) return super._canRender(options);
+    if ( game.user.isGM ) {
+      ui.notifications.info("KRISTALLPUNK.Cleanup.SheetBlockedGM", { localize: true });
+      FileCleanup.open();
+    }
+    else ui.notifications.warn("KRISTALLPUNK.Cleanup.SheetBlocked", { localize: true });
+    return false;
+  }
+
+  /** @override */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+    activateItemMenus(this);
   }
 
   /** @override */

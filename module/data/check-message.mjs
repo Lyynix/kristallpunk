@@ -469,15 +469,19 @@ export default class CheckMessageData extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Tooltip of the competence button: what it does, and the competences of the figure as a reminder.
-   * Plain text, since competences are entered by players.
+   * Tooltip of the competence button: what it does, and the competences of the figure that belong to the skill of
+   * this check and allow rerolling ones, as a suggestion (#46). Whether one covers what the figure does is up to the table, so the button
+   * is never blocked. Plain text (the card shows it as `data-tooltip-text`), since items are named by users.
    * @returns {string}
    */
   #competenceHint() {
     const hint = game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.Hint");
-    const competences = fromUuidSync(this.actor)?.system.competences?.trim();
-    if ( !competences ) return `${hint} ${game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.None")}`;
-    return `${hint} ${game.i18n.format("KRISTALLPUNK.Check.Reroll.Competence.List", { competences })}`;
+    const actor = fromUuidSync(this.actor);
+    const competences = (actor?.itemTypes.competence ?? [])
+      .filter(item => (item.system.skill === this.check) && item.system.rerollOnes)
+      .map(item => item.system.fullName);
+    if ( !competences.length ) return `${hint} ${game.i18n.localize("KRISTALLPUNK.Check.Reroll.Competence.None")}`;
+    return `${hint} ${game.i18n.format("KRISTALLPUNK.Check.Reroll.Competence.List", { competences: competences.join(", ") })}`;
   }
 
   /**

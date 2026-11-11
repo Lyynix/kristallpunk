@@ -1,0 +1,20 @@
+{
+  "_id": "KhGaHymngAWSbclo",
+  "name": "Schleichen",
+  "type": "competence",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "<p>Du nutzt jede Deckung und bewegst dich lautlos, wo andere auffallen. Bei Proben zum Schleichen darfst du alle 1er einmal wiederholen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "skill": "stealth",
+    "specification": ""
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!items!KhGaHymngAWSbclo"
+}

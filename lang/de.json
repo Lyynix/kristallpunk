@@ -4,7 +4,8 @@
       "protagonist": "Protagonist*in"
     },
     "Item": {
-      "equipment": "Ausrüstung"
+      "equipment": "Ausrüstung",
+      "competence": "Kompetenz"
     }
   },
   "KRISTALLPUNK": {
@@ -175,8 +176,8 @@
         "Competence": {
           "Button": "Kompetenz einsetzen",
           "Hint": "Alle Einser werden neu gewürfelt, wenn eine Kompetenz die Handlung abdeckt.",
-          "List": "Kompetenzen: {competences}",
-          "None": "Keine Kompetenzen eingetragen."
+          "List": "Passende Kompetenzen: {competences}",
+          "None": "Keine passende Kompetenz."
         },
         "Kept": "aus dem vorigen Wurf behalten",
         "History": "Verlauf",
@@ -219,6 +220,8 @@
       "Skills": "Fertigkeiten",
       "Stamina": "Ausdauer",
       "EquipmentNotes": "Notizen",
+      "Competences": "Kompetenzen",
+      "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
       "Formula": {
@@ -278,6 +281,7 @@
       "Inspiration": "Inspiration",
       "Medicine": "Medizin",
       "PrismResonance": "Resonanz",
+      "PrismResonanceShortRules": "Prismenresonanz",
       "Rhetoric": "Redekunst",
       "Acting": "Schauspiel",
       "Science": "Wissenschaft"
@@ -512,13 +516,46 @@
         "FIELDS": {
           "quantity": { "label": "Anzahl" }
         }
+      },
+      "Competence": {
+        "FIELDS": {
+          "skill": {
+            "label": "Fertigkeit",
+            "hint": "Die Fertigkeit, zu der die Kompetenz gehört. Bei Proben auf diese Fertigkeit wird sie zum Neuwurf der 1er vorgeschlagen."
+          },
+          "specification": {
+            "label": "Angabe",
+            "hint": "Wofür eine mehrfach erlernbare Kompetenz gilt, z. B. die Waffe bei Waffenmeister."
+          },
+          "rerollOnes": {
+            "label": "Erlaubt den Neuwurf der 1er",
+            "hint": "Die meisten Kompetenzen erlauben, alle 1er einer passenden Probe einmal neu zu würfeln. Ohne Haken wird die Kompetenz dafür nicht vorgeschlagen."
+          }
+        }
       }
+    },
+    "Cleanup": {
+      "Title": "Aktenbereinigung",
+      "Open": "Akten bereinigen",
+      "Intro": "Eine neue Version des Systems hat die Daten dieser Akten geändert. Bereinige sie, bevor sie wieder geöffnet werden; darunter steht, was dabei passiert.",
+      "Clean": "Bereinigen",
+      "CleanAll": "Alle bereinigen",
+      "Done": "Alle Akten sind auf dem neuesten Stand.",
+      "Failed": "Nicht alle Akten konnten bereinigt werden. Details stehen in der Konsole (F12).",
+      "SheetBlocked": "Diese Akte muss erst von der SL bereinigt werden.",
+      "SheetBlockedGM": "Diese Akte muss erst bereinigt werden.",
+      "Competences": "{count} Kompetenzen aus dem Freitext erzeugen",
+      "Competence": "1 Kompetenz aus dem Freitext erzeugen",
+      "FromTemplate": "davon {count} aus einer Vorlage übernommen",
+      "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
+      "World": "Welt"
     },
     "Items": {
       "Create": "{type} anlegen",
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
+      "Menu": "Aktionen",
       "None": "Keine"
     },
     "Mod": {

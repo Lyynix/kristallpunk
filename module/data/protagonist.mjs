@@ -75,6 +75,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
 
       // Free text until the matching item types exist
       innateTraits: new ArrayField(text(), { initial: ["", "", ""] }),
+      // Former free text of competences, now items (#46). Kept only so the file cleanup can still read it;
+      // it is emptied there and not shown anywhere else.
       competences: text(),
       resonanceMagic: text(),
       resonanceCompetences: text(),

@@ -15,6 +15,7 @@ import { registerSettings, SYSTEM_ID } from "./module/settings.mjs";
 import ProtagonistSheet from "./module/sheets/protagonist-sheet.mjs";
 import KristallpunkItemSheet from "./module/sheets/item-sheet.mjs";
 import EquipmentData from "./module/data/item/equipment.mjs";
+import CompetenceData from "./module/data/item/competence.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
@@ -22,6 +23,7 @@ import KristallpunkHotbar from "./module/apps/hotbar.mjs";
 import { registerTokenHotbarHooks } from "./module/apps/token-hotbar.mjs";
 import { registerHotbarTooltips } from "./module/apps/hotbar-tooltips.mjs";
 import { registerEffectTargetHooks } from "./module/data/effect-targets.mjs";
+import { registerFileCleanupHooks } from "./module/apps/file-cleanup.mjs";
 
 Hooks.once("init", () => {
   console.log("Kristallpunk | Initializing system");
@@ -32,10 +34,12 @@ Hooks.once("init", () => {
   registerSettings();
   CONFIG.Actor.dataModels.protagonist = ProtagonistData;
   CONFIG.Item.dataModels.equipment = EquipmentData;
+  CONFIG.Item.dataModels.competence = CompetenceData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();
   registerEffectTargetHooks();
+  registerFileCleanupHooks();
 
   // The system's bar replaces Foundry's macro bar, unless the client asks for Foundry's (#31)
   if ( !game.settings.get(SYSTEM_ID, "coreHotbar") ) {
