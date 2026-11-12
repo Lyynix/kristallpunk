@@ -560,6 +560,7 @@
       "Competences": "{count} Kompetenzen aus dem Freitext erzeugen",
       "Competence": "1 Kompetenz aus dem Freitext erzeugen",
       "Attributes": "Attributswerte als eigene Punkte übernehmen",
+      "Skills": "Fertigkeitswerte als eigene Punkte übernehmen",
       "InnateTraits": "{count} angeborene Eigenschaften aus dem Freitext übernehmen",
       "InnateTraitsFromTemplate": "davon {count} aus einer Vorlage, ihre Punkte werden mit den bisherigen Werten verrechnet",
       "InnateTraitsWithoutTemplate": "{count} ohne Vorlage, ohne Punkte",
@@ -589,6 +590,7 @@
       "Label": "Modifikator",
       "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0.",
       "AttributeHint": "Eigene Punkte zusätzlich zu denen aus Items (angeborene Eigenschaften, Metier, Alter).",
+      "SkillHint": "Eigene Punkte zusätzlich zu denen aus Items (Metier, Profession, angeborene Eigenschaften), z. B. die frei verteilten Punkte aus dem Alter.",
       "MaxLabel": "Modifikator auf Maximum",
       "MaxHint": "Manuelle Anpassung, die auf das berechnete Maximum addiert wird. Normalerweise 0."
     },

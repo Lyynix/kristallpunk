@@ -401,8 +401,8 @@
 
 .kristallpunk.protagonist .skill-row {
   display: grid;
-  /* The third column holds the modifier and opens in edit mode */
-  grid-template-columns: 1fr 3rem 0rem 3rem;
+  /* The second column holds the manual points and opens in edit mode (#48) */
+  grid-template-columns: 1fr 0rem 3rem;
   column-gap: 0;
   align-items: center;
   justify-items: center;
@@ -960,7 +960,7 @@
 }
 
 .kristallpunk.protagonist.edit-mode .skill-row {
-  grid-template-columns: 1fr 3rem 3rem 3rem;
+  grid-template-columns: 1fr 3rem 3rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

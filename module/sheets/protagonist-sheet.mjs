@@ -235,8 +235,9 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /**
-   * Skills grouped by domain (the domain of their linked attribute), as on the official sheet.
-   * Inputs show the stored values, see #prepareAttributeGroups.
+   * Skills grouped by domain (the domain of their linked attribute), as on the official sheet. Like attributes, they
+   * have no entered value (#48): play mode shows the total, edit mode also the manual points.
+   * The input shows the stored modifier, see #prepareAttributeGroups.
    * @returns {object[]}
    */
   #prepareSkillGroups() {
@@ -255,35 +256,28 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
             key,
             label: config.label,
             attribute: attributes[config.attribute].abbreviation,
-            value: stored.value,
             modDisplay: modInput(`system.skills.${key}.mod`, stored.mod).display,
             total: data.total,
-            breakdown: this.#skillBreakdown(key, stored.value, data, limits),
-            min: limits.min,
-            max: limits.max
+            breakdown: this.#skillBreakdown(key, data, limits)
           };
         })
     }));
   }
 
   /**
-   * Tooltip of a skill. Without modifier and cap in one line ("Wert 5 + Kraft 6 = 11"); otherwise first
-   * the skill's own part with its modifier and cap, then the attribute added to it.
+   * Tooltip of a skill (#48): first its own points, one part per line and capped, then the attribute added.
+   * Without own points just the attribute ("Kraft 6").
    * @param {string} key
-   * @param {number} value                 The stored skill value.
    * @param {object} data                  The prepared skill data.
    * @param {{min: number, max: number}} limits  Limits of the own part.
    * @returns {string}
    */
-  #skillBreakdown(key, value, data, limits) {
+  #skillBreakdown(key, data, limits) {
     const { attributes, skills } = CONFIG.KRISTALLPUNK;
     const attributeKey = skills[key].attribute;
     const attribute = { label: game.i18n.localize(attributes[attributeKey].label), value: this.actor.system.attributes[attributeKey].total };
-    const valueTerm = { label: game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), value };
-    const own = breakdown({
-      terms: [valueTerm], base: value, mod: data.mod, parts: modifierParts(this.actor, `skills.${key}.mod`), limits
-    });
-    if ( !own.detailed ) return breakdown({ terms: [valueTerm, attribute], base: value + attribute.value }).text;
+    const own = breakdown({ terms: [], base: 0, mod: data.mod, parts: modifierParts(this.actor, `skills.${key}.mod`), limits });
+    if ( !own.detailed ) return breakdown({ terms: [attribute], base: attribute.value }).text;
     const sum = breakdown({ terms: [String(own.value), attribute], base: data.total }).text;
     return `${own.text}<br>${sum}`;
   }
