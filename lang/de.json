@@ -601,6 +601,14 @@
       "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
       "World": "Welt"
     },
+    "Picker": {
+      "Search": "Suchen …",
+      "None": "Nichts gefunden",
+      "Create": "{type} neu anlegen",
+      "Owned": "Hat die Figur schon",
+      "Excludes": "Schließt sich mit {other} aus",
+      "OtherCalling": "Gehört zum Metier {calling}"
+    },
     "EffectChoice": {
       "Title": "Wahl: {item}",
       "Hint": "{item} lässt dir eine Wahl. Welcher Effekt soll gelten?",
@@ -612,6 +620,7 @@
     },
     "Items": {
       "Create": "{type} anlegen",
+      "Add": "{type} hinzufügen",
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",

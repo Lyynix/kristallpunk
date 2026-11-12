@@ -2377,3 +2377,99 @@ body.theme-light #hotbar.kristallpunk,
   align-items: center;
   gap: 0.25rem;
 }
+
+/* -------------------------------------------- */
+/*  Picker: dropdown with search (module/apps/picker.mjs) */
+/* -------------------------------------------- */
+
+/* Colors of Foundry's context menu, whose theme variables are bound to its id; the picker is no application window
+   either, so it sets its own. Dark by default, light in the light theme or when its window is light. */
+.kristallpunk-picker,
+.kristallpunk-picker.themed.theme-dark {
+  --kp-picker-background: var(--color-cool-5);
+  --kp-picker-border: var(--color-cool-3);
+  --kp-picker-hover: var(--color-dark-1);
+  --kp-picker-separator: var(--color-cool-4);
+}
+
+body.theme-light .kristallpunk-picker,
+.kristallpunk-picker.themed.theme-light {
+  --kp-picker-background: #d9d8c8;
+  --kp-picker-border: #999;
+  --kp-picker-hover: #f0f0e0;
+  --kp-picker-separator: #999;
+}
+
+.kristallpunk-picker {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 24rem;
+  max-height: min(22rem, 60vh);
+  padding: 0.25rem;
+  border: 1px solid var(--kp-picker-border);
+  border-radius: 6px;
+  background: var(--kp-picker-background);
+  color: var(--color-text-primary);
+  box-shadow: 0 3px 6px rgb(0 0 0 / 0.45);
+}
+
+.kristallpunk-picker input[type="search"] {
+  flex: none;
+}
+
+.kristallpunk-picker ul {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.kristallpunk-picker li {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.375rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.kristallpunk-picker li.active,
+.kristallpunk-picker li[data-kind]:hover {
+  background: var(--kp-picker-hover);
+}
+
+/* The pinned entries stay above the list, set apart by a line */
+.kristallpunk-picker li.pinned {
+  font-weight: bold;
+}
+
+.kristallpunk-picker li.last-pinned:not(:last-child) {
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--kp-picker-separator);
+  border-radius: 4px 4px 0 0;
+}
+
+.kristallpunk-picker li .label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kristallpunk-picker li .hint {
+  flex: none;
+  font-size: var(--font-size-12);
+  opacity: 0.7;
+}
+
+.kristallpunk-picker li.none {
+  padding: 0.25rem 0.375rem;
+  font-style: italic;
+  opacity: 0.7;
+  cursor: default;
+}
