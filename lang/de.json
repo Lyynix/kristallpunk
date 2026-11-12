@@ -599,7 +599,13 @@
       "AttributeValue": "{attribute} {value}",
       "FromTemplate": "davon {count} aus einer Vorlage übernommen",
       "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
-      "World": "Welt"
+      "World": "Welt",
+      "Profession": "Metier / Profession „{text}“ übernehmen, die Punkte werden mit den eigenen Punkten verrechnet",
+      "ProfessionAmbiguous": "„{text}“ passt zu mehreren Professionen: Text kommt in den Hintergrund, Profession bitte von Hand wählen",
+      "ProfessionUnknown": "„{text}“ ist kein bekanntes Metier und keine bekannte Profession: Text kommt in den Hintergrund",
+      "ProfessionPresent": "„{text}“ entfernen, Metier und Profession sind schon da",
+      "ProfessionKept": "Metier / Profession (alt):",
+      "ProfessionShort": "{actor}: Die eigenen Punkte reichten nicht für Metier und Profession, es fehlen {points}."
     },
     "Picker": {
       "Search": "Suchen …",

@@ -67,6 +67,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       // Profile (Steckbrief)
       age: new NumberField({ nullable: true, integer: true, min: 0, initial: null }),
       origin: text(),
+      // Former free text of calling and profession, now items (#48). Kept only so the file cleanup can still read
+      // it; it is emptied there and not shown anywhere else. Its label names the tags of calling and profession.
       profession: text(),
       background: new HTMLField(),
       relationships: new HTMLField(),

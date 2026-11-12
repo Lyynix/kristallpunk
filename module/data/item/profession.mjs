@@ -76,6 +76,8 @@ export default class ProfessionData extends ItemDataModel {
     super._onCreate(data, options, userId);
     const actor = this.parent.parent;
     if ( (userId !== game.user.id) || !(actor instanceof foundry.documents.Actor) ) return;
+    // The file cleanup brings calling and competences along itself
+    if ( options.kristallpunk?.bringAlong === false ) return;
     this.#bringAlong(actor, options.kristallpunk ?? {}).catch(error => {
       console.error("Kristallpunk | Bringing along what a profession brings failed", error);
     });
