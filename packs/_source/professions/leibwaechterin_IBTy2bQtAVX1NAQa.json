@@ -1,0 +1,63 @@
+{
+  "_id": "IBTy2bQtAVX1NAQa",
+  "name": "Leibwächterin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Die Aufgabe der Leibwächterinnen ist der Schutz einer Herrin oder eines Herrn mit ihrem eigenen Leben. Das Leben des Schützlings ist wichtiger als das eigene. Sie begleiten die Schutzbefohlenen überall hin und lassen sich durch nichts und niemanden aufhalten. Doch dadurch geraten Leibwächterinnen auch tief in die Privatsphäre ihrer Klienten und erfahren mit der Zeit vieles über diese. Manchmal entstehen dadurch Abhängigkeiten oder Beziehungen. Oft werden sie zu einem treuen Freund, sollten aber Liebesbeziehungen vermeiden, da dies sich immer negativ auf die Professionalität auswirkt. Meistens haben Leibwächterinnen einen militärischen Hintergrund und manch eine kommandierte die persönliche Leibgarde ihres Schutzbefohlenen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.viXgS86jfILvfCbH",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Ak1FSVOWnwbNQmKi"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.yTcGsFAcMPQg2opl"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.6xObLufXZ0Juoez8"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "6rb6d62lWSpG1lZW",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!IBTy2bQtAVX1NAQa.6rb6d62lWSpG1lZW"
+    }
+  ],
+  "folder": null,
+  "sort": 2700,
+  "flags": {},
+  "_key": "!items!IBTy2bQtAVX1NAQa"
+}

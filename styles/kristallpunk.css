@@ -401,8 +401,8 @@
 
 .kristallpunk.protagonist .skill-row {
   display: grid;
-  /* The third column holds the modifier and opens in edit mode */
-  grid-template-columns: 1fr 3rem 0rem 3rem;
+  /* The second column holds the manual points and opens in edit mode (#48) */
+  grid-template-columns: 1fr 0rem 3rem;
   column-gap: 0;
   align-items: center;
   justify-items: center;
@@ -480,6 +480,16 @@
 /*  Tab: competences & magic                    */
 /* -------------------------------------------- */
 
+/* Calling and profession as tags in the profile (#48); same room for the x as the innate traits */
+.kristallpunk.protagonist .profile-tags {
+  --kp-tag-delete-room: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.25rem;
+}
+
 /* Innate traits as tags in three equal columns, as on the official sheet (#47); more than three wrap to the next row.
    The columns align their tag at the start, in the middle and at the end, so each place depends on its column only.
    Each tag keeps room at its right for the x that slides in on hover; its full width stays the same, so nothing
@@ -495,7 +505,7 @@
   padding: 0.375rem var(--kp-tag-edge) 0.5rem;
 }
 
-.kristallpunk.protagonist .trait-tag {
+.kristallpunk.protagonist .item-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -511,7 +521,7 @@
   line-height: 1;
 }
 
-.kristallpunk.protagonist .trait-tag .trait-name {
+.kristallpunk.protagonist .item-tag .tag-name {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -519,7 +529,7 @@
 }
 
 /* The x slides in at the right on hover and focus; the tag grows to the right, its text stays in place */
-.kristallpunk.protagonist .trait-tag .item-delete {
+.kristallpunk.protagonist .item-tag .item-delete {
   flex: none;
   width: 0;
   min-width: 0;
@@ -532,54 +542,54 @@
 }
 
 /* Room on the left of the first column too, as wide as the room right of the last one */
-.kristallpunk.protagonist .trait-tag.start {
+.kristallpunk.protagonist .item-tag.start {
   justify-self: start;
   margin-left: var(--kp-tag-delete-room);
 }
 
 /* Room on both sides, so the tag itself sits in the middle of its column */
-.kristallpunk.protagonist .trait-tag.center {
+.kristallpunk.protagonist .item-tag.center {
   justify-self: center;
   margin-left: var(--kp-tag-delete-room);
 }
 
-.kristallpunk.protagonist .trait-tag.end {
+.kristallpunk.protagonist .item-tag.end {
   justify-self: end;
 }
 
 /* The x takes the room the tag kept free (gap 0.25rem + 1.25rem) */
-.kristallpunk.protagonist .trait-tag:is(:hover, :focus-within) {
+.kristallpunk.protagonist .item-tag:is(:hover, :focus-within) {
   margin-right: 0;
 }
 
-.kristallpunk.protagonist .trait-tag:is(:hover, :focus-within) .item-delete {
+.kristallpunk.protagonist .item-tag:is(:hover, :focus-within) .item-delete {
   width: 1.25rem;
   margin-left: 0;
   opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kristallpunk.protagonist .trait-tag,
-  .kristallpunk.protagonist .trait-tag .item-delete {
+  .kristallpunk.protagonist .item-tag,
+  .kristallpunk.protagonist .item-tag .item-delete {
     transition: none;
   }
 }
 
-.kristallpunk.protagonist .trait-tag .automation {
+.kristallpunk.protagonist .item-tag .automation {
   font-size: var(--font-size-10);
   opacity: 0.55;
 }
 
-.kristallpunk.protagonist .trait-tag.conflict {
+.kristallpunk.protagonist .item-tag.conflict {
   border-color: var(--color-level-warning, #ee9b3a);
 }
 
-.kristallpunk.protagonist .trait-tag .warning {
+.kristallpunk.protagonist .item-tag .warning {
   color: var(--color-level-warning, #ee9b3a);
 }
 
 /* A free place to add a trait */
-.kristallpunk.protagonist .trait-tag.empty {
+.kristallpunk.protagonist .item-tag.empty {
   width: auto;
   padding: 0 0.75rem;
   border-style: dashed;
@@ -589,8 +599,8 @@
   opacity: 0.65;
 }
 
-.kristallpunk.protagonist .trait-tag.empty:hover,
-.kristallpunk.protagonist .trait-tag.empty:focus-visible {
+.kristallpunk.protagonist .item-tag.empty:hover,
+.kristallpunk.protagonist .item-tag.empty:focus-visible {
   opacity: 1;
 }
 
@@ -960,7 +970,7 @@
 }
 
 .kristallpunk.protagonist.edit-mode .skill-row {
-  grid-template-columns: 1fr 3rem 3rem 3rem;
+  grid-template-columns: 1fr 3rem 3rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2210,10 +2220,18 @@ body.theme-light #hotbar.kristallpunk,
 /*  Item sheet (#45)                            */
 /* -------------------------------------------- */
 
+/* Header and tab bar keep their height, the active tab takes the rest and scrolls when it is too long
+   (e.g. a profession with many competence slots) */
 .kristallpunk.item .window-content {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: hidden;
+}
+
+.kristallpunk.item .sheet-header,
+.kristallpunk.item nav.sheet-tabs {
+  flex: none;
 }
 
 .kristallpunk.item .sheet-header {
@@ -2254,6 +2272,13 @@ body.theme-light #hotbar.kristallpunk,
   flex-direction: column;
   gap: 0.5rem;
   flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Fieldsets in a scrolling tab keep their height instead of being squeezed */
+.kristallpunk.item .tab.active > * {
+  flex-shrink: 0;
 }
 
 .kristallpunk.item .tab.description prose-mirror {
@@ -2270,7 +2295,7 @@ body.theme-light #hotbar.kristallpunk,
    layout, so nothing next to it moves */
 .kristallpunk .automation.partial {
   opacity: 0.6;
-  transform: scale(0.5);
+  transform: scale(0.6);
 }
 
 /* -------------------------------------------- */
@@ -2338,4 +2363,113 @@ body.theme-light #hotbar.kristallpunk,
   background: var(--color-level-warning, #ee9b3a);
   color: black;
   font-size: var(--font-size-11);
+}
+
+/* Places for competences of a profession (#48) */
+.kristallpunk.item .competence-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kristallpunk.item .competence-slot legend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* -------------------------------------------- */
+/*  Picker: dropdown with search (module/apps/picker.mjs) */
+/* -------------------------------------------- */
+
+/* Colors of Foundry's context menu, whose theme variables are bound to its id; the picker is no application window
+   either, so it sets its own. Dark by default, light in the light theme or when its window is light. */
+.kristallpunk-picker,
+.kristallpunk-picker.themed.theme-dark {
+  --kp-picker-background: var(--color-cool-5);
+  --kp-picker-border: var(--color-cool-3);
+  --kp-picker-hover: var(--color-dark-1);
+  --kp-picker-separator: var(--color-cool-4);
+}
+
+body.theme-light .kristallpunk-picker,
+.kristallpunk-picker.themed.theme-light {
+  --kp-picker-background: #d9d8c8;
+  --kp-picker-border: #999;
+  --kp-picker-hover: #f0f0e0;
+  --kp-picker-separator: #999;
+}
+
+.kristallpunk-picker {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 24rem;
+  max-height: min(22rem, 60vh);
+  padding: 0.25rem;
+  border: 1px solid var(--kp-picker-border);
+  border-radius: 6px;
+  background: var(--kp-picker-background);
+  color: var(--color-text-primary);
+  box-shadow: 0 3px 6px rgb(0 0 0 / 0.45);
+}
+
+.kristallpunk-picker input[type="search"] {
+  flex: none;
+}
+
+.kristallpunk-picker ul {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.kristallpunk-picker li {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.375rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.kristallpunk-picker li.active,
+.kristallpunk-picker li[data-kind]:hover {
+  background: var(--kp-picker-hover);
+}
+
+/* The pinned entries stay above the list, set apart by a line */
+.kristallpunk-picker li.pinned {
+  font-weight: bold;
+}
+
+.kristallpunk-picker li.last-pinned:not(:last-child) {
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--kp-picker-separator);
+  border-radius: 4px 4px 0 0;
+}
+
+.kristallpunk-picker li .label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kristallpunk-picker li .hint {
+  flex: none;
+  font-size: var(--font-size-12);
+  opacity: 0.7;
+}
+
+.kristallpunk-picker li.none {
+  padding: 0.25rem 0.375rem;
+  font-style: italic;
+  opacity: 0.7;
+  cursor: default;
 }

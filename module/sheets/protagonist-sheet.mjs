@@ -84,6 +84,8 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         detail: item => String(item.system.quantity)
       }),
       innateTraitSlots: this.#prepareInnateTraitSlots(),
+      callingSlots: this.#prepareSingleSlots("calling"),
+      professionSlots: this.#prepareSingleSlots("profession"),
       competenceList: prepareItemList(this.actor, "competence", {
         label: "KRISTALLPUNK.Sheet.Competences",
         detailLabel: "KRISTALLPUNK.Item.Competence.FIELDS.skill.label",
@@ -153,6 +155,19 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     // Each of the three columns aligns its tag: at the start, in the middle, at the end
     const columns = ["start", "center", "end"];
     return Array.from({ length: count }, (_, i) => ({ item: items[i] ?? null, column: columns[i % columns.length] }));
+  }
+
+  /**
+   * Places of an item type a figure has once, e.g. its calling (#48): one place, empty to add one, more if the figure
+   * has more, each marked then.
+   * @param {string} type
+   * @returns {{item: object|null, column: string}[]}
+   */
+  #prepareSingleSlots(type) {
+    const { items } = prepareItemList(this.actor, type, {
+      warning: item => item.system.conflictsOn?.(this.actor).join(" ") || null
+    });
+    return (items.length ? items : [null]).map(item => ({ item, column: "" }));
   }
 
   /**
@@ -235,8 +250,9 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /**
-   * Skills grouped by domain (the domain of their linked attribute), as on the official sheet.
-   * Inputs show the stored values, see #prepareAttributeGroups.
+   * Skills grouped by domain (the domain of their linked attribute), as on the official sheet. Like attributes, they
+   * have no entered value (#48): play mode shows the total, edit mode also the manual points.
+   * The input shows the stored modifier, see #prepareAttributeGroups.
    * @returns {object[]}
    */
   #prepareSkillGroups() {
@@ -255,35 +271,28 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
             key,
             label: config.label,
             attribute: attributes[config.attribute].abbreviation,
-            value: stored.value,
             modDisplay: modInput(`system.skills.${key}.mod`, stored.mod).display,
             total: data.total,
-            breakdown: this.#skillBreakdown(key, stored.value, data, limits),
-            min: limits.min,
-            max: limits.max
+            breakdown: this.#skillBreakdown(key, data, limits)
           };
         })
     }));
   }
 
   /**
-   * Tooltip of a skill. Without modifier and cap in one line ("Wert 5 + Kraft 6 = 11"); otherwise first
-   * the skill's own part with its modifier and cap, then the attribute added to it.
+   * Tooltip of a skill (#48): first its own points, one part per line and capped, then the attribute added.
+   * Without own points just the attribute ("Kraft 6").
    * @param {string} key
-   * @param {number} value                 The stored skill value.
    * @param {object} data                  The prepared skill data.
    * @param {{min: number, max: number}} limits  Limits of the own part.
    * @returns {string}
    */
-  #skillBreakdown(key, value, data, limits) {
+  #skillBreakdown(key, data, limits) {
     const { attributes, skills } = CONFIG.KRISTALLPUNK;
     const attributeKey = skills[key].attribute;
     const attribute = { label: game.i18n.localize(attributes[attributeKey].label), value: this.actor.system.attributes[attributeKey].total };
-    const valueTerm = { label: game.i18n.localize("KRISTALLPUNK.Sheet.Column.Value"), value };
-    const own = breakdown({
-      terms: [valueTerm], base: value, mod: data.mod, parts: modifierParts(this.actor, `skills.${key}.mod`), limits
-    });
-    if ( !own.detailed ) return breakdown({ terms: [valueTerm, attribute], base: value + attribute.value }).text;
+    const own = breakdown({ terms: [], base: 0, mod: data.mod, parts: modifierParts(this.actor, `skills.${key}.mod`), limits });
+    if ( !own.detailed ) return breakdown({ terms: [attribute], base: attribute.value }).text;
     const sum = breakdown({ terms: [String(own.value), attribute], base: data.total }).text;
     return `${own.text}<br>${sum}`;
   }

@@ -1,0 +1,77 @@
+{
+  "_id": "g0RMnOtqLvrWndDS",
+  "name": "Spion",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Wissen ist Macht und Spione kümmern sich um die Beschaffung von Informationen. Viele dieser Informationen sind viel Geld wert, oder du gehörst als Spion zu einer der vielen Organisationen oder Nationen und handelst im Auftrag mächtiger Leute. Dies bringt aber auch viele Gefahren mit sich. Spione sind ständig der Gefahr ausgesetzt, entdeckt zu werden, und dann steht es oft schlecht um sie, denn sie sind als Geisel meistens nichts wert und ihre Auftraggeber leugnen natürlich immer jeglichen Kontakt mit ihnen. Doch verfügen Spione über viele Talente und haben oft auch einen ganzen Zirkel an Verbündeten und Leuten, die ihnen eine Gefälligkeit schulden.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.ljN0TYuRHvIGAiyl",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.sgAx50pFQzJXbeIu"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.hAkJGvfFx7la93vh"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.N0vhZMhw2Qs66tfg"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "G41NFGtWpQSsurGk",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.dodge.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!g0RMnOtqLvrWndDS.G41NFGtWpQSsurGk"
+    }
+  ],
+  "folder": null,
+  "sort": 2300,
+  "flags": {},
+  "_key": "!items!g0RMnOtqLvrWndDS"
+}

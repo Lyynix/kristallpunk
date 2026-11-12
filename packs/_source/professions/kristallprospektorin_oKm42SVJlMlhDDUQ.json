@@ -1,0 +1,64 @@
+{
+  "_id": "oKm42SVJlMlhDDUQ",
+  "name": "Kristallprospektorin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Kristallprospektorinnen sind die, die den ganzen Laden am Laufen halten. Ohne ihresgleichen würde gar nichts mehr funktionieren. Sie gehen tapfer in die Trübnisgebiete und holen die magischen Kristalle aus dem Boden. Und deshalb wissen sie auch besser als alle anderen, wie man in der Trübnis überlebt, und haben dort schon alles gesehen, zumindest behaupten sie das. Ihre Arbeit ist sehr riskant, denn dort, wo die meisten Kristalle sind, sind auch die größten Gefahren, und nicht selten müssen sie dabei auch kämpfen. Diese Erfahrungen machen sie zu gefragten Spezialisten.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.8vtTLBfFVjgApWoh",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.jTIw1GhYVZBJP86S"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.O7pdMVb0fz9Qc8b2"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "QlLFSrKgHKHEIqH2",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rangedCombat.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!oKm42SVJlMlhDDUQ.QlLFSrKgHKHEIqH2"
+    }
+  ],
+  "folder": null,
+  "sort": 1400,
+  "flags": {},
+  "_key": "!items!oKm42SVJlMlhDDUQ"
+}

@@ -1,0 +1,96 @@
+{
+  "_id": "cLKe8pW8ol5ye6Yy",
+  "name": "Arkanist",
+  "type": "calling",
+  "img": "icons/environment/people/group.webp",
+  "system": {
+    "description": "<p>Arkanisten haben sich der Kristallmagie verschrieben. Sie haben verstanden, dass die Kristalle weder gut noch böse sind, sondern sehen sie als ein Mittel zum Zweck, ein Werkzeug, das man benutzen kann. Arkanisten beherrschen entweder Ars Goëtia oder Thaumaturgie.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "8MBMl4HwqECe4gkh",
+      "name": "Attributspunkt",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.will.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!cLKe8pW8ol5ye6Yy.8MBMl4HwqECe4gkh"
+    },
+    {
+      "_id": "ab4PquIC2PhOAZVJ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!cLKe8pW8ol5ye6Yy.ab4PquIC2PhOAZVJ"
+    }
+  ],
+  "folder": null,
+  "sort": 100,
+  "flags": {},
+  "_key": "!items!cLKe8pW8ol5ye6Yy"
+}

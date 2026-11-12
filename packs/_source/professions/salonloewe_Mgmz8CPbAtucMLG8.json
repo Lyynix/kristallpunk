@@ -1,0 +1,70 @@
+{
+  "_id": "Mgmz8CPbAtucMLG8",
+  "name": "Salonlöwe",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Salonlöwinnen sind die nicht erbenden Kinder aus den vielen Adelsgeschlechtern und aus dem reichen Bürgertum und erhalten meist eine Apanage. Da sie gezwungen sind, sich eine eigene Existenz aufzubauen, aber den Wohlstand ihrer Familie gewohnt sind, neigen viele von ihnen dazu, sich in der gehobenen Gesellschaft der Salons zu bewegen. Salonlöwinnen machen dies zu ihrem Lebensinhalt, Glücksspiel, Opium und andere Exzesse sind für sie normal. Sie sind äußerst gut vernetzt und wissen alles, was in ihren Kreisen passiert. Der Schein und ihr Image sind ihnen sehr wichtig und um diese zu wahren, gehen sie viele Risiken ein.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.y96kRLybssNPPboU",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.RuyUzlz6aWmM1V0e"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.JsJqDu6tSeAGMQtr"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.1XLwEugBpzRDCXD7"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "ioU4Nb8oYhVj1c16",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.acting.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!Mgmz8CPbAtucMLG8.ioU4Nb8oYhVj1c16"
+    }
+  ],
+  "folder": null,
+  "sort": 3700,
+  "flags": {},
+  "_key": "!items!Mgmz8CPbAtucMLG8"
+}

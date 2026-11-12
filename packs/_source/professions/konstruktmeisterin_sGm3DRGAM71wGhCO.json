@@ -1,0 +1,64 @@
+{
+  "_id": "sGm3DRGAM71wGhCO",
+  "name": "Konstruktmeisterin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Konstruktmeisterinnen sind die Meisterinnen der Maschinen und haben es perfektioniert, aus Konstrukten die bestmöglichen Effekte herauszuholen. Schiffskapitänen gleich führen sie oft große Konstruktmaschinen, fahren oder gar fliegen damit durch die Welt und stellen ihre Dienste den Mächtigen zur Verfügung. Sie sind Perfektionisten darin, Unbelebtem Leben einzuhauchen. Wenn die Zuckerdose über den Tisch läuft und jedem einen Löffel Zucker in den Tee schaufelt, weißt du, eine Konstruktmeisterin sitzt mit am Tisch.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.hRN57cEaUOMUqflR",
+    "resonanceKind": "Vivikation",
+    "resonanceCompetence": "Galvanismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.PdjJTgUWmaxMLGdH"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.UTGpLBnYFizFKtxj"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "eUxV9X3FNUOenftR",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!sGm3DRGAM71wGhCO.eUxV9X3FNUOenftR"
+    }
+  ],
+  "folder": null,
+  "sort": 1000,
+  "flags": {},
+  "_key": "!items!sGm3DRGAM71wGhCO"
+}

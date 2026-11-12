@@ -1,0 +1,64 @@
+{
+  "_id": "crxr82reQoiQBdrt",
+  "name": "Mythograf",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Der Mythograf ist ein Wissenschaftler und setzt sich mit den Phänomenen der beiden mystischen Kristalle auseinander. Sie forschen an den Wachstumsmustern der Kristalle und auch an den Geistern, Kreaturen und Daemonen und wie man diese bekämpfen kann. Er greift dabei auch auf historische und antike Quellen zurück. Sehr zur allgemeinen Verwunderung scheint es solche zu geben. Nicht selten werden die Dienste von Bibliothekaren, Archäologen oder auch Dieben benötigt. Auch wenn er der Theoretiker unter den Zaubernden ist, ist er doch viel unterwegs und oft weit gereist. Sie sind sehr gebildet und belesen und gelten als große Befürworter der Buchzauberei.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.8vtTLBfFVjgApWoh",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Theurgie oder Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.IdTgh2f5H4EJisV3"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.e9iKvPeEykelcIxO"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "SnHIvS7xbQoKha0V",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!crxr82reQoiQBdrt.SnHIvS7xbQoKha0V"
+    }
+  ],
+  "folder": null,
+  "sort": 1500,
+  "flags": {},
+  "_key": "!items!crxr82reQoiQBdrt"
+}

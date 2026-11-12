@@ -1,0 +1,70 @@
+{
+  "_id": "t9ez2iDj5nYtTtXB",
+  "name": "Gaunerin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Gaunerinnen werden in dieser Zeit meist Jaunerin genannt. Gewalt ist für Gaunerinnen ein gängiges Mittel, sie schrecken weder vor Raub noch vor Mord zurück. Sie gehörten oft zu geschlagenen Armeen, deren Überreste versuchen, von Land und seinen Einwohnern zu leben. Oder es sind Diebe und Mörder, die vor ihren Taten geflohen sind. Sie sind Gesetzlose, die von der Justiz und den Gendarmen verfolgt werden, manchmal hängen sogar Steckbriefe von ihnen aus, wenn sie bereits eine gewisse Berühmtheit erlangt haben. Eine Gaunerin zu spielen ist sicher eine Herausforderung. Denn sie sind oft auf der Flucht.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.viXgS86jfILvfCbH",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3rLk5Ts9OyRpKNeM"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.KhGaHymngAWSbclo"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.yTcGsFAcMPQg2opl"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "mfP87qTgibAQspwJ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!t9ez2iDj5nYtTtXB.mfP87qTgibAQspwJ"
+    }
+  ],
+  "folder": null,
+  "sort": 2500,
+  "flags": {},
+  "_key": "!items!t9ez2iDj5nYtTtXB"
+}

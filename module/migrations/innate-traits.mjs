@@ -4,7 +4,8 @@
  * its effects were part of the former entered values already, so they are taken out of them again, and the totals
  * stay the same:
  * - attribute points out of the manual points of the attribute, where migration 2 put the former value;
- * - skill points out of the skill value, the rest out of its modifier.
+ * - skill points out of the skill value, the rest out of its modifier; once migration 4 emptied the value (#48),
+ *   all of it out of the modifier.
  * Mut, Härte and Seelenhalt were computed on the former sheet and never held a trait's points, so they stay.
  * The free text is emptied afterwards. The field stays in the data model for now, so it can still be read here.
  */
@@ -114,8 +115,9 @@ export async function migrate(actor, { templates }) {
   for ( const [key, value] of Object.entries(points.skills) ) {
     const skill = stored.skills[key];
     if ( !skill ) continue;
-    const fromValue = Math.min(skill.value, value);
-    update[`system.skills.${key}.value`] = skill.value - fromValue;
+    const current = skill.value ?? 0;
+    const fromValue = Math.min(current, value);
+    if ( skill.value !== null ) update[`system.skills.${key}.value`] = current - fromValue;
     if ( value > fromValue ) update[`system.skills.${key}.mod`] = skill.mod - (value - fromValue);
   }
   await actor.update(update);

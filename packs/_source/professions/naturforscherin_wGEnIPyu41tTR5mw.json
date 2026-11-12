@@ -1,0 +1,71 @@
+{
+  "_id": "wGEnIPyu41tTR5mw",
+  "name": "Naturforscherin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Archäologen, Anthropologen, Astronomen, Biologen, Botaniker, Geographen, Geologen und einige mehr haben sich aus dem eher universellen Naturforscher oder Naturphilosophen entwickelt. Das Erscheinen der Kristalle hat dieses Spektrum noch erweitert. Allen diesen Menschen ist der Wunsch gemein, der Natur und ihren Phänomenen einen Sinn zu geben und ihre Existenz und ihr Verhalten und Veränderungen zu erklären. Sie reisen durch die Welt und suchen Antworten da, wo sich die Fragen auftun und wo sich die meisten Menschen nicht hinwagen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.8vtTLBfFVjgApWoh",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.UTGpLBnYFizFKtxj"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.rsTkuJ116z6ix4P0"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "fl3yT9QpScKJ32RS",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!wGEnIPyu41tTR5mw.fl3yT9QpScKJ32RS"
+    }
+  ],
+  "folder": null,
+  "sort": 1600,
+  "flags": {},
+  "_key": "!items!wGEnIPyu41tTR5mw"
+}

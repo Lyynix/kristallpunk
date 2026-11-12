@@ -42,6 +42,12 @@
       },
       "innateTrait": {
         "htmlFields": ["description"]
+      },
+      "calling": {
+        "htmlFields": ["description"]
+      },
+      "profession": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {
@@ -70,6 +76,22 @@
       "name": "innateTraits",
       "label": "Angeborene Eigenschaften",
       "path": "packs/innateTraits",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    },
+    {
+      "name": "callings",
+      "label": "Metiers",
+      "path": "packs/callings",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    },
+    {
+      "name": "professions",
+      "label": "Professionen",
+      "path": "packs/professions",
       "type": "Item",
       "system": "kristallpunk",
       "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }

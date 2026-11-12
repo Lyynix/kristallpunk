@@ -1,0 +1,64 @@
+{
+  "_id": "joEBd1Caq9K9bm5o",
+  "name": "Anatomistin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Anatomistinnen sind Mediziner, die in den Kristallen die Möglichkeit sehen, den Tod zu überlisten. Sie sind ein Beispiel dafür, dass Menschen immer alles Machbare auch ausprobieren und verwenden. Nicht selten ist ihre Suche nach dem ewigen Leben auf persönlichen Schicksalsschlägen begründet. Einige von ihnen werden allerdings von dieser Macht derart korrumpiert, dass sie alle Moral beiseitelegen und zu etwas grotesk Neuem werden, einem Nekromanten.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.hRN57cEaUOMUqflR",
+    "resonanceKind": "Vivikation",
+    "resonanceCompetence": "Anatomismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.ECpyn7HPRvTK5wPt"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.mumCaoXRHJ1Hercr"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "HTTFBFaSWzpqKzRZ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!joEBd1Caq9K9bm5o.HTTFBFaSWzpqKzRZ"
+    }
+  ],
+  "folder": null,
+  "sort": 800,
+  "flags": {},
+  "_key": "!items!joEBd1Caq9K9bm5o"
+}

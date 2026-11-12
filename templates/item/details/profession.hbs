@@ -1,0 +1,32 @@
+<section class="tab details standard-form {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  {{!-- Calling and competences are dropped in from compendiums or the world; skill points are effects (#48) --}}
+  {{formGroup systemFields.calling value=system.calling localize=true disabled=(not editable)}}
+  {{formGroup systemFields.resonanceKind value=system.resonanceKind localize=true disabled=(not editable)}}
+  {{formGroup systemFields.resonanceCompetence value=system.resonanceCompetence localize=true disabled=(not editable)}}
+
+  <fieldset class="competence-slots">
+    <legend>{{localize "KRISTALLPUNK.Item.Profession.Slots"}}</legend>
+    <p class="hint">{{localize "KRISTALLPUNK.Item.Profession.SlotsHint"}}</p>
+    {{#each competenceSlots as |slot|}}
+    <fieldset class="competence-slot" data-index="{{slot.index}}">
+      <legend>
+        {{localize "KRISTALLPUNK.Item.Profession.Slot" number=slot.number}}
+        {{#if @root.editable}}
+        <button type="button" class="inline-control icon fa-solid fa-xmark" data-action="removeCompetenceSlot"
+                data-tooltip="{{localize "KRISTALLPUNK.Item.Profession.RemoveSlot"}}"
+                aria-label="{{localize "KRISTALLPUNK.Item.Profession.RemoveSlot"}}"></button>
+        {{/if}}
+      </legend>
+      {{formGroup @root.slotFields.options name=(concat "system.competenceSlots." slot.index ".options") value=slot.options
+                  localize=true disabled=(not @root.editable)}}
+      {{formGroup @root.slotFields.specifications name=(concat "system.competenceSlots." slot.index ".specifications")
+                  value=slot.specifications localize=true disabled=(not @root.editable)}}
+    </fieldset>
+    {{/each}}
+    {{#if editable}}
+    <button type="button" data-action="addCompetenceSlot">
+      <i class="fa-solid fa-plus" inert></i> {{localize "KRISTALLPUNK.Item.Profession.AddSlot"}}
+    </button>
+    {{/if}}
+  </fieldset>
+</section>

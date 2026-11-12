@@ -1,0 +1,98 @@
+{
+  "_id": "QKlw5p1Afn6sJN2g",
+  "name": "Dienstleute",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Was würden die Herrschaften, die Wichtigen und Reichen nur ohne sie tun? In dieser Gesellschaft ist Personal üblich und für viele sehr wichtig. Dienstleute sind in einem Haushalt angestellt und beherrschen alle damit verbundenen Fertigkeiten. Sie haben ganz unten angefangen und kamen wahrscheinlich vom Land in die Stadt, mit dem Ziel, Kammerdiener oder Hauswirtschafterin zu werden. Die Dienerschaft weiß immer über alles Bescheid und sie sind für ihre Herrschaften oft wichtiger als die Zeitung, um über das Geschehen außerhalb ihres Dunstkreises informiert zu sein. Dienstleute tauschen im Metier die Fertigkeit Redekunst mit Schauspiel (also Schauspiel +3 anstelle Redekunst +3).</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Der Tausch von Redekunst gegen Schauspiel im Metier ist ein eigener Effekt und gilt nur mit dem Metier Gesellschafter; bei einem anderen Metier den Effekt abschalten. Das Handwerk von „Erlerntes Handwerk“ selbst als Angabe eintragen."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.y96kRLybssNPPboU",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3PX4Lp2hQHLSaee1"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.N8UwEGPikGlETL2y"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.N0vhZMhw2Qs66tfg"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "0rBWAK1ZaMzWQ0el",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!QKlw5p1Afn6sJN2g.0rBWAK1ZaMzWQ0el"
+    },
+    {
+      "_id": "ks4jWB2SkmPwwrcx",
+      "name": "Tausch Redekunst/Schauspiel",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "-3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.acting.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!QKlw5p1Afn6sJN2g.ks4jWB2SkmPwwrcx"
+    }
+  ],
+  "folder": null,
+  "sort": 3300,
+  "flags": {},
+  "_key": "!items!QKlw5p1Afn6sJN2g"
+}

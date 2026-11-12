@@ -1,0 +1,79 @@
+{
+  "_id": "q0cISKRr1r8tyOYp",
+  "name": "Archivarin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Archivarinnen stehen an der Schnittstelle zwischen der herrschenden Schicht und allen Informationen. Archivare und Bibliothekare arbeiten in staatlichen, herrschaftlichen, fürstlichen oder kirchlichen Archiven oder Bibliotheken und kennen sich mit Büchern, Dokumenten und Verwaltung aus. Sie sind auch in der Lage, neue Bücher zu binden und alte zu reparieren und zu restaurieren. In diesem Prozess sammeln sie viel Wissen an.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.ljN0TYuRHvIGAiyl",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3PX4Lp2hQHLSaee1"
+        ],
+        "specifications": [
+          "Buchbinder"
+        ]
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.8jPDjdduO7dezjGz"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.SIHelLRvME1LNfCX"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "ykYIcsbXG4IEyNHd",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!q0cISKRr1r8tyOYp.ykYIcsbXG4IEyNHd"
+    }
+  ],
+  "folder": null,
+  "sort": 2000,
+  "flags": {},
+  "_key": "!items!q0cISKRr1r8tyOYp"
+}

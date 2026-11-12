@@ -6,7 +6,9 @@
     "Item": {
       "equipment": "Ausrüstung",
       "competence": "Kompetenz",
-      "innateTrait": "Angeborene Eigenschaft"
+      "innateTrait": "Angeborene Eigenschaft",
+      "calling": "Metier",
+      "profession": "Profession"
     }
   },
   "KRISTALLPUNK": {
@@ -223,6 +225,8 @@
       "Competences": "Kompetenzen",
       "InnateTraits": "Angeborene Eigenschaften",
       "AddInnateTrait": "Eigenschaft",
+      "AddCalling": "Metier",
+      "AddProfession": "Profession",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
@@ -520,6 +524,33 @@
           "quantity": { "label": "Anzahl" }
         }
       },
+      "Profession": {
+        "TooMany": "Eine Figur hat eine Profession, diese hat {count}.",
+        "ReplaceTitle": "Profession ersetzen",
+        "ReplaceHint": "Die Figur hat schon die Profession {old}. Soll {name} sie ersetzen? Was die bisherige Profession mitgebracht hat (Metier, Kompetenzen), wird entfernt.",
+        "ChoiceHint": "{item} lässt dir eine Wahl. Welche Kompetenz soll die Figur bekommen?",
+        "Missing": "{name}: {count} verknüpfte Items wurden nicht gefunden und fehlen der Figur.",
+        "Slots": "Kompetenzen",
+        "SlotsHint": "Jeder Platz bringt eine Kompetenz. Mehrere Kompetenzen oder Angaben in einem Platz sind Alternativen, eine einzelne Angabe wird übernommen.",
+        "Slot": "Platz {number}",
+        "AddSlot": "Platz hinzufügen",
+        "RemoveSlot": "Platz entfernen",
+        "FIELDS": {
+          "calling": { "label": "Metier", "hint": "Das Metier, zu dem die Profession gehört. Aus einem Kompendium oder der Welt hineinziehen." },
+          "resonanceKind": { "label": "Resonanzart", "hint": "Bis die Resonanzzauberei kommt (0.7.0) als Text." },
+          "resonanceCompetence": { "label": "Resonanz-Kompetenz", "hint": "Bis die Resonanzzauberei kommt (0.7.0) als Text." },
+          "competenceSlots": {
+            "element": {
+              "options": { "label": "Kompetenzen", "hint": "Hineinziehen; mehrere sind Alternativen." },
+              "specifications": { "label": "Angaben", "hint": "Z. B. das Handwerk bei „Erlerntes Handwerk“; mehrere sind Alternativen." }
+            }
+          }
+        }
+      },
+      "Calling": {
+        "TooMany": "Eine Figur hat ein Metier, diese hat {count}.",
+        "Details": "Attributspunkt und Fertigkeitspunkte des Metiers stehen als Effekte im Tab „Effekte“."
+      },
       "InnateTrait": {
         "Excluded": "{name} und {other} schließen sich gegenseitig aus.",
         "TooMany": "Eine Figur hat {max} angeborene Eigenschaften, diese hat {count}.",
@@ -560,6 +591,7 @@
       "Competences": "{count} Kompetenzen aus dem Freitext erzeugen",
       "Competence": "1 Kompetenz aus dem Freitext erzeugen",
       "Attributes": "Attributswerte als eigene Punkte übernehmen",
+      "Skills": "Fertigkeitswerte als eigene Punkte übernehmen",
       "InnateTraits": "{count} angeborene Eigenschaften aus dem Freitext übernehmen",
       "InnateTraitsFromTemplate": "davon {count} aus einer Vorlage, ihre Punkte werden mit den bisherigen Werten verrechnet",
       "InnateTraitsWithoutTemplate": "{count} ohne Vorlage, ohne Punkte",
@@ -567,7 +599,21 @@
       "AttributeValue": "{attribute} {value}",
       "FromTemplate": "davon {count} aus einer Vorlage übernommen",
       "WithoutSkill": "{count} ohne Vorlage und ohne Fertigkeit, bitte im Bogen nachtragen",
-      "World": "Welt"
+      "World": "Welt",
+      "Profession": "Metier / Profession „{text}“ übernehmen, die Punkte werden mit den eigenen Punkten verrechnet",
+      "ProfessionAmbiguous": "„{text}“ passt zu mehreren Professionen: Text kommt in den Hintergrund, Profession bitte von Hand wählen",
+      "ProfessionUnknown": "„{text}“ ist kein bekanntes Metier und keine bekannte Profession: Text kommt in den Hintergrund",
+      "ProfessionPresent": "„{text}“ entfernen, Metier und Profession sind schon da",
+      "ProfessionKept": "Metier / Profession (alt):",
+      "ProfessionShort": "{actor}: Die eigenen Punkte reichten nicht für Metier und Profession, es fehlen {points}."
+    },
+    "Picker": {
+      "Search": "Suchen …",
+      "None": "Nichts gefunden",
+      "Create": "{type} neu anlegen",
+      "Owned": "Hat die Figur schon",
+      "Excludes": "Schließt sich mit {other} aus",
+      "OtherCalling": "Gehört zum Metier {calling}"
     },
     "EffectChoice": {
       "Title": "Wahl: {item}",
@@ -580,6 +626,7 @@
     },
     "Items": {
       "Create": "{type} anlegen",
+      "Add": "{type} hinzufügen",
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
@@ -589,6 +636,7 @@
       "Label": "Modifikator",
       "Hint": "Manuelle Anpassung, die auf den berechneten Wert addiert wird. Normalerweise 0.",
       "AttributeHint": "Eigene Punkte zusätzlich zu denen aus Items (angeborene Eigenschaften, Metier, Alter).",
+      "SkillHint": "Eigene Punkte zusätzlich zu denen aus Items (Metier, Profession, angeborene Eigenschaften), z. B. die frei verteilten Punkte aus dem Alter.",
       "MaxLabel": "Modifikator auf Maximum",
       "MaxHint": "Manuelle Anpassung, die auf das berechnete Maximum addiert wird. Normalerweise 0."
     },

@@ -1,0 +1,96 @@
+{
+  "_id": "hRN57cEaUOMUqflR",
+  "name": "Galvanist",
+  "type": "calling",
+  "img": "icons/environment/people/group.webp",
+  "system": {
+    "description": "<p>Galvanisten sind die Handwerker und Wissenschaftler unter den Magiern. Ihre Leidenschaft für galvanischen Strom und die Vorstellung, Unbelebtes lebendig zu machen oder einem lebendigen Zweck zuzuführen, ist beispiellos. Sigillisten gehen noch einen Schritt weiter und pressen dieses Können in eine Form, die jedermann benutzen kann. Doch wollen auch einige unter ihnen diese Methoden dazu nutzen, um die Natur und den ihr innewohnenden Tod zu überlisten, und greifen zu fragwürdigen Methoden.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "OyMEWeRmi85RKVAE",
+      "name": "Attributspunkt",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.dexterity.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!hRN57cEaUOMUqflR.OyMEWeRmi85RKVAE"
+    },
+    {
+      "_id": "sykosvSYVX3uAQtJ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!hRN57cEaUOMUqflR.sykosvSYVX3uAQtJ"
+    }
+  ],
+  "folder": null,
+  "sort": 200,
+  "flags": {},
+  "_key": "!items!hRN57cEaUOMUqflR"
+}

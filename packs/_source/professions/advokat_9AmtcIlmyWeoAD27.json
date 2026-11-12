@@ -1,0 +1,70 @@
+{
+  "_id": "9AmtcIlmyWeoAD27",
+  "name": "Advokat",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Advokaten sind Rechtsbeistände oder Richterinnen oder juristische Beraterinnen, entweder für einen Herrscher oder für Privatpersonen oder an einem Gericht oder Amt. An vielen Orten sind sie als Richter, Amtmänner oder Vögte tätig und oft die einzige Gerichtsbarkeit vor Ort. In jedem Fall, in dem sie Recht sprechen, sollten sie aber die Erlaubnis des örtlichen Herrschers dazu haben. Ab und an geraten sie dadurch auch in gefährliche Situationen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.ljN0TYuRHvIGAiyl",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.sgAx50pFQzJXbeIu"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.FpWfPSQYHp8ect6F"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Yny1T9beuKrFdZho"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "hBN3Cwnhy5oiWSFI",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!9AmtcIlmyWeoAD27.hBN3Cwnhy5oiWSFI"
+    }
+  ],
+  "folder": null,
+  "sort": 1900,
+  "flags": {},
+  "_key": "!items!9AmtcIlmyWeoAD27"
+}

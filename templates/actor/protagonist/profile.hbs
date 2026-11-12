@@ -13,9 +13,16 @@
       <input id="{{rootId}}-origin" type="text" name="system.origin" value="{{system.origin}}" data-lockable {{disabled locked}}>
     </div>
     <div class="text-field">
-      <label for="{{rootId}}-profession">{{systemFields.profession.label}}</label>
-      <input id="{{rootId}}-profession" type="text" name="system.profession" value="{{system.profession}}"
-             data-lockable {{disabled locked}}>
+      <label>{{systemFields.profession.label}}</label>
+      {{!-- Calling and profession as tags (#48); the former free text is taken over by the file cleanup --}}
+      <div class="profile-tags">
+        {{#each callingSlots as |slot|}}
+        {{> "kristallpunk.item-tag" slot=slot type="calling" addLabel="KRISTALLPUNK.Sheet.AddCalling"}}
+        {{/each}}
+        {{#each professionSlots as |slot|}}
+        {{> "kristallpunk.item-tag" slot=slot type="profession" addLabel="KRISTALLPUNK.Sheet.AddProfession"}}
+        {{/each}}
+      </div>
     </div>
   </div>
 

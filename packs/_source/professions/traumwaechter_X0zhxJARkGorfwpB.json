@@ -1,0 +1,64 @@
+{
+  "_id": "X0zhxJARkGorfwpB",
+  "name": "Traumwächter",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Traumwächter überwachen die Träume der Menschen, vor allem in Trübnisgebieten und in nahegelegenen Regionen. Sie kennen sich aus mit den verschiedensten Methoden, die der Schatten anwendet, um sich die Menschen untertan zu machen, und sie sind darauf spezialisiert, mehr als die Priester, diesen Einfluss zu brechen. Traumwächter können in Träume eindringen und damit verhindern, dass der Schatten Nutzen aus seinen Opfern zieht. Oft manifestiert sich in diesem Prozess ein Alp und der Traumwächter muss um sein Leben kämpfen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.cLKe8pW8ol5ye6Yy",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Traumwacht/Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.TQ6ze2ZnyXEfECW8"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.yTcGsFAcMPQg2opl"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "djSanvP8rrNQI5Kn",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.meleeCombat.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!X0zhxJARkGorfwpB.djSanvP8rrNQI5Kn"
+    }
+  ],
+  "folder": null,
+  "sort": 500,
+  "flags": {},
+  "_key": "!items!X0zhxJARkGorfwpB"
+}

@@ -31,10 +31,10 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     const skills = {};
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.skills) ) {
       skills[key] = new SchemaField({
-        value: new NumberField({
-          required: true, nullable: false, integer: true,
-          min: limits.skill.min, max: limits.skill.max, initial: 0
-        }),
+        // Former entered value (#48). Kept only so the file cleanup can turn it into manual points; empty for
+        // figures that are clean, and not shown anywhere else.
+        value: new NumberField({ required: true, nullable: true, integer: true, min: 0, initial: null }),
+        // Manual points (e.g. from the age at creation) and target for active effects (#43, #48)
         mod: mod()
       });
     }
@@ -67,6 +67,8 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       // Profile (Steckbrief)
       age: new NumberField({ nullable: true, integer: true, min: 0, initial: null }),
       origin: text(),
+      // Former free text of calling and profession, now items (#48). Kept only so the file cleanup can still read
+      // it; it is emptied there and not shown anywhere else. Its label names the tags of calling and profession.
       profession: text(),
       background: new HTMLField(),
       relationships: new HTMLField(),
@@ -110,17 +112,20 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
    * @override
    */
   prepareDerivedData() {
-    // Totals of the attributes first: everything else is based on them (#43). They come from the modifier alone,
-    // that is from active effects and manual points (#47), capped hard at 7 (Kurzregeln 1.0, p. 23; #17).
+    // Totals of the attributes first: everything else is based on them (#43). They come from the modifier, that is
+    // from active effects and manual points (#47), capped hard at 7 (Kurzregeln 1.0, p. 23; #17). A former entered
+    // value still counts until the file cleanup has moved it into the modifier, so totals are right before and after.
     const limits = CONFIG.KRISTALLPUNK.protagonist.limits;
     for ( const attribute of Object.values(this.attributes) ) {
-      attribute.total = rules.attributeTotal({ value: 0, mod: attribute.mod, limits: limits.attribute });
+      attribute.total = rules.attributeTotal({ value: attribute.value ?? 0, mod: attribute.mod, limits: limits.attribute });
     }
 
     for ( const [key, skill] of Object.entries(this.skills) ) {
       const { attribute } = CONFIG.KRISTALLPUNK.skills[key];
+      // The skill's own points come from the modifier: active effects and manual points (#48); a former entered
+      // value still counts until the file cleanup has moved it
       skill.total = rules.skillTotal({
-        value: skill.value,
+        value: skill.value ?? 0,
         attribute: this.attributes[attribute].total,
         mod: skill.mod,
         limits: limits.skill
@@ -180,7 +185,7 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     const limits = CONFIG.KRISTALLPUNK.protagonist.limits.attribute;
     const attributes = Object.entries(this.attributes)
       .filter(([key]) => CONFIG.KRISTALLPUNK.attributes[key].domain === domain)
-      .map(([, attribute]) => rules.attributeTotal({ value: 0, mod: attribute.mod, limits }));
+      .map(([, attribute]) => rules.attributeTotal({ value: attribute.value ?? 0, mod: attribute.mod, limits }));
     return rules.staminaMax({ attributes, mod: this.stamina[domain].maxMod });
   }
 }

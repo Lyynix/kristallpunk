@@ -1,0 +1,64 @@
+{
+  "_id": "weq6djrLK05ZUxSX",
+  "name": "Hexe",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Hexen kommen vor allem im ländlichen Raum vor. Sie sind meist naturverbunden und oft die einzigen Heiler auf dem Land. Sie haben ihre Kunst von einer anderen Hexe oder einem Hexer gelernt. Sie sind meist sehr misstrauisch gegenüber Institutionen, da sie von diesen oft verfolgt und verjagt werden. Ihre Bildung bezieht sich auf das angesammelte Wissen und nicht auf ihre Belesenheit. Viele von ihnen können überhaupt nicht lesen, sondern haben durch mündliche Überlieferung gelernt. Ihr Wissen ist durchdrungen von Aberglaube, alten Weisheiten und mystischen Erkenntnissen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.cLKe8pW8ol5ye6Yy",
+    "resonanceKind": "Ars Goëtia",
+    "resonanceCompetence": "Evokation (Geisterbeschwörung) oder Clairevoyance",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.MbbXEz9KP3e4V7Ip"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.RLwFFdXLCd2KcwHU"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "3LnMuBqno0kWLBS7",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!weq6djrLK05ZUxSX.3LnMuBqno0kWLBS7"
+    }
+  ],
+  "folder": null,
+  "sort": 200,
+  "flags": {},
+  "_key": "!items!weq6djrLK05ZUxSX"
+}

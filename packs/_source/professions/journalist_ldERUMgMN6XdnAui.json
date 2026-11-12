@@ -1,0 +1,77 @@
+{
+  "_id": "ldERUMgMN6XdnAui",
+  "name": "Journalist",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Zeitungen sind in allen sozialen Schichten sehr beliebt. Ob vom Marktschreier vorgelesen oder genüsslich selbst zur Hand genommen, alle sind heiß auf die neuesten Nachrichten. Journalisten sind hinter den neuesten Geschichten her. Sie interessiert einfach alles, aber manchmal ist es nicht ungefährlich, seine Nase in die Angelegenheiten anderer zu stecken. Journalisten können auch eine der populären Reiseschriftstellerinnen sein, die mit ihren Berichten aus fernen Ländern zu Berühmtheit gelangen. Oder sie wagen sich sogar in Trübnisgebiete, um zu dokumentieren, wie sich Mutter Natur in den geplagten Zonen verändert. Neugier ist ihr Antrieb.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.y96kRLybssNPPboU",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.TGxsGmNDOcS27jdZ"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.8jPDjdduO7dezjGz"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.gC2zMeEseFQmW6Sb"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "8yJlXu4Zhs6serY5",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!ldERUMgMN6XdnAui.8yJlXu4Zhs6serY5"
+    }
+  ],
+  "folder": null,
+  "sort": 3600,
+  "flags": {},
+  "_key": "!items!ldERUMgMN6XdnAui"
+}

@@ -47,7 +47,6 @@
     <div class="skill-group {{group.key}}">
       <div class="skill-row header">
         <span class="name">{{localize "KRISTALLPUNK.Sheet.Skills"}} · {{localize group.label}}</span>
-        <span>{{localize "KRISTALLPUNK.Sheet.Column.Value"}}</span>
         <span class="mod-cell">{{localize "KRISTALLPUNK.Sheet.Column.Mod"}}</span>
         <span>{{localize "KRISTALLPUNK.Sheet.Column.Total"}}</span>
       </div>
@@ -56,14 +55,11 @@
         <label class="name" for="{{@root.rootId}}-skill-{{skill.key}}">
           {{localize skill.label}} ({{localize skill.attribute}})
         </label>
-        <input id="{{@root.rootId}}-skill-{{skill.key}}" type="number" name="system.skills.{{skill.key}}.value"
-               value="{{skill.value}}" min="{{skill.min}}" max="{{skill.max}}" step="1" data-lockable {{disabled @root.locked}}>
-        {{!-- Opens in edit mode --}}
+        {{!-- The manual points; the rest comes from items (#48). Opens in edit mode --}}
         <span class="mod-cell">
-          <input type="text" inputmode="numeric" data-dtype="Number"
+          <input id="{{@root.rootId}}-skill-{{skill.key}}" type="text" inputmode="numeric" data-dtype="Number"
                  name="system.skills.{{skill.key}}.mod" value="{{skill.modDisplay}}"
-                 aria-label="{{localize "KRISTALLPUNK.Mod.Label"}}" data-tooltip="{{localize "KRISTALLPUNK.Mod.Hint"}}"
-                 data-lockable {{disabled @root.locked}}>
+                 data-tooltip="{{localize "KRISTALLPUNK.Mod.SkillHint"}}" data-lockable {{disabled @root.locked}}>
         </span>
         <button type="button" class="total rollable" data-action="rollCheck" data-check="{{skill.key}}"
                 data-tooltip="{{skill.breakdown}}">

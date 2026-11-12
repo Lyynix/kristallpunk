@@ -1,0 +1,64 @@
+{
+  "_id": "6HfGNFKqIX25g3l4",
+  "name": "Beschwörer",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Beschwörer spüren die Verbundenheit mit den Geistern der Natur, der Tiere und der Menschen. Es fällt ihnen leicht, sich mit ihnen in Verbindung zu setzen, manchmal fühlen sie sich geradezu von ihnen verfolgt.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.cLKe8pW8ol5ye6Yy",
+    "resonanceKind": "Ars Goëtia",
+    "resonanceCompetence": "Evokation (Geisterbeschwörung)",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.ECpyn7HPRvTK5wPt"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.yTcGsFAcMPQg2opl"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "EZtToMnhiHxIHhQ6",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.dodge.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!6HfGNFKqIX25g3l4.EZtToMnhiHxIHhQ6"
+    }
+  ],
+  "folder": null,
+  "sort": 100,
+  "flags": {},
+  "_key": "!items!6HfGNFKqIX25g3l4"
+}

@@ -1,0 +1,96 @@
+{
+  "_id": "viXgS86jfILvfCbH",
+  "name": "Streiter",
+  "type": "calling",
+  "img": "icons/environment/people/group.webp",
+  "system": {
+    "description": "<p>Streiter kämpfen im Licht und im Schatten, manche dienen dem Staat, manche dem Geld und manche einer höheren Sache. Die meisten Streiter waren in einer Armee oder sind zur See gefahren, Offiziere oder Mannschaften, sie waren Wachleute, Leibwächter oder einfach Gesetzlose. Allen gleich ist, dass sie auf die eine oder andere Art gelernt haben, mit Waffen umzugehen, und nicht wenige von ihnen haben schon getötet oder zumindest ihre Skrupel abgelegt, andere zu verletzen. Auch der Feldarzt oder Feldscher ist hier dabei. Er hat vielleicht nicht viel Kampferfahrung, aber was er bereits gesehen hat und an Erfahrungen mit Gewalt, Verletzung und Tod erlangt hat, wiegt das sicher auf.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "UkoGlqOkmxgMqLDo",
+      "name": "Attributspunkt",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.strength.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!viXgS86jfILvfCbH.UkoGlqOkmxgMqLDo"
+    },
+    {
+      "_id": "OPdIm6D45VsqaiSU",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.meleeCombat.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rangedCombat.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.dodge.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!viXgS86jfILvfCbH.OPdIm6D45VsqaiSU"
+    }
+  ],
+  "folder": null,
+  "sort": 500,
+  "flags": {},
+  "_key": "!items!viXgS86jfILvfCbH"
+}

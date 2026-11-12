@@ -1,0 +1,70 @@
+{
+  "_id": "WIjnpY1Hlg6B9IP7",
+  "name": "Gendarm",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Gendarmen sind bewaffnete Mitglieder der Wache einer Stadt oder eines Bezirkes, die zur Aufrechterhaltung der Ordnung und der Bekämpfung der Kriminalität angestellt wurden. In den Rheinbundgebieten bezeichnet man sie als Gendarmen, im Rest Deutschlands öfter Wachtmeister. Sehr fortschrittliche Gendarmen entwickeln moderne Theorien und Verfahrensweisen der Kriminalistik.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.viXgS86jfILvfCbH",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.vn6305uHRc1uKzqH"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.dS6xwZDfICrh5aId"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.0X1RPYznOAyptSyb"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "jTqmZnTlCGNTAPNQ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!WIjnpY1Hlg6B9IP7.jTqmZnTlCGNTAPNQ"
+    }
+  ],
+  "folder": null,
+  "sort": 2600,
+  "flags": {},
+  "_key": "!items!WIjnpY1Hlg6B9IP7"
+}

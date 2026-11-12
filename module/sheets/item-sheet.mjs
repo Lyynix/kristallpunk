@@ -17,7 +17,11 @@ export default class KristallpunkItemSheet extends HandlebarsApplicationMixin(It
     position: { width: 520, height: 480 },
     window: { resizable: true },
     form: { submitOnChange: true },
-    actions: { ...EFFECT_ACTIONS }
+    actions: {
+      ...EFFECT_ACTIONS,
+      addCompetenceSlot: KristallpunkItemSheet.#onAddCompetenceSlot,
+      removeCompetenceSlot: KristallpunkItemSheet.#onRemoveCompetenceSlot
+    }
   };
 
   static PARTS = {
@@ -64,10 +68,37 @@ export default class KristallpunkItemSheet extends HandlebarsApplicationMixin(It
         showNote: system.automation.level !== "full"
       } : null,
       effectGroups: prepareEffectGroups(this.item),
+      // Places for competences of a profession (#48), numbered for display
+      ...(this.item.type === "profession" ? {
+        slotFields: system.schema.fields.competenceSlots.element.fields,
+        competenceSlots: system.competenceSlots.map((slot, index) => ({ ...slot, index, number: index + 1 }))
+      } : {}),
       enrichedDescription: await TextEditor.implementation.enrichHTML(system.description, {
         relativeTo: this.item, secrets: this.item.isOwner
       })
     });
+  }
+
+  /**
+   * Add an empty place for competences to a profession (#48).
+   * @this {KristallpunkItemSheet}
+   */
+  static async #onAddCompetenceSlot() {
+    const slots = foundry.utils.deepClone(this.item._source.system.competenceSlots);
+    await this.item.update({ "system.competenceSlots": [...slots, { options: [], specifications: [] }] });
+  }
+
+  /**
+   * Remove a place for competences from a profession (#48).
+   * @this {KristallpunkItemSheet}
+   * @param {PointerEvent} event
+   * @param {HTMLElement} target
+   */
+  static async #onRemoveCompetenceSlot(event, target) {
+    const index = Number(target.closest("[data-index]")?.dataset.index);
+    const slots = foundry.utils.deepClone(this.item._source.system.competenceSlots);
+    slots.splice(index, 1);
+    await this.item.update({ "system.competenceSlots": slots });
   }
 
   /** @override */

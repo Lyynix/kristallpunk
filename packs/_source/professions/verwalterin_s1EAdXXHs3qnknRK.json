@@ -1,0 +1,77 @@
+{
+  "_id": "s1EAdXXHs3qnknRK",
+  "name": "Verwalterin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Verwalterinnen führen einen adeligen oder großbürgerlichen Haushalt. Sie leiten eine Behörde oder sind darin angestellt, sie sind die Arbeitstiere des bürokratischen Apparates. Manche verwalten einen Landsitz oder ein Gut oder arbeiten für eine der zahlreichen Armeen und Söldnereinheiten als Quartiermeisterinnen und kümmern sich um die Logistik. Sie tragen oft große Verantwortung und sind es gewohnt, Angestellte zu führen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.ljN0TYuRHvIGAiyl",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.RMgI4zoa0Rm9ESzC"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.WfYE9qunqSchatoL"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.DNv7GNkcklhrH31h"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "VXnSetoaoeyBqGFz",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!s1EAdXXHs3qnknRK.VXnSetoaoeyBqGFz"
+    }
+  ],
+  "folder": null,
+  "sort": 2400,
+  "flags": {},
+  "_key": "!items!s1EAdXXHs3qnknRK"
+}

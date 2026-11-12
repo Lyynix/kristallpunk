@@ -1,0 +1,71 @@
+{
+  "_id": "CsmMZnCF26t7Lz9r",
+  "name": "Okkultist",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Der Okkultist ist dem Priester nicht unähnlich. Auch er glaubt an das Eingreifen des Übernatürlichen und taucht ein in das okkulte Wissen um die Kristalle. Im Gegensatz zum Priester ist der Okkultist noch auf der Suche nach seiner Wahrheit, seinem Glauben. Sie sind oft Mitglieder fragwürdiger Vereinigungen oder arbeiten an Orten, die ihnen Wissen versprechen. Sie sind hungrig nach Macht und nach Informationen über die Kristalle und wie sie den größten persönlichen Nutzen daraus ziehen können. Viele von ihnen sind passable Zauberer und oft belesen in historischen und antiken Schriften. Bei ihren Versammlungen betreiben sie kultische Rituale, den Kirchen nicht unähnlich.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.8vtTLBfFVjgApWoh",
+    "resonanceKind": "Ars Goëtia",
+    "resonanceCompetence": "Evokation",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.e9iKvPeEykelcIxO"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.1XLwEugBpzRDCXD7"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "JjtUx4IhHwdJX0Il",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.acting.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!CsmMZnCF26t7Lz9r.JjtUx4IhHwdJX0Il"
+    }
+  ],
+  "folder": null,
+  "sort": 1700,
+  "flags": {},
+  "_key": "!items!CsmMZnCF26t7Lz9r"
+}
