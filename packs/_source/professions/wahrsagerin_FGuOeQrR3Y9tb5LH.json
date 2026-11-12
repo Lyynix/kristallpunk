@@ -1,0 +1,71 @@
+{
+  "_id": "FGuOeQrR3Y9tb5LH",
+  "name": "Wahrsagerin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Wahrsagerinnen, auch Astrologen, Haruspex, Augurin oder Prophet genannt, wurden und werden sie oft mit den Hexen verwechselt. Sie können ihr Gegenüber gut lesen und aus ihren Eindrücken und dem Blick in Zukunft und Vergangenheit genaue Schlüsse ziehen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.cLKe8pW8ol5ye6Yy",
+    "resonanceKind": "Ars Goëtia",
+    "resonanceCompetence": "Clairevoyance",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.TGxsGmNDOcS27jdZ"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.1XLwEugBpzRDCXD7"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "wl39QDvI1RU7iCrs",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.acting.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!FGuOeQrR3Y9tb5LH.wl39QDvI1RU7iCrs"
+    }
+  ],
+  "folder": null,
+  "sort": 600,
+  "flags": {},
+  "_key": "!items!FGuOeQrR3Y9tb5LH"
+}

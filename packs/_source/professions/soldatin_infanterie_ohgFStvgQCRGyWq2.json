@@ -1,0 +1,77 @@
+{
+  "_id": "ohgFStvgQCRGyWq2",
+  "name": "Soldatin (Infanterie)",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Soldatinnen haben in einer der zahlreichen Armeen gedient, sei das in der Truppe eines lokalen Adeligen oder in einer Armee der großen Nationen. Oder sie gehören zu einer der zahllosen Söldnereinheiten, die Handelszüge durch die Trübnis eskortieren oder wertvolle Minen oder Manufakturen bewachen. Vielleicht sind sie in den Mannschaftsdienstgraden auch schon aufgestiegen und sind Korporal oder Feldwebel. Die Truppengattung ist Infanterie, Kavallerie oder Artillerie. Soldatinnen sind immer gewünschte Begleiter in einer zunehmend unsicheren Welt.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.viXgS86jfILvfCbH",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Ki7Y37yf98ewJbla"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.TQ6ze2ZnyXEfECW8"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.PdjJTgUWmaxMLGdH"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "ozpAjrfYh9Ckco76",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rangedCombat.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!ohgFStvgQCRGyWq2.ozpAjrfYh9Ckco76"
+    }
+  ],
+  "folder": null,
+  "sort": 2900,
+  "flags": {},
+  "_key": "!items!ohgFStvgQCRGyWq2"
+}

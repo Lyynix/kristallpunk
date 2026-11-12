@@ -1,0 +1,70 @@
+{
+  "_id": "bUrr04hEoVUyTMNi",
+  "name": "Feldscher",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Feldscher ist der Ausbildungsberuf der Ärzte in der Armee. Durch die vielen kriegerischen Auseinandersetzungen wurden schon seit längerem immer mehr Helfer benötigt, die die Verluste an Soldaten verringern sollten. Auch wenn Verletzte eine Armee stark behindern, so ergibt es Sinn, erfahrene Soldaten zu heilen, anstatt sie mit unerfahrenen Rekruten zu ersetzen. Damit wächst schon länger die Bedeutung von Feldärzten in der Armee. Doch die meisten von ihnen sind eher brauchbare Sanitäter und eher Metzger als Ärzte. Von Krankheiten verstehen sie relativ wenig, aber Verletzungen, Erste Hilfe und Chirurgie, das sind ihre Fachgebiete. Da die Trübnis viele blutige Gefahren birgt, ist das Können von Feldscheren sehr gefragt.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.viXgS86jfILvfCbH",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.bi3Je2Moz38esOPb"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.CT2P6KZzCcS6R6SZ"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.6xObLufXZ0Juoez8"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "qrDfqzGfR9Zt1x5G",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!bUrr04hEoVUyTMNi.qrDfqzGfR9Zt1x5G"
+    }
+  ],
+  "folder": null,
+  "sort": 3200,
+  "flags": {},
+  "_key": "!items!bUrr04hEoVUyTMNi"
+}

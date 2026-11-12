@@ -1,0 +1,66 @@
+{
+  "_id": "iy5kKLocNgS0gbiK",
+  "name": "Künstler",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Künstler, also Maler, Bildhauer, Musiker und Dichter, nutzen den Galvanismus in einer eigenen Form. Bei ihnen dreht sich alles um Inspiration und handwerkliches Geschick. Sie geben bei der Herstellung ihrer Kunst ihre Gefühle mit ins Kunstwerk. Diese Gefühle können sie dann wieder bei ihrem Publikum auslösen, dadurch können verschiedene Dinge passieren: Emotionen können hervorgerufen werden, Fertigkeiten temporär erhöht oder erniedrigt werden (vor allem durch Gesang und Dichtung), neue Räume oder Welten geschaffen werden (vor allem durch Malerei) oder Konstruktskulpturen von außergewöhnlicher Eleganz hergestellt werden. Künstler können mit der Fertigkeit Inspiration handwerkliche Aktionen ausführen. Künstler hauchen ihrer Kunst Leben ein.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.hRN57cEaUOMUqflR",
+    "resonanceKind": "Vivikation",
+    "resonanceCompetence": "Galvanismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.0MCSkCIA0whRfsAQ",
+          "Compendium.kristallpunk.competences.Item.Ds2MMAnMN8q9B3Pm",
+          "Compendium.kristallpunk.competences.Item.xoxbzvB31nOkmQ2s"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.f1EAdacvOw3iLB5G"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "0Ll4ycpkwMXbV93H",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!iy5kKLocNgS0gbiK.0Ll4ycpkwMXbV93H"
+    }
+  ],
+  "folder": null,
+  "sort": 1100,
+  "flags": {},
+  "_key": "!items!iy5kKLocNgS0gbiK"
+}

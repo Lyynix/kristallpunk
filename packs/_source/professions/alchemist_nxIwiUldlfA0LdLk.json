@@ -1,0 +1,64 @@
+{
+  "_id": "nxIwiUldlfA0LdLk",
+  "name": "Alchemist",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Alchemisten haben sich dem Gedanken verschrieben, die Resonanzen der Kristalle mit bekannten chemischen Stoffen und wirksamen Ingredienzien zu verbinden. Sie wollen damit fantastische, herausragende Effekte erzielen. Sie stellen damit exotisch-magische Medikamente, Gifte, Materialien und Gegenstände aller Art her. Auch Kristalldrogen und Aufputschmittel der besonderen Art, Kristallmunition und die berühmte Licht-Granate fallen darunter.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.hRN57cEaUOMUqflR",
+    "resonanceKind": "Vivikation",
+    "resonanceCompetence": "Galvanismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Q3RAY1vMIKx7dC1g"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.iI8QkFMEPXFg9tlO"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "IuATYG1LmxK1i2eu",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!nxIwiUldlfA0LdLk.IuATYG1LmxK1i2eu"
+    }
+  ],
+  "folder": null,
+  "sort": 700,
+  "flags": {},
+  "_key": "!items!nxIwiUldlfA0LdLk"
+}

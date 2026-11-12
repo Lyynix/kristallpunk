@@ -1,0 +1,96 @@
+{
+  "_id": "y96kRLybssNPPboU",
+  "name": "Gesellschafter",
+  "type": "calling",
+  "img": "icons/environment/people/group.webp",
+  "system": {
+    "description": "<p>Gesellschafter bewegen sich in Salons, in Gerichtssälen und auf Märkten. Ihre Waffen sind Worte, Verträge und Geld. Geld ist der Motor, der eine Gesellschaft antreibt, und Informationen sind wertvoll.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "m3Mrqf63KtOMRJ7L",
+      "name": "Attributspunkt",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.empathy.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!y96kRLybssNPPboU.m3Mrqf63KtOMRJ7L"
+    },
+    {
+      "_id": "hgQIIL5ZGfguZiIJ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.dodge.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!y96kRLybssNPPboU.hgQIIL5ZGfguZiIJ"
+    }
+  ],
+  "folder": null,
+  "sort": 600,
+  "flags": {},
+  "_key": "!items!y96kRLybssNPPboU"
+}

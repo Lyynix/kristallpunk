@@ -7,6 +7,9 @@ import ItemDataModel from "./base.mjs";
 export default class CallingData extends ItemDataModel {
   static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "KRISTALLPUNK.Item.Calling"];
 
+  /** @override */
+  static DEFAULT_IMAGE = "icons/environment/people/group.webp";
+
   /**
    * Warnings about this calling on its figure: a figure has one calling. Suggestions only; nothing is blocked.
    * @param {Actor} actor

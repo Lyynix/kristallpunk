@@ -1,0 +1,75 @@
+{
+  "_id": "u8ZH3XGJoZ0KNAj5",
+  "name": "Sigillistin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Sigillistinnen sind eine Sonderform der Galvanistischen Kunstschmiede. Sie wollen ihre Kunst einer breiteren Öffentlichkeit zugänglich machen. Allerdings tauchten sie zuerst als Auftragsarbeiter für Fürsten auf, die verlangten, die Konstrukte selber „bedienen“ zu können, auch wenn sie nichts von Resonanzmagie verstanden. Oder sie wollten, dass ihre Offiziere Konstrukte einsetzen konnten, ohne dafür teure Konstruktmeister einstellen zu müssen. Nach dieser Anfangsphase haben einige dieser Kunstschmiede die Marktlücke entdeckt, und die Befehlssigille war erfunden. Sigillistinnen sind also galvanische Kunstschmiede, die mit Hilfe von Befehlssigillen jedem ermöglichen, einem Konstrukt vorgefertigte Befehle zu erteilen. Ihre Befehlssigillen benötigen galvanische Ströme, um sich zu aktivieren. Die Aktivierung einer Sigille ist eine sorglose Probe und kann von jedem durchgeführt werden.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.hRN57cEaUOMUqflR",
+    "resonanceKind": "Vivikation",
+    "resonanceCompetence": "Galvanismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3PX4Lp2hQHLSaee1"
+        ],
+        "specifications": [
+          "Graveur"
+        ]
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3PX4Lp2hQHLSaee1"
+        ],
+        "specifications": [
+          "Uhrmacher"
+        ]
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "qmuHMs5SEX3KtGXq",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!u8ZH3XGJoZ0KNAj5.qmuHMs5SEX3KtGXq"
+    }
+  ],
+  "folder": null,
+  "sort": 1200,
+  "flags": {},
+  "_key": "!items!u8ZH3XGJoZ0KNAj5"
+}

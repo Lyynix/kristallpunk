@@ -1,0 +1,77 @@
+{
+  "_id": "4hqm6xbaZRHR8COD",
+  "name": "Finanzier",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Finanziers sind reich und ihnen ist langweilig. Sie haben alles, was sie benötigen, und jeder Handgriff wird von Personal übernommen. Sie suchen das Abenteuer oder gründen eine Loge oder eine Companie, um irgendeinen Sinn in ihr Leben zu bekommen. Sie finanzieren interessante Unternehmungen und Expeditionen, an denen sie dann auch selber teilnehmen. Sie wollen etwas erleben und sich die Zeit vertreiben. Gerne scharen sie Spezialisten um sich, denen sie freudig Aufgaben verteilen.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.y96kRLybssNPPboU",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.FpWfPSQYHp8ect6F"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.f1EAdacvOw3iLB5G"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.fenmsUQ6w63y66dj"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "pMevoQl6MDwFVyG2",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!4hqm6xbaZRHR8COD.pMevoQl6MDwFVyG2"
+    }
+  ],
+  "folder": null,
+  "sort": 3400,
+  "flags": {},
+  "_key": "!items!4hqm6xbaZRHR8COD"
+}

@@ -1,0 +1,70 @@
+{
+  "_id": "4aBzZyXlqpmf0kYs",
+  "name": "Diebin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Damit sind Herumtreiberinnen und Gelegenheitsdiebe und Einbrecherinnen gemeint. Oft tun sie dies aus Not oder zum eigenen Überleben. Diebinnen gibt es jedoch in jeder Schicht, vom Straßendieb, der dir auf dem Markt die Geldbörse klaut, bis zur noblen Person, die bei einem Empfang in die privaten Räume eindringt und das Collier stiehlt. Letztendlich bist du einfach ein Dieb.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.ljN0TYuRHvIGAiyl",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.KhGaHymngAWSbclo"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.j4jqbf1IXNcQCLn4"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.yTcGsFAcMPQg2opl"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "BoTeWZra2mjZ1obg",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.acting.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!4aBzZyXlqpmf0kYs.BoTeWZra2mjZ1obg"
+    }
+  ],
+  "folder": null,
+  "sort": 2200,
+  "flags": {},
+  "_key": "!items!4aBzZyXlqpmf0kYs"
+}

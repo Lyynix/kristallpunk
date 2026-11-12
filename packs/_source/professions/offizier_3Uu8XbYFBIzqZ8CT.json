@@ -1,0 +1,70 @@
+{
+  "_id": "3Uu8XbYFBIzqZ8CT",
+  "name": "Offizier",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Offiziere sind meistens adelig oder in seltenen Fällen sehr wohlhabende Bürger mit Beziehungen und haben eine Karriere beim Militär hinter sich oder stecken vielleicht noch mitten drin. Als Offizier oder Mitglied des Adels hast du natürlich Zugang zu den Veranstaltungen der gehobenen Gesellschaft. Sie sind dadurch bei den Herrschern gefragt, als jemand, den man zum Lösen von Problemen einsetzen kann.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.viXgS86jfILvfCbH",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.vn6305uHRc1uKzqH"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.UTGpLBnYFizFKtxj"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.WfYE9qunqSchatoL"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "X2sc1oU7VHUiC33o",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!3Uu8XbYFBIzqZ8CT.X2sc1oU7VHUiC33o"
+    }
+  ],
+  "folder": null,
+  "sort": 2800,
+  "flags": {},
+  "_key": "!items!3Uu8XbYFBIzqZ8CT"
+}

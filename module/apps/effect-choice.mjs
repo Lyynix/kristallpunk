@@ -78,26 +78,43 @@ export async function resolveEffectChoices(item, preset = {}) {
  * @returns {Promise<Record<string, string>|null>}  Chosen effect ids by group, or null if cancelled.
  */
 async function askChoices(item, groups) {
+  const answer = await askChoice({
+    item,
+    groups: groups.map(([group, effects]) => ({ label: group, options: effects.map(effect => ({ id: effect._id, label: effect.name })) }))
+  });
+  return answer && Object.fromEntries(groups.map(([group], index) => [group, answer[index]]));
+}
+
+/**
+ * A dialog to choose one option in each of several groups, e.g. alternative effects (#47) or the competences of a
+ * profession (#48). The first option of each group is preselected.
+ * @param {object} data
+ * @param {Item} data.item  The item that lets choose, named in title and hint.
+ * @param {{label: string, options: {id: string, label: string}[]}[]} data.groups
+ * @param {string} [data.hint]  Localization key of the hint, given `item`.
+ * @returns {Promise<string[]|null>}  The chosen option id of each group, in order, or null if cancelled.
+ */
+export async function askChoice({ item, groups, hint = "KRISTALLPUNK.EffectChoice.Hint" }) {
   const { escapeHTML } = foundry.utils;
-  const fieldsets = groups.map(([group, effects], index) => `
+  const fieldsets = groups.map(({ label, options }, index) => `
     <fieldset>
-      <legend>${escapeHTML(group)}</legend>
-      ${effects.map((effect, i) => `
+      <legend>${escapeHTML(label)}</legend>
+      ${options.map((option, i) => `
         <label class="checkbox">
-          <input type="radio" name="group${index}" value="${effect._id}" ${i === 0 ? "checked" : ""}>
-          ${escapeHTML(effect.name)}
+          <input type="radio" name="group${index}" value="${escapeHTML(option.id)}" ${i === 0 ? "checked" : ""}>
+          ${escapeHTML(option.label)}
         </label>`).join("")}
     </fieldset>`).join("");
   const result = await foundry.applications.api.DialogV2.prompt({
     window: { title: game.i18n.format("KRISTALLPUNK.EffectChoice.Title", { item: item.name }), icon: "fa-solid fa-list-check" },
     classes: ["kristallpunk", "effect-choice"],
-    content: `<p>${escapeHTML(game.i18n.format("KRISTALLPUNK.EffectChoice.Hint", { item: item.name }))}</p>${fieldsets}`,
+    content: `<p>${escapeHTML(game.i18n.format(hint, { item: item.name }))}</p>${fieldsets}`,
     ok: {
       label: "KRISTALLPUNK.EffectChoice.Confirm",
       icon: "fa-solid fa-check",
       callback: (event, button) => {
         const data = new foundry.applications.ux.FormDataExtended(button.form).object;
-        return Object.fromEntries(groups.map(([group], index) => [group, data[`group${index}`]]));
+        return groups.map((group, index) => data[`group${index}`]);
       }
     },
     rejectClose: false

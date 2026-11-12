@@ -1,0 +1,96 @@
+{
+  "_id": "8vtTLBfFVjgApWoh",
+  "name": "Forscher",
+  "type": "calling",
+  "img": "icons/environment/people/group.webp",
+  "system": {
+    "description": "<p>Forscher kümmern sich weniger um die Anwendbarkeit der Kristalle als um ihre Bedeutung. Sie sind Entdecker, Naturforscher, Prospektoren oder Ärzte. Ihr Schwerpunkt liegt weniger auf der Zauberei selbst, sondern mehr darauf, mit Resonanzen umgehen zu können und dadurch die Situationen, in die sie geraten, besser verstehen zu können.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "xNkqaegVwOZjPUZI",
+      "name": "Attributspunkt",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.intelligence.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!8vtTLBfFVjgApWoh.xNkqaegVwOZjPUZI"
+    },
+    {
+      "_id": "7GFf31Hp6Z3N3gvr",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.prismResonance.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.meleeCombat.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!8vtTLBfFVjgApWoh.7GFf31Hp6Z3N3gvr"
+    }
+  ],
+  "folder": null,
+  "sort": 300,
+  "flags": {},
+  "_key": "!items!8vtTLBfFVjgApWoh"
+}

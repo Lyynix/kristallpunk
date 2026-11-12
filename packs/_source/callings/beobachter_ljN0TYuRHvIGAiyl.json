@@ -1,0 +1,96 @@
+{
+  "_id": "ljN0TYuRHvIGAiyl",
+  "name": "Beobachter",
+  "type": "calling",
+  "img": "icons/environment/people/group.webp",
+  "system": {
+    "description": "<p>Beobachter leben vom Sammeln von Informationen. Sie versuchen, sie mehr oder weniger freiwillig zu erhalten, wie beispielsweise der Journalist, oder sie helfen nach, wie der Detektiv oder der Spion. Beobachter verwenden normalerweise keine Kristallmagie, um an die gewünschten Informationen zu kommen, sondern gehen klassisch vor.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "LQCR2onoNjbzPens",
+      "name": "Attributspunkt",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributes.senses.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!ljN0TYuRHvIGAiyl.LQCR2onoNjbzPens"
+    },
+    {
+      "_id": "EThJ8cUt18Xul44B",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/environment/people/group.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "3",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.dodge.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!ljN0TYuRHvIGAiyl.EThJ8cUt18Xul44B"
+    }
+  ],
+  "folder": null,
+  "sort": 400,
+  "flags": {},
+  "_key": "!items!ljN0TYuRHvIGAiyl"
+}

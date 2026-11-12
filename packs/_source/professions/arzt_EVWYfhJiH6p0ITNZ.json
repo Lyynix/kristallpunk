@@ -1,0 +1,93 @@
+{
+  "_id": "EVWYfhJiH6p0ITNZ",
+  "name": "Arzt",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Ärzte haben Medizin studiert. Im Gegensatz zu dem rein praktischen Ansatz des Feldschers (siehe Streiter) zählen Ärzte zu den Wissenschaftlern und versuchen, die Zusammenhänge der Krankheiten zu ergründen. Dabei beziehen sie Einflüsse der Kristalle und der Magie mit ein und öffnen sich neuen Erkenntnissen und Methoden, wie Forensik und Psychologie. Der eine oder andere legt sein Augenmerk auch komplett auf die Kristalle und die damit verbundenen starken Veränderungen. Für Ärzte tauschen bei den Metier-Fertigkeiten die Werte für Orientierung und Medizin, sie haben also die Metier-Fertigkeiten Medizin +3 und Orientierung +1.</p><p>Ärzte praktizieren die Magieart Thaumaturgie. Auch wenn sie keine Resonanzzauberer im eigentlichen Sinn sind, setzen sie, wenn überhaupt, Magie nur dazu ein, um das Leben zu erhalten, durch Hypnose und andere mesmeristische Techniken.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Der Tausch der Metier-Werte von Orientierung und Medizin ist ein eigener Effekt und gilt nur mit dem Metier Forscher; bei einem anderen Metier den Effekt abschalten. Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.8vtTLBfFVjgApWoh",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Tapky0ef8VV9wvbk",
+          "Compendium.kristallpunk.competences.Item.CT2P6KZzCcS6R6SZ"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.0X1RPYznOAyptSyb"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "lZGloY4OdumKhCbK",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.craft.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!EVWYfhJiH6p0ITNZ.lZGloY4OdumKhCbK"
+    },
+    {
+      "_id": "9D1Vy14g8Koqr9L3",
+      "name": "Tausch Orientierung/Medizin",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "-2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!EVWYfhJiH6p0ITNZ.9D1Vy14g8Koqr9L3"
+    }
+  ],
+  "folder": null,
+  "sort": 1300,
+  "flags": {},
+  "_key": "!items!EVWYfhJiH6p0ITNZ"
+}

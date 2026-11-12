@@ -1,0 +1,77 @@
+{
+  "_id": "JAsFHSVveil6RaAj",
+  "name": "Detektiv",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Da es noch keine flächendeckende Polizeipräsenz gibt, sind die Dienste der Detektive sehr gefragt. Allerdings sind die Methoden nicht immer völlig legal. Detektive beschaffen Informationen mit oft rücksichtslosen Mitteln. Beschattung, Einbruch, Verhöre, nichts bleibt dem Detektiv verborgen. In manchen Ländern gibt es sogar Organisationen, die angeheuert für Recht und Ordnung sorgen. Detektive werden oft genau aus dem Milieu rekrutiert, das sie nun bekämpfen sollen. Das bedeutet, anders als beispielsweise der Advokat haben sie im Normalfall keine Rechtsausbildung, sondern erhalten ihre Legitimität durch ihren Auftraggeber. Sie lösen für Geld die Probleme anderer …</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.ljN0TYuRHvIGAiyl",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.LA0vdwxHMxd7K3Pb"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3rLk5Ts9OyRpKNeM"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.0X1RPYznOAyptSyb"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "g8DDkGiz6GgpNxHX",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!JAsFHSVveil6RaAj.g8DDkGiz6GgpNxHX"
+    }
+  ],
+  "folder": null,
+  "sort": 2100,
+  "flags": {},
+  "_key": "!items!JAsFHSVveil6RaAj"
+}

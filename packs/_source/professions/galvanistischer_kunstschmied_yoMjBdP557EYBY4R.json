@@ -1,0 +1,75 @@
+{
+  "_id": "yoMjBdP557EYBY4R",
+  "name": "Galvanistischer Kunstschmied",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Galvanistische Kunstschmiede sind eine gefragte Berufsgruppe heutzutage, die ein beispielloses handwerkliches Können mit meisterhafter Zauberei verbinden. Sie bauen filigrane oder monumentale Gegenstände oder Konstrukte und verleihen diesen durch die Kristalle eine Art von Leben. Manche von ihnen sind sogar in der Lage, Körperteile durch Konstrukte zu ersetzen.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.hRN57cEaUOMUqflR",
+    "resonanceKind": "Vivikation",
+    "resonanceCompetence": "Galvanismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Xif1Pk6Q39vYPZ3M"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.3PX4Lp2hQHLSaee1"
+        ],
+        "specifications": [
+          "Schlosser",
+          "Schmied",
+          "Uhrmacher"
+        ]
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "KFTpLhxRtLL7Po4o",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.education.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!yoMjBdP557EYBY4R.KFTpLhxRtLL7Po4o"
+    }
+  ],
+  "folder": null,
+  "sort": 900,
+  "flags": {},
+  "_key": "!items!yoMjBdP557EYBY4R"
+}

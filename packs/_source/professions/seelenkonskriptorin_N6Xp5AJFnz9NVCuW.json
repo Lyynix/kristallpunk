@@ -1,0 +1,71 @@
+{
+  "_id": "N6Xp5AJFnz9NVCuW",
+  "name": "Seelenkonskriptorin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Seelenkonskriptorinnen sind auf der Suche nach Menschen, die Kontakt zu den Kristallen hatten und durch diese verändert wurden. Sie glauben daran, dass es eine Reinkarnation des hellen Kristalls in Menschenform geben muss, und wollen diese Person unbedingt finden. Meistens sind sie Gesandte der Kirche, aber es gibt auch Seelenkonskriptorinnen, die Fürsten dienen oder einer Loge angehören.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.cLKe8pW8ol5ye6Yy",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.0X1RPYznOAyptSyb"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.LA0vdwxHMxd7K3Pb"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "P3Bi0dQmkDdkGHr2",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.rangedCombat.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.authority.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!N6Xp5AJFnz9NVCuW.P3Bi0dQmkDdkGHr2"
+    }
+  ],
+  "folder": null,
+  "sort": 400,
+  "flags": {},
+  "_key": "!items!N6Xp5AJFnz9NVCuW"
+}

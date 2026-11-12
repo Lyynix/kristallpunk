@@ -1,0 +1,71 @@
+{
+  "_id": "tDNSJSqvhlcDDfVn",
+  "name": "Geistlicher",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Geistliche sind Diener des Glaubens, die die Kristalle und ihre Resonanzen als ein göttliches Prinzip verstehen. Der ordnende Aspekt des hellen Kristalls und der Wille zur Zerstörung des dunklen Kristalls passen in das von ihnen vertretene Weltbild von dem Göttlichen gegenüber dem Teuflischen. Sie verstehen sich als Diener des Lichtes. Offiziell verneinen sie die magischen Fähigkeiten der Kristalle, verwenden sie jedoch in ihren Insignien und Litaneien.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.cLKe8pW8ol5ye6Yy",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Theurgie",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.e9iKvPeEykelcIxO"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.tahPymkMBefRaerl"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "Pg48JgKBPeWeZpBv",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.rhetoric.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.medicine.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.science.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!tDNSJSqvhlcDDfVn.Pg48JgKBPeWeZpBv"
+    }
+  ],
+  "folder": null,
+  "sort": 300,
+  "flags": {},
+  "_key": "!items!tDNSJSqvhlcDDfVn"
+}

@@ -1,0 +1,72 @@
+{
+  "_id": "093iK1Fm3YoWfhBB",
+  "name": "14ième",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>14ième ist eine seltene Profession, die jedoch in den letzten Jahren stark an Popularität gewonnen hat. In Zeiten, in denen Aberglaube, Träume und Visionen Wirklichkeit werden können, wird bei 13 Gästen zu einer Zusammenkunft immer ein 14. eingeladen. Darauf haben sich einige Leute spezialisiert. Sie unterhalten ihren Gastgeber und die anderen Gäste gekonnt mit ihrem Wissen und manchmal auch mit ihren Künsten. Im Gegenzug erhalten sie Geld und enorm viele Informationen und kennen sehr viele Personen und Prominenz. Beziehungen sind ihre Hauptwährung, doch der eine oder andere nutzt diese Kontakte auch für eigene Zwecke.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.y96kRLybssNPPboU",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.c5Xe3EMmkxHRAt3b"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.Ds2MMAnMN8q9B3Pm",
+          "Compendium.kristallpunk.competences.Item.xoxbzvB31nOkmQ2s",
+          "Compendium.kristallpunk.competences.Item.0MCSkCIA0whRfsAQ"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.ymlCwKpbwZJ865hd"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "B3tsGG14jcRXvJ7j",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.stealth.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.inspiration.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!093iK1Fm3YoWfhBB.B3tsGG14jcRXvJ7j"
+    }
+  ],
+  "folder": null,
+  "sort": 3800,
+  "flags": {},
+  "_key": "!items!093iK1Fm3YoWfhBB"
+}

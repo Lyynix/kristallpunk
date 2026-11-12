@@ -526,6 +526,10 @@
       },
       "Profession": {
         "TooMany": "Eine Figur hat eine Profession, diese hat {count}.",
+        "ReplaceTitle": "Profession ersetzen",
+        "ReplaceHint": "Die Figur hat schon die Profession {old}. Soll {name} sie ersetzen? Was die bisherige Profession mitgebracht hat (Metier, Kompetenzen), wird entfernt.",
+        "ChoiceHint": "{item} lässt dir eine Wahl. Welche Kompetenz soll die Figur bekommen?",
+        "Missing": "{name}: {count} verknüpfte Items wurden nicht gefunden und fehlen der Figur.",
         "Slots": "Kompetenzen",
         "SlotsHint": "Jeder Platz bringt eine Kompetenz. Mehrere Kompetenzen oder Angaben in einem Platz sind Alternativen, eine einzelne Angabe wird übernommen.",
         "Slot": "Platz {number}",

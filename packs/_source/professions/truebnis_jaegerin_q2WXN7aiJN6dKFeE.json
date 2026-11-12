@@ -1,0 +1,64 @@
+{
+  "_id": "q2WXN7aiJN6dKFeE",
+  "name": "Trübnis-Jägerin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Die Wälder sind ihr Zuhause und sie sind in der Lage, sich in der Wildnis und Trübnis zurechtzufinden und Fährten zu lesen. Sie waren Förster, Jäger oder haben Expeditionen durch die Trübnis geführt und sicher nach Hause gebracht. Sie sind gute Schützen und werden rekrutiert, um Konvois durch die Trübnis zu begleiten, oder werden angeheuert, um Menschen in Gebieten, die nahe an der Trübnis liegen, vor den absonderlichen Kreaturen darin zu beschützen. Sie begleiten und beschützen Kristallprospektoren bei ihrer Arbeit oder arbeiten für einen Grundbesitzer oder einen Landesherren, um dessen Gebiete von Trübniskreaturen freizuhalten. Sie kennen sich gut mit Tieren aus und auch mit den Kreaturen der Trübnis. Viele dieser Jäger machen mit Kristallmunition Jagd auf Monster in der Trübnis.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Resonanzart und Resonanz-Kompetenz sind bis 0.7.0 Text."
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.8vtTLBfFVjgApWoh",
+    "resonanceKind": "Thaumaturgie",
+    "resonanceCompetence": "Mesmerismus",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.ewjottKQl9XumhDE"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.nCJHzgf8Ui6fbs8G"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "FKRisR1gYi5Z2NsZ",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.rangedCombat.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.athletics.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!q2WXN7aiJN6dKFeE.FKRisR1gYi5Z2NsZ"
+    }
+  ],
+  "folder": null,
+  "sort": 1800,
+  "flags": {},
+  "_key": "!items!q2WXN7aiJN6dKFeE"
+}

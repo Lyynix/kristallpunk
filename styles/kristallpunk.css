@@ -2220,10 +2220,18 @@ body.theme-light #hotbar.kristallpunk,
 /*  Item sheet (#45)                            */
 /* -------------------------------------------- */
 
+/* Header and tab bar keep their height, the active tab takes the rest and scrolls when it is too long
+   (e.g. a profession with many competence slots) */
 .kristallpunk.item .window-content {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: hidden;
+}
+
+.kristallpunk.item .sheet-header,
+.kristallpunk.item nav.sheet-tabs {
+  flex: none;
 }
 
 .kristallpunk.item .sheet-header {
@@ -2264,6 +2272,13 @@ body.theme-light #hotbar.kristallpunk,
   flex-direction: column;
   gap: 0.5rem;
   flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Fieldsets in a scrolling tab keep their height instead of being squeezed */
+.kristallpunk.item .tab.active > * {
+  flex-shrink: 0;
 }
 
 .kristallpunk.item .tab.description prose-mirror {
@@ -2280,7 +2295,7 @@ body.theme-light #hotbar.kristallpunk,
    layout, so nothing next to it moves */
 .kristallpunk .automation.partial {
   opacity: 0.6;
-  transform: scale(0.5);
+  transform: scale(0.6);
 }
 
 /* -------------------------------------------- */

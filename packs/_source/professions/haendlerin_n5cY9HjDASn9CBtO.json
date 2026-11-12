@@ -1,0 +1,70 @@
+{
+  "_id": "n5cY9HjDASn9CBtO",
+  "name": "Händlerin",
+  "type": "profession",
+  "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+  "system": {
+    "description": "<p>Händlerinnen haben ein Handelsgeschäft in einer Stadt oder fahren als fahrende Händlerin durch die Lande. In jedem Fall haben sie weitreichende Kontakte und hören viele Gerüchte. Ihre Interessen sind von den Trübnisgebieten bedroht. Handel kann nur dann lukrativ sein, wenn die Wege sicher sind. Darum organisieren sich viele Händler, bilden Handelskompanien, die ihre Warenzüge durchs Land beschützen. Dasselbe gilt für das Reisen. Einzelne Kutschen auf den Wegen sind gefährdet. Banditen, Trübnismonster und die sich verändernde Natur stellen große Gefahren dar. Darum sind Kontakte und Beziehungen für Händler sehr wichtig.</p>",
+    "automation": {
+      "level": "full",
+      "note": ""
+    },
+    "calling": "Compendium.kristallpunk.callings.Item.y96kRLybssNPPboU",
+    "resonanceKind": "",
+    "resonanceCompetence": "",
+    "competenceSlots": [
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.LA0vdwxHMxd7K3Pb"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.RMgI4zoa0Rm9ESzC"
+        ],
+        "specifications": []
+      },
+      {
+        "options": [
+          "Compendium.kristallpunk.competences.Item.1oXNQMS10yYoa1G5"
+        ],
+        "specifications": []
+      }
+    ]
+  },
+  "effects": [
+    {
+      "_id": "ldWCS8YwJ5NXcsDh",
+      "name": "Fertigkeitspunkte",
+      "img": "icons/sundries/documents/document-sealed-brown-red.webp",
+      "type": "base",
+      "system": {
+        "changes": [
+          {
+            "key": "system.skills.awareness.mod",
+            "type": "add",
+            "value": "1",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "key": "system.skills.orientation.mod",
+            "type": "add",
+            "value": "2",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
+      },
+      "disabled": false,
+      "transfer": true,
+      "flags": {},
+      "_key": "!items.effects!n5cY9HjDASn9CBtO.ldWCS8YwJ5NXcsDh"
+    }
+  ],
+  "folder": null,
+  "sort": 3500,
+  "flags": {},
+  "_key": "!items!n5cY9HjDASn9CBtO"
+}
