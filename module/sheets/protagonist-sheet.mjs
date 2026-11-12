@@ -84,6 +84,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         detail: item => String(item.system.quantity)
       }),
       innateTraitSlots: this.#prepareInnateTraitSlots(),
+      callingSlots: this.#prepareSingleSlots("calling"),
       competenceList: prepareItemList(this.actor, "competence", {
         label: "KRISTALLPUNK.Sheet.Competences",
         detailLabel: "KRISTALLPUNK.Item.Competence.FIELDS.skill.label",
@@ -153,6 +154,19 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
     // Each of the three columns aligns its tag: at the start, in the middle, at the end
     const columns = ["start", "center", "end"];
     return Array.from({ length: count }, (_, i) => ({ item: items[i] ?? null, column: columns[i % columns.length] }));
+  }
+
+  /**
+   * Places of an item type a figure has once, e.g. its calling (#48): one place, empty to add one, more if the figure
+   * has more, each marked then.
+   * @param {string} type
+   * @returns {{item: object|null, column: string}[]}
+   */
+  #prepareSingleSlots(type) {
+    const { items } = prepareItemList(this.actor, type, {
+      warning: item => item.system.conflictsOn?.(this.actor).join(" ") || null
+    });
+    return (items.length ? items : [null]).map(item => ({ item, column: "" }));
   }
 
   /**

@@ -1,0 +1,21 @@
+{{!-- One item as tag (#47, #48): the name opens it, the x (on hover) removes it; an empty place adds one.
+      Expects `slot` ({item, column}), `type` (item type to add) and `addLabel`. --}}
+{{#if slot.item}}
+<span class="item-tag {{slot.column}} {{#if slot.item.warning}}conflict{{/if}}" data-item-id="{{slot.item.id}}"
+      {{#if slot.item.warning}}data-tooltip="{{slot.item.warning}}"{{/if}}>
+  {{#if slot.item.warning}}<i class="warning fa-solid fa-triangle-exclamation" inert></i>{{/if}}
+  <a class="tag-name" data-action="editItem">{{slot.item.name}}</a>
+  {{#if slot.item.automation}}
+  <i class="automation {{slot.item.automation.level}} fa-solid {{slot.item.automation.icon}}"
+     data-tooltip="{{slot.item.automation.label}}" aria-label="{{slot.item.automation.label}}" role="img"></i>
+  {{/if}}
+  {{#if @root.editable}}
+  <button type="button" class="inline-control icon fa-solid fa-xmark item-delete" data-action="deleteItem"
+          data-tooltip="{{localize "KRISTALLPUNK.Items.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Items.Delete"}}"></button>
+  {{/if}}
+</span>
+{{else if @root.editable}}
+<button type="button" class="item-tag empty {{slot.column}}" data-action="createItem" data-type="{{type}}">
+  <i class="fa-solid fa-plus" inert></i> {{localize addLabel}}
+</button>
+{{/if}}

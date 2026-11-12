@@ -6,7 +6,8 @@
     "Item": {
       "equipment": "Ausrüstung",
       "competence": "Kompetenz",
-      "innateTrait": "Angeborene Eigenschaft"
+      "innateTrait": "Angeborene Eigenschaft",
+      "calling": "Metier"
     }
   },
   "KRISTALLPUNK": {
@@ -223,6 +224,7 @@
       "Competences": "Kompetenzen",
       "InnateTraits": "Angeborene Eigenschaften",
       "AddInnateTrait": "Eigenschaft",
+      "AddCalling": "Metier",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
@@ -519,6 +521,10 @@
         "FIELDS": {
           "quantity": { "label": "Anzahl" }
         }
+      },
+      "Calling": {
+        "TooMany": "Eine Figur hat ein Metier, diese hat {count}.",
+        "Details": "Attributspunkt und Fertigkeitspunkte des Metiers stehen als Effekte im Tab „Effekte“."
       },
       "InnateTrait": {
         "Excluded": "{name} und {other} schließen sich gegenseitig aus.",

@@ -42,6 +42,9 @@
       },
       "innateTrait": {
         "htmlFields": ["description"]
+      },
+      "calling": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {

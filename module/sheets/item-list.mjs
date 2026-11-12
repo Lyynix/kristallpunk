@@ -11,6 +11,10 @@ export const PARTIAL = "kristallpunk.item-list";
 /** Template of the partial. */
 export const TEMPLATE = "systems/kristallpunk/templates/parts/item-list.hbs";
 
+/** Name and template of the partial of one item as tag (#47, #48), loaded during init. */
+export const TAG_PARTIAL = "kristallpunk.item-tag";
+export const TAG_TEMPLATE = "systems/kristallpunk/templates/parts/item-tag.hbs";
+
 /**
  * The items of one type of an actor, in their sort order, for the item list partial.
  * @param {Actor} actor

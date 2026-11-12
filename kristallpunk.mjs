@@ -17,6 +17,7 @@ import KristallpunkItemSheet from "./module/sheets/item-sheet.mjs";
 import EquipmentData from "./module/data/item/equipment.mjs";
 import CompetenceData from "./module/data/item/competence.mjs";
 import InnateTraitData from "./module/data/item/innate-trait.mjs";
+import CallingData from "./module/data/item/calling.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
@@ -38,6 +39,7 @@ Hooks.once("init", () => {
   CONFIG.Item.dataModels.equipment = EquipmentData;
   CONFIG.Item.dataModels.competence = CompetenceData;
   CONFIG.Item.dataModels.innateTrait = InnateTraitData;
+  CONFIG.Item.dataModels.calling = CallingData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();
@@ -75,7 +77,7 @@ Hooks.once("init", () => {
   // Partials shared between applications; the chat cards are preloaded so they render synchronously
   foundry.applications.handlebars.loadTemplates({
     [statusTracker.PARTIAL]: statusTracker.TEMPLATE, [effectList.PARTIAL]: effectList.TEMPLATE,
-    [itemList.PARTIAL]: itemList.TEMPLATE,
+    [itemList.PARTIAL]: itemList.TEMPLATE, [itemList.TAG_PARTIAL]: itemList.TAG_TEMPLATE,
     [CHECK_CARD]: CHECK_CARD, [REQUEST_CARD]: REQUEST_CARD
   });
 });
