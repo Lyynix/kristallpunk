@@ -18,6 +18,7 @@ import EquipmentData from "./module/data/item/equipment.mjs";
 import CompetenceData from "./module/data/item/competence.mjs";
 import InnateTraitData from "./module/data/item/innate-trait.mjs";
 import CallingData from "./module/data/item/calling.mjs";
+import ProfessionData from "./module/data/item/profession.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
@@ -40,6 +41,7 @@ Hooks.once("init", () => {
   CONFIG.Item.dataModels.competence = CompetenceData;
   CONFIG.Item.dataModels.innateTrait = InnateTraitData;
   CONFIG.Item.dataModels.calling = CallingData;
+  CONFIG.Item.dataModels.profession = ProfessionData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   registerCheckRequestHooks();

@@ -85,6 +85,7 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       }),
       innateTraitSlots: this.#prepareInnateTraitSlots(),
       callingSlots: this.#prepareSingleSlots("calling"),
+      professionSlots: this.#prepareSingleSlots("profession"),
       competenceList: prepareItemList(this.actor, "competence", {
         label: "KRISTALLPUNK.Sheet.Competences",
         detailLabel: "KRISTALLPUNK.Item.Competence.FIELDS.skill.label",

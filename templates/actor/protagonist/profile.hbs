@@ -14,10 +14,13 @@
     </div>
     <div class="text-field">
       <label for="{{rootId}}-profession">{{systemFields.profession.label}}</label>
-      {{!-- The calling as tag (#48); the free text stays until the file cleanup takes it over --}}
+      {{!-- Calling and profession as tags (#48); the free text stays until the file cleanup takes it over --}}
       <div class="profile-tags">
         {{#each callingSlots as |slot|}}
         {{> "kristallpunk.item-tag" slot=slot type="calling" addLabel="KRISTALLPUNK.Sheet.AddCalling"}}
+        {{/each}}
+        {{#each professionSlots as |slot|}}
+        {{> "kristallpunk.item-tag" slot=slot type="profession" addLabel="KRISTALLPUNK.Sheet.AddProfession"}}
         {{/each}}
       </div>
       <input id="{{rootId}}-profession" type="text" name="system.profession" value="{{system.profession}}"

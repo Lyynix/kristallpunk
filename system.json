@@ -45,6 +45,9 @@
       },
       "calling": {
         "htmlFields": ["description"]
+      },
+      "profession": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {

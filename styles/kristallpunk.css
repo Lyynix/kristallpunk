@@ -2349,3 +2349,16 @@ body.theme-light #hotbar.kristallpunk,
   color: black;
   font-size: var(--font-size-11);
 }
+
+/* Places for competences of a profession (#48) */
+.kristallpunk.item .competence-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kristallpunk.item .competence-slot legend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

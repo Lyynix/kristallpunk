@@ -7,7 +7,8 @@
       "equipment": "Ausrüstung",
       "competence": "Kompetenz",
       "innateTrait": "Angeborene Eigenschaft",
-      "calling": "Metier"
+      "calling": "Metier",
+      "profession": "Profession"
     }
   },
   "KRISTALLPUNK": {
@@ -225,6 +226,7 @@
       "InnateTraits": "Angeborene Eigenschaften",
       "AddInnateTrait": "Eigenschaft",
       "AddCalling": "Metier",
+      "AddProfession": "Profession",
       "NoSkill": "Keiner Fertigkeit zugeordnet. Die Kompetenz wird bei keiner Probe vorgeschlagen.",
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
@@ -520,6 +522,25 @@
       "Equipment": {
         "FIELDS": {
           "quantity": { "label": "Anzahl" }
+        }
+      },
+      "Profession": {
+        "TooMany": "Eine Figur hat eine Profession, diese hat {count}.",
+        "Slots": "Kompetenzen",
+        "SlotsHint": "Jeder Platz bringt eine Kompetenz. Mehrere Kompetenzen oder Angaben in einem Platz sind Alternativen, eine einzelne Angabe wird übernommen.",
+        "Slot": "Platz {number}",
+        "AddSlot": "Platz hinzufügen",
+        "RemoveSlot": "Platz entfernen",
+        "FIELDS": {
+          "calling": { "label": "Metier", "hint": "Das Metier, zu dem die Profession gehört. Aus einem Kompendium oder der Welt hineinziehen." },
+          "resonanceKind": { "label": "Resonanzart", "hint": "Bis die Resonanzzauberei kommt (0.7.0) als Text." },
+          "resonanceCompetence": { "label": "Resonanz-Kompetenz", "hint": "Bis die Resonanzzauberei kommt (0.7.0) als Text." },
+          "competenceSlots": {
+            "element": {
+              "options": { "label": "Kompetenzen", "hint": "Hineinziehen; mehrere sind Alternativen." },
+              "specifications": { "label": "Angaben", "hint": "Z. B. das Handwerk bei „Erlerntes Handwerk“; mehrere sind Alternativen." }
+            }
+          }
         }
       },
       "Calling": {
