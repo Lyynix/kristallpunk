@@ -1,12 +1,12 @@
 {{!-- List of a figure's items of one type (#45); see module/sheets/item-list.mjs. Expects `list`.
       The name opens the item; deleting sits on the row and shows on hover (#47). --}}
-<section class="item-list-group {{list.type}} {{#if list.equippable}}equippable{{/if}}">
+<section class="item-list-group {{list.type}} {{list.domain}} {{#if list.equippable}}equippable{{/if}}">
   <header class="item-row header {{#if list.detailLabel}}with-detail{{/if}}">
     <span class="name">{{list.label}}</span>
     {{#if list.detailLabel}}<span class="detail">{{list.detailLabel}}</span>{{/if}}
     <span class="controls">
       {{#if @root.editable}}
-      <button type="button" class="inline-control icon fa-solid fa-plus" data-action="createItem" data-type="{{list.type}}"
+      <button type="button" class="inline-control icon fa-solid fa-plus" data-action="createItem" data-type="{{list.type}}" {{#if list.domain}}data-domain="{{list.domain}}"{{/if}}
               data-tooltip="{{list.createHint}}" aria-label="{{list.createHint}}"></button>
       {{/if}}
     </span>

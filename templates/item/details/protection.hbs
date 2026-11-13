@@ -1,0 +1,7 @@
+<section class="tab details standard-form {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  {{!-- Armor (body) or amulet (mind); rating less wear sets the figure's armor or ward while equipped (#49) --}}
+  {{formGroup systemFields.domain value=system.domain localize=true disabled=(not editable)}}
+  {{formGroup systemFields.rating value=system.rating localize=true disabled=(not editable)}}
+  {{formGroup systemFields.wear value=system.wear localize=true disabled=(not editable)}}
+  {{formGroup systemFields.equipped value=system.equipped localize=true disabled=(not editable)}}
+</section>

@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
-  attributeTotal, courage, crystalEcho, insight, resilience, skillTotal, staminaMax, toughness
+  attributeTotal, courage, crystalEcho, insight, protection, protectionValue, resilience, skillTotal, staminaMax, toughness
 } from "../../module/rules/derived.mjs";
 
 describe("attributeTotal", () => {
@@ -112,4 +112,49 @@ describe("toughness and resilience", () => {
       assert.equal(fn({ staminaMax: 13, mod: -2 }), 4);
     });
   }
+});
+
+describe("protectionValue (#49)", () => {
+  it("is the rating of an intact piece", () => {
+    assert.equal(protectionValue({ rating: 2, wear: 0 }), 2);
+  });
+
+  it("drops by 1 per wound it took or charge it spent (Kurzregeln 1.0, p. 7 and 20)", () => {
+    assert.equal(protectionValue({ rating: 2, wear: 1 }), 1);
+  });
+
+  it("does not drop below 0", () => {
+    assert.equal(protectionValue({ rating: 2, wear: 3 }), 0);
+  });
+
+  it("knows ratings above 3 of rare items (Kurzregeln 1.0, p. 20)", () => {
+    assert.equal(protectionValue({ rating: 5, wear: 1 }), 4);
+  });
+});
+
+describe("protection (#49)", () => {
+  it("is 0 without equipped protection", () => {
+    assert.equal(protection({ values: [] }), 0);
+  });
+
+  it("is the value of a single piece", () => {
+    assert.equal(protection({ values: [2] }), 2);
+  });
+
+  it("takes the highest of several pieces, not their sum", () => {
+    assert.equal(protection({ values: [1, 3, 2] }), 3);
+  });
+
+  it("adds the modifier, e.g. cover (Kurzregeln 1.0, p. 7)", () => {
+    assert.equal(protection({ values: [2], mod: 1 }), 3);
+    assert.equal(protection({ values: [], mod: 1 }), 1);
+  });
+
+  it("does not drop below 0", () => {
+    assert.equal(protection({ values: [1], mod: -3 }), 0);
+  });
+
+  it("is not capped at 3", () => {
+    assert.equal(protection({ values: [3], mod: 2 }), 5);
+  });
 });

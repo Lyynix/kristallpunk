@@ -19,6 +19,7 @@ import CompetenceData from "./module/data/item/competence.mjs";
 import InnateTraitData from "./module/data/item/innate-trait.mjs";
 import CallingData from "./module/data/item/calling.mjs";
 import ProfessionData from "./module/data/item/profession.mjs";
+import ProtectionData from "./module/data/item/protection.mjs";
 import KristallpunkEffectData from "./module/data/active-effect.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
@@ -43,6 +44,7 @@ Hooks.once("init", () => {
   CONFIG.Item.dataModels.innateTrait = InnateTraitData;
   CONFIG.Item.dataModels.calling = CallingData;
   CONFIG.Item.dataModels.profession = ProfessionData;
+  CONFIG.Item.dataModels.protection = ProtectionData;
   CONFIG.ActiveEffect.dataModels.base = KristallpunkEffectData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
@@ -64,7 +66,7 @@ Hooks.once("init", () => {
   CONFIG.Actor.trackableAttributes = {
     protagonist: {
       bar: ["stamina.body", "stamina.mind"],
-      value: ["wounds.body", "wounds.mind", "conviction", "armor", "ward"]
+      value: ["wounds.body", "wounds.mind", "conviction"]
     }
   };
 

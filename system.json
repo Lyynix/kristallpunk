@@ -48,6 +48,9 @@
       },
       "profession": {
         "htmlFields": ["description"]
+      },
+      "protection": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {

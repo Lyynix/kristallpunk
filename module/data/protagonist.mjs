@@ -55,6 +55,13 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       });
     }
 
+    // Armor and ward (#49): the former entered value, kept only for the file cleanup like those of attributes, and
+    // the modifier; the total is derived from the equipped protection items
+    const protection = () => new SchemaField({
+      value: new NumberField({ required: true, nullable: true, integer: true, min: 0, initial: null }),
+      mod: mod()
+    });
+
     const derived = {};
     for ( const key of Object.keys(CONFIG.KRISTALLPUNK.derived) ) {
       derived[key] = new SchemaField({ mod: mod() });
@@ -94,16 +101,22 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
       }),
       derived: new SchemaField(derived),
 
-      // Entered manually until armor and amulet items provide them
-      armor: new NumberField({
-        required: true, nullable: false, integer: true,
-        min: limits.armor.min, max: limits.armor.max, initial: 0
-      }),
-      ward: new NumberField({
-        required: true, nullable: false, integer: true,
-        min: limits.ward.min, max: limits.ward.max, initial: 0
-      })
+      // Armor and ward come from equipped protection items (#49), plus the modifier (e.g. cover)
+      armor: protection(),
+      ward: protection()
     };
+  }
+
+  /**
+   * Armor and ward used to be a number entered by hand (#49); it is kept as former value, so the file cleanup can
+   * turn it into a protection item. A former 0 is no value, so figures without armor need no cleanup.
+   * @override
+   */
+  static migrateData(source) {
+    for ( const key of ["armor", "ward"] ) {
+      if ( typeof source[key] === "number" ) source[key] = { value: source[key] || null, mod: 0 };
+    }
+    return super.migrateData(source);
   }
 
   /**
@@ -144,6 +157,19 @@ export default class ProtagonistData extends foundry.abstract.TypeDataModel {
     d.insight.value = rules.insight({ dexterity: a.dexterity, intelligence: a.intelligence, mod: d.insight.mod });
     d.toughness.value = rules.toughness({ staminaMax: this.stamina.body.max, mod: d.toughness.mod });
     d.resilience.value = rules.resilience({ staminaMax: this.stamina.mind.max, mod: d.resilience.mod });
+
+    // Armor and ward: the highest of the equipped pieces of the domain (#49). A former entered value still counts
+    // as a piece until the file cleanup has turned it into one.
+    for ( const [domain, { protection }] of Object.entries(CONFIG.KRISTALLPUNK.domains) ) {
+      const value = this[protection];
+      const pieces = this.parent.itemTypes.protection
+        .filter(item => item.system.equipped && (item.system.domain === domain));
+      value.pieces = pieces;
+      value.total = rules.protection({
+        values: [...pieces.map(item => item.system.value), ...(value.value ? [value.value] : [])],
+        mod: value.mod
+      });
+    }
 
     this.ageGroup = ageGroup(this.age);
   }

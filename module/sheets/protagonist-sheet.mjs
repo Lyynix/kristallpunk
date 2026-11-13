@@ -83,6 +83,16 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
         detail: item => String(item.system.quantity)
       }),
+      // One list per domain: armor and ward (#49); the value shows its wear, e.g. "1 / 2"
+      protectionLists: Object.entries(CONFIG.KRISTALLPUNK.domains).map(([domain, { protection }]) => prepareItemList(
+        this.actor, "protection", {
+          domain,
+          label: `KRISTALLPUNK.${protection === "armor" ? "Armor" : "Ward"}.Label`,
+          detailLabel: "KRISTALLPUNK.Item.Protection.Value",
+          detail: item => (item.system.wear ? `${item.system.value} / ${item.system.rating}` : String(item.system.rating)),
+          warning: item => item.system.conflictsOn(this.actor).join(" ") || null
+        }
+      )),
       innateTraitSlots: this.#prepareInnateTraitSlots(),
       callingSlots: this.#prepareSingleSlots("calling"),
       professionSlots: this.#prepareSingleSlots("profession"),
@@ -232,15 +242,56 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
       for ( const [key, config] of Object.entries(derived) ) {
         if ( config.domain === domain ) tiles.push(derivedTile(key));
       }
-      if ( protection ) tiles.push({
-        key: protection,
-        label: fields[protection].label,
-        hint: fields[protection].hint,
-        input: { name: `system.${protection}`, value: source[protection], min: fields[protection].min, max: fields[protection].max }
-      });
+      if ( protection ) tiles.push(this.#protectionTile(protection));
       return { key: domain, label, tiles };
     });
 
+    return this.#withSharedGroup(groups, derived, derivedTile);
+  }
+
+  /**
+   * Tile of armor or ward (#49): the highest value of the equipped pieces of its domain, plus the modifier.
+   * The tooltip names the pieces; with none equipped it says so.
+   * @param {string} key  "armor" or "ward".
+   * @returns {object}
+   */
+  #protectionTile(key) {
+    const { escapeHTML } = foundry.utils;
+    const system = this.actor.system;
+    const { total, mod, value: former, pieces } = system[key];
+    const field = system.schema.fields[key];
+    const values = [
+      ...pieces.map(item => ({ label: item.name, value: item.system.value })),
+      ...(former ? [{ label: game.i18n.localize("KRISTALLPUNK.Sheet.Breakdown.FormerValue"), value: former }] : [])
+    ];
+    const base = Math.max(0, ...values.map(({ value }) => value));
+    const term = ({ label, value }) => game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Term", { label: escapeHTML(label), value });
+    const terms = values.length > 1
+      ? [game.i18n.format("KRISTALLPUNK.Sheet.Breakdown.Highest", { terms: values.map(term).join(", ") })]
+      : values;
+    const parts = modifierParts(this.actor, `${key}.mod`);
+    const text = (values.length || parts.length || mod)
+      ? breakdown({ terms, base, mod, parts, limits: { min: 0, max: Infinity } }).text
+      : game.i18n.localize(`KRISTALLPUNK.Sheet.Breakdown.NoProtection.${key}`);
+    return {
+      key,
+      label: field.label,
+      hint: field.hint,
+      value: total,
+      formula: game.i18n.localize("KRISTALLPUNK.Sheet.Formula.Highest"),
+      breakdown: text,
+      mod: modInput(`system.${key}.mod`, this.actor._source.system[key].mod)
+    };
+  }
+
+  /**
+   * Add the group of derived values that belong to no single domain.
+   * @param {object[]} groups
+   * @param {object} derived       CONFIG.KRISTALLPUNK.derived
+   * @param {Function} derivedTile
+   * @returns {object[]}
+   */
+  #withSharedGroup(groups, derived, derivedTile) {
     groups.push({
       key: "shared",
       label: "KRISTALLPUNK.Sheet.Derived",
