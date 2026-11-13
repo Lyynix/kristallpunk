@@ -1,0 +1,22 @@
+{
+  "_id": "gahpJ467gM0ZsXEB",
+  "name": "Verstärkte Rüstung",
+  "type": "protection",
+  "img": "icons/equipment/chest/breastplate-layered-steel.webp",
+  "system": {
+    "description": "<p>Zu Kürass und Helm kommt noch mehr verstärkter Schutz für Beine, Arme und Gesicht, aus verstärktem Leder, manchmal aus Holz oder auch aus Metall. Mittelalterliche Schallern und Sturmhauben werden nachgebaut und zu Schutzmasken für die Trübnis umgebaut.</p><p>Rüstungen schützen vor körperlichem Schaden: Sie verringern den körperlichen Ausdauerverlust um ihren Wert und fangen eine Leibwunde ab. Danach ist die Rüstung beschädigt und ihr Wert sinkt um 1, bis sie repariert ist.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Den Ausdauerverlust mindern und die Abnutzung nach einer abgefangenen Wunde trägst du noch selbst ein."
+    },
+    "domain": "body",
+    "rating": 3,
+    "wear": 0,
+    "equipped": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 400,
+  "flags": {},
+  "_key": "!items!gahpJ467gM0ZsXEB"
+}

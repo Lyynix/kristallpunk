@@ -10,6 +10,7 @@ import { openPicker } from "./picker.mjs";
  * - an item of that name the figure has already (competences: of that name and skill),
  * - an innate trait that excludes one of the figure's traits, or is excluded by one,
  * - a profession of another calling than the figure's.
+ * Protection (#49) is picked for one domain: armor or ward; pieces of the other domain are not offered.
  */
 
 /** The system's compendium of each item type that can be picked. */
@@ -17,14 +18,16 @@ export const PICKER_PACKS = {
   calling: "kristallpunk.callings",
   profession: "kristallpunk.professions",
   innateTrait: "kristallpunk.innateTraits",
-  competence: "kristallpunk.competences"
+  competence: "kristallpunk.competences",
+  protection: "kristallpunk.protection"
 };
 
 /** Index fields each type needs for hints and checks. */
 const FIELDS = {
   profession: ["system.calling"],
   innateTrait: ["system.excludes"],
-  competence: ["system.skill"]
+  competence: ["system.skill"],
+  protection: ["system.domain", "system.rating"]
 };
 
 const lower = text => (text ?? "").trim().toLowerCase();
@@ -34,17 +37,20 @@ const lower = text => (text ?? "").trim().toLowerCase();
  * @param {Actor} actor
  * @param {string} type        Item type, one of PICKER_PACKS.
  * @param {HTMLElement} anchor
+ * @param {object} [options]
+ * @param {string} [options.domain]  Only items of this domain (protection, #49).
  * @returns {Promise<"created"|"added"|null>}  "created" if the user chose to create a new item (the caller does
  *                                             that), "added" if an item was added, null if nothing was picked.
  */
-export async function pickItem(actor, type, anchor) {
+export async function pickItem(actor, type, anchor, { domain } = {}) {
   const { getProperty } = foundry.utils;
   const templates = await gatherTemplates({
     type, pack: PICKER_PACKS[type], fields: FIELDS[type] ?? [],
     // Competences of the same name for different skills are different competences
     variant: type === "competence" ? entry => getProperty(entry, "system.skill") ?? null : undefined
   });
-  const found = [...templates.values()].flat();
+  const found = [...templates.values()].flat()
+    .filter(({ entry }) => !domain || (getProperty(entry, "system.domain") === domain));
   const check = await checkerFor(actor, type, found.map(({ entry }) => entry));
 
   const entries = found.map(({ uuid, source, inSystemPack, entry }) => ({
@@ -119,6 +125,11 @@ async function checkerFor(actor, type, candidates) {
         }
       };
     }
+
+    case "protection": return {
+      hint: entry => game.i18n.format("KRISTALLPUNK.Picker.Rating", { value: getProperty(entry, "system.rating") ?? 0 }),
+      warning: hasWarning
+    };
 
     default: return { hint: () => null, warning: hasWarning };
   }

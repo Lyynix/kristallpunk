@@ -8,7 +8,8 @@
       "competence": "Kompetenz",
       "innateTrait": "Angeborene Eigenschaft",
       "calling": "Metier",
-      "profession": "Profession"
+      "profession": "Profession",
+      "protection": "Schutzausrüstung"
     }
   },
   "KRISTALLPUNK": {
@@ -231,10 +232,17 @@
       "Derived": "Abgeleitete Werte",
       "MaxOf": "{label} max.",
       "Formula": {
-        "Half": "Max. ÷ 2"
+        "Half": "Max. ÷ 2",
+        "Highest": "höchster Wert"
       },
       "Breakdown": {
         "Term": "{label} {value}",
+        "Highest": "höchster von {terms}",
+        "FormerValue": "Bisheriger Wert",
+        "NoProtection": {
+          "armor": "Keine Rüstung ausgerüstet",
+          "ward": "Kein Amulett ausgerüstet"
+        },
         "Half": "{label} {value} ÷ 2",
         "Result": "{terms} = {result}",
         "Total": "→ {total}",
@@ -329,11 +337,11 @@
     },
     "Armor": {
       "Label": "Rüstung",
-      "Hint": "Körperschutz von 1 bis 3, verhindert Körper-Schaden."
+      "Hint": "Körperschutz, meist 1 bis 3: der höchste Wert der ausgerüsteten Rüstungen. Verringert körperlichen Ausdauerverlust und fängt Leibwunden ab."
     },
     "Ward": {
       "Label": "Schutz",
-      "Hint": "Geist-Schutz von 1 bis 3, verhindert Geist-Schaden."
+      "Hint": "Geist-Schutz, meist 1 bis 3: der höchste Wert der ausgerüsteten Amulette. Verringert geistigen Ausdauerverlust und fängt Nervenschocks ab."
     },
     "Protagonist": {
       "FIELDS": {
@@ -467,8 +475,16 @@
           "toughness": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } },
           "resilience": { "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" } }
         },
-        "armor": { "label": "KRISTALLPUNK.Armor.Label", "hint": "KRISTALLPUNK.Armor.Hint" },
-        "ward": { "label": "KRISTALLPUNK.Ward.Label", "hint": "KRISTALLPUNK.Ward.Hint" }
+        "armor": {
+          "label": "KRISTALLPUNK.Armor.Label", "hint": "KRISTALLPUNK.Armor.Hint",
+          "value": { "label": "Bisheriger Wert" },
+          "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
+        },
+        "ward": {
+          "label": "KRISTALLPUNK.Ward.Label", "hint": "KRISTALLPUNK.Ward.Hint",
+          "value": { "label": "Bisheriger Wert" },
+          "mod": { "label": "KRISTALLPUNK.Mod.Label", "hint": "KRISTALLPUNK.Mod.Hint" }
+        }
       }
     },
     "Effects": {
@@ -488,6 +504,7 @@
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
       "OnItem": "Effekte eines Items werden am Item geändert. Ob sie wirken, hängt am Item.",
+      "Unequipped": "Wirkt nicht, weil {item} abgelegt ist.",
       "EditOnItem": "Am Item bearbeiten",
       "OtherChange": "{label}: {type} {value}"
     },
@@ -521,7 +538,22 @@
       },
       "Equipment": {
         "FIELDS": {
-          "quantity": { "label": "Anzahl" }
+          "quantity": { "label": "Anzahl" },
+          "equipped": { "label": "Ausgerüstet", "hint": "Nur die Effekte ausgerüsteter Items wirken." }
+        }
+      },
+      "Protection": {
+        "Value": "Wert",
+        "SeveralEquipped": "{count} Stücke ausgerüstet, es zählt nur das höchste für {value}.",
+        "Domain": {
+          "armor": "Rüstung (Körper)",
+          "ward": "Schutz (Geist, Amulett)"
+        },
+        "FIELDS": {
+          "domain": { "label": "Art", "hint": "Rüstung schützt den Körper, ein Amulett oder Ähnliches den Geist." },
+          "rating": { "label": "Wert", "hint": "Wert im heilen Zustand, meist 1 bis 3; höher nur bei seltenen Fundstücken." },
+          "wear": { "label": "Abnutzung", "hint": "Rüstung: abgefangene Leibwunden bis zur Reparatur. Amulett: verbrauchte Ladungen bis zum Aufladen. Jede senkt den Wert um 1." },
+          "equipped": { "label": "Ausgerüstet", "hint": "Nur ausgerüstete Stücke zählen; von mehreren zählt das höchste." }
         }
       },
       "Profession": {
@@ -605,6 +637,9 @@
       "ProfessionUnknown": "„{text}“ ist kein bekanntes Metier und keine bekannte Profession: Text kommt in den Hintergrund",
       "ProfessionPresent": "„{text}“ entfernen, Metier und Profession sind schon da",
       "ProfessionKept": "Metier / Profession (alt):",
+      "Protection": "{count} Schutzausrüstung aus den bisherigen Werten anlegen",
+      "ProtectionEmpty": "Leere Rüstungs- und Schutzwerte entfernen",
+      "ProtectionItem": "{label} (aus der Akte)",
       "ProfessionShort": "{actor}: Die eigenen Punkte reichten nicht für Metier und Profession, es fehlen {points}."
     },
     "Picker": {
@@ -613,7 +648,8 @@
       "Create": "{type} neu anlegen",
       "Owned": "Hat die Figur schon",
       "Excludes": "Schließt sich mit {other} aus",
-      "OtherCalling": "Gehört zum Metier {calling}"
+      "OtherCalling": "Gehört zum Metier {calling}",
+      "Rating": "Wert {value}"
     },
     "EffectChoice": {
       "Title": "Wahl: {item}",
@@ -627,6 +663,8 @@
     "Items": {
       "Create": "{type} anlegen",
       "Add": "{type} hinzufügen",
+      "Equip": "Abgelegt, ausrüsten",
+      "Unequip": "Ausgerüstet, ablegen",
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",

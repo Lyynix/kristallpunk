@@ -48,6 +48,9 @@
       },
       "profession": {
         "htmlFields": ["description"]
+      },
+      "protection": {
+        "htmlFields": ["description"]
       }
     },
     "ChatMessage": {
@@ -92,6 +95,14 @@
       "name": "professions",
       "label": "Professionen",
       "path": "packs/professions",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    },
+    {
+      "name": "protection",
+      "label": "Schutzausrüstung",
+      "path": "packs/protection",
       "type": "Item",
       "system": "kristallpunk",
       "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }

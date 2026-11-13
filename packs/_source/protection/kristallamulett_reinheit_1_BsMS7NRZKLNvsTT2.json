@@ -1,0 +1,22 @@
+{
+  "_id": "BsMS7NRZKLNvsTT2",
+  "name": "Kristallamulett, Reinheit 1",
+  "type": "protection",
+  "img": "icons/equipment/neck/amulet-carved-stone-cross.webp",
+  "system": {
+    "description": "<p>Ein Ring oder ein Amulett, irgendwo am Körper getragen, mit einem kleinen hellen Kristall der Reinheit 1, zum Beispiel ein Kreuz um den Hals oder ein Ring am Finger.</p><p>Der Kristall verringert geistigen Ausdauerverlust um seinen Wert und kann einen Nervenschock abfangen; dabei verliert er eine Ladung und der Schutz sinkt um 1. Am Körper getragen lädt er sich binnen 4 Stunden pro Reinheitsstufe wieder auf.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Den Ausdauerverlust mindern und die Abnutzung nach einer abgefangenen Wunde trägst du noch selbst ein."
+    },
+    "domain": "mind",
+    "rating": 1,
+    "wear": 0,
+    "equipped": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 500,
+  "flags": {},
+  "_key": "!items!BsMS7NRZKLNvsTT2"
+}

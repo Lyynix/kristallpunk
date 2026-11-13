@@ -22,6 +22,9 @@
           {{#if effect.choice}}
           <span class="effect-choice" data-tooltip="{{localize "KRISTALLPUNK.EffectChoice.ListHint"}}">{{localize "KRISTALLPUNK.EffectChoice.Tag" group=effect.choice}}</span>
           {{/if}}
+          {{#if effect.unequipped}}
+          <i class="fa-solid fa-box-archive" data-tooltip="{{effect.unequipped}}" aria-label="{{effect.unequipped}}" role="img"></i>
+          {{/if}}
         </span>
         <span class="source">
           {{#if effect.item}}

@@ -114,3 +114,27 @@ export function toughness({ staminaMax, mod = 0 }) {
 export function resilience({ staminaMax, mod = 0 }) {
   return Math.floor(staminaMax / 2) + mod;
 }
+
+/**
+ * Value of one piece of protection, an armor or an amulet (#49): its rating, less 1 per wound it took or charge
+ * it spent (Kurzregeln 1.0, p. 7 and 20), not below 0. Ratings above 3 exist for rare items (p. 20).
+ * @param {object} data
+ * @param {number} data.rating  Rating of the intact piece.
+ * @param {number} data.wear    Wounds taken or charges spent since the last repair or recharge.
+ * @returns {number}
+ */
+export function protectionValue({ rating, wear }) {
+  return Math.max(0, rating - wear);
+}
+
+/**
+ * Armor or ward of a figure (#49): the highest value of its equipped pieces for that domain, not their sum, plus
+ * the modifier (e.g. cover, Kurzregeln 1.0, p. 7), not below 0 and not capped.
+ * @param {object} data
+ * @param {number[]} data.values  Values of the equipped pieces, see protectionValue.
+ * @param {number} [data.mod=0]   Manual adjustment added to the result.
+ * @returns {number}
+ */
+export function protection({ values, mod = 0 }) {
+  return Math.max(0, Math.max(0, ...values) + mod);
+}

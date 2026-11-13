@@ -27,19 +27,25 @@ export const TAG_TEMPLATE = "systems/kristallpunk/templates/parts/item-tag.hbs";
  * @param {(item: Item) => string|null} [options.detail]   Content of the extra column.
  * @param {(item: Item) => string|null} [options.warning]  A problem shown as warning in the extra column instead.
  * @param {(item: Item) => string} [options.name]          Name to show; defaults to the item's name.
- * @returns {{type: string, label: string, createHint: string, detailLabel: string|null,
+ * @param {string} [options.domain]  Only items of this domain, and new ones get it (protection, #49).
+ * @returns {{type: string, label: string, createHint: string, detailLabel: string|null, equippable: boolean,
  *   items: {id: string, name: string, img: string, automation: object|null, detail: string|null,
- *   warning: string|null}[]}}
+ *   warning: string|null, equip: {equipped: boolean, hint: string}|null}[]}}
  */
-export function prepareItemList(actor, type, { label, detailLabel, detail, warning, name } = {}) {
+export function prepareItemList(actor, type, { label, detailLabel, detail, warning, name, domain } = {}) {
   const typeLabel = game.i18n.localize(CONFIG.Item.typeLabels[type]);
+  // Types that can be equipped show a switch on each row (#49)
+  const equippable = "equipped" in (CONFIG.Item.dataModels[type]?.schema.fields ?? {});
   return {
     type,
+    domain: domain ?? null,
+    equippable,
     label: label ? game.i18n.localize(label) : typeLabel,
     // Types with a picker add an existing item or create one; others only create
     createHint: game.i18n.format(type in PICKER_PACKS ? "KRISTALLPUNK.Items.Add" : "KRISTALLPUNK.Items.Create", { type: typeLabel }),
     detailLabel: detailLabel ? game.i18n.localize(detailLabel) : null,
     items: actor.itemTypes[type]
+      .filter(item => !domain || (item.system.domain === domain))
       .toSorted((a, b) => a.sort - b.sort)
       .map(item => ({
         id: item.id,
@@ -47,7 +53,11 @@ export function prepareItemList(actor, type, { label, detailLabel, detail, warni
         img: item.img,
         automation: item.system.automationInfo ?? null,
         detail: detail ? detail(item) : null,
-        warning: warning ? warning(item) : null
+        warning: warning ? warning(item) : null,
+        equip: equippable ? {
+          equipped: item.system.equipped,
+          hint: game.i18n.localize(`KRISTALLPUNK.Items.${item.system.equipped ? "Unequip" : "Equip"}`)
+        } : null
       }))
   };
 }
@@ -76,11 +86,13 @@ export const ITEM_ACTIONS = {
    * @param {HTMLElement} target
    */
   async createItem(event, target) {
-    const { type } = target.dataset;
-    if ( (type in PICKER_PACKS) && ((await pickItem(this.actor, type, target)) !== "created") ) return;
+    const { type, domain } = target.dataset;
+    if ( (type in PICKER_PACKS) && ((await pickItem(this.actor, type, target, { domain })) !== "created") ) return;
     const [item] = await this.actor.createEmbeddedDocuments("Item", [{
       name: game.i18n.format("KRISTALLPUNK.Items.New", { type: game.i18n.localize(CONFIG.Item.typeLabels[type]) }),
-      type
+      type,
+      // A list of one domain creates items of that domain (#49)
+      ...(domain ? { system: { domain } } : {})
     }]);
     item?.sheet.render({ force: true });
   },
@@ -103,5 +115,16 @@ export const ITEM_ACTIONS = {
    */
   async deleteItem(event, target) {
     await itemOf(this.actor, target)?.deleteDialog();
+  },
+
+  /**
+   * Equip an item of the figure, or put it away (#49). The effects of an item put away do not work.
+   * @this {ActorSheetV2}
+   * @param {PointerEvent} event
+   * @param {HTMLElement} target
+   */
+  async toggleEquipped(event, target) {
+    const item = itemOf(this.actor, target);
+    if ( item ) await item.update({ "system.equipped": !item.system.equipped });
   }
 };
