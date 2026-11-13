@@ -27,14 +27,17 @@ export const TAG_TEMPLATE = "systems/kristallpunk/templates/parts/item-tag.hbs";
  * @param {(item: Item) => string|null} [options.detail]   Content of the extra column.
  * @param {(item: Item) => string|null} [options.warning]  A problem shown as warning in the extra column instead.
  * @param {(item: Item) => string} [options.name]          Name to show; defaults to the item's name.
- * @returns {{type: string, label: string, createHint: string, detailLabel: string|null,
+ * @returns {{type: string, label: string, createHint: string, detailLabel: string|null, equippable: boolean,
  *   items: {id: string, name: string, img: string, automation: object|null, detail: string|null,
- *   warning: string|null}[]}}
+ *   warning: string|null, equip: {equipped: boolean, hint: string}|null}[]}}
  */
 export function prepareItemList(actor, type, { label, detailLabel, detail, warning, name } = {}) {
   const typeLabel = game.i18n.localize(CONFIG.Item.typeLabels[type]);
+  // Types that can be equipped show a switch on each row (#49)
+  const equippable = "equipped" in (CONFIG.Item.dataModels[type]?.schema.fields ?? {});
   return {
     type,
+    equippable,
     label: label ? game.i18n.localize(label) : typeLabel,
     // Types with a picker add an existing item or create one; others only create
     createHint: game.i18n.format(type in PICKER_PACKS ? "KRISTALLPUNK.Items.Add" : "KRISTALLPUNK.Items.Create", { type: typeLabel }),
@@ -47,7 +50,11 @@ export function prepareItemList(actor, type, { label, detailLabel, detail, warni
         img: item.img,
         automation: item.system.automationInfo ?? null,
         detail: detail ? detail(item) : null,
-        warning: warning ? warning(item) : null
+        warning: warning ? warning(item) : null,
+        equip: equippable ? {
+          equipped: item.system.equipped,
+          hint: game.i18n.localize(`KRISTALLPUNK.Items.${item.system.equipped ? "Unequip" : "Equip"}`)
+        } : null
       }))
   };
 }
@@ -103,5 +110,16 @@ export const ITEM_ACTIONS = {
    */
   async deleteItem(event, target) {
     await itemOf(this.actor, target)?.deleteDialog();
+  },
+
+  /**
+   * Equip an item of the figure, or put it away (#49). The effects of an item put away do not work.
+   * @this {ActorSheetV2}
+   * @param {PointerEvent} event
+   * @param {HTMLElement} target
+   */
+  async toggleEquipped(event, target) {
+    const item = itemOf(this.actor, target);
+    if ( item ) await item.update({ "system.equipped": !item.system.equipped });
   }
 };

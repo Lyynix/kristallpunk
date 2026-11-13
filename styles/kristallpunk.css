@@ -847,6 +847,21 @@
   opacity: 0.8;
 }
 
+/* Equippable items (#49): room for the switch next to deleting; an item put away is faded, its switch too */
+.kristallpunk .item-list-group.equippable .item-row {
+  grid-template-columns: minmax(0, 1fr) 3rem;
+}
+
+.kristallpunk .item-list-group.equippable .item-row.with-detail {
+  grid-template-columns: minmax(0, 1fr) var(--kp-item-detail-width, 3.5rem) 3rem;
+}
+
+.kristallpunk .item-row.unequipped .name,
+.kristallpunk .item-row.unequipped .detail,
+.kristallpunk .item-row.unequipped .item-equip {
+  opacity: 0.45;
+}
+
 /* -------------------------------------------- */
 /*  Tabs: inventory and profile                 */
 /* -------------------------------------------- */

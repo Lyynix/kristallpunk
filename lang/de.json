@@ -488,6 +488,7 @@
       "Edit": "Bearbeiten",
       "Delete": "Löschen",
       "OnItem": "Effekte eines Items werden am Item geändert. Ob sie wirken, hängt am Item.",
+      "Unequipped": "Wirkt nicht, weil {item} abgelegt ist.",
       "EditOnItem": "Am Item bearbeiten",
       "OtherChange": "{label}: {type} {value}"
     },
@@ -521,7 +522,8 @@
       },
       "Equipment": {
         "FIELDS": {
-          "quantity": { "label": "Anzahl" }
+          "quantity": { "label": "Anzahl" },
+          "equipped": { "label": "Ausgerüstet", "hint": "Nur die Effekte ausgerüsteter Items wirken." }
         }
       },
       "Profession": {
@@ -627,6 +629,8 @@
     "Items": {
       "Create": "{type} anlegen",
       "Add": "{type} hinzufügen",
+      "Equip": "Abgelegt, ausrüsten",
+      "Unequip": "Ausgerüstet, ablegen",
       "New": "{type} (neu)",
       "Edit": "Bearbeiten",
       "Delete": "Löschen",

@@ -1,6 +1,6 @@
 {{!-- List of a figure's items of one type (#45); see module/sheets/item-list.mjs. Expects `list`.
       The name opens the item; deleting sits on the row and shows on hover (#47). --}}
-<section class="item-list-group {{list.type}}">
+<section class="item-list-group {{list.type}} {{#if list.equippable}}equippable{{/if}}">
   <header class="item-row header {{#if list.detailLabel}}with-detail{{/if}}">
     <span class="name">{{list.label}}</span>
     {{#if list.detailLabel}}<span class="detail">{{list.detailLabel}}</span>{{/if}}
@@ -13,7 +13,8 @@
   </header>
   <ol class="item-list">
     {{#each list.items as |item|}}
-    <li class="item-row draggable {{#if ../list.detailLabel}}with-detail{{/if}}" data-item-id="{{item.id}}">
+    <li class="item-row draggable {{#if ../list.detailLabel}}with-detail{{/if}} {{#if item.equip}}{{#unless item.equip.equipped}}unequipped{{/unless}}{{/if}}"
+        data-item-id="{{item.id}}">
       <span class="name">
         <a data-action="editItem">{{item.name}}</a>
         {{#if item.automation}}
@@ -35,6 +36,12 @@
       </span>
       {{/if}}
       <span class="controls">
+        {{#if item.equip}}
+        {{!-- Equipped or put away (#49); a status, so it shows all the time --}}
+        <button type="button" class="inline-control icon fa-solid fa-shield-halved item-equip"
+                data-action="toggleEquipped" data-tooltip="{{item.equip.hint}}" aria-label="{{item.equip.hint}}"
+                aria-pressed="{{item.equip.equipped}}" {{#unless @root.editable}}disabled{{/unless}}></button>
+        {{/if}}
         {{#if @root.editable}}
         <button type="button" class="inline-control icon fa-solid fa-xmark item-delete" data-action="deleteItem"
                 data-tooltip="{{localize "KRISTALLPUNK.Items.Delete"}}" aria-label="{{localize "KRISTALLPUNK.Items.Delete"}}"></button>

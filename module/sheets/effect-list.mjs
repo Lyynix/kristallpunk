@@ -42,6 +42,9 @@ export function prepareEffectGroups(document) {
       disabled: effect.disabled,
       // Alternatives of an item, of which one is chosen when it is added to a figure (#47)
       choice: choiceGroup(effect),
+      // Suppressed because its item is put away (#49)
+      unequipped: (effect.parent?.system?.equipped === false) && (effect.parent.parent instanceof foundry.documents.Actor)
+        ? game.i18n.format("KRISTALLPUNK.Effects.Unequipped", { item: effect.parent.name }) : null,
       toggleHint: game.i18n.localize(`KRISTALLPUNK.Effects.${effect.disabled ? "Enable" : "Disable"}`)
     });
   }
