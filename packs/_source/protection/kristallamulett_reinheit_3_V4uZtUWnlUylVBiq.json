@@ -1,0 +1,22 @@
+{
+  "_id": "V4uZtUWnlUylVBiq",
+  "name": "Kristallamulett, Reinheit 3",
+  "type": "protection",
+  "img": "icons/equipment/neck/amulet-carved-stone-purple.webp",
+  "system": {
+    "description": "<p>Ein Amulett oder Ähnliches mit einem noch wertvolleren hellen Kristall der Reinheit 3.</p><p>Der Kristall verringert geistigen Ausdauerverlust um seinen Wert und kann einen Nervenschock abfangen; dabei verliert er eine Ladung und der Schutz sinkt um 1. Am Körper getragen lädt er sich binnen 4 Stunden pro Reinheitsstufe wieder auf.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Den Ausdauerverlust mindern und die Abnutzung nach einer abgefangenen Wunde trägst du noch selbst ein."
+    },
+    "domain": "mind",
+    "rating": 3,
+    "wear": 0,
+    "equipped": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 700,
+  "flags": {},
+  "_key": "!items!V4uZtUWnlUylVBiq"
+}

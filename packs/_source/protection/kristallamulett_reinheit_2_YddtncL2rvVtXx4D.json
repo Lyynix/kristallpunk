@@ -1,0 +1,22 @@
+{
+  "_id": "YddtncL2rvVtXx4D",
+  "name": "Kristallamulett, Reinheit 2",
+  "type": "protection",
+  "img": "icons/equipment/neck/amulet-carved-stone-spiral-blue.webp",
+  "system": {
+    "description": "<p>Ein Amulett oder Ähnliches mit einem reineren hellen Kristall der Reinheit 2.</p><p>Der Kristall verringert geistigen Ausdauerverlust um seinen Wert und kann einen Nervenschock abfangen; dabei verliert er eine Ladung und der Schutz sinkt um 1. Am Körper getragen lädt er sich binnen 4 Stunden pro Reinheitsstufe wieder auf.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Den Ausdauerverlust mindern und die Abnutzung nach einer abgefangenen Wunde trägst du noch selbst ein."
+    },
+    "domain": "mind",
+    "rating": 2,
+    "wear": 0,
+    "equipped": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 600,
+  "flags": {},
+  "_key": "!items!YddtncL2rvVtXx4D"
+}

@@ -17,7 +17,8 @@ const TEMPLATES = "systems/kristallpunk/templates/actor/protagonist";
 export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["kristallpunk", "protagonist"],
-    position: { width: 600, height: "auto" },
+    // As tall as the character tab needs; longer tabs scroll inside the window instead of growing it
+    position: { width: 600, height: 775 },
     window: { resizable: true },
     form: { submitOnChange: true },
     actions: {

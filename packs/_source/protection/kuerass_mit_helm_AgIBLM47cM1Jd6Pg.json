@@ -1,0 +1,22 @@
+{
+  "_id": "AgIBLM47cM1Jd6Pg",
+  "name": "Kürass mit Helm",
+  "type": "protection",
+  "img": "icons/equipment/chest/breastplate-banded-steel.webp",
+  "system": {
+    "description": "<p>Zur mehrlagigen Kleidung kommen ein Kürass oder etwas Ähnliches sowie ein Helm aus Eisen oder Stahl. Diese Ausrüstung schützt wichtige Körperteile entscheidend besser.</p><p>Rüstungen schützen vor körperlichem Schaden: Sie verringern den körperlichen Ausdauerverlust um ihren Wert und fangen eine Leibwunde ab. Danach ist die Rüstung beschädigt und ihr Wert sinkt um 1, bis sie repariert ist.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Den Ausdauerverlust mindern und die Abnutzung nach einer abgefangenen Wunde trägst du noch selbst ein."
+    },
+    "domain": "body",
+    "rating": 2,
+    "wear": 0,
+    "equipped": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 300,
+  "flags": {},
+  "_key": "!items!AgIBLM47cM1Jd6Pg"
+}

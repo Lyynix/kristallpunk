@@ -1,0 +1,22 @@
+{
+  "_id": "Dc5DG9qeLqlVjMCh",
+  "name": "Uniform mit Schako oder Helm",
+  "type": "protection",
+  "img": "icons/equipment/chest/coat-leather-blue.webp",
+  "system": {
+    "description": "<p>Die Uniform eines Soldaten mit Schako oder Helm gilt als Rüstung 1.</p><p>Rüstungen schützen vor körperlichem Schaden: Sie verringern den körperlichen Ausdauerverlust um ihren Wert und fangen eine Leibwunde ab. Danach ist die Rüstung beschädigt und ihr Wert sinkt um 1, bis sie repariert ist.</p>",
+    "automation": {
+      "level": "partial",
+      "note": "Den Ausdauerverlust mindern und die Abnutzung nach einer abgefangenen Wunde trägst du noch selbst ein."
+    },
+    "domain": "body",
+    "rating": 1,
+    "wear": 0,
+    "equipped": false
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 200,
+  "flags": {},
+  "_key": "!items!Dc5DG9qeLqlVjMCh"
+}

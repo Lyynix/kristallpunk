@@ -98,6 +98,14 @@
       "type": "Item",
       "system": "kristallpunk",
       "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
+    },
+    {
+      "name": "protection",
+      "label": "Schutzausrüstung",
+      "path": "packs/protection",
+      "type": "Item",
+      "system": "kristallpunk",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
     }
   ],
   "primaryTokenAttribute": "stamina.body",

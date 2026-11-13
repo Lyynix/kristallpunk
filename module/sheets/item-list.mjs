@@ -87,7 +87,7 @@ export const ITEM_ACTIONS = {
    */
   async createItem(event, target) {
     const { type, domain } = target.dataset;
-    if ( (type in PICKER_PACKS) && ((await pickItem(this.actor, type, target)) !== "created") ) return;
+    if ( (type in PICKER_PACKS) && ((await pickItem(this.actor, type, target, { domain })) !== "created") ) return;
     const [item] = await this.actor.createEmbeddedDocuments("Item", [{
       name: game.i18n.format("KRISTALLPUNK.Items.New", { type: game.i18n.localize(CONFIG.Item.typeLabels[type]) }),
       type,
