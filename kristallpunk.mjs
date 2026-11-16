@@ -20,6 +20,7 @@ import InnateTraitData from "./module/data/item/innate-trait.mjs";
 import CallingData from "./module/data/item/calling.mjs";
 import ProfessionData from "./module/data/item/profession.mjs";
 import ProtectionData from "./module/data/item/protection.mjs";
+import WeaponData from "./module/data/item/weapon.mjs";
 import KristallpunkEffectData from "./module/data/active-effect.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
@@ -45,6 +46,7 @@ Hooks.once("init", () => {
   CONFIG.Item.dataModels.calling = CallingData;
   CONFIG.Item.dataModels.profession = ProfessionData;
   CONFIG.Item.dataModels.protection = ProtectionData;
+  CONFIG.Item.dataModels.weapon = WeaponData;
   CONFIG.ActiveEffect.dataModels.base = KristallpunkEffectData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
