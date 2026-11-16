@@ -1,0 +1,11 @@
+<section class="tab details standard-form {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+  {{!-- Values the rules name for weapons (#50); used by the system from 0.5.0 on --}}
+  {{formGroup systemFields.skill value=system.skill localize=true disabled=(not editable)}}
+  {{formGroup systemFields.damage value=system.damage localize=true disabled=(not editable)}}
+  {{formGroup systemFields.damageDomain value=system.damageDomain localize=true disabled=(not editable)}}
+  {{formGroup systemFields.attackBonus value=system.attackBonus localize=true disabled=(not editable)}}
+  {{#if system.isMelee}}
+  {{formGroup systemFields.defense value=system.defense localize=true disabled=(not editable)}}
+  {{/if}}
+  {{formGroup systemFields.equipped value=system.equipped localize=true disabled=(not editable)}}
+</section>

@@ -84,6 +84,14 @@ export default class ProtagonistSheet extends HandlebarsApplicationMixin(ActorSh
         detailLabel: "KRISTALLPUNK.Item.Equipment.FIELDS.quantity.label",
         detail: item => String(item.system.quantity)
       }),
+      // Weapons (#50): skill and base damage, mind damage marked
+      weaponList: prepareItemList(this.actor, "weapon", {
+        detailLabel: "KRISTALLPUNK.Item.Weapon.Detail",
+        detail: item => game.i18n.format(`KRISTALLPUNK.Item.Weapon.DetailValue.${item.system.damageDomain}`, {
+          skill: game.i18n.localize(CONFIG.KRISTALLPUNK.skills[item.system.skill]?.label ?? ""),
+          damage: item.system.damage
+        })
+      }),
       // One list per domain: armor and ward (#49); the value shows its wear, e.g. "1 / 2"
       protectionLists: Object.entries(CONFIG.KRISTALLPUNK.domains).map(([domain, { protection }]) => prepareItemList(
         this.actor, "protection", {

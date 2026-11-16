@@ -9,7 +9,8 @@
       "innateTrait": "Angeborene Eigenschaft",
       "calling": "Metier",
       "profession": "Profession",
-      "protection": "Schutzausrüstung"
+      "protection": "Schutzausrüstung",
+      "weapon": "Waffe"
     }
   },
   "KRISTALLPUNK": {
@@ -540,6 +541,21 @@
         "FIELDS": {
           "quantity": { "label": "Anzahl" },
           "equipped": { "label": "Ausgerüstet", "hint": "Nur die Effekte ausgerüsteter Items wirken." }
+        }
+      },
+      "Weapon": {
+        "Detail": "Fertigkeit · Schaden",
+        "DetailValue": {
+          "body": "{skill} · {damage}",
+          "mind": "{skill} · {damage} Geist"
+        },
+        "FIELDS": {
+          "skill": { "label": "Fertigkeit", "hint": "Mit welcher Fertigkeit die Waffe geführt wird." },
+          "damage": { "label": "Basisschaden", "hint": "Mindestschaden eines Treffers; jede 6 der Probe erhöht ihn um 1. Unbewaffnet 1." },
+          "damageDomain": { "label": "Schadensart", "hint": "Nah- und Fernkampf schaden dem Körper; Geist-Schaden nur durch besondere Waffen oder Munition." },
+          "attackBonus": { "label": "Angriffsbonus", "hint": "Bonus der Waffe beim Angriff." },
+          "defense": { "label": "Verteidigungswert", "hint": "Bonus der Nahkampfwaffe beim Parieren." },
+          "equipped": { "label": "Ausgerüstet", "hint": "Griffbereit; nur die Effekte ausgerüsteter Items wirken." }
         }
       },
       "Protection": {

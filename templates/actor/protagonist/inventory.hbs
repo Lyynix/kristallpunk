@@ -1,6 +1,7 @@
 <section class="tab inventory {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
   {{!-- Items can be added and removed in play mode too, since the inventory changes during play (#45) --}}
   {{> "kristallpunk.item-list" list=equipmentList}}
+  {{> "kristallpunk.item-list" list=weaponList}}
   {{!-- Armor and amulets (#49): the highest equipped piece of a domain sets armor or ward --}}
   {{#each protectionLists as |list|}}
   {{> "kristallpunk.item-list" list=list}}

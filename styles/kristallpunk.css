@@ -638,6 +638,11 @@
   --kp-item-detail-width: 5.5rem;
 }
 
+/* Weapons show skill and damage (#50) */
+.kristallpunk .item-list-group.weapon {
+  --kp-item-detail-width: 9rem;
+}
+
 .kristallpunk .item-list-group.competence .item-row .detail {
   text-align: start;
 }
