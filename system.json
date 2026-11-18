@@ -113,6 +113,7 @@
   ],
   "primaryTokenAttribute": "stamina.body",
   "secondaryTokenAttribute": "stamina.mind",
+  "initiative": "1d6",
   "grid": {
     "distance": 1,
     "units": "m"

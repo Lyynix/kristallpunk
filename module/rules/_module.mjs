@@ -4,6 +4,7 @@
  */
 export * as age from "./age.mjs";
 export * as check from "./check.mjs";
+export * as combat from "./combat.mjs";
 export * as conviction from "./conviction.mjs";
 export * as cost from "./cost.mjs";
 export * as derived from "./derived.mjs";

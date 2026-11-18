@@ -3,6 +3,8 @@
  * Available as game.kristallpunk.rules.derived.
  */
 
+import { clamp } from "./_utils.mjs";
+
 /** Hard limits of an attribute's total (Kurzregeln 1.0, p. 23; #17). */
 export const ATTRIBUTE_LIMITS = { min: 0, max: 7 };
 
@@ -35,15 +37,6 @@ export function attributeTotal({ value, mod = 0, limits = ATTRIBUTE_LIMITS }) {
  */
 export function skillTotal({ value, attribute, mod = 0, limits = SKILL_LIMITS }) {
   return clamp(value + mod, limits) + attribute;
-}
-
-/**
- * @param {number} value
- * @param {{min: number, max: number}} limits
- * @returns {number}
- */
-function clamp(value, { min, max }) {
-  return Math.min(max, Math.max(min, value));
 }
 
 /**

@@ -22,6 +22,7 @@ import ProfessionData from "./module/data/item/profession.mjs";
 import ProtectionData from "./module/data/item/protection.mjs";
 import WeaponData from "./module/data/item/weapon.mjs";
 import KristallpunkEffectData from "./module/data/active-effect.mjs";
+import KristallpunkCombat from "./module/documents/combat.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
@@ -50,6 +51,7 @@ Hooks.once("init", () => {
   CONFIG.ActiveEffect.dataModels.base = KristallpunkEffectData;
   CONFIG.ChatMessage.dataModels.check = CheckMessageData;
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
+  CONFIG.Combat.documentClass = KristallpunkCombat;
   registerCheckRequestHooks();
   registerEffectTargetHooks();
   registerFileCleanupHooks();
