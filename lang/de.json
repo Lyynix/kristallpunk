@@ -488,6 +488,14 @@
         }
       }
     },
+    "Combatant": {
+      "FIELDS": {
+        "tieOrder": {
+          "label": "Gleichstand-Reihenfolge",
+          "hint": "Reihenfolge unter Figuren mit gleicher Initiative: höher ist früher dran. Wird beim Verschieben im Konflikttracker gesetzt. Wert wird beim Hinzufügen zufällig vergeben."
+        }
+      }
+    },
     "Effects": {
       "Active": "Aktiv",
       "Inactive": "Inaktiv",

@@ -19,7 +19,8 @@ export default class KristallpunkCombat extends foundry.documents.Combat {
   static _getCombatantValues(combatant) {
     return {
       initiative: combatant.initiative,
-      isProtagonist: combatant.actor?.type === "protagonist"
-    }
+      isProtagonist: combatant.actor?.type === "protagonist",
+      tieOrder: combatant.system.tieOrder
+    };
   }
 }

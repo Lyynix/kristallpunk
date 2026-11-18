@@ -12,10 +12,14 @@ import { clamp } from "./_utils.mjs";
  * @constant {object} TIE_ORDER
  * @property {number} min - The minimum tie order value.
  * @property {number} max - The maximum tie order value.
+ * @property {number} center - The center value of the tie order range.
  */
 export const TIE_ORDER = {
   min: 0,
-  max: 100
+  max: 100,
+  get center() {
+    return (this.min + this.max) / 2;
+  }
 };
 
 /**
@@ -30,7 +34,7 @@ export const TIE_ORDER = {
 export function sortOrder({ initiative, tieOrder, isProtagonist = false, hold }) {
   if (typeof initiative !== "number" || Number.isNaN(initiative)) return -Infinity;
   if (typeof hold === "number" && !Number.isNaN(hold)) return hold;
-  if (typeof tieOrder !== "number" || Number.isNaN(tieOrder)) tieOrder = (TIE_ORDER.min + TIE_ORDER.max) / 2;
+  if (typeof tieOrder !== "number" || Number.isNaN(tieOrder)) tieOrder = TIE_ORDER.center;
 
   const cappedTieOrder = clamp(tieOrder, TIE_ORDER);
   const tieOrderRange = TIE_ORDER.max - TIE_ORDER.min;
