@@ -25,6 +25,11 @@
       "lang": "de",
       "name": "Deutsch",
       "path": "lang/de.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch (Core Overrides)",
+      "path": "lang/de-core-overrides.json"
     }
   ],
   "documentTypes": {

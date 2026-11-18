@@ -92,6 +92,16 @@ Hooks.once("init", () => {
   });
 });
 
+/**
+ * Registers overrides for the core translation strings. 
+ * This is done after the modules have been initialized, to override translations by the lang-de module.
+ */
+Hooks.once("i18nInit", () => {
+  const coreOverrides = foundry.utils.getProperty(game.i18n.translations, "KRISTALLPUNK.CoreOverrides");
+  if (!coreOverrides) return;
+  foundry.utils.mergeObject(game.i18n.translations, coreOverrides);
+});
+
 Hooks.on("renderChatMessageHTML", CheckMessageData.onRenderChatMessageHTML);
 Hooks.on("renderChatMessageHTML", CheckRequestMessageData.onRenderChatMessageHTML);
 Hooks.on("getChatMessageContextOptions", CheckMessageData.onGetChatMessageContextOptions);
