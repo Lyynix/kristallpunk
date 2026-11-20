@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { TIE_ORDER, sortOrder } from "../../module/rules/combat.mjs";
+import { TIE_ORDER, sortOrder, RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange } from "../../module/rules/combat.mjs";
 
 describe("sortOrder", () => {
   describe("initiative", () => {
@@ -80,4 +80,410 @@ describe("sortOrder", () => {
       assert.equal(sortOrder({ initiative: 1, isProtagonist: false, hold: NaN }), sortOrder({ initiative: 1, isProtagonist: false }));
     });
   });
+});
+
+/**
+ * Emulates the initiative order with only necessary data for testing the turn order resolution.
+ */
+class TestTurnOrder {
+  constructor() {
+    this.combatants = [];
+  }
+
+  /**
+   * Add a protagonist to the combatants list and sort it according to the sortOrder function
+   * @param {string} name - The name of the combatant.
+   * @param {number} initiative - The initiative value of the combatant.
+   * @param {number} [tieOrder] - The tie order value of the combatant.
+   * @param {number} [hold] - A hold value for this round, if any.
+   */
+  pg(name, initiative, tieOrder, hold) {
+    this._addData({ name, initiative, tieOrder, isProtagonist: true, hold });
+    return this;
+  }
+
+  /**
+   * Add an npc to the combatants list and sort it according to the sortOrder function
+   * @param {string} name - The name of the combatant.
+   * @param {number} initiative - The initiative value of the combatant.
+   * @param {number} [tieOrder] - The tie order value of the combatant.
+   * @param {number} [hold] - A hold value for this round, if any.
+   */
+  npc(name, initiative, tieOrder, hold) {
+    this._addData({ name, initiative, tieOrder, isProtagonist: false, hold });
+    return this;
+  }
+  _addData(data = { name, initiative, tieOrder, isProtagonist, hold }) {
+    this.combatants.push(data);
+    this.combatants.sort((a, b) => {
+      const orderA = sortOrder(a);
+      const orderB = sortOrder(b);
+
+      if (orderA === orderB) return 0;
+      return orderB - orderA;
+    });
+  }
+
+  /**
+   * Returns the index of the combatant with the specified name.
+   * @param {string} name - Name of the combatant to find.
+   * @returns {number} - The index of the combatant.
+   * @throws {Error} - If the combatant with the specified name is not found.
+   */
+  indexOf(name) {
+    const index = this.combatants.findIndex(c => c.name === name);
+    if (index === -1) throw new Error(`Combatant with name "${name}" not found.`);
+    return index;
+  }
+
+  /**
+   * Returns the combatant with the specified name.
+   * @param {string} name - Name of the combatant to find.
+   * @returns {Object} - The combatant object.
+   * @throws {Error} - If the combatant with the specified name is not found.
+   */
+  get(name) {
+    return this.combatants[this.indexOf(name)];
+  }
+
+  /**
+   * Returns the index that is needed to move a combatant to the position before the targeted entry.
+   * @param {string} name - name of the targeted entry
+   * @returns {number} - The index of the targeted entry.
+   * @throws {Error} - If the combatant with the specified name is not found.
+   */
+  indexBefore(name) {
+    return this.indexOf(name);
+  }
+
+  /**
+   * Returns the index that is needed to move a combatant to the position after the targeted entry.
+   * @param {string} name - name of the targeted entry
+   * @returns {number} - The index of the targeted entry + 1.
+   * @throws {Error} - If the combatant with the specified name is not found.
+   */
+  indexAfter(name) {
+    return this.indexOf(name) + 1;
+  }
+}
+
+describe("resolveTurnOrderChange", () => {
+
+  describe("no change", () => {
+    it("does nothing when dropped onto its own place (to === from)", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 1)
+        .pg("B", 1)
+        .pg("C", 1);
+      const from = turnOrder.indexOf("B");
+      const to = turnOrder.indexBefore("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.NO_CHANGE);
+    });
+    it("does nothing when dropped right below itself (to === from + 1)", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 1)
+        .pg("B", 1)
+        .pg("C", 1);
+      const from = turnOrder.indexOf("B");
+      const to = turnOrder.indexAfter("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.NO_CHANGE);
+    });
+  });
+
+  describe("tie order", () => {
+    it("moves up within the tie group, between its new neighbors", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("D");
+      const to = turnOrder.indexAfter("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+      assert.ok(result.value < turnOrder.get("B").tieOrder);
+      assert.ok(result.value > turnOrder.get("C").tieOrder);
+    });
+    it("moves down within the tie group, between its new neighbors", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("B");
+      const to = turnOrder.indexAfter("C");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+      assert.ok(result.value < turnOrder.get("C").tieOrder);
+      assert.ok(result.value > turnOrder.get("D").tieOrder);
+    });
+    it("moves to the top of the tie group, between the top value and the maximum", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexBefore("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+      assert.ok(result.value < TIE_ORDER.max);
+      assert.ok(result.value > turnOrder.get("B").tieOrder);
+    });
+    it("moves to the bottom of the tie group, between the bottom value and the minimum", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("B");
+      const to = turnOrder.indexAfter("D");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+      assert.ok(result.value < turnOrder.get("D").tieOrder);
+      assert.ok(result.value > TIE_ORDER.min);
+    });
+    it("stays a tie order when dropped between its group and the next lower one", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 3)
+        .pg("B", 2, 2)
+        .pg("C", 2, 1)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("B");
+      const to = turnOrder.indexAfter("C");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+      assert.ok(result.value < turnOrder.get("C").tieOrder);
+      assert.ok(result.value > TIE_ORDER.min);
+    });
+    it("allows any place in the group before the combat has started (turn null)", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 1, 4)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("D");
+      const to = turnOrder.indexBefore("A");
+      const resDuringRound = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      assert.equal(resDuringRound.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+      const resBeforeStart = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      assert.equal(resBeforeStart.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+    });
+    it("lets the active combatant move within its group (until announcing, #67)", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("B");
+      const to = turnOrder.indexAfter("D");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+    });
+    it("lets others move ahead of the active combatant within their group", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2)
+        .pg("D", 1, 1);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexBefore("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+    });
+    it("lands between a holding neighbor and the group member above", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 1, 4)
+        .pg("B", 1, 3)
+        .pg("C", 1, 2);
+      const holdVal = (sortOrder(turnOrder.get("B")) + sortOrder(turnOrder.get("C"))) / 2;
+      turnOrder.pg("holder", 3, 8, holdVal);
+      assert.ok(sortOrder(turnOrder.get("B")) > sortOrder(turnOrder.get("holder")));
+      assert.ok(sortOrder(turnOrder.get("C")) < sortOrder(turnOrder.get("holder")));
+
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
+      assert.ok(result.value < turnOrder.get("B").tieOrder);
+      assert.ok(result.value > turnOrder.get("C").tieOrder);
+
+      const newData = { ...turnOrder.get("A"), tieOrder: result.value };
+      assert.ok(sortOrder(newData) > sortOrder(turnOrder.get("holder")));
+    });
+  });
+
+  describe("hold", () => {
+    it("holds when a player moves behind the own initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 2)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+    });
+    it("holds when moved into a lower group of protagonists or other figures", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 2)
+        .pg("C", 1, 1)
+        .npc("D", 1, 2)
+        .npc("E", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("D");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+      assert.ok(sortOrder(turnOrder.get("D")) > result.value);
+      assert.ok(sortOrder(turnOrder.get("E")) < result.value);
+    });
+    it("puts the hold value between the sort values of the new neighbors", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 2, 1)
+        .pg("B", 1, 2)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
+
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+      assert.ok(sortOrder(turnOrder.get("B")) > result.value);
+      assert.ok(sortOrder(turnOrder.get("C")) < result.value);
+    });
+    it("always holds when the GM moves, also within a tie group", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 1, 3)
+        .pg("B", 1, 2)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: true });
+
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+    });
+    it("lets the GM move ahead of the initiative, as a hold", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexBefore("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: true });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+    });
+    it("holds in front of the active combatant (stepping in 'now')", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const holdVal = (sortOrder(turnOrder.get("B")) + sortOrder(turnOrder.get("C"))) / 2;
+      turnOrder.pg("holder", 4, 1, holdVal);
+      assert.ok(sortOrder(turnOrder.get("B")) > sortOrder(turnOrder.get("holder")));
+      assert.ok(sortOrder(turnOrder.get("C")) < sortOrder(turnOrder.get("holder")));
+
+      const from = turnOrder.indexOf("holder");
+      const to = turnOrder.indexBefore("B");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+      assert.ok(sortOrder(turnOrder.get("A")) > result.value);
+      assert.ok(sortOrder(turnOrder.get("B")) < result.value);
+    });
+    it("holds before the first combatant with initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexBefore("A");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: true });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+      assert.ok(sortOrder(turnOrder.get("A")) < result.value);
+    });
+    it("holds behind the last combatant with initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("C");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
+      assert.ok(sortOrder(turnOrder.get("C")) > result.value);
+    });
+  });
+
+
+  describe("forbidden", () => {
+    it("forbids a player to move ahead of the own initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexAfter("A");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids moving a figure that has already acted this round", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("C");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids moving to a place that has already acted this round, also for the GM", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 1, 3)
+        .pg("B", 1, 2)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexBefore("A");
+      const resultProt = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
+      const resultGM = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: true });
+      assert.equal(resultProt.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+      assert.equal(resultGM.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids moving a figure without initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", null);
+      const from = turnOrder.indexOf("C");
+      const to = turnOrder.indexAfter("A");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids dropping among or behind figures without initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", null)
+        .pg("C", null);
+      const from = turnOrder.indexOf("A");
+      const toAmong = turnOrder.indexAfter("B");
+      const toBehind = turnOrder.indexAfter("C");
+      const resultAmong = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toAmong, turn: null, isGM: false });
+      const resultBehind = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toBehind, turn: null, isGM: false });
+      assert.equal(resultAmong.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+      assert.equal(resultBehind.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids moving a figure with infinite initiative", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", Infinity)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("C");
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+  });
+
 });

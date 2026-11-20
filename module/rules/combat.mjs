@@ -23,6 +23,11 @@ export const TIE_ORDER = {
 };
 
 /**
+ * The step size between two initiative numbers within the final sort order scale.
+ */
+const INITIATIVE_STEP = (TIE_ORDER.max - TIE_ORDER.min) * 10;
+
+/**
  * Calculates the sort order for combatants based on their initiative, tieOrder, isProtagonist and hold value. (Kurzregeln 1.0, p. 14, #61)
  * @param {object} options - The options for sorting combatants.
  * @param {number|null} options.initiative - The initiative value of the combatant.
@@ -39,7 +44,87 @@ export function sortOrder({ initiative, tieOrder, isProtagonist = false, hold })
   const cappedTieOrder = clamp(tieOrder, TIE_ORDER);
   const tieOrderRange = TIE_ORDER.max - TIE_ORDER.min;
   const protagonistValue = isProtagonist ? tieOrderRange * 5 : 0;
-  const initiativeMultiplier = tieOrderRange * 10;
 
-  return initiative * initiativeMultiplier + protagonistValue + cappedTieOrder;
+  return initiative * INITIATIVE_STEP + protagonistValue + cappedTieOrder;
+}
+
+/**
+ * Defines the types of turn order changes that can be resolved.
+ * @property {string} NO_CHANGE - No change in turn order.
+ * @property {string} FORBIDDEN - The change is forbidden.
+ * @property {string} HOLD - The combatant is holding their turn.
+ * @property {string} TIE_ORDER - The change is based on tie order.
+ */
+export const RESOLVE_TURN_ORDER_TYPE = Object.freeze({
+  NO_CHANGE: "noChange",
+  FORBIDDEN: "forbidden",
+  HOLD: "hold",
+  TIE_ORDER: "tieOrder"
+});
+
+/**
+ * Resolves the change in turn order based on the provided options.
+ * (KR p. 14; #61)
+ * @param {object} options - The options for resolving the turn order change.
+ * @param {Array} options.order - The current turn order sorted in sort order.
+ * @param {number} options.from - The index of the combatant to move.
+ * @param {number} options.to - The index where the combatant will be moved in front of. Length of list will move to end.
+ * @param {number|null} options.turn - index of active combatant or null if the conflict has not started.
+ * @param {boolean} options.isGM - Whether the user is a game master.
+ * @returns {object} - The resolved turn order change. type: RESOLVE_TURN_ORDER_TYPE. value: undefined if type is "noChange" or "forbidden", otherwise the new value.
+ */
+export function resolveTurnOrderChange({ order, from, to, turn, isGM }) {
+  const noChange = { type: RESOLVE_TURN_ORDER_TYPE.NO_CHANGE };
+  const forbidden = { type: RESOLVE_TURN_ORDER_TYPE.FORBIDDEN };
+
+  const moved = order[from];
+  const upperNeighbor = order[to - 1];
+  const lowerNeighbor = order[to];
+
+  // Did it actually move?
+  if (moved === upperNeighbor || moved === lowerNeighbor) return noChange;
+
+  // Is it allowed to move?
+  if (typeof moved.initiative !== "number" || !Number.isFinite(moved.initiative)) return forbidden;
+  if (typeof turn === "number" && from < turn) return forbidden; //TODO #67: Needs to account for announcing an action
+  if (typeof turn === "number" && to < turn) return forbidden; //TODO #67: Needs to account for announcing an action
+  if (upperNeighbor && typeof upperNeighbor.initiative !== "number") return forbidden;
+
+  // Range of the moved combatant's own tie group on the sort order scale:
+  // the same initiative and status, with the lowest and the highest tie order, not holding
+  const groupBottom = sortOrder({ ...moved, tieOrder: TIE_ORDER.min, hold: null });
+  const groupTop = sortOrder({ ...moved, tieOrder: TIE_ORDER.max, hold: null });
+
+  // Sort values around the drop position; a missing neighbor counts as infinitely high (top) or low (bottom)
+  const above = upperNeighbor ? sortOrder(upperNeighbor) : Infinity;
+  const below = lowerNeighbor ? sortOrder(lowerNeighbor) : -Infinity;
+
+  // Where the drop position lies relative to the own group
+  const behindGroup = above < groupBottom;
+  const aheadOfGroup = below > groupTop;
+
+  // What type of move
+  let type;
+  if (isGM || behindGroup) type = RESOLVE_TURN_ORDER_TYPE.HOLD;
+  else if (aheadOfGroup) return forbidden;
+  else type = RESOLVE_TURN_ORDER_TYPE.TIE_ORDER;
+
+  // Calculate value
+  let value;
+  switch (type) {
+    case RESOLVE_TURN_ORDER_TYPE.TIE_ORDER: {
+      const upperTieOrder = clamp(above - groupBottom + TIE_ORDER.min, TIE_ORDER);
+      const lowerTieOrder = clamp(below - groupBottom + TIE_ORDER.min, TIE_ORDER);
+      value = (upperTieOrder + lowerTieOrder) / 2;
+      break;
+    }
+    case RESOLVE_TURN_ORDER_TYPE.HOLD: {
+      const upperSortOrder = above !== Infinity ? above : below + INITIATIVE_STEP * 2;
+      const lowerSortOrder = below !== -Infinity ? below : above - INITIATIVE_STEP * 2;
+      value = (upperSortOrder + lowerSortOrder) / 2;
+      break;
+    }
+  }
+
+  return { type, value };
 }
