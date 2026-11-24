@@ -152,7 +152,10 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     const result = this.#drag.results[this.#drag.to];
     const combatant = this.viewed.combatants.get(this.#drag.combatantId);
     if (result?.type === RESOLVE_TURN_ORDER_TYPE.TIE_ORDER)
-      await combatant.update({ "system.tieOrder": result.value });
+      await combatant.update(
+        { "system.tieOrder": result.value },
+        { combatTurn: this.#drag.turn }
+      );
   }
 
   /**
