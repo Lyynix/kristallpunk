@@ -492,7 +492,8 @@
       "Drop": {
         "TieOrder": "Initiativegruppe umsortieren",
         "Hold": "Aufhalten, gilt nur für diese Runde",
-        "NoChange": "Reihenfolge bleibt gleich"
+        "NoChange": "Reihenfolge bleibt gleich",
+        "Forbidden": "Gesperrt"
       },
       "Zone": {
         "TieOrder": "Initiativegruppe",

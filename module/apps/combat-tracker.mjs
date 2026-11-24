@@ -39,7 +39,8 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
    * Data for the possible types to generate the visual drop effect.
    */
   static #DROP_TYPES = {
-    noChange: { icon: "fa-face-raised-eyebrow", line: "KRISTALLPUNK.Combat.Drop.NoChange" },
+    noChange: { icon: "fa-equals", line: "KRISTALLPUNK.Combat.Drop.NoChange" },
+    forbidden: { icon: "fa-ban", line: "KRISTALLPUNK.Combat.Drop.Forbidden" },
     tieOrder: { icon: "fa-arrows-up-down", line: "KRISTALLPUNK.Combat.Drop.TieOrder", zone: "KRISTALLPUNK.Combat.Zone.TieOrder" },
     hold: { icon: "fa-hourglass-half", line: "KRISTALLPUNK.Combat.Drop.Hold", zone: "KRISTALLPUNK.Combat.Zone.Hold" }
   };

@@ -2257,6 +2257,9 @@ body.theme-light #hotbar.kristallpunk,
   --kp-drop-color: var(--color-level-info, #59a1f6);
 }
 
+.kp-drop-line[data-kp-type="forbidden"] {
+  --kp-drop-color: var(--color-level-error);
+}
 .kp-drop-line[data-kp-type="noChange"] {
   --kp-drop-color: light-dark(#ddd, #aaa);
 }
@@ -2291,11 +2294,6 @@ body.theme-light #hotbar.kristallpunk,
   background: var(--kp-drop-color);
   pointer-events: none;
   z-index: 1;
-}
-
-/* Nothing happens on these gaps, so no line */
-.kp-drop-line[data-kp-type="forbidden"] {
-  display: none;
 }
 
 /* Label on the right end of the line */
