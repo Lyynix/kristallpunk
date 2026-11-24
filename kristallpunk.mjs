@@ -27,6 +27,7 @@ import KristallpunkCombatantData from "./module/data/combatant.mjs";
 import * as statusTracker from "./module/apps/status-tracker.mjs";
 import * as effectList from "./module/sheets/effect-list.mjs";
 import * as itemList from "./module/sheets/item-list.mjs";
+import KristallpunkCombatTracker from "./module/apps/combat-tracker.mjs";
 import KristallpunkHotbar from "./module/apps/hotbar.mjs";
 import { registerTokenHotbarHooks } from "./module/apps/token-hotbar.mjs";
 import { registerHotbarTooltips } from "./module/apps/hotbar-tooltips.mjs";
@@ -54,6 +55,7 @@ Hooks.once("init", () => {
   CONFIG.ChatMessage.dataModels.checkRequest = CheckRequestMessageData;
   CONFIG.Combat.documentClass = KristallpunkCombat;
   CONFIG.Combatant.dataModels.base = KristallpunkCombatantData;
+  CONFIG.ui.combat = KristallpunkCombatTracker;
   registerCheckRequestHooks();
   registerEffectTargetHooks();
   registerFileCleanupHooks();

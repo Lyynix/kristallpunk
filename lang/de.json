@@ -488,6 +488,17 @@
         }
       }
     },
+    "Combat": {
+      "Drop": {
+        "TieOrder": "Initiativegruppe umsortieren",
+        "Hold": "Aufhalten, gilt nur für diese Runde",
+        "NoChange": "Reihenfolge bleibt gleich"
+      },
+      "Zone": {
+        "TieOrder": "Initiativegruppe",
+        "Hold": "Aufhalten"
+      }
+    },
     "Combatant": {
       "FIELDS": {
         "tieOrder": {

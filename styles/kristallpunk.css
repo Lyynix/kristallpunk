@@ -2237,6 +2237,106 @@ body.theme-light #hotbar.kristallpunk,
 }
 
 /* -------------------------------------------- */
+/*  Combat tracker (#61)                        */
+/* -------------------------------------------- */
+
+.combat-tracker {
+  --kp-zone-overhang: 8px;
+  padding-block: calc(var(--kp-zone-overhang) * 2);
+}
+
+.combat-tracker.kp-dragging {
+  position: relative;
+  display: grid;
+  align-content: start;
+}
+
+/* Colors of the two kinds of move, shared by the zones and the insert line */
+.kp-drop-zone[data-kp-type="tieOrder"],
+.kp-drop-line[data-kp-type="tieOrder"] {
+  --kp-drop-color: var(--color-level-info, #59a1f6);
+}
+
+.kp-drop-line[data-kp-type="noChange"] {
+  --kp-drop-color: light-dark(#ddd, #aaa);
+}
+
+.kp-drop-zone[data-kp-type="hold"],
+.kp-drop-line[data-kp-type="hold"] {
+  --kp-drop-color: var(--color-level-warning, #ee9b3a);
+}
+
+/* Zones: a frame around the gaps, reaching a little into the rows above and below */
+.kp-drop-zone {
+  position: absolute;
+  inset: calc(-1 * var(--kp-zone-overhang)) 3px;
+  margin-bottom: 0;
+  border: 1px solid var(--kp-drop-color);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--kp-drop-color) 15%, transparent);
+  pointer-events: none;
+}
+
+.kp-drop-zone.single {
+  bottom: auto;
+  height: calc(2 * var(--kp-zone-overhang));
+}
+
+/* Insert line: a thin bar on the gap where the combatant would land */
+.kp-drop-line {
+  position: absolute;
+  inset-inline: 3px;
+  top: -1px;
+  height: 2px;
+  background: var(--kp-drop-color);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Nothing happens on these gaps, so no line */
+.kp-drop-line[data-kp-type="forbidden"] {
+  display: none;
+}
+
+/* Label on the right end of the line */
+.kp-drop-line span {
+  position: absolute;
+  right: 6px;
+  top: -10px;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: var(--kp-drop-color);
+  color: #111;
+  font-size: var(--font-size-12, 12px);
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.kp-drop-zone span {
+  position: absolute;
+  top: 12px;
+  left: 6px;
+  transform: translateY(-50%);
+  padding: 0 6px;
+  border-radius: 8px;
+  background: var(--kp-drop-color);
+  color: #111;
+  font-size: var(--font-size-11, 11px);
+  line-height: 16px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* A one-gap zone is a thin strip: the label sits in its middle instead of on its border */
+.kp-drop-zone.single span {
+  top: 50%;
+}
+
+.kp-drop-line span i {
+  margin-right: 4px;
+}
+
+/* -------------------------------------------- */
 /*  Item sheet (#45)                            */
 /* -------------------------------------------- */
 
