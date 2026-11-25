@@ -21,6 +21,11 @@ export default class KristallpunkCombatantData extends foundry.abstract.TypeData
         initial: randomTieOrderFunction,
         min: TIE_ORDER.min,
         max: TIE_ORDER.max
+      }),
+      hold: new NumberField({
+        required: true,
+        nullable: true,
+        initial: null
       })
     };
   }

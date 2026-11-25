@@ -505,6 +505,10 @@
         "tieOrder": {
           "label": "Gleichstand-Reihenfolge",
           "hint": "Reihenfolge unter Figuren mit gleicher Initiative: höher ist früher dran. Wird beim Verschieben im Konflikttracker gesetzt. Wert wird beim Hinzufügen zufällig vergeben."
+        },
+        "hold": {
+          "label": "Aufhalten",
+          "hint": "Position in der Zugreihenfolge, wenn die Figur aufhält: höher ist früher dran. Leer, wenn sie nicht aufhält. Wird beim Verschieben im Konflikttracker gesetzt und gilt nur für die laufende Runde."
         }
       }
     },

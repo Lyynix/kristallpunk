@@ -34,7 +34,7 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     combatantElements.forEach(element => {
       this.#last[element.dataset.combatantId] = {
         top: element.getBoundingClientRect().top
-      }
+      };
     });
   }
 
@@ -58,12 +58,15 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     combatantElements.forEach(element => {
       element.draggable = this.viewed.combatants.get(element.dataset.combatantId)?.isOwner ?? false;
 
-      if (!this.#last || this.#reducedMotion) return;
+      if (!this.#last ||
+        this.#reducedMotion ||
+        !this.#last[element.dataset.combatantId]) return;
       element.animate(
         [{ transform: `translateY(${this.#last[element.dataset.combatantId].top - element.getBoundingClientRect().top}px)` }, { transform: "translateY(0)" }],
         { duration: 200, easing: "ease-out" }
-      )
+      );
     });
+    this.#last = null;
   }
 
   /**
@@ -182,11 +185,22 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
 
     const result = this.#drag.results[this.#drag.to];
     const combatant = this.viewed.combatants.get(this.#drag.combatantId);
-    if (result?.type === RESOLVE_TURN_ORDER_TYPE.TIE_ORDER)
-      await combatant.update(
-        { "system.tieOrder": result.value },
-        { combatTurn: this.#drag.turn }
-      );
+
+    let updates;
+    if (result?.type === RESOLVE_TURN_ORDER_TYPE.TIE_ORDER) {
+      updates = {
+        "system.tieOrder": result.value,
+        "system.hold": null
+      };
+    }
+    else if (result?.type === RESOLVE_TURN_ORDER_TYPE.HOLD) {
+      updates = {
+        "system.hold": result.value
+      };
+    }
+    else return;
+
+    await combatant.update(updates, { combatTurn: this.#drag.turn });
   }
 
   /**
