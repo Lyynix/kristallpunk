@@ -13,6 +13,31 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
    */
   #drag = null;
 
+  /**
+   * Stores top distance for combatants before rendering. Used to animate the li elements.
+   */
+  #last = null;
+  /**
+   *  Stores if the user wants reduced motion.
+   */
+  #reducedMotion = false;
+
+  async _preRender(context, options) {
+    await super._preRender(context, options);
+
+    if (!this.element) return;
+    if (this.#reducedMotion) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) this.#reducedMotion = true;
+
+    this.#last = [];
+    const combatantElements = this.element.querySelectorAll("li.combatant[data-combatant-id]");
+    combatantElements.forEach(element => {
+      this.#last[element.dataset.combatantId] = {
+        top: element.getBoundingClientRect().top
+      }
+    });
+  }
+
   async _onRender(context, options) {
     await super._onRender(context, options);
     this.#drag = null;
@@ -32,6 +57,12 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     const combatantElements = this.element.querySelectorAll("li.combatant[data-combatant-id]");
     combatantElements.forEach(element => {
       element.draggable = this.viewed.combatants.get(element.dataset.combatantId)?.isOwner ?? false;
+
+      if (!this.#last) return;
+      element.animate(
+        [{ transform: `translateY(${this.#last[element.dataset.combatantId].top - element.getBoundingClientRect().top}px)` }, { transform: "translateY(0)" }],
+        { duration: 200, easing: "ease-out" }
+      )
     });
   }
 
