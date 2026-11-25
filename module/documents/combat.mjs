@@ -16,6 +16,20 @@ export default class KristallpunkCombat extends foundry.documents.Combat {
     return orderB - orderA;
   }
 
+  async _onStartRound(context) {
+    super._onStartRound(context);
+
+    if (context.round === 1) return;
+
+    const holdingCombatants = this.combatants.filter(c => c.system.hold !== null);
+    if (!holdingCombatants.length) return;
+    await this.updateEmbeddedDocuments(
+      "Combatant",
+      holdingCombatants.map(c => ({ _id: c.id, "system.hold": null })),
+      { combatTurn: 0 } //TODO: skip defeated combatants
+    );
+  }
+
   static _getCombatantValues(combatant) {
     return {
       initiative: combatant.initiative,
