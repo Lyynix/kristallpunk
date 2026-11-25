@@ -58,7 +58,7 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     combatantElements.forEach(element => {
       element.draggable = this.viewed.combatants.get(element.dataset.combatantId)?.isOwner ?? false;
 
-      if (!this.#last) return;
+      if (!this.#last || this.#reducedMotion) return;
       element.animate(
         [{ transform: `translateY(${this.#last[element.dataset.combatantId].top - element.getBoundingClientRect().top}px)` }, { transform: "translateY(0)" }],
         { duration: 200, easing: "ease-out" }
