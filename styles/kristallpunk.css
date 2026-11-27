@@ -2251,6 +2251,13 @@ body.theme-light #hotbar.kristallpunk,
   align-content: start;
 }
 
+.kp-handle {
+  cursor: grab;
+}
+
+.kp-handle.kp-hidden {
+  visibility: hidden;
+}
 /* Colors of the two kinds of move, shared by the zones and the insert line */
 .kp-drop-zone[data-kp-type="tieOrder"],
 .kp-drop-line[data-kp-type="tieOrder"] {

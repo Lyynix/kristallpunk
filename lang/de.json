@@ -498,7 +498,8 @@
       "Zone": {
         "TieOrder": "Initiativegruppe",
         "Hold": "Aufhalten"
-      }
+      },
+      "HandleHint": "In der Zugreihenfolge verschieben"
     },
     "Combatant": {
       "FIELDS": {

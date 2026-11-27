@@ -1,4 +1,4 @@
-import { RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange } from "../rules/combat.mjs";
+import { canMove, RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange } from "../rules/combat.mjs";
 
 const TEMPLATES = "systems/kristallpunk/templates/combat";
 
@@ -32,6 +32,32 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
    */
   #reducedMotion = false;
 
+  /**
+   * Prepare render context for a single entry in the combat tracker.
+   * Adds whether the user can move the combatant. (#61)
+   * @param {Combat} combat - The active combat.
+   * @param {Combatant} combatant - The Combatant whose turn is being prepared.
+   * @param {number} index - The index of this entry in the turn order.
+   * @returns {Promise<object>}
+   * @protected
+   * @override
+   */
+  async _prepareTurnContext(combat, combatant, index) {
+    const turnContext = await super._prepareTurnContext(combat, combatant, index);
+
+    const turn = KristallpunkCombatTracker.#getTurn(combat);
+
+    const movable = canMove({
+      initiative: combatant.initiative,
+      from: index,
+      turn
+    });
+
+    turnContext.canMove = movable && combatant.isOwner;
+
+    return turnContext;
+  }
+
   async _preRender(context, options) {
     await super._preRender(context, options);
 
@@ -53,7 +79,7 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     this.#drag = null;
 
     const dragDrop = new foundry.applications.ux.DragDrop.implementation({
-      dragSelector: `li.combatant[data-combatant-id]`,
+      dragSelector: `li.combatant[data-combatant-id] i.kp-handle:not(.kp-hidden)`,
       dropSelector: `li.combatant[data-combatant-id]`,
       callbacks: {
         dragstart: this.#onDragStart.bind(this),
@@ -66,8 +92,6 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
 
     const combatantElements = this.element.querySelectorAll("li.combatant[data-combatant-id]");
     combatantElements.forEach(element => {
-      element.draggable = this.viewed.combatants.get(element.dataset.combatantId)?.isOwner ?? false;
-
       if (!this.#last ||
         this.#reducedMotion ||
         !this.#last[element.dataset.combatantId]) return;
@@ -90,15 +114,16 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
   };
 
   #onDragStart(event) {
-    const image = event.currentTarget.querySelector("img.token-image");
+    const targetEl = event.currentTarget.closest("li.combatant[data-combatant-id]");
+
+    const image = targetEl.querySelector("img.token-image");
     event.dataTransfer.setDragImage(image, image.width / 2, image.height / 2);
 
-    const targetEl = event.currentTarget;
     const combatantId = targetEl.dataset.combatantId;
     const combat = this.viewed;
     const from = combat.turns.findIndex(combatant => combatant.id === combatantId);
     const order = combat.turns.map(combatant => CONFIG.Combat.documentClass._getCombatantValues(combatant));
-    const turn = combat.started ? combat.turn : null;
+    const turn = KristallpunkCombatTracker.#getTurn(combat);
 
     event.dataTransfer.setData("text/plain", combatantId);
 
@@ -211,6 +236,15 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     else return;
 
     await combatant.update(updates, { combatTurn: this.#drag.turn });
+  }
+
+  /**
+   * Calculates the current turn index in a combat or null before the combat begins.
+   * @param {Combat} combat - The combat.
+   * @returns {number|null} - Turn index.
+   */
+  static #getTurn(combat) {
+    return combat.started ? combat.turn : null;
   }
 
   /**

@@ -68,6 +68,9 @@
         style="--initiative-icon: url('{{ @root.initiativeIcon.icon }}'); --initiative-icon-hover: url('{{ @root.initiativeIcon.hover }}');"></button>
       {{/if}}
     </div>
+    {{!-- Add Handle --}}
+    <i class="fa-solid fa-grip-vertical kp-handle {{#unless canMove}}kp-hidden{{/unless}}" aria-hidden="true"
+      data-tooltip="KRISTALLPUNK.Combat.HandleHint"></i>
   </li>
   {{/each}}
 </ol>
