@@ -2,6 +2,10 @@
 CLAUDE.md
 .claude/
 
+# Local junction to the Foundry installation and the editor config that uses it, for types and autocompletion
+foundry/
+jsconfig.json
+
 # Dependencies and build output
 node_modules/
 *.zip
