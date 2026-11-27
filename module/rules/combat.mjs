@@ -63,6 +63,27 @@ export const RESOLVE_TURN_ORDER_TYPE = Object.freeze({
 });
 
 /**
+ * Whether a combatant may be moved in the turn order: the combat has started,
+ * its initiative is rolled, it has not acted yet this round and has not announced an action.
+ * (KR p. 14; #61, #67)
+ * @param {object} options
+ * @param {number|null} [options.initiative] - The initiative value. Only a finite number counts as a valid initiative.
+ * @param {number} options.from - Index of the combatant in the turn order.
+ * @param {number|null} options.turn - Index of the active combatant, or null before the combat has started.
+ * @param {boolean} [options.actionAnnounced] - Whether the combatant has announced their action for the turn. Defaults to false. (#67)
+ * @returns {boolean} - True if combatant is allowed to move.
+ */
+export function canMove({ initiative, from, turn, actionAnnounced = false }) {
+  if (turn === null) return false;
+  if (from < turn) return false;
+  if (from === turn && actionAnnounced) return false;
+
+  if (!Number.isFinite(initiative)) return false;
+
+  return true;
+}
+
+/**
  * Resolves the change in turn order based on the provided options.
  * (KR p. 14; #61)
  * @param {object} options - The options for resolving the turn order change.
@@ -81,14 +102,16 @@ export function resolveTurnOrderChange({ order, from, to, turn, isGM }) {
   const upperNeighbor = order[to - 1];
   const lowerNeighbor = order[to];
 
+  // TODO: (#67) account for whether action has been announced
+  // Is it allowed to move?
+  if (!canMove({ initiative: moved.initiative, from, turn })) return forbidden;
+
   // Did it actually move?
   if (moved === upperNeighbor || moved === lowerNeighbor) return noChange;
 
-  // Is it allowed to move?
-  if (typeof moved.initiative !== "number" || !Number.isFinite(moved.initiative)) return forbidden;
-  if (typeof turn === "number" && from < turn) return forbidden; //TODO #67: Needs to account for announcing an action
-  if (typeof turn === "number" && to < turn) return forbidden; //TODO #67: Needs to account for announcing an action
-  if (upperNeighbor && typeof upperNeighbor.initiative !== "number") return forbidden;
+  // Is it allowed to be moved to?
+  if (to < turn) return forbidden; // TODO: (#67) Needs to account for announcing an action
+  if (upperNeighbor && !Number.isFinite(upperNeighbor.initiative)) return forbidden;
 
   // Range of the moved combatant's own tie group on the sort order scale:
   // the same initiative and status, with the lowest and the highest tie order, not holding

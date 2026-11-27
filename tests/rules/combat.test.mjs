@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { TIE_ORDER, sortOrder, RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange } from "../../module/rules/combat.mjs";
+import { TIE_ORDER, sortOrder, RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange, canMove } from "../../module/rules/combat.mjs";
 
 describe("sortOrder", () => {
   describe("initiative", () => {
@@ -258,19 +258,6 @@ describe("resolveTurnOrderChange", () => {
       assert.ok(result.value < turnOrder.get("C").tieOrder);
       assert.ok(result.value > TIE_ORDER.min);
     });
-    it("allows any place in the group before the combat has started (turn null)", () => {
-      const turnOrder = new TestTurnOrder()
-        .pg("A", 1, 4)
-        .pg("B", 1, 3)
-        .pg("C", 1, 2)
-        .pg("D", 1, 1);
-      const from = turnOrder.indexOf("D");
-      const to = turnOrder.indexBefore("A");
-      const resDuringRound = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 1, isGM: false });
-      assert.equal(resDuringRound.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
-      const resBeforeStart = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
-      assert.equal(resBeforeStart.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
-    });
     it("lets the active combatant move within its group (until announcing, #67)", () => {
       const turnOrder = new TestTurnOrder()
         .pg("A", 2, 1)
@@ -305,7 +292,7 @@ describe("resolveTurnOrderChange", () => {
 
       const from = turnOrder.indexOf("A");
       const to = turnOrder.indexAfter("B");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
 
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.TIE_ORDER);
       assert.ok(result.value < turnOrder.get("B").tieOrder);
@@ -373,7 +360,7 @@ describe("resolveTurnOrderChange", () => {
         .pg("C", 1, 1);
       const from = turnOrder.indexOf("C");
       const to = turnOrder.indexBefore("B");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: true });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: true });
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
     });
     it("holds in front of the active combatant (stepping in 'now')", () => {
@@ -400,7 +387,7 @@ describe("resolveTurnOrderChange", () => {
         .pg("C", 1, 1);
       const from = turnOrder.indexOf("C");
       const to = turnOrder.indexBefore("A");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: true });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: true });
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
       assert.ok(sortOrder(turnOrder.get("A")) < result.value);
     });
@@ -411,7 +398,7 @@ describe("resolveTurnOrderChange", () => {
         .pg("C", 1, 1);
       const from = turnOrder.indexOf("A");
       const to = turnOrder.indexAfter("C");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.HOLD);
       assert.ok(sortOrder(turnOrder.get("C")) > result.value);
     });
@@ -426,7 +413,7 @@ describe("resolveTurnOrderChange", () => {
         .pg("C", 1, 1);
       const from = turnOrder.indexOf("C");
       const to = turnOrder.indexAfter("A");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
     });
     it("forbids moving a figure that has already acted this round", () => {
@@ -458,7 +445,7 @@ describe("resolveTurnOrderChange", () => {
         .pg("C", null);
       const from = turnOrder.indexOf("C");
       const to = turnOrder.indexAfter("A");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
     });
     it("forbids dropping among or behind figures without initiative", () => {
@@ -469,8 +456,8 @@ describe("resolveTurnOrderChange", () => {
       const from = turnOrder.indexOf("A");
       const toAmong = turnOrder.indexAfter("B");
       const toBehind = turnOrder.indexAfter("C");
-      const resultAmong = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toAmong, turn: null, isGM: false });
-      const resultBehind = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toBehind, turn: null, isGM: false });
+      const resultAmong = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toAmong, turn: 0, isGM: false });
+      const resultBehind = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toBehind, turn: 0, isGM: false });
       assert.equal(resultAmong.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
       assert.equal(resultBehind.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
     });
@@ -481,9 +468,75 @@ describe("resolveTurnOrderChange", () => {
         .pg("C", 1, 1);
       const from = turnOrder.indexOf("A");
       const to = turnOrder.indexAfter("C");
-      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      const result = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: 0, isGM: false });
       assert.equal(result.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids every move before the combat has started (turn null), also for the GM (#61)", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("A");
+      const to = turnOrder.indexAfter("C");
+      const resultPlayer = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: false });
+      const resultGM = resolveTurnOrderChange({ order: turnOrder.combatants, from, to, turn: null, isGM: true });
+      assert.equal(resultPlayer.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+      assert.equal(resultGM.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+    it("forbids dropping onto its own place before the combat has started, instead of no change", () => {
+      const turnOrder = new TestTurnOrder()
+        .pg("A", 3, 1)
+        .pg("B", 2, 1)
+        .pg("C", 1, 1);
+      const from = turnOrder.indexOf("B");
+      const toBefore = turnOrder.indexBefore("B");
+      const toAfter = turnOrder.indexAfter("B");
+      const resultBefore = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toBefore, turn: null, isGM: false });
+      const resultAfter = resolveTurnOrderChange({ order: turnOrder.combatants, from, to: toAfter, turn: null, isGM: false });
+      assert.equal(resultBefore.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+      assert.equal(resultAfter.type, RESOLVE_TURN_ORDER_TYPE.FORBIDDEN);
+    });
+  });
+});
+
+describe("canMove", () => {
+  describe("before the combat has started", () => {
+    it("forbids moving before the combat has started (turn null), even with initiative (#61)", () => {
+      assert.equal(canMove({ initiative: 4, from: 2, turn: null }), false);
     });
   });
 
+  describe("position relative to the turn", () => {
+    it("allows moving a combatant that has not acted yet this round (from > turn) (Kurzregeln 1.0, p. 14)", () => {
+      assert.equal(canMove({ initiative: 4, from: 2, turn: 1 }), true);
+    });
+    it("allows moving the active combatant (from === turn), until announcing an action", () => {
+      assert.equal(canMove({ initiative: 4, from: 2, turn: 2, actionAnnounced: false }), true);
+    });
+    it("forbids moving a combatant that has already acted this round (from < turn)", () => {
+      assert.equal(canMove({ initiative: 4, from: 1, turn: 2 }), false);
+    });
+    it("forbids moving after announcing an action for the active combatant (#67)", () => {
+      assert.equal(canMove({ initiative: 4, from: 2, turn: 2, actionAnnounced: true }), false);
+    });
+    it("treats turn 0 as a started combat, not like null", () => {
+      assert.equal(canMove({ initiative: 4, from: 0, turn: 0 }), true);
+    });
+  });
+
+  describe("initiative", () => {
+    it("forbids moving without initiative (null, undefined or NaN)", () => {
+      assert.equal(canMove({ initiative: null, from: 2, turn: 1 }), false);
+      assert.equal(canMove({ initiative: undefined, from: 2, turn: 1 }), false);
+      assert.equal(canMove({ initiative: Number.NaN, from: 2, turn: 1 }), false);
+    });
+    it("forbids moving with infinite initiative", () => {
+      assert.equal(canMove({ initiative: -Number.Infinity, from: 2, turn: 1 }), false);
+      assert.equal(canMove({ initiative: Number.Infinity, from: 2, turn: 1 }), false);
+    });
+    it("allows moving with an initiative of 0 or below (p. 8)", () => {
+      assert.equal(canMove({ initiative: 0, from: 2, turn: 1 }), true);
+      assert.equal(canMove({ initiative: -2, from: 2, turn: 1 }), true);
+    });
+  });
 });

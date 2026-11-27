@@ -18,13 +18,11 @@ export default class KristallpunkCombat extends foundry.documents.Combat {
 
   /**
    * Removes holds after a new round has started. Only executed for the active GM. (KR p. 14, #61)
+   * @param {CombatRoundEventContext} context - The context of the round that just started.
    * @override
    */
   async _onStartRound(context) {
     await super._onStartRound(context);
-
-    // No hold-reset in the first round to allow holding before the conflict starts 
-    if (context.round === 1) return;
 
     const holdingCombatants = this.combatants.filter(c => c.system.hold !== null);
     if (!holdingCombatants.length) return;
