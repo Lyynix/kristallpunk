@@ -255,21 +255,29 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
    */
   static #turnOrderZones(types) {
     const group = [];
-    types.forEach((t, i) => {
-      if (t === RESOLVE_TURN_ORDER_TYPE.FORBIDDEN) return;
+    types
+      .map((t, i, all) => {
+        if (t !== RESOLVE_TURN_ORDER_TYPE.NO_CHANGE) return t;
 
-      const last = group.at(-1);
-      const fitsToLast =
-        last?.type === t ||
-        last?.type === RESOLVE_TURN_ORDER_TYPE.NO_CHANGE ||
-        t === RESOLVE_TURN_ORDER_TYPE.NO_CHANGE;
-      if (last !== undefined && fitsToLast) {
-        last.to = i;
-        if (last.type === RESOLVE_TURN_ORDER_TYPE.NO_CHANGE) last.type = t;
-      } else {
-        group.push({ type: t, from: i, to: i });
-      }
-    });
+        // The upper noChange (directly above the moved row) joins the zone above,
+        // the lower one joins the zone below. At the edge of the list there is no zone on
+        // its own side, so it joins the zone on the other side of the moved row.
+        const isUpper = all[i + 1] === RESOLVE_TURN_ORDER_TYPE.NO_CHANGE;
+        const neighbor = isUpper ? (all[i - 1] ?? all[i + 2]) : (all[i + 1] ?? all[i - 2]);
+
+        // With no neighbor at all (a single combatant), it stays noChange and is filtered out
+        return neighbor ?? t;
+      })
+      .forEach((t, i) => {
+        if (t === RESOLVE_TURN_ORDER_TYPE.FORBIDDEN) return;
+
+        const last = group.at(-1);
+        if (last?.type === t) {
+          last.to = i;
+        } else {
+          group.push({ type: t, from: i, to: i });
+        }
+      });
     return group.filter(z => z.type !== RESOLVE_TURN_ORDER_TYPE.NO_CHANGE);
   }
 
