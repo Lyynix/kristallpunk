@@ -1,5 +1,7 @@
 import { RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange } from "../rules/combat.mjs";
 
+const TEMPLATES = "systems/kristallpunk/templates/combat";
+
 /**
  * Modifies the CombatTracker to enable changing the initiative order through dragging.
  * This can be done by changing the order of combatants within the same initiative value
@@ -7,6 +9,14 @@ import { RESOLVE_TURN_ORDER_TYPE, resolveTurnOrderChange } from "../rules/combat
  * (KR p. 14, #61)
  */
 export default class KristallpunkCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
+  static PARTS = {
+    ...super.PARTS,
+    tracker: {
+      ...super.PARTS.tracker,
+      template: `${TEMPLATES}/tracker.hbs`
+    }
+  };
+
   /**
    * Stores the calculated changes when dragged
    * @type {{combatantId: string, from: number, to: number, order: Array, turn: number|null, results: Array}|null}
