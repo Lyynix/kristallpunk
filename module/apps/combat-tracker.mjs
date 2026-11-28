@@ -130,7 +130,7 @@ export default class KristallpunkCombatTracker extends foundry.applications.side
     this.#drag = {
       from, order, turn, combatantId,
       results: Array.from({ length: combat.turns.length + 1 }, (_, i) => {
-        return resolveTurnOrderChange({ order, from, to: i, turn, isGM: game.user.isGM });
+        return resolveTurnOrderChange({ order, from, to: i, turn, forceHold: game.user.isGM, acrossGroups: game.user.isGM });
       })
     };
 

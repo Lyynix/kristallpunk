@@ -90,11 +90,12 @@ export function canMove({ initiative, from, turn, actionAnnounced = false }) {
  * @param {Array} options.order - The current turn order sorted in sort order.
  * @param {number} options.from - The index of the combatant to move.
  * @param {number} options.to - The index where the combatant will be moved in front of. Length of list will move to end.
- * @param {number|null} options.turn - index of active combatant or null if the conflict has not started.
- * @param {boolean} options.isGM - Whether the user is a game master.
+ * @param {number|null} options.turn - Index of active combatant or null if the conflict has not started.
+ * @param {boolean} [options.forceHold] - Whether a move within the own tie group is a hold instead of a tie order change.
+ * @param {boolean} [options.acrossGroups] - Whether the combatant may be moved ahead of its own initiative.
  * @returns {object} - The resolved turn order change. type: RESOLVE_TURN_ORDER_TYPE. value: undefined if type is "noChange" or "forbidden", otherwise the new value.
  */
-export function resolveTurnOrderChange({ order, from, to, turn, isGM }) {
+export function resolveTurnOrderChange({ order, from, to, turn, forceHold = false, acrossGroups = false }) {
   const noChange = { type: RESOLVE_TURN_ORDER_TYPE.NO_CHANGE };
   const forbidden = { type: RESOLVE_TURN_ORDER_TYPE.FORBIDDEN };
 
@@ -127,10 +128,13 @@ export function resolveTurnOrderChange({ order, from, to, turn, isGM }) {
   const aheadOfGroup = below > groupTop;
 
   // What type of move
-  let type;
-  if (isGM || behindGroup) type = RESOLVE_TURN_ORDER_TYPE.HOLD;
-  else if (aheadOfGroup) return forbidden;
-  else type = RESOLVE_TURN_ORDER_TYPE.TIE_ORDER;
+  let type = RESOLVE_TURN_ORDER_TYPE.TIE_ORDER;
+  if (forceHold) type = RESOLVE_TURN_ORDER_TYPE.HOLD;
+  if (behindGroup) type = RESOLVE_TURN_ORDER_TYPE.HOLD;
+  if (aheadOfGroup) {
+    if (acrossGroups) type = RESOLVE_TURN_ORDER_TYPE.HOLD;
+    else return forbidden;
+  }
 
   // Calculate value
   let value;
